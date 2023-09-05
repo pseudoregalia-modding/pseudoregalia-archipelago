@@ -1,7 +1,7 @@
 from BaseClasses import MultiWorld, Region, Entrance
 from typing import Dict, List, NamedTuple, Optional
-from enum import Enum
-from .Locations import PseudoregaliaLocationData, location_table, ZONE
+from .Locations import PseudoregaliaLocation, location_data_table
+from .constants import ZONE
 
 # Code structure copied from Rogue Legacy's apworld.
 
@@ -12,7 +12,7 @@ class PseudoregaliaRegionData(NamedTuple):
 
 
 def create_regions(multiworld: MultiWorld, player: int):
-    regions: Dict[str, PseudoregaliaRegionData] = {
+    region_table: Dict[str, PseudoregaliaRegionData] = {
         "Menu": PseudoregaliaRegionData(None, [ZONE.DUNGEON]),
         ZONE.DUNGEON: PseudoregaliaRegionData([], [ZONE.CASTLE, ZONE.UNDERBELLY, ZONE.THEATRE]),
         ZONE.CASTLE: PseudoregaliaRegionData([], [ZONE.DUNGEON, ZONE.KEEP, ZONE.BAILEY, ZONE.THEATRE, ZONE.LIBRARY]),
@@ -23,23 +23,33 @@ def create_regions(multiworld: MultiWorld, player: int):
         ZONE.UNDERBELLY: PseudoregaliaRegionData([], [ZONE.DUNGEON, ZONE.KEEP, ZONE.BAILEY]),
         ZONE.TOWER: PseudoregaliaRegionData([], [ZONE.BAILEY, ZONE.CHAMBERS]),
         # Chambers here for completeness but may be removed later as it's pretty obsolete
-        ZONE.CHAMBERS: PseudoregaliaRegionData(None, ZONE.BAILEY)
+        ZONE.CHAMBERS: PseudoregaliaRegionData(None, [ZONE.BAILEY])
     }
-    multiworld.regions.append(create_region())
 
+    # TODO: assign these dynamically by searching the location table
+    region_table[ZONE.DUNGEON].locations.append("Dungeon - Dream Breaker")
+    region_table[ZONE.DUNGEON].locations.append("Dungeon - Slide")
+    region_table[ZONE.CASTLE].locations.append("Castle - Indignation")
+    region_table[ZONE.LIBRARY].locations.append("Library - Sun Greaves")
+    region_table[ZONE.KEEP].locations.append("Keep - Sunsetter")
+    region_table[ZONE.KEEP].locations.append("Keep - Strikebreak")
+    region_table[ZONE.THEATRE].locations.append("Theatre - Soul Cutter")
+    region_table[ZONE.UNDERBELLY].locations.append("Underbelly - Ascendant Light")
+    region_table[ZONE.BAILEY].locations.append("Bailey - Solar Wind")
+    region_table[ZONE.TOWER].locations.append("Tower - Cling Gem")
 
-def create_region(multiworld: MultiWorld, player: int, region_name: str, region_data: PseudoregaliaRegionData):
-    region = Region(region_name, player, multiworld)
-    if region_data.locations:
-        for location_name in region_data.locations:
-            location_data = location_table.get(location_name)
-            location = PseudoregaliaLocationData(
-                player, location_name, location_data.code if location_data else None, region)
-            region.locations.append(location)
+    for region_name, region_data in region_table.items():
+        region = Region(region_name, player, multiworld)
+        if region_data.locations:
+            for location_name in region_data.locations:
+                location_data = location_data_table.get(location_name)
+                location = PseudoregaliaLocation(
+                    player, location_name, location_data.code, region)
+                region.locations.append(location)
 
-    if region_data.region_exits:
-        for exit in region_data.region_exits:
-            entrance = Entrance(player, exit, region)
-            region.exits.append(entrance)
+        if region_data.region_exits:
+            for exit_name in region_data.region_exits:
+                connection = Region(region_table[exit_name], player, multiworld)
+                region.connect(connection)
 
-    return region
+        multiworld.regions.append(region)

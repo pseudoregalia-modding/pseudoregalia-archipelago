@@ -41,42 +41,42 @@ item_data_table: Dict[str, PseudoregaliaItemData] = {
     "Ascendant Light": PseudoregaliaItemData(
         code=2365810009,
         classification=ItemClassification.progression),
-    """
-    "Clear Mind": PseudoregaliaItemData(
-        code=2365810011,
-        classification=ItemClassification.useful),
-    "Empathy": PseudoregaliaItemData(
-        code=2365810012,
-        classification=ItemClassification.useful),
-    "Good Graces": PseudoregaliaItemData(
-        code=2365810013,
-        classification=ItemClassification.useful),
-    "Martial Prowess": PseudoregaliaItemData(
-        code=2365810014,
-        classification=ItemClassification.useful),
-    "Pilgrimage": PseudoregaliaItemData(
-        code=2365810015,
-        classification=ItemClassification.useful),
-    "Aerial Finesse": PseudoregaliaItemData(
-        code=2365810016,
-        classification=ItemClassification.useful),
-    "Heliacal Power": PseudoregaliaItemData(
-        code=2365810017,
-        classification=ItemClassification.progression),
-    "Professionalism": PseudoregaliaItemData(
-        code=2365810018,
-        classification=ItemClassification.filler),
-    "Health Piece": PseudoregaliaItemData(
-        code=2365810019,
-        classification=ItemClassification.useful),
-    "Small Key": PseudoregaliaItemData(
-        code=2365810020,
-        classification=ItemClassification.progression),
-        """
     # Moved soul cutter down here temporarily because otherwise the block comment throws an error
     "Soul Cutter": PseudoregaliaItemData(
         code=2365810010,
         classification=ItemClassification.progression),
 }
 
-item_table = {name: data.code for name, data in item_data_table.items() if data.code is not None}
+
+"""
+"Clear Mind": PseudoregaliaItemData(
+    code=2365810011,
+    classification=ItemClassification.useful),
+"Empathy": PseudoregaliaItemData(
+    code=2365810012,
+    classification=ItemClassification.useful),
+"Good Graces": PseudoregaliaItemData(
+    code=2365810013,
+    classification=ItemClassification.useful),
+"Martial Prowess": PseudoregaliaItemData(
+    code=2365810014,
+    classification=ItemClassification.useful),
+"Pilgrimage": PseudoregaliaItemData(
+    code=2365810015,
+    classification=ItemClassification.useful),
+"Aerial Finesse": PseudoregaliaItemData(
+    code=2365810016,
+    classification=ItemClassification.useful),
+"Heliacal Power": PseudoregaliaItemData(
+    code=2365810017,
+    classification=ItemClassification.progression),
+"Professionalism": PseudoregaliaItemData(
+    code=2365810018,
+    classification=ItemClassification.filler),
+"Health Piece": PseudoregaliaItemData(
+    code=2365810019,
+    classification=ItemClassification.useful),
+"Small Key": PseudoregaliaItemData(
+    code=2365810020,
+    classification=ItemClassification.progression),
+    """
