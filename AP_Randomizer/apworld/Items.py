@@ -41,9 +41,7 @@ item_data_table: Dict[str, PseudoregaliaItemData] = {
     "Ascendant Light": PseudoregaliaItemData(
         code=2365810009,
         type=ItemClassification.progression),
-    "Soul Cutter": PseudoregaliaItemData(
-        code=2365810010,
-        type=ItemClassification.progression),
+    """
     "Clear Mind": PseudoregaliaItemData(
         code=2365810011,
         type=ItemClassification.useful),
@@ -74,15 +72,11 @@ item_data_table: Dict[str, PseudoregaliaItemData] = {
     "Small Key": PseudoregaliaItemData(
         code=2365810020,
         type=ItemClassification.progression),
-    "Major Key": PseudoregaliaItemData(
-        code=2365810021,
+        """
+    # Moved soul cutter down here temporarily because otherwise the block comment throws an error
+    "Soul Cutter": PseudoregaliaItemData(
+        code=2365810010,
         type=ItemClassification.progression),
-}
-
-item_frequencies = {
-    "Clear Mind": 3,
-    "Empathy": 2,
-    "Good Graces": 2,
 }
 
 item_table = {name: data.code for name, data in item_data_table.items() if data.code is not None}
