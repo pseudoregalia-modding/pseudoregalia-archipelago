@@ -1,21 +1,9 @@
 from BaseClasses import MultiWorld, Region, Entrance
 from typing import Dict, List, NamedTuple, Optional
 from enum import Enum
-from .Locations import PseudoregaliaLocationData, location_table
+from .Locations import PseudoregaliaLocationData, location_table, ZONE
 
 # Code structure copied from Rogue Legacy's apworld.
-
-
-class ZONE(Enum):
-    DUNGEON = "Dungeon"
-    CASTLE = "Castle"
-    KEEP = "Keep"
-    LIBRARY = "Library"
-    THEATRE = "Theatre"
-    BAILEY = "Bailey"
-    UNDERBELLY = "Underbelly"
-    TOWER = "Tower"
-    CHAMBERS = "Chambers"
 
 
 class PseudoregaliaRegionData(NamedTuple):

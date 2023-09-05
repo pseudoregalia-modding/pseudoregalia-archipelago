@@ -1,7 +1,18 @@
 from BaseClasses import Location, MultiWorld
 from typing import Callable, Dict, NamedTuple, Optional
 from enum import Enum
-from .Regions import ZONE
+
+
+class ZONE(Enum):
+    DUNGEON = "Dungeon"
+    CASTLE = "Castle"
+    KEEP = "Keep"
+    LIBRARY = "Library"
+    THEATRE = "Theatre"
+    BAILEY = "Bailey"
+    UNDERBELLY = "Underbelly"
+    TOWER = "Tower"
+    CHAMBERS = "Chambers"
 
 
 class PseudoregaliaLocation(Location):
