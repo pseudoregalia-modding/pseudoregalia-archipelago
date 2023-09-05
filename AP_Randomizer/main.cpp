@@ -32,13 +32,14 @@ public:
     };
 
     bool isHooked = false;
+    bool hookedToCollectible = false;
 
 public:
     AP_Randomizer() : CppUserModBase() {
         ModName = STR("AP_Randomizer");
         ModVersion = STR("0.1.0");
         ModDescription = STR("archipelago randomizer for pseudoregalia");
-        ModAuthors = STR("LittleMeowMeow0134");
+        ModAuthors = STR("littlemeowmeow0134");
         //ModIntendedSDKVersion = STR("2.6");
     }
 
@@ -77,7 +78,7 @@ public:
         // List of key codes at https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
 
         bind_key(VK_NUMPAD1, [&]() {
-            client->Connect("localhost:38281", "goat", "");
+            test_spawn_actor();
             });
 
         bind_key(VK_NUMPAD2, [&]() {
@@ -185,6 +186,17 @@ private:
                 Output::send<LogLevel::Warning>(STR("APRandomizerInstance was found, but had no function AP_TryConnect.\n"), ModName);
             }
         }
+
+        if (Actor->GetName().starts_with(STR("BP_APCollectible"))) {
+            Output::send<LogLevel::Verbose>(STR("[{}] Found BP_APCollectible.\n"), ModName);
+
+            auto Function = UObjectGlobals::StaticFindObject<UFunction*>(nullptr, nullptr, STR("/Game/Mods/AP_Randomizer/BP_APCollectible.BP_APCollectible_C:ReturnCheck"));
+            if (Function) {
+                Unreal::UObjectGlobals::RegisterHook(Function, ReturnCheckPrehook, ReturnCheckPosthook, nullptr);
+                Output::send<LogLevel::Verbose>(STR("Hooked into ReturnCheck."), ModName);
+            }
+
+        }
     }
 
     // Called on the blueprint's connect function.
@@ -214,6 +226,22 @@ private:
 
     static void APConnectPosthook(Unreal::UnrealScriptFunctionCallableContext& Context, void* CustomData) {
         // Output::send<LogLevel::Verbose>(STR("APTryConnect was post called!! :3"));
+    }
+
+    static void ReturnCheckPrehook(Unreal::UnrealScriptFunctionCallableContext& Context, void* CustomData) {
+        Output::send<LogLevel::Verbose>(STR("ReturnCheck was pre called!! :3"));
+
+        struct ReturnCheckParams {
+            int id;
+        };
+
+        auto& params = Context.GetParams<ReturnCheckParams>();
+        
+        Output::send<LogLevel::Verbose>(STR("INT: {}\n"), params.id);
+    }
+
+    static void ReturnCheckPosthook(Unreal::UnrealScriptFunctionCallableContext& Context, void* CustomData) {
+        // Output::send<LogLevel::Verbose>(STR("ReturnCheck was post called!! :3"));
     }
 };
 
