@@ -115,7 +115,7 @@ public:
         //static AActor* playerActor = UObjectGlobals::StaticFindObject<AActor*>(nullptr, nullptr, STR("/Game/ThirdPerson/Player/BP_PlayerGoatMain.BP_PlayerGoatMain_C"));
 
         // TODO try to change all instances of StaticFindObject with FindObject
-        const wchar_t* apCollectibleClassName = STR("/Game/Mods/AP_Randomizer/AP_Collectible.AP_Collectible_C");
+        const wchar_t* apCollectibleClassName = STR("/Game/Mods/AP_Randomizer/BP_APCollectible.BP_APCollectible_C");
         static UClass* apCollectibleClass = UObjectGlobals::StaticFindObject<UClass*>(nullptr, nullptr, apCollectibleClassName);
 
         if (!apCollectibleClass) {
@@ -187,15 +187,21 @@ private:
             }
         }
 
-        if (Actor->GetName().starts_with(STR("BP_APCollectible"))) {
-            Output::send<LogLevel::Verbose>(STR("[{}] Found BP_APCollectible.\n"), ModName);
 
-            auto Function = UObjectGlobals::StaticFindObject<UFunction*>(nullptr, nullptr, STR("/Game/Mods/AP_Randomizer/BP_APCollectible.BP_APCollectible_C:ReturnCheck"));
-            if (Function) {
-                Unreal::UObjectGlobals::RegisterHook(Function, ReturnCheckPrehook, ReturnCheckPosthook, nullptr);
-                Output::send<LogLevel::Verbose>(STR("Hooked into ReturnCheck."), ModName);
+        if (!hookedToCollectible) {
+            if (Actor->GetName().starts_with(STR("BP_APCollectible"))) {
+                Output::send<LogLevel::Verbose>(STR("[{}] Found BP_APCollectible.\n"), ModName);
+
+                auto ReturnCheckFunction = UObjectGlobals::StaticFindObject<UFunction*>(nullptr, nullptr, STR("/Game/Mods/AP_Randomizer/BP_APCollectible.BP_APCollectible_C:ReturnCheck"));
+                if (ReturnCheckFunction) {
+                    Unreal::UObjectGlobals::RegisterHook(ReturnCheckFunction, ReturnCheckPrehook, ReturnCheckPosthook, nullptr);
+                    Output::send<LogLevel::Verbose>(STR("Hooked into ReturnCheck."), ModName);
+                    hookedToCollectible = true;
+                }
+                else {
+                    Output::send<LogLevel::Warning>(STR("BP_APCollectible was found, but had no function ReturnCheck.\n"), ModName);
+                }
             }
-
         }
     }
 
@@ -212,6 +218,16 @@ private:
         Output::send<LogLevel::Verbose>(STR("I probably just crashed."));
     }
 
+    static void ReturnCheckPrehook(Unreal::UnrealScriptFunctionCallableContext& Context, void* CustomData) {
+        Output::send<LogLevel::Verbose>(STR("ReturnCheck was pre called!! :3"));
+
+        struct ReturnCheckParams {
+            int id;
+        };
+        auto& params = Context.GetParams<ReturnCheckParams>();
+        Output::send<LogLevel::Verbose>(STR("ID: {}\n"), params.id);
+    }
+
     static void ClearItems() {
 
     }
@@ -226,18 +242,6 @@ private:
 
     static void APConnectPosthook(Unreal::UnrealScriptFunctionCallableContext& Context, void* CustomData) {
         // Output::send<LogLevel::Verbose>(STR("APTryConnect was post called!! :3"));
-    }
-
-    static void ReturnCheckPrehook(Unreal::UnrealScriptFunctionCallableContext& Context, void* CustomData) {
-        Output::send<LogLevel::Verbose>(STR("ReturnCheck was pre called!! :3"));
-
-        struct ReturnCheckParams {
-            int id;
-        };
-
-        auto& params = Context.GetParams<ReturnCheckParams>();
-        
-        Output::send<LogLevel::Verbose>(STR("INT: {}\n"), params.id);
     }
 
     static void ReturnCheckPosthook(Unreal::UnrealScriptFunctionCallableContext& Context, void* CustomData) {

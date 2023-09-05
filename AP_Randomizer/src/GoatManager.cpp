@@ -4,8 +4,7 @@
 namespace Pseudoregalia_AP {
 	APClient* client;
 
-	GoatManager::GoatManager(APClient* new_client) {
-		client = new_client;
+	GoatManager::GoatManager() {
 	}
 
 	

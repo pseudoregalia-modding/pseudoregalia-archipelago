@@ -7,7 +7,7 @@ namespace Pseudoregalia_AP {
 	class GoatManager {
 
 	public:
-		GoatManager(APClient*);
+		GoatManager();
 
 	private:
 		void GetCheck(int);
