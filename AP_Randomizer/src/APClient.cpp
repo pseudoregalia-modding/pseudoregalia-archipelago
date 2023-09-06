@@ -1,7 +1,5 @@
 #pragma once
 #include "APClient.hpp"
-#include <Mod/CppUserModBase.hpp>
-#include <APCollectible.hpp>
 
 using namespace RC::Unreal;
 
@@ -10,10 +8,13 @@ namespace Pseudoregalia_AP {
     const char* slot_name;
     const char* password;
 
+    GoatManager* goat_manager;
+    MapManager* map_manager;
+
     std::map<std::string, int> obtained_upgrades;
 
 
-    std::map <std::string, std::vector<APCollectible>> map_table{
+    std::map <std::string, std::vector<APCollectible>> zone_table{
         {"Dungeon", std::vector<APCollectible>{APCollectible("Dungeon", FVector(3500, 4950, -50), 2365810001), APCollectible("Dungeon", FVector(16650, 2600, 2350), 2365810002)}},
         {"Castle", std::vector<APCollectible>{APCollectible("Castle", FVector(5400, 2100, -550), 2365810003)}},
         {"Keep", std::vector<APCollectible>{APCollectible("Dungeon", FVector(-3000, 4900, -400), 2365810004), APCollectible("Dungeon", FVector(10050, 1800, 85), 2365810005)}},
@@ -23,9 +24,10 @@ namespace Pseudoregalia_AP {
         {"Tower", std::vector<APCollectible>{APCollectible("Tower", FVector(13350, 5250, 4150), 2365810008)}},
     };
 
-
     APClient::APClient() {
         // probably take in slot name and ip here instead
+        map_manager = new MapManager();
+        goat_manager = new GoatManager();
     }
 
     void APClient::Connect(const char* new_ip, const char* new_slot_name, const char* new_password) {
@@ -58,5 +60,10 @@ namespace Pseudoregalia_AP {
 
     void APClient::SendCheck(int id) {
         AP_SendItem(id);
+    }
+
+    void APClient::OnMapLoad() {
+        // TODO: figure out a way to identify which map has been loaded, and pick the right one
+        map_manager->SpawnCollectibles(zone_table["Dungeon"]);
     }
 }

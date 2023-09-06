@@ -1,4 +1,5 @@
 #define NOMINMAX
+#pragma once
 
 #include <Windows.h>
 #include <Mod/CppUserModBase.hpp>
@@ -11,9 +12,7 @@
 #include <Unreal/World.hpp>
 #include <Unreal/TMap.hpp>
 #include "Archipelago.h"
-
 #include "APClient.hpp"
-#include "GoatManager.hpp"
 
 using namespace RC;
 using namespace RC::Unreal;
@@ -21,7 +20,6 @@ using namespace Pseudoregalia_AP;
 
 class AP_Randomizer : public RC::CppUserModBase {
 
-    // APClient client = new APClient();
     APClient* client;
 
 public:
@@ -33,7 +31,8 @@ public:
     };
 
     bool isHooked = false;
-    bool hookedToCollectible = false;
+    bool hooked_to_collectible = false;
+    bool hooked_to_clientrestart = false;
 
 public:
     AP_Randomizer() : CppUserModBase() {
@@ -42,6 +41,7 @@ public:
         ModDescription = STR("archipelago randomizer for pseudoregalia");
         ModAuthors = STR("littlemeowmeow0134");
         //ModIntendedSDKVersion = STR("2.6");
+        client = new APClient();
     }
 
     ~AP_Randomizer()
@@ -50,13 +50,10 @@ public:
 
     auto on_unreal_init() -> void override
     {
+        // client = new APClient();
         // TODO: add proper input for client instead of just keypresses
         // TODO: here, initalize whatever input system for client alongside the client(?)
         
-        // Initialize GoatManager; it needs to hook into collectible collision function and talk to the client
-        // GoatManager* manager = new GoatManager(client);
-        GoatManager* manager = new GoatManager();
-        client = new APClient();
 
         setup_keybinds();
 
@@ -189,8 +186,14 @@ private:
             }
         }
 
+        if (!hooked_to_clientrestart) {
 
-        if (!hookedToCollectible) {
+            // TODO: hook to clientrestart
+
+        }
+
+
+        if (!hooked_to_collectible) {
             if (Actor->GetName().starts_with(STR("BP_APCollectible"))) {
                 Output::send<LogLevel::Verbose>(STR("[{}] Found BP_APCollectible.\n"), ModName);
 
@@ -198,7 +201,7 @@ private:
                 if (ReturnCheckFunction) {
                     Unreal::UObjectGlobals::RegisterHook(ReturnCheckFunction, ReturnCheckPrehook, ReturnCheckPosthook, nullptr);
                     Output::send<LogLevel::Verbose>(STR("Hooked into ReturnCheck."), ModName);
-                    hookedToCollectible = true;
+                    hooked_to_collectible = true;
                 }
                 else {
                     Output::send<LogLevel::Warning>(STR("BP_APCollectible was found, but had no function ReturnCheck.\n"), ModName);
@@ -230,6 +233,16 @@ private:
         Output::send<LogLevel::Verbose>(STR("ID: {}\n"), params.id);
     }
 
+    void ClientRestartPosthook() {
+        // TODO: get actual map name
+        // 1. get MV_GameInstance
+        // 2. get FST_ZoneData from MV_GameInstance
+        // 3. get mapName_4_423D13C74469858B6E9893BEB6ABFBBB from FST_ZoneData (it's an FString)
+        // 4. that unholily-named variable will be the clean map name (e.g. "ZONE_Dungeon")
+
+        client->OnMapLoad();
+    }
+
     static void ClearItems() {
 
     }
@@ -248,6 +261,10 @@ private:
 
     static void ReturnCheckPosthook(Unreal::UnrealScriptFunctionCallableContext& Context, void* CustomData) {
         // Output::send<LogLevel::Verbose>(STR("ReturnCheck was post called!! :3"));
+    }
+
+    static void ClientRestartPrehook(Unreal::UnrealScriptFunctionCallableContext& Context, void* CustomData) {
+        // Output::send<LogLevel::Verbose>(STR("ClientRestart was pre called!! :3"));
     }
 };
 

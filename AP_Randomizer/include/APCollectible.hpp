@@ -1,3 +1,5 @@
+#ifndef APCollectible_H
+#define APCollectible_H
 #include <Unreal/World.hpp>
 
 using namespace RC::Unreal;
@@ -5,11 +7,17 @@ using namespace RC::Unreal;
 namespace Pseudoregalia_AP {
 	class APCollectible {
 	public:
-		APCollectible(std::string new_map, FVector position, long new_id);
-
 		std::string map;
 		int id;
-		FVector position;
+		RC::Unreal::FVector position;
 		bool checked;
+
+		APCollectible(std::string new_map, RC::Unreal::FVector new_position, long new_id) {
+			map = new_map;
+			position = new_position;
+			id = new_id;
+		}
 	};
 }
+
+#endif
