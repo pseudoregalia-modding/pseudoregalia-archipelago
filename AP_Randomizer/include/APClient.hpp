@@ -1,5 +1,6 @@
 #pragma once
 #include "Archipelago.h"
+#include <Unreal/World.hpp>
 
 namespace Pseudoregalia_AP {
 	class APClient {

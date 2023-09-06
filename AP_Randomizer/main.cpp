@@ -21,7 +21,8 @@ using namespace Pseudoregalia_AP;
 
 class AP_Randomizer : public RC::CppUserModBase {
 
-    APClient* client = new APClient();
+    // APClient client = new APClient();
+    APClient* client;
 
 public:
     // Probably remove direct keybinds like this outside of debugging
@@ -53,8 +54,9 @@ public:
         // TODO: here, initalize whatever input system for client alongside the client(?)
         
         // Initialize GoatManager; it needs to hook into collectible collision function and talk to the client
-        GoatManager* manager = new GoatManager(client);
-
+        // GoatManager* manager = new GoatManager(client);
+        GoatManager* manager = new GoatManager();
+        client = new APClient();
 
         setup_keybinds();
 
