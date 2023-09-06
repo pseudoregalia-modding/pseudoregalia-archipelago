@@ -53,7 +53,12 @@ public:
         // client = new APClient();
         // TODO: add proper input for client instead of just keypresses
         // TODO: here, initalize whatever input system for client alongside the client(?)
-        
+
+        if (!hooked_to_clientrestart) {
+            Hook::RegisterInitGameStatePostCallback([&](AActor* Actor) {
+                this->OnSceneLoad(Actor);
+                });
+        }
 
         setup_keybinds();
 
@@ -186,13 +191,6 @@ private:
             }
         }
 
-        if (!hooked_to_clientrestart) {
-
-            // TODO: hook to clientrestart
-
-        }
-
-
         if (!hooked_to_collectible) {
             if (Actor->GetName().starts_with(STR("BP_APCollectible"))) {
                 Output::send<LogLevel::Verbose>(STR("[{}] Found BP_APCollectible.\n"), ModName);
@@ -233,14 +231,12 @@ private:
         Output::send<LogLevel::Verbose>(STR("ID: {}\n"), params.id);
     }
 
-    void ClientRestartPosthook() {
-        // TODO: get actual map name
-        // 1. get MV_GameInstance
-        // 2. get FST_ZoneData from MV_GameInstance
-        // 3. get mapName_4_423D13C74469858B6E9893BEB6ABFBBB from FST_ZoneData (it's an FString)
-        // 4. that unholily-named variable will be the clean map name (e.g. "ZONE_Dungeon")
+    void OnSceneLoad(AActor* Actor) {
+        Output::send<LogLevel::Verbose>(STR("InitGameState called."));
 
-        client->OnMapLoad();
+        Output::send<LogLevel::Verbose>(STR("[{}] Identified {}\n"), ModName, Actor->GetName());
+
+        //client->OnMapLoad();
     }
 
     static void ClearItems() {
@@ -261,10 +257,6 @@ private:
 
     static void ReturnCheckPosthook(Unreal::UnrealScriptFunctionCallableContext& Context, void* CustomData) {
         // Output::send<LogLevel::Verbose>(STR("ReturnCheck was post called!! :3"));
-    }
-
-    static void ClientRestartPrehook(Unreal::UnrealScriptFunctionCallableContext& Context, void* CustomData) {
-        // Output::send<LogLevel::Verbose>(STR("ClientRestart was pre called!! :3"));
     }
 };
 
