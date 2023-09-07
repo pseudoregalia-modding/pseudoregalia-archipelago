@@ -40,7 +40,6 @@ public:
         ModDescription = STR("archipelago randomizer for pseudoregalia");
         ModAuthors = STR("littlemeowmeow0134");
         //ModIntendedSDKVersion = STR("2.6");
-        client = new APClient();
     }
 
     ~AP_Randomizer()
@@ -54,6 +53,8 @@ public:
                 this->OnSceneLoad();
                 });
         }
+
+        client = new APClient();
 
         setup_keybinds();
 

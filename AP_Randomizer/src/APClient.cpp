@@ -29,8 +29,12 @@ namespace Pseudoregalia_AP {
     std::map <std::string, std::vector<APCollectible>> zone_table;
 
     APClient::APClient() {
-        zone_table = {
-            {"Dungeon", std::vector<APCollectible>{APCollectible("Dungeon", FVector(3500, 4950, -50), 2365810001), APCollectible("Dungeon", FVector(16650, 2600, 2350), 2365810002)}},
+        FillTable();
+    }
+
+    void APClient::FillTable() {
+        this->zone_table = {
+            {"Dungeon", std::vector<APCollectible>{APCollectible("Dungeon", FVector(3500.0, 4950.0, -50.0), 2365810001), APCollectible("Dungeon", FVector(16650, 2600, 2350), 2365810002)}},
             { "Castle", std::vector<APCollectible>{APCollectible("Castle", FVector(5400, 2100, -550), 2365810003)} },
             { "Keep", std::vector<APCollectible>{APCollectible("Dungeon", FVector(-3000, 4900, -400), 2365810004), APCollectible("Dungeon", FVector(10050, 1800, 85), 2365810005)} },
             { "Theatre", std::vector<APCollectible>{APCollectible("Theatre", FVector(8500, 7850, -1400), 2365810005)} },
@@ -73,28 +77,16 @@ namespace Pseudoregalia_AP {
     void APClient::OnMapLoad(AActor* randomizer_blueprint, UFunction* spawn_function) {
         // Pretend it's Dungeon for now, will get actual map name later and probably switch with a function
 
-        for (int i = 0; i < zone_table["Dungeon"].size(); i++) {
+        for (int i = 0; i < this->zone_table["Dungeon"].size(); i++) {
+            Output::send<LogLevel::Verbose>(STR("id: {}"), this->zone_table["Dungeon"][i].id);
 
-            Output::send<LogLevel::Verbose>(STR("id: {}"), zone_table["Dungeon"][i].id);
-
-            // Something is horribly wrong with the coordinates.
-            // I can spawn them in the correct locations with hardcoded values,
-            // but fetching them from zone_data results in ridiculously large X values with Y and Z at zero.
-            // There seems to be some kind of underflow or bad conversion happening, but I have no idea what's causing it.
-            // Maybe it could have to do with trying to pass implied ints into the blueprint??
-            // 
-            // (X=2064845619742928566623404032.000000,Y=0.000000,Z=0.000000)
-            // (X=11182566371757979795980288.000000,Y=0.000000,Z=0.000000)
             CollectibleSpawnInfo new_info = {
-                zone_table["Dungeon"][i].id,
-                //FVector(16650, 2600, 2350),
-                zone_table["Dungeon"][i].position,
+                this->zone_table["Dungeon"][i].id,
+                this->zone_table["Dungeon"][i].position,
                 false
             };
 
-            Output::send<LogLevel::Verbose>(STR("Two"));
             randomizer_blueprint->ProcessEvent(spawn_function, &new_info);
-            Output::send<LogLevel::Verbose>(STR("Three"));
         }
     }
 }
