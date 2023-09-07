@@ -52,8 +52,15 @@ namespace Pseudoregalia_AP {
     void CheckLocation(int64_t) {
     }
 
-    void SendCheck(int64_t id) {
-        AP_SendItem(id);
+    void APClient::SendCheck(int64_t id, std::wstring current_world) {
+        for (APCollectible &collectible : this->zone_table[current_world]) {
+            if (collectible.GetID() == id) {
+                collectible.Check();
+                return;
+            }
+        }
+
+        // AP_SendItem(id);
     }
 
     void APClient::Connect(const char* new_ip, const char* new_slot_name, const char* new_password) {
@@ -78,10 +85,12 @@ namespace Pseudoregalia_AP {
             return;
         }
 
-        std::vector<APCollectible> collectible_vector = this->zone_table[world_name];
-
         for (APCollectible collectible : this->zone_table[world_name]) {
-            Output::send<LogLevel::Verbose>(STR("id: {}"), collectible.GetID());
+            if (collectible.IsChecked()) {
+                Output::send<LogLevel::Warning>(STR("Collectible with ID {} has already been sent"), collectible.GetID());
+                continue;
+            }
+            Output::send<LogLevel::Verbose>(STR("Spawned collectible with ID {}"), collectible.GetID());
 
             CollectibleSpawnInfo new_info = {
                 collectible.GetID(),

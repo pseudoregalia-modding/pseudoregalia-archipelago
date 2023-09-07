@@ -11,7 +11,7 @@ namespace Pseudoregalia_AP {
 		APClient();
 		void FillTable();
 		void Connect(const char*, const char*, const char*);
-		void SendCheck(int);
+		void SendCheck(int64_t, std::wstring);
 		void OnMapLoad(AActor*, UFunction*, std::wstring);
 	private:
 		void Initialize();

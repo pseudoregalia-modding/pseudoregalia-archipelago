@@ -115,11 +115,9 @@ private:
         if (Actor->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
             Output::send<LogLevel::Verbose>(STR("[{}] Found BP_APRandomizerInstance.\n"), ModName);
             UFunction* SpawnCollectibleFunction = Actor->GetFunctionByName(STR("AP_SpawnCollectible"));
-
             UWorld* World = static_cast<UWorld*>(UObjectGlobals::FindFirstOf(STR("World")));
-
             Output::send<LogLevel::Verbose>(STR("Current world: {}\n"), World->GetName());
-            
+
             client->OnMapLoad(Actor, SpawnCollectibleFunction, World->GetName());
 
             if (!hooked_into_apconnect) {
@@ -144,7 +142,7 @@ private:
             if (Actor->GetName().starts_with(STR("BP_APCollectible"))) {
                 Output::send<LogLevel::Verbose>(STR("[{}] Found BP_APCollectible.\n"), ModName);
 
-                auto ReturnCheckLambda = [](Unreal::UnrealScriptFunctionCallableContext& Context, void* CustomData) {
+                auto ReturnCheckLambda = [&](Unreal::UnrealScriptFunctionCallableContext& Context, void* CustomData) {
                     ReturnCheckPrehook(Context, CustomData);
                     };
 
@@ -170,8 +168,12 @@ private:
         struct ReturnCheckParams {
             int64_t id;
         };
+
         auto& params = Context.GetParams<ReturnCheckParams>();
         Output::send<LogLevel::Verbose>(STR("Obtained check with ID {}\n"), params.id);
+
+        UWorld* World = static_cast<UWorld*>(UObjectGlobals::FindFirstOf(STR("World")));
+        client->SendCheck(params.id, World->GetName());
     }
 
     static void ReturnCheckPosthook(Unreal::UnrealScriptFunctionCallableContext& Context, void* CustomData) {

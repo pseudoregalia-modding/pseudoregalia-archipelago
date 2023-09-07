@@ -14,9 +14,12 @@ namespace Pseudoregalia_AP {
 		}
 
 		bool Check() {
-			checked = true;
+			this->checked = true;
 			return checked;
 		}
+
+		bool IsChecked() {
+			return this->checked;}
 
 		std::string GetMap() {
 			return map;}
