@@ -120,7 +120,7 @@ private:
 
             Output::send<LogLevel::Verbose>(STR("Current world: {}\n"), World->GetName());
             
-            client->OnMapLoad(Actor, SpawnCollectibleFunction);
+            client->OnMapLoad(Actor, SpawnCollectibleFunction, World->GetName());
 
             if (!hooked_into_apconnect) {
                 Unreal::UFunction* pAPTryConnectFunction = nullptr;

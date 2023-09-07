@@ -73,15 +73,19 @@ namespace Pseudoregalia_AP {
         AP_Start();
     }
 
-    void APClient::OnMapLoad(AActor* randomizer_blueprint, UFunction* spawn_function) {
-        // Pretend it's Dungeon for now, will get actual map name later and probably switch with a function
+    void APClient::OnMapLoad(AActor* randomizer_blueprint, UFunction* spawn_function, std::wstring world_name) {
+        if (!zone_table.count(world_name)) {
+            return;
+        }
 
-        for (int i = 0; i < this->zone_table[L"Dungeon"].size(); i++) {
-            Output::send<LogLevel::Verbose>(STR("id: {}"), this->zone_table[L"Dungeon"][i].id);
+        std::vector<APCollectible> collectible_vector = this->zone_table[world_name];
+
+        for (int i = 0; i < collectible_vector.size(); i++) {
+            Output::send<LogLevel::Verbose>(STR("id: {}"), collectible_vector[i].id);
 
             CollectibleSpawnInfo new_info = {
-                this->zone_table[L"Dungeon"][i].id,
-                this->zone_table[L"Dungeon"][i].position,
+                collectible_vector[i].id,
+                collectible_vector[i].position,
                 false
             };
 

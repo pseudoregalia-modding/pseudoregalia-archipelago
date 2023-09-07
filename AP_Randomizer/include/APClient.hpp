@@ -12,7 +12,7 @@ namespace Pseudoregalia_AP {
 		void FillTable();
 		void Connect(const char*, const char*, const char*);
 		void SendCheck(int);
-		void OnMapLoad(AActor*, UFunction*);
+		void OnMapLoad(AActor*, UFunction*, std::wstring);
 	private:
 		void Initialize();
 	};
