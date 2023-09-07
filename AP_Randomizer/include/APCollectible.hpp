@@ -1,5 +1,4 @@
-#ifndef APCollectible_H
-#define APCollectible_H
+#pragma once
 #include <Unreal/World.hpp>
 
 using namespace RC::Unreal;
@@ -19,5 +18,3 @@ namespace Pseudoregalia_AP {
 		}
 	};
 }
-
-#endif

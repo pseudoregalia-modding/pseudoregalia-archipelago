@@ -8,11 +8,7 @@ namespace Pseudoregalia_AP {
     const char* slot_name;
     const char* password;
 
-    GoatManager* goat_manager;
-    MapManager* map_manager;
-
     std::map<std::string, int> obtained_upgrades;
-
 
     std::map <std::string, std::vector<APCollectible>> zone_table{
         {"Dungeon", std::vector<APCollectible>{APCollectible("Dungeon", FVector(3500, 4950, -50), 2365810001), APCollectible("Dungeon", FVector(16650, 2600, 2350), 2365810002)}},
@@ -25,9 +21,19 @@ namespace Pseudoregalia_AP {
     };
 
     APClient::APClient() {
-        // probably take in slot name and ip here instead
-        map_manager = new MapManager();
-        goat_manager = new GoatManager();
+    }
+
+    void ClearItems() {
+    }
+
+    void ReceiveItem(int64_t, bool) {
+    }
+
+    void CheckLocation(int64_t) {
+    }
+
+    void SendCheck(int64_t id) {
+        AP_SendItem(id);
     }
 
     void APClient::Connect(const char* new_ip, const char* new_slot_name, const char* new_password) {
@@ -40,7 +46,6 @@ namespace Pseudoregalia_AP {
     void APClient::Initialize() {
         AP_Init(ip, "Pseudoregalia", slot_name, password);
 
-        // These are static but might fuck with members of APClient so... I might need to refactor this entire thing
         AP_SetItemClearCallback(&ClearItems);
         AP_SetItemRecvCallback(&ReceiveItem);
         AP_SetLocationCheckedCallback(&CheckLocation);
@@ -48,22 +53,6 @@ namespace Pseudoregalia_AP {
         AP_Start();
     }
 
-    void APClient::ClearItems() {
-    }
-
-    void APClient::ReceiveItem(int64_t, bool) {
-
-    }
-
-    void APClient::CheckLocation(int64_t) {
-    }
-
-    void APClient::SendCheck(int id) {
-        AP_SendItem(id);
-    }
-
     void APClient::OnMapLoad() {
-        // TODO: figure out a way to identify which map has been loaded, and pick the right one
-        map_manager->SpawnCollectibles(zone_table["Dungeon"]);
     }
 }
