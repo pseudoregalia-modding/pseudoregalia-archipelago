@@ -81,11 +81,11 @@ namespace Pseudoregalia_AP {
         std::vector<APCollectible> collectible_vector = this->zone_table[world_name];
 
         for (APCollectible collectible : this->zone_table[world_name]) {
-            Output::send<LogLevel::Verbose>(STR("id: {}"), collectible.id);
+            Output::send<LogLevel::Verbose>(STR("id: {}"), collectible.GetID());
 
             CollectibleSpawnInfo new_info = {
-                collectible.id,
-                collectible.position,
+                collectible.GetID(),
+                collectible.GetPosition(),
                 false
             };
 
