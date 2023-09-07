@@ -15,7 +15,7 @@ namespace Pseudoregalia_AP {
 			map = new_map;
 			position = new_position;
 			id = new_id;
-			checked = true;
+			checked = false;
 		}
 	};
 }
