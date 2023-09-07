@@ -26,24 +26,24 @@ location_data_table = {
     "Castle - Indignation": PseudoregaliaLocationData(
         code=2365810003,
         region=ZONE.CASTLE),
-    "Library - Sun Greaves": PseudoregaliaLocationData(
-        code=2365810004,
-        region=ZONE.LIBRARY),
     "Keep - Sunsetter": PseudoregaliaLocationData(
-        code=2365810005,
+        code=2365810004,
         region=ZONE.KEEP),
     "Keep - Strikebreak": PseudoregaliaLocationData(
-        code=2365810006,
+        code=2365810005,
         region=ZONE.KEEP),
+    "Library - Sun Greaves": PseudoregaliaLocationData(
+        code=2365810006,
+        region=ZONE.LIBRARY),
     "Theatre - Soul Cutter": PseudoregaliaLocationData(
         code=2365810007,
         region=ZONE.THEATRE),
-    "Underbelly - Ascendant Light": PseudoregaliaLocationData(
-        code=2365810008,
-        region=ZONE.UNDERBELLY),
     "Bailey - Solar Wind": PseudoregaliaLocationData(
-        code=2365810009,
+        code=2365810008,
         region=ZONE.BAILEY),
+    "Underbelly - Ascendant Light": PseudoregaliaLocationData(
+        code=2365810009,
+        region=ZONE.UNDERBELLY),
     "Tower - Cling Gem": PseudoregaliaLocationData(
         code=2365810010,
         region=ZONE.TOWER),

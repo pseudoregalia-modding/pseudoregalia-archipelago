@@ -116,6 +116,10 @@ private:
             Output::send<LogLevel::Verbose>(STR("[{}] Found BP_APRandomizerInstance.\n"), ModName);
             UFunction* SpawnCollectibleFunction = Actor->GetFunctionByName(STR("AP_SpawnCollectible"));
 
+            UWorld* World = static_cast<UWorld*>(UObjectGlobals::FindFirstOf(STR("World")));
+
+            Output::send<LogLevel::Verbose>(STR("Current world: {}\n"), World->GetName());
+            
             client->OnMapLoad(Actor, SpawnCollectibleFunction);
 
             if (!hooked_into_apconnect) {
