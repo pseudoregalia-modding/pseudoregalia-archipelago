@@ -11,6 +11,19 @@ namespace Pseudoregalia_AP {
     const char* slot_name;
     const char* password;
 
+    static std::map<int64_t, std::string> lookup_id_to_item = {
+        {2365810001, "Dream Breaker"},
+        {2365810002, "Indignation"},
+        {2365810003, "Sun Greaves"},
+        {2365810004, "Slide"},
+        {2365810005, "Solar Wind"},
+        {2365810006, "Sunsetter"},
+        {2365810007, "Strikebreak"},
+        {2365810008, "Cling Gem"},
+        {2365810009, "Ascendant Light"},
+        {2365810010, "Soul Cutter"},
+    };
+
     struct CollectibleSpawnInfo {
         int64_t id;
         FVector position;

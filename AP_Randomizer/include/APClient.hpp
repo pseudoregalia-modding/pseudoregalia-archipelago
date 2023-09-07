@@ -7,6 +7,7 @@
 namespace Pseudoregalia_AP {
 	class APClient {
 	public:
+		static std::map<int64_t, std::string> lookup_id_to_item;
 		std::map <std::wstring, std::vector<APCollectible>> zone_table;
 		APClient();
 		void FillTable();
