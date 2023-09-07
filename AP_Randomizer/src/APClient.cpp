@@ -56,11 +56,10 @@ namespace Pseudoregalia_AP {
         for (APCollectible &collectible : this->zone_table[current_world]) {
             if (collectible.GetID() == id) {
                 collectible.Check();
+                AP_SendItem(id);
                 return;
             }
         }
-
-        // AP_SendItem(id);
     }
 
     void APClient::Connect(const char* new_ip, const char* new_slot_name, const char* new_password) {
