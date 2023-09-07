@@ -144,9 +144,13 @@ private:
             if (Actor->GetName().starts_with(STR("BP_APCollectible"))) {
                 Output::send<LogLevel::Verbose>(STR("[{}] Found BP_APCollectible.\n"), ModName);
 
+                auto ReturnCheckLambda = [](Unreal::UnrealScriptFunctionCallableContext& Context, void* CustomData) {
+                    ReturnCheckPrehook(Context, CustomData);
+                    };
+
                 auto ReturnCheckFunction = UObjectGlobals::StaticFindObject<UFunction*>(nullptr, nullptr, STR("/Game/Mods/AP_Randomizer/BP_APCollectible.BP_APCollectible_C:ReturnCheck"));
                 if (ReturnCheckFunction) {
-                    Unreal::UObjectGlobals::RegisterHook(ReturnCheckFunction, ReturnCheckPrehook, ReturnCheckPosthook, nullptr);
+                    Unreal::UObjectGlobals::RegisterHook(ReturnCheckFunction, ReturnCheckLambda, ReturnCheckPosthook, nullptr);
                     Output::send<LogLevel::Verbose>(STR("Hooked into ReturnCheck."), ModName);
                     hooked_into_collectible = true;
                 }
@@ -162,7 +166,7 @@ private:
         // client->Connect();
     }
 
-    static void ReturnCheckPrehook(Unreal::UnrealScriptFunctionCallableContext& Context, void* CustomData) {
+    void ReturnCheckPrehook(Unreal::UnrealScriptFunctionCallableContext& Context, void* CustomData) {
         struct ReturnCheckParams {
             int64_t id;
         };
