@@ -31,6 +31,7 @@ public:
     bool hooked_into_apconnect = false;
     bool hooked_into_collectible = false;
     bool hooked_into_initgamestate = false;
+    bool hooked_into_randomizerbeginplay = false;
 
 public:
     AP_Randomizer() : CppUserModBase() {
@@ -81,11 +82,9 @@ public:
             });
 
         bind_key(VK_NUMPAD7, [&]() {
-            AP_SendItem(4206942067);
             });
 
         bind_key(VK_NUMPAD8, [&]() {
-            AP_StoryComplete();
             });
     }
 
@@ -112,10 +111,21 @@ private:
     // Called whenever an actor is spawned
     auto on_begin_play(AActor* Actor) -> void
     {
-        if (!hooked_into_apconnect) {
-            if (Actor->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
-                Output::send<LogLevel::Verbose>(STR("[{}] Found BP_APRandomizerInstance.\n"), ModName);
+        if (Actor->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
+            Output::send<LogLevel::Verbose>(STR("[{}] Found BP_APRandomizerInstance.\n"), ModName);
 
+
+            UFunction* SpawnCollectibleFunction = Actor->GetFunctionByName(STR("AP_SpawnCollectible"));
+
+            struct {
+                int64_t id = 0;
+                FVector pos = FVector(0, 500, 0);
+                bool validity_check;
+            }params;
+
+            Actor->ProcessEvent(SpawnCollectibleFunction, &params);
+
+            if (!hooked_into_apconnect) {
                 Unreal::UFunction* pAPTryConnectFunction = nullptr;
                 pAPTryConnectFunction = Actor->GetFunctionByName(STR("AP_TryConnect"));
                 if (pAPTryConnectFunction) {
@@ -135,7 +145,7 @@ private:
 
                 auto ReturnCheckFunction = UObjectGlobals::StaticFindObject<UFunction*>(nullptr, nullptr, STR("/Game/Mods/AP_Randomizer/BP_APCollectible.BP_APCollectible_C:ReturnCheck"));
                 if (ReturnCheckFunction) {
-                    Unreal::UObjectGlobals::RegisterHook(ReturnCheckFunction, ReturnCheckPrehook, nullptr, nullptr);
+                    Unreal::UObjectGlobals::RegisterHook(ReturnCheckFunction, ReturnCheckPrehook, ReturnCheckPosthook, nullptr);
                     Output::send<LogLevel::Verbose>(STR("Hooked into ReturnCheck."), ModName);
                     hooked_into_collectible = true;
                 }
@@ -153,10 +163,14 @@ private:
 
     static void ReturnCheckPrehook(Unreal::UnrealScriptFunctionCallableContext& Context, void* CustomData) {
         struct ReturnCheckParams {
-            int id;
+            int64_t id;
         };
         auto& params = Context.GetParams<ReturnCheckParams>();
         Output::send<LogLevel::Verbose>(STR("Obtained check with ID {}\n"), params.id);
+    }
+
+    static void ReturnCheckPosthook(Unreal::UnrealScriptFunctionCallableContext& Context, void* CustomData) {
+        // Placeholder so the game doesn't crash when trying to run a ReturnCheck posthook.
     }
 
     void OnSceneLoad() {
