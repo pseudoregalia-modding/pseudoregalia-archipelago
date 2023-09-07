@@ -40,8 +40,8 @@ namespace Pseudoregalia_AP {
                 APCollectible("Castle", FVector(5400, 2100, -550), 2365810003)}
                 },
             {L"Zone_Upper", std::vector<APCollectible>{
-                APCollectible("Dungeon", FVector(-3000, 4900, -400), 2365810004),
-                APCollectible("Dungeon", FVector(10050, 1800, 85), 2365810005)}
+                APCollectible("Keep", FVector(-3000, 4900, -400), 2365810004),
+                APCollectible("Keep", FVector(10050, 1800, 85), 2365810005)}
                 },
             {L"Zone_Library", std::vector<APCollectible>{
                 APCollectible("Library", FVector(-4150, 9200, -100), 2365810006)}
