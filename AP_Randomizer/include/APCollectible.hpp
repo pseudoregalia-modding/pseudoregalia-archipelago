@@ -7,11 +7,11 @@ namespace Pseudoregalia_AP {
 	class APCollectible {
 	public:
 		std::string map;
-		int id;
+		int64_t id;
 		RC::Unreal::FVector position;
 		bool checked;
 
-		APCollectible(std::string new_map, RC::Unreal::FVector new_position, long new_id) {
+		APCollectible(std::string new_map, RC::Unreal::FVector new_position, int64_t new_id) {
 			map = new_map;
 			position = new_position;
 			id = new_id;
