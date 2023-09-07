@@ -34,7 +34,7 @@ namespace Pseudoregalia_AP {
 
     void APClient::FillTable() {
         this->zone_table = {
-            {"Dungeon", std::vector<APCollectible>{APCollectible("Dungeon", FVector(3500.0, 4950.0, -50.0), 2365810001), APCollectible("Dungeon", FVector(16650, 2600, 2350), 2365810002)}},
+            {"Dungeon", std::vector<APCollectible>{APCollectible("Dungeon", FVector(-3500.0, 4950.0, -50.0), 2365810001), APCollectible("Dungeon", FVector(16650, 2600, 2350), 2365810002)}},
             { "Castle", std::vector<APCollectible>{APCollectible("Castle", FVector(5400, 2100, -550), 2365810003)} },
             { "Keep", std::vector<APCollectible>{APCollectible("Dungeon", FVector(-3000, 4900, -400), 2365810004), APCollectible("Dungeon", FVector(10050, 1800, 85), 2365810005)} },
             { "Theatre", std::vector<APCollectible>{APCollectible("Theatre", FVector(8500, 7850, -1400), 2365810005)} },
