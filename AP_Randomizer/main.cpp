@@ -113,17 +113,9 @@ private:
     {
         if (Actor->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
             Output::send<LogLevel::Verbose>(STR("[{}] Found BP_APRandomizerInstance.\n"), ModName);
-
-
             UFunction* SpawnCollectibleFunction = Actor->GetFunctionByName(STR("AP_SpawnCollectible"));
 
-            struct {
-                int64_t id = 0;
-                FVector pos = FVector(0, 500, 0);
-                bool validity_check;
-            }params;
-
-            Actor->ProcessEvent(SpawnCollectibleFunction, &params);
+            client->OnMapLoad(Actor, SpawnCollectibleFunction);
 
             if (!hooked_into_apconnect) {
                 Unreal::UFunction* pAPTryConnectFunction = nullptr;
@@ -137,6 +129,10 @@ private:
                     Output::send<LogLevel::Error>(STR("APRandomizerInstance was found, but had no function AP_TryConnect.\n"), ModName);
                 }
             }
+        }
+
+        if (Actor->GetName().starts_with(STR("BP_APCollectible"))) {
+            Output::send<LogLevel::Verbose>(STR("[{}] Found BP_APCollectible.\n"), ModName);
         }
 
         if (!hooked_into_collectible) {
