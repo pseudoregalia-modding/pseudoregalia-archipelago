@@ -7,6 +7,7 @@
 namespace Pseudoregalia_AP {
 	class APClient {
 	public:
+		static void Initialize();
 		static void FillZoneTable();
 		static void ResetUpgradeTable();
 		static void ClearItems();
@@ -16,7 +17,6 @@ namespace Pseudoregalia_AP {
 		static void SendCheck(int64_t, std::wstring);
 		static void OnMapLoad(AActor*, UFunction*, std::wstring);
 	private:
-		static void Initialize();
 		static std::map<int64_t, std::string> lookup_id_to_item;
 		static std::map <std::wstring, std::vector<APCollectible>> zone_table;
 		static std::map<std::string, int> upgrade_table;

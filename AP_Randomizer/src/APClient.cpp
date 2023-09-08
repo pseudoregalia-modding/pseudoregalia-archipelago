@@ -89,19 +89,14 @@ namespace Pseudoregalia_AP {
     void APClient::Initialize() {
         FillZoneTable();
         ResetUpgradeTable();
+    }
 
-        AP_Init(ip, "Pseudoregalia", slot_name, password);
+    void APClient::Connect(const char* new_ip, const char* new_slot_name, const char* new_password) {
+        AP_Init(new_ip, "Pseudoregalia", new_slot_name, new_password);
         AP_SetItemClearCallback(&ClearItems);
         AP_SetItemRecvCallback(&ReceiveItem);
         AP_SetLocationCheckedCallback(&CheckLocation);
         AP_Start();
-    }
-
-    void APClient::Connect(const char* new_ip, const char* new_slot_name, const char* new_password) {
-        ip = new_ip;
-        slot_name = new_slot_name;
-        password = new_password;
-        Initialize();
     }
 
     void APClient::ClearItems() {
