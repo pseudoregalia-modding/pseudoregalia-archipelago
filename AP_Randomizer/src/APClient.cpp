@@ -11,6 +11,8 @@ namespace Pseudoregalia_AP {
     const char* slot_name;
     const char* password;
 
+    std::map<std::string, int> upgrade_table;
+
     static std::map<int64_t, std::string> lookup_id_to_item = {
         {2365810001, "attack"},
         {2365810002, "powerBoost"},
@@ -36,8 +38,6 @@ namespace Pseudoregalia_AP {
         id = new_id;
         position = new_position;
     }
-
-    std::map<std::string, int> obtained_upgrades;
 
     APClient::APClient() {
         FillTable();
