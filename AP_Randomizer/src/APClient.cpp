@@ -40,11 +40,11 @@ namespace Pseudoregalia_AP {
     }
 
     APClient::APClient() {
-        FillTable();
+        FillZoneTable();
         ResetUpgradeTable();
     }
 
-    void APClient::FillTable() {
+    void APClient::FillZoneTable() {
         this->zone_table = {
             {L"ZONE_Dungeon", std::vector<APCollectible> {
                 APCollectible("Dungeon", FVector(-3500.0, 4950.0, -50.0), 2365810001),
