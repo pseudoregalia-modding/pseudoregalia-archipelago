@@ -11,21 +11,21 @@ namespace Pseudoregalia_AP {
     const char* slot_name;
     const char* password;
 
-    std::map<int64_t, std::string> APClient::lookup_id_to_item = {
-        {2365810001, "attack"},
-        {2365810002, "powerBoost"},
-        {2365810003, "airKick"},
-        {2365810004, "slide"},
-        {2365810005, "SlideJump"},
-        {2365810006, "plunge"},
-        {2365810007, "chargeAttack"},
-        {2365810008, "wallRide"},
-        {2365810009, "Light"},
-        {2365810010, "projectile"},
+    std::map<int64_t, std::wstring> APClient::lookup_id_to_item = {
+        {2365810001, L"attack"},
+        {2365810002, L"powerBoost"},
+        {2365810003, L"airKick"},
+        {2365810004, L"slide"},
+        {2365810005, L"SlideJump"},
+        {2365810006, L"plunge"},
+        {2365810007, L"chargeAttack"},
+        {2365810008, L"wallRide"},
+        {2365810009, L"Light"},
+        {2365810010, L"projectile"},
     };
 
     std::map <std::wstring, std::vector<APCollectible>> APClient::zone_table;
-    std::map<std::string, int> APClient::upgrade_table;
+    std::map<std::wstring, int> APClient::upgrade_table;
 
     struct CollectibleSpawnInfo {
         int64_t id;
@@ -33,6 +33,11 @@ namespace Pseudoregalia_AP {
         bool valid;
 
         void FillSpawnInfo(int64_t, FVector);
+    };
+
+    struct AddUpgradeInfo {
+        FName* name;
+        int count;
     };
 
     void CollectibleSpawnInfo::FillSpawnInfo(int64_t new_id, FVector new_position) {
@@ -73,16 +78,16 @@ namespace Pseudoregalia_AP {
 
     void APClient::ResetUpgradeTable() {
         upgrade_table = {
-            {"attack", 0},
-            {"powerBoost", 0},
-            {"airKick", 0},
-            {"slide", 0},
-            {"SlideJump", 0},
-            {"plunge", 0},
-            {"chargeAttack", 0},
-            {"wallRide", 0},
-            {"Light", 0},
-            {"projectile", 0},
+            {L"attack", 0},
+            {L"powerBoost", 0},
+            {L"airKick", 0},
+            {L"slide", 0},
+            {L"SlideJump", 0},
+            {L"plunge", 0},
+            {L"chargeAttack", 0},
+            {L"wallRide", 0},
+            {L"Light", 0},
+            {L"projectile", 0},
         };
     }
 
@@ -105,6 +110,7 @@ namespace Pseudoregalia_AP {
 
     void APClient::ReceiveItem(int64_t new_item_id, bool notify) {
         upgrade_table[lookup_id_to_item[new_item_id]] ++;
+        SyncItems();
     }
 
     void APClient::CheckLocation(int64_t) {
@@ -118,6 +124,34 @@ namespace Pseudoregalia_AP {
                 return;
             }
         }
+    }
+
+    void APClient::SyncItems() {
+        UObject* randomizer_blueprint = UObjectGlobals::FindFirstOf(STR("BP_APRandomizerInstance_C"));
+        if (!randomizer_blueprint) {
+            // TODO: Make this set a timer to resync instead of just returning
+            Output::send<LogLevel::Error>(STR("BP_APRandomizerInstance was not found. Items could not be synced."));
+            return;
+        }
+
+        UFunction* add_upgrade_function = randomizer_blueprint->GetFunctionByName(STR("AP_AddUpgrade"));
+        if (!add_upgrade_function) {
+            // TODO: Make this set a timer to resync instead of just returning
+            Output::send<LogLevel::Error>(STR("BP_APRandomizerInstance was found, but had no function AP_AddUpgrade. Items could not be synced."));
+            return;
+        }
+
+        for (auto const& pair : upgrade_table)
+        {
+            FName* name = new FName(pair.first);
+            AddUpgradeInfo params = {
+                name,
+                pair.second,
+            };
+
+            randomizer_blueprint->ProcessEvent(add_upgrade_function, &params);
+        }
+
     }
 
     void APClient::OnMapLoad(AActor* randomizer_blueprint, UFunction* spawn_function, std::wstring world_name) {
