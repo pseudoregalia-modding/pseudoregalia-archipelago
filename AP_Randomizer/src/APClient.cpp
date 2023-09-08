@@ -105,11 +105,13 @@ namespace Pseudoregalia_AP {
     }
 
     void APClient::ClearItems() {
+        Output::send<LogLevel::Verbose>(STR("Calling ClearItems..."));
         ResetUpgradeTable();
     }
 
     void APClient::ReceiveItem(int64_t new_item_id, bool notify) {
         upgrade_table[lookup_id_to_item[new_item_id]] ++;
+        Output::send<LogLevel::Verbose>(STR("Set {} to {}"), lookup_id_to_item[new_item_id], upgrade_table[lookup_id_to_item[new_item_id]]);
         SyncItems();
     }
 
@@ -140,6 +142,7 @@ namespace Pseudoregalia_AP {
             Output::send<LogLevel::Error>(STR("BP_APRandomizerInstance was found, but had no function AP_AddUpgrade. Items could not be synced."));
             return;
         }
+        Output::send<LogLevel::Verbose>(STR("Calling SyncItems..."));
 
         for (auto const& pair : upgrade_table)
         {
@@ -148,10 +151,10 @@ namespace Pseudoregalia_AP {
                 name,
                 pair.second,
             };
+            Output::send<LogLevel::Verbose>(STR("Attempting to add {} with value {}..."), pair.first, pair.second);
 
             randomizer_blueprint->ProcessEvent(add_upgrade_function, &params);
         }
-
     }
 
     void APClient::OnMapLoad(AActor* randomizer_blueprint, UFunction* spawn_function, std::wstring world_name) {
