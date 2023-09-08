@@ -17,9 +17,6 @@ using namespace RC::Unreal;
 using namespace Pseudoregalia_AP;
 
 class AP_Randomizer : public RC::CppUserModBase {
-
-    APClient* client;
-
 public:
     // Probably remove direct keybinds like this outside of debugging
     struct BoundKey {
@@ -53,8 +50,8 @@ public:
                 this->OnSceneLoad();
                 });
         }
-
-        client = new APClient();
+        
+        APClient::Initialize();
 
         setup_keybinds();
 
@@ -77,7 +74,7 @@ public:
     {
         // List of key codes at https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
         bind_key(VK_NUMPAD1, [&]() {
-            client->Connect("localhost:38281", "goat", "");
+            APClient::Connect("localhost:38281", "goat", "");
             });
 
         bind_key(VK_NUMPAD2, [&]() {
@@ -119,7 +116,7 @@ private:
             UWorld* World = static_cast<UWorld*>(UObjectGlobals::FindFirstOf(STR("World")));
             Output::send<LogLevel::Verbose>(STR("Current world: {}\n"), World->GetName());
 
-            client->OnMapLoad(Actor, SpawnCollectibleFunction, World->GetName());
+            APClient::OnMapLoad(Actor, SpawnCollectibleFunction, World->GetName());
 
             if (!hooked_into_apconnect) {
                 Unreal::UFunction* pAPTryConnectFunction = nullptr;
@@ -161,8 +158,7 @@ private:
     }
 
     static void APConnectPrehook(Unreal::UnrealScriptFunctionCallableContext& Context, void* CustomData) {
-        // I can't figure out how to get this to work yet
-        // client->Connect();
+        APClient::Connect("localhost:38281", "goat", "");
     }
 
     void ReturnCheckPrehook(Unreal::UnrealScriptFunctionCallableContext& Context, void* CustomData) {
@@ -174,7 +170,7 @@ private:
         Output::send<LogLevel::Verbose>(STR("Obtained check with ID {}\n"), params.id);
 
         UWorld* World = static_cast<UWorld*>(UObjectGlobals::FindFirstOf(STR("World")));
-        client->SendCheck(params.id, World->GetName());
+        APClient::SendCheck(params.id, World->GetName());
     }
 
     static void ReturnCheckPosthook(Unreal::UnrealScriptFunctionCallableContext& Context, void* CustomData) {
