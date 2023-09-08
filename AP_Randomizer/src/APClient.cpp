@@ -94,7 +94,8 @@ namespace Pseudoregalia_AP {
         ResetUpgradeTable();
     }
 
-    void ReceiveItem(int64_t, bool) {
+    void ReceiveItem(int64_t new_item_id, bool notify) {
+        upgrade_table[lookup_id_to_item[new_item_id]] ++;
     }
 
     void CheckLocation(int64_t) {
