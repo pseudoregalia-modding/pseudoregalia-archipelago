@@ -12,16 +12,16 @@ namespace Pseudoregalia_AP {
     const char* password;
 
     static std::map<int64_t, std::string> lookup_id_to_item = {
-        {2365810001, "Dream Breaker"},
-        {2365810002, "Indignation"},
-        {2365810003, "Sun Greaves"},
-        {2365810004, "Slide"},
-        {2365810005, "Solar Wind"},
-        {2365810006, "Sunsetter"},
-        {2365810007, "Strikebreak"},
-        {2365810008, "Cling Gem"},
-        {2365810009, "Ascendant Light"},
-        {2365810010, "Soul Cutter"},
+        {2365810001, "attack"},
+        {2365810002, "powerBoost"},
+        {2365810003, "airKick"},
+        {2365810004, "slide"},
+        {2365810005, "SlideJump"},
+        {2365810006, "plunge"},
+        {2365810007, "chargeAttack"},
+        {2365810008, "wallRide"},
+        {2365810009, "Light"},
+        {2365810010, "projectile"},
     };
 
     struct CollectibleSpawnInfo {
