@@ -41,6 +41,7 @@ namespace Pseudoregalia_AP {
 
     APClient::APClient() {
         FillTable();
+        ResetUpgradeTable();
     }
 
     void APClient::FillTable() {
@@ -74,7 +75,23 @@ namespace Pseudoregalia_AP {
         };
     }
 
+    void ResetUpgradeTable() {
+        upgrade_table = {
+            {"attack", 0},
+            {"powerBoost", 0},
+            {"airKick", 0},
+            {"slide", 0},
+            {"SlideJump", 0},
+            {"plunge", 0},
+            {"chargeAttack", 0},
+            {"wallRide", 0},
+            {"Light", 0},
+            {"projectile", 0},
+        };
+    }
+
     void ClearItems() {
+        ResetUpgradeTable();
     }
 
     void ReceiveItem(int64_t, bool) {
