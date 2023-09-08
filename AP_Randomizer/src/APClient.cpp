@@ -11,9 +11,7 @@ namespace Pseudoregalia_AP {
     const char* slot_name;
     const char* password;
 
-    std::map<std::string, int> upgrade_table;
-
-    static std::map<int64_t, std::string> lookup_id_to_item = {
+    std::map<int64_t, std::string> APClient::lookup_id_to_item = {
         {2365810001, "attack"},
         {2365810002, "powerBoost"},
         {2365810003, "airKick"},
@@ -25,6 +23,9 @@ namespace Pseudoregalia_AP {
         {2365810009, "Light"},
         {2365810010, "projectile"},
     };
+
+    std::map <std::wstring, std::vector<APCollectible>> APClient::zone_table;
+    std::map<std::string, int> APClient::upgrade_table;
 
     struct CollectibleSpawnInfo {
         int64_t id;
@@ -39,13 +40,8 @@ namespace Pseudoregalia_AP {
         position = new_position;
     }
 
-    APClient::APClient() {
-        FillZoneTable();
-        ResetUpgradeTable();
-    }
-
     void APClient::FillZoneTable() {
-        this->zone_table = {
+        zone_table = {
             {L"ZONE_Dungeon", std::vector<APCollectible> {
                 APCollectible("Dungeon", FVector(-3500.0, 4950.0, -50.0), 2365810001),
                 APCollectible("Dungeon", FVector(16650, 2600, 2350), 2365810002)}
@@ -75,7 +71,7 @@ namespace Pseudoregalia_AP {
         };
     }
 
-    void ResetUpgradeTable() {
+    void APClient::ResetUpgradeTable() {
         upgrade_table = {
             {"attack", 0},
             {"powerBoost", 0},
@@ -90,25 +86,15 @@ namespace Pseudoregalia_AP {
         };
     }
 
-    void ClearItems() {
+    void APClient::Initialize() {
+        FillZoneTable();
         ResetUpgradeTable();
-    }
 
-    void ReceiveItem(int64_t new_item_id, bool notify) {
-        upgrade_table[lookup_id_to_item[new_item_id]] ++;
-    }
-
-    void CheckLocation(int64_t) {
-    }
-
-    void APClient::SendCheck(int64_t id, std::wstring current_world) {
-        for (APCollectible &collectible : this->zone_table[current_world]) {
-            if (collectible.GetID() == id) {
-                collectible.Check();
-                AP_SendItem(id);
-                return;
-            }
-        }
+        AP_Init(ip, "Pseudoregalia", slot_name, password);
+        AP_SetItemClearCallback(&ClearItems);
+        AP_SetItemRecvCallback(&ReceiveItem);
+        AP_SetLocationCheckedCallback(&CheckLocation);
+        AP_Start();
     }
 
     void APClient::Connect(const char* new_ip, const char* new_slot_name, const char* new_password) {
@@ -118,14 +104,25 @@ namespace Pseudoregalia_AP {
         Initialize();
     }
 
-    void APClient::Initialize() {
-        AP_Init(ip, "Pseudoregalia", slot_name, password);
+    void APClient::ClearItems() {
+        ResetUpgradeTable();
+    }
 
-        AP_SetItemClearCallback(&ClearItems);
-        AP_SetItemRecvCallback(&ReceiveItem);
-        AP_SetLocationCheckedCallback(&CheckLocation);
+    void APClient::ReceiveItem(int64_t new_item_id, bool notify) {
+        upgrade_table[lookup_id_to_item[new_item_id]] ++;
+    }
 
-        AP_Start();
+    void APClient::CheckLocation(int64_t) {
+    }
+
+    void APClient::SendCheck(int64_t id, std::wstring current_world) {
+        for (APCollectible &collectible : zone_table[current_world]) {
+            if (collectible.GetID() == id) {
+                collectible.Check();
+                AP_SendItem(id);
+                return;
+            }
+        }
     }
 
     void APClient::OnMapLoad(AActor* randomizer_blueprint, UFunction* spawn_function, std::wstring world_name) {
@@ -133,7 +130,7 @@ namespace Pseudoregalia_AP {
             return;
         }
 
-        for (APCollectible collectible : this->zone_table[world_name]) {
+        for (APCollectible collectible : zone_table[world_name]) {
             if (collectible.IsChecked()) {
                 Output::send<LogLevel::Warning>(STR("Collectible with ID {} has already been sent"), collectible.GetID());
                 continue;
