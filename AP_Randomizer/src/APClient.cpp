@@ -137,31 +137,26 @@ namespace Pseudoregalia_AP {
 
         if (object->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
             item_update_pending = false;
-            SyncItems();
+
+            UFunction* add_upgrade_function = object->GetFunctionByName(STR("AP_AddUpgrade"));
+            if (!add_upgrade_function) {
+                // TODO: Make this set a timer to resync instead of just returning
+                // Also I seriously doubt this is actually necessary but whatever
+                Output::send<LogLevel::Error>(STR("An item sync was requested, but the function AP_AddUpgrade() could not be found."));
+                return;
+            }
+
+            SyncItems(object, add_upgrade_function);
         }
     }
 
-    void APClient::SyncItems() {
-        UObject* randomizer_blueprint = UObjectGlobals::FindFirstOf(STR("BP_APRandomizerInstance_C"));
-        if (!randomizer_blueprint) {
-            // TODO: Make this set a timer to resync instead of just returning
-            Output::send<LogLevel::Error>(STR("BP_APRandomizerInstance was not found. Items could not be synced."));
-            return;
-        }
-
-        UFunction* add_upgrade_function = randomizer_blueprint->GetFunctionByName(STR("AP_AddUpgrade"));
-        if (!add_upgrade_function) {
-            // TODO: Make this set a timer to resync instead of just returning
-            Output::send<LogLevel::Error>(STR("BP_APRandomizerInstance was found, but had no function AP_AddUpgrade. Items could not be synced."));
-            return;
-        }
+    void APClient::SyncItems(UObject* randomizer_blueprint, UFunction* add_upgrade_function) {
         Output::send<LogLevel::Verbose>(STR("Calling SyncItems..."));
 
         for (auto const& pair : upgrade_table)
         {
             FName* name_ptr = new FName(pair.first);
             FName new_name = *name_ptr;
-
             int new_count = pair.second;
 
             AddUpgradeInfo params = {
