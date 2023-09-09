@@ -8,6 +8,7 @@ using namespace RC::Unreal;
 namespace Pseudoregalia_AP {
 	class APGameManager {
 	public:
+		static UWorld* GetWorld();
 	private:
 	};
 }

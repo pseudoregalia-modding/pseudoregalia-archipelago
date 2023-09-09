@@ -11,6 +11,7 @@
 #include <Unreal/UClass.hpp>
 #include <Unreal/World.hpp>
 #include "APClient.hpp"
+#include "APGameManager.hpp"
 
 using namespace RC;
 using namespace RC::Unreal;
@@ -117,7 +118,7 @@ private:
         if (Actor->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
             Output::send<LogLevel::Verbose>(STR("[{}] Found BP_APRandomizerInstance.\n"), ModName);
             UFunction* SpawnCollectibleFunction = Actor->GetFunctionByName(STR("AP_SpawnCollectible"));
-            UWorld* World = static_cast<UWorld*>(UObjectGlobals::FindFirstOf(STR("World")));
+            UWorld* World = APGameManager::GetWorld();
             Output::send<LogLevel::Verbose>(STR("Current world: {}\n"), World->GetName());
 
             APClient::OnMapLoad(Actor, SpawnCollectibleFunction, World->GetName());
@@ -173,7 +174,7 @@ private:
         auto& params = Context.GetParams<ReturnCheckParams>();
         Output::send<LogLevel::Verbose>(STR("Obtained check with ID {}\n"), params.id);
 
-        UWorld* World = static_cast<UWorld*>(UObjectGlobals::FindFirstOf(STR("World")));
+        UWorld* World = APGameManager::GetWorld();
         APClient::SendCheck(params.id, World->GetName());
     }
 
