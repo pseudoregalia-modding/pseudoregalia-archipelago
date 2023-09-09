@@ -155,15 +155,13 @@ namespace Pseudoregalia_AP {
 
         for (auto const& pair : upgrade_table)
         {
-            FName* name_ptr = new FName(pair.first);
-            FName new_name = *name_ptr;
-            int new_count = pair.second;
+            FName new_name = *new FName(pair.first);
 
             AddUpgradeInfo params = {
                 new_name,
-                new_count,
+                pair.second,
             };
-            Output::send<LogLevel::Verbose>(STR("Attempting to add {} with value {}..."), pair.first, new_count);
+            Output::send<LogLevel::Verbose>(STR("Attempting to add {} with value {}..."), pair.first, pair.second);
 
             randomizer_blueprint->ProcessEvent(add_upgrade_function, &params);
         }
