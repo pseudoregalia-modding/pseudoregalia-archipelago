@@ -187,5 +187,8 @@ namespace Pseudoregalia_AP {
 
             randomizer_blueprint->ProcessEvent(spawn_function, &new_info);
         }
+
+        // Resync items on map load so that players don't lose items after dying or resetting   
+        item_update_pending = true;
     }
 }
