@@ -26,6 +26,7 @@ namespace Pseudoregalia_AP {
 
     std::map <std::wstring, std::vector<APCollectible>> APClient::zone_table;
     std::map<std::wstring, int> APClient::upgrade_table;
+    bool item_update_pending;
 
     struct CollectibleSpawnInfo {
         int64_t id;
@@ -94,6 +95,7 @@ namespace Pseudoregalia_AP {
     void APClient::Initialize() {
         FillZoneTable();
         ResetUpgradeTable();
+        item_update_pending = false;
     }
 
     void APClient::Connect(const char* new_ip, const char* new_slot_name, const char* new_password) {
@@ -112,7 +114,7 @@ namespace Pseudoregalia_AP {
     void APClient::ReceiveItem(int64_t new_item_id, bool notify) {
         upgrade_table[lookup_id_to_item[new_item_id]] ++;
         Output::send<LogLevel::Verbose>(STR("Set {} to {}"), lookup_id_to_item[new_item_id], upgrade_table[lookup_id_to_item[new_item_id]]);
-        SyncItems();
+        item_update_pending = true;
     }
 
     void APClient::CheckLocation(int64_t) {

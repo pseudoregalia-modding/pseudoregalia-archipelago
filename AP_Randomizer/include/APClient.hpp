@@ -21,5 +21,6 @@ namespace Pseudoregalia_AP {
 		static std::map<int64_t, std::wstring> lookup_id_to_item;
 		static std::map <std::wstring, std::vector<APCollectible>> zone_table;
 		static std::map<std::wstring, int> upgrade_table;
+		static bool item_update_pending;
 	};
 }
