@@ -26,11 +26,6 @@ public:
         bool isPressed = false;
     };
 
-    bool hooked_into_apconnect = false;
-    bool hooked_into_collectible = false;
-    bool hooked_into_initgamestate = false;
-    bool hooked_into_randomizerbeginplay = false;
-
 public:
     AP_Randomizer() : CppUserModBase() {
         ModName = STR("AP_Randomizer");
@@ -46,12 +41,6 @@ public:
 
     auto on_unreal_init() -> void override
     {
-        if (!hooked_into_initgamestate) {
-            Hook::RegisterInitGameStatePostCallback([&](AActor* Actor) {
-                this->OnSceneLoad();
-                });
-        }
-        
         APClient::Initialize();
 
         Hook::RegisterProcessEventPreCallback([&](UObject* object, UFunction* function, void* params) {
@@ -111,54 +100,6 @@ public:
 private:
     std::vector<BoundKey> m_boundKeys;
     std::unordered_set<int> m_pressedKeys;
-
-    // Called whenever an actor is spawned
-    auto on_begin_play(AActor* Actor) -> void
-    {
-        if (!hooked_into_collectible) {
-            if (Actor->GetName().starts_with(STR("BP_APCollectible"))) {
-                Output::send<LogLevel::Verbose>(STR("[{}] Found BP_APCollectible.\n"), ModName);
-
-                auto ReturnCheckLambda = [&](Unreal::UnrealScriptFunctionCallableContext& Context, void* CustomData) {
-                    ReturnCheckPrehook(Context, CustomData);
-                    };
-
-                auto ReturnCheckFunction = UObjectGlobals::StaticFindObject<UFunction*>(nullptr, nullptr, STR("/Game/Mods/AP_Randomizer/BP_APCollectible.BP_APCollectible_C:ReturnCheck"));
-                if (ReturnCheckFunction) {
-                    Unreal::UObjectGlobals::RegisterHook(ReturnCheckFunction, ReturnCheckLambda, ReturnCheckPosthook, nullptr);
-                    Output::send<LogLevel::Verbose>(STR("Hooked into ReturnCheck."), ModName);
-                    hooked_into_collectible = true;
-                }
-                else {
-                    Output::send<LogLevel::Error>(STR("BP_APCollectible was found, but had no function ReturnCheck.\n"), ModName);
-                }
-            }
-        }
-    }
-
-    static void APConnectPrehook(Unreal::UnrealScriptFunctionCallableContext& Context, void* CustomData) {
-        APClient::Connect("localhost:38281", "goat", "");
-    }
-
-    void ReturnCheckPrehook(Unreal::UnrealScriptFunctionCallableContext& Context, void* CustomData) {
-        struct ReturnCheckParams {
-            int64_t id;
-        };
-
-        auto& params = Context.GetParams<ReturnCheckParams>();
-        Output::send<LogLevel::Verbose>(STR("Obtained check with ID {}\n"), params.id);
-
-        UWorld* World = APGameManager::GetWorld();
-        APClient::SendCheck(params.id, World->GetName());
-    }
-
-    static void ReturnCheckPosthook(Unreal::UnrealScriptFunctionCallableContext& Context, void* CustomData) {
-        // Placeholder so the game doesn't crash when trying to run a ReturnCheck posthook.
-    }
-
-    void OnSceneLoad() {
-        Output::send<LogLevel::Verbose>(STR("InitGameState called."));
-    }
 };
 
 #define AP_RANDOMIZER_API __declspec(dllexport)
