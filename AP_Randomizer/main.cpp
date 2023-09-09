@@ -61,7 +61,7 @@ public:
         setup_keybinds();
 
         Hook::RegisterBeginPlayPostCallback([&](AActor* Actor) {
-            this->on_begin_play(Actor);
+            APGameManager::OnBeginPlay(Actor);
             });
     }
 
@@ -115,32 +115,6 @@ private:
     // Called whenever an actor is spawned
     auto on_begin_play(AActor* Actor) -> void
     {
-        if (Actor->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
-            Output::send<LogLevel::Verbose>(STR("[{}] Found BP_APRandomizerInstance.\n"), ModName);
-            UFunction* SpawnCollectibleFunction = Actor->GetFunctionByName(STR("AP_SpawnCollectible"));
-            UWorld* World = APGameManager::GetWorld();
-            Output::send<LogLevel::Verbose>(STR("Current world: {}\n"), World->GetName());
-
-            APClient::OnMapLoad(Actor, SpawnCollectibleFunction, World->GetName());
-
-            if (!hooked_into_apconnect) {
-                Unreal::UFunction* pAPTryConnectFunction = nullptr;
-                pAPTryConnectFunction = Actor->GetFunctionByName(STR("AP_TryConnect"));
-                if (pAPTryConnectFunction) {
-                    Unreal::UObjectGlobals::RegisterHook(pAPTryConnectFunction, APConnectPrehook, nullptr, nullptr);
-                    Output::send<LogLevel::Verbose>(STR("Hooked into AP_TryConnect."), ModName);
-                    hooked_into_apconnect = true;
-                }
-                else {
-                    Output::send<LogLevel::Error>(STR("APRandomizerInstance was found, but had no function AP_TryConnect.\n"), ModName);
-                }
-            }
-        }
-
-        if (Actor->GetName().starts_with(STR("BP_APCollectible"))) {
-            Output::send<LogLevel::Verbose>(STR("[{}] Found BP_APCollectible.\n"), ModName);
-        }
-
         if (!hooked_into_collectible) {
             if (Actor->GetName().starts_with(STR("BP_APCollectible"))) {
                 Output::send<LogLevel::Verbose>(STR("[{}] Found BP_APCollectible.\n"), ModName);

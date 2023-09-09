@@ -9,6 +9,7 @@ namespace Pseudoregalia_AP {
 	class APGameManager {
 	public:
 		static UWorld* GetWorld();
+		static void OnBeginPlay(AActor*);
 	private:
 	};
 }
