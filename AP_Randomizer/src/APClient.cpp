@@ -26,7 +26,7 @@ namespace Pseudoregalia_AP {
 
     std::map <std::wstring, std::vector<APCollectible>> APClient::zone_table;
     std::map<std::wstring, int> APClient::upgrade_table;
-    bool item_update_pending;
+    bool APClient::item_update_pending;
 
     struct CollectibleSpawnInfo {
         int64_t id;
