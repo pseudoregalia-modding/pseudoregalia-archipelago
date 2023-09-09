@@ -11,6 +11,7 @@ namespace Pseudoregalia_AP {
 		static void Connect(const char*, const char*, const char*);
 		static void SendCheck(int64_t, std::wstring);
 		static void OnMapLoad(AActor*, UFunction*, std::wstring);
+		static void PreProcessEvent(UObject*, UFunction*, void*);
 	private:
 		static void FillZoneTable();
 		static void ResetUpgradeTable();

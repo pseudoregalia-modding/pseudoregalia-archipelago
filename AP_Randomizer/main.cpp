@@ -53,6 +53,10 @@ public:
         
         APClient::Initialize();
 
+        Hook::RegisterProcessEventPreCallback([&](UObject* object, UFunction* function, void* params) {
+            APClient::PreProcessEvent(object, function, params);
+            });
+
         setup_keybinds();
 
         Hook::RegisterBeginPlayPostCallback([&](AActor* Actor) {

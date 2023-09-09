@@ -130,6 +130,17 @@ namespace Pseudoregalia_AP {
         }
     }
 
+    void APClient::PreProcessEvent(UObject* object, UFunction* function, void* params) {
+        if (!item_update_pending) {
+            return;
+        }
+
+        if (object->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
+            item_update_pending = false;
+            SyncItems();
+        }
+    }
+
     void APClient::SyncItems() {
         UObject* randomizer_blueprint = UObjectGlobals::FindFirstOf(STR("BP_APRandomizerInstance_C"));
         if (!randomizer_blueprint) {
