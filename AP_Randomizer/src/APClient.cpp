@@ -100,15 +100,21 @@ namespace Pseudoregalia_AP {
         APGameManager::QueueItemUpdate();
     }
 
-    void APClient::CheckLocation(int64_t) {
-    }
-
     void APClient::SendCheck(int64_t id, std::wstring current_world) {
         for (APCollectible &collectible : zone_table[current_world]) {
             if (collectible.GetID() == id) {
-                collectible.Check();
                 AP_SendItem(id);
+                // Archipelago will call CheckLocation itself
                 return;
+            }
+        }
+    }
+
+    void APClient::CheckLocation(int64_t id) {
+        std::wstring current_world = APGameManager::GetWorld()->GetName();
+        for (APCollectible& collectible : zone_table[current_world]) {
+            if (collectible.GetID() == id) {
+                collectible.Check();
             }
         }
     }
