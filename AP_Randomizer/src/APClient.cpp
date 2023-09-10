@@ -3,9 +3,6 @@
 #include <Mod/CppUserModBase.hpp>
 #include <DynamicOutput/DynamicOutput.hpp>
 
-using namespace RC;
-using namespace RC::Unreal;
-
 namespace Pseudoregalia_AP {
     const char* ip;
     const char* slot_name;
