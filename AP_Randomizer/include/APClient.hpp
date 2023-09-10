@@ -1,9 +1,8 @@
 #pragma once
+#include "DynamicOutput/DynamicOutput.hpp"
 #include "Archipelago.h"
-#include <Mod/CppUserModBase.hpp>
-#include <DynamicOutput/DynamicOutput.hpp>
-#include "APCollectible.hpp"
 #include "APGameManager.hpp"
+#include "APCollectible.hpp"
 
 namespace Pseudoregalia_AP {
 	class APClient {

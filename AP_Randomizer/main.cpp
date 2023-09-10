@@ -2,15 +2,8 @@
 #pragma once
 
 #include <Windows.h>
-#include <Mod/CppUserModBase.hpp>
-#include <DynamicOutput/DynamicOutput.hpp>
-#include <Unreal/UObjectGlobals.hpp>
-#include <Unreal/UObject.hpp>
-#include <Unreal/UFunction.hpp>
-#include <Unreal/AActor.hpp>
-#include <Unreal/UClass.hpp>
-#include <Unreal/World.hpp>
-#include "APClient.hpp"
+#include "Mod/CppUserModBase.hpp"
+#include "APClient.hpp" // Currently is only included to connect on keypress
 #include "APGameManager.hpp"
 
 using namespace RC;

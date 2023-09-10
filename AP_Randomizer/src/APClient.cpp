@@ -1,7 +1,5 @@
 #pragma once
 #include "APClient.hpp"
-#include <Mod/CppUserModBase.hpp>
-#include <DynamicOutput/DynamicOutput.hpp>
 
 namespace Pseudoregalia_AP {
     const char* ip;

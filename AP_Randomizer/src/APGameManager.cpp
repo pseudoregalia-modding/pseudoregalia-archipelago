@@ -1,6 +1,5 @@
 #pragma once
 #include "APGameManager.hpp"
-#include "APClient.hpp"
 
 namespace Pseudoregalia_AP {
 	bool APGameManager::hooked_into_returncheck;
