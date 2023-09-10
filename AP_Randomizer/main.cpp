@@ -44,7 +44,7 @@ public:
         APClient::Initialize();
 
         Hook::RegisterProcessEventPreCallback([&](UObject* object, UFunction* function, void* params) {
-            APClient::PreProcessEvent(object, function, params);
+            APGameManager::PreProcessEvent(object, function, params);
             });
 
         setup_keybinds();
