@@ -5,6 +5,11 @@
 namespace Pseudoregalia_AP {
 	bool APGameManager::hooked_into_returncheck;
 
+	struct CollectibleSpawnInfo {
+		int64_t id;
+		FVector position;
+	};
+	
 	UWorld* APGameManager::GetWorld() {
 		UObject* player_controller = UObjectGlobals::FindFirstOf(STR("PlayerController"));
 		return static_cast<AActor*>(player_controller)->GetWorld();
@@ -13,7 +18,7 @@ namespace Pseudoregalia_AP {
 	void APGameManager::OnBeginPlay(AActor* actor) {
 		if (actor->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
 			UFunction* spawn_function = actor->GetFunctionByName(STR("AP_SpawnCollectible"));
-			APClient::OnMapLoad(actor, spawn_function, GetWorld()->GetName());
+			OnMapLoad(actor, GetWorld());
 		}
 
 		if (!hooked_into_returncheck
@@ -21,6 +26,27 @@ namespace Pseudoregalia_AP {
 				RegisterReturnCheckHook(actor);
 				hooked_into_returncheck = true;
 		}
+	}
+
+	void APGameManager::OnMapLoad(AActor* randomizer_blueprint, UWorld* world) {
+		std::vector<APCollectible> collectible_vector = APClient::GetCurrentZoneCollectibles(world->GetName());
+		UFunction* spawn_function = randomizer_blueprint->GetFunctionByName(STR("AP_SpawnCollectible"));
+
+		for (APCollectible collectible : collectible_vector) {
+			if (collectible.IsChecked()) {
+				Output::send<LogLevel::Warning>(STR("Collectible with ID {} has already been sent"), collectible.GetID());
+				continue;
+			}
+			Output::send<LogLevel::Verbose>(STR("Spawned collectible with ID {}"), collectible.GetID());
+
+			CollectibleSpawnInfo new_info = {
+				collectible.GetID(),
+				collectible.GetPosition(),
+			};
+			randomizer_blueprint->ProcessEvent(spawn_function, &new_info);
+		}
+		// Resync items on map load so that players don't lose items after dying or resetting   
+		APClient::QueueItemUpdate();
 	}
 
 	void APGameManager::OnReturnCheck(Unreal::UnrealScriptFunctionCallableContext& context, void* customdata) {

@@ -14,6 +14,7 @@ namespace Pseudoregalia_AP {
 		static void OnBeginPlay(AActor*);
 	private:
 		static bool hooked_into_returncheck;
+		static void OnMapLoad(AActor*, UWorld*);
 		static void OnReturnCheck(Unreal::UnrealScriptFunctionCallableContext&, void*);
 		static void RegisterReturnCheckHook(AActor*);
 		static void EmptyFunction(Unreal::UnrealScriptFunctionCallableContext&, void*);
