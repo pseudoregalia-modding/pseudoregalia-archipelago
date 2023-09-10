@@ -1,5 +1,7 @@
 #pragma once
 #include "APGameManager.hpp"
+#include <string>
+#include <iostream>
 
 namespace Pseudoregalia_AP {
 	bool APGameManager::hooked_into_returncheck;
@@ -22,6 +24,11 @@ namespace Pseudoregalia_AP {
 	UWorld* APGameManager::GetWorld() {
 		UObject* player_controller = UObjectGlobals::FindFirstOf(STR("PlayerController"));
 		return static_cast<AActor*>(player_controller)->GetWorld();
+	}
+
+	void APGameManager::ProcessConsole(const Unreal::TCHAR* new_command) {
+		const wchar_t* command = new_command;
+		Output::send<LogLevel::Verbose>(STR("command: {}"), command);
 	}
 
 	void APGameManager::OnBeginPlay(AActor* actor) {

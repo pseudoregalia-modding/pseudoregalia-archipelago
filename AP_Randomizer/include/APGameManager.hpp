@@ -16,6 +16,7 @@ namespace Pseudoregalia_AP {
 		static void OnBeginPlay(AActor*);
 		static void PreProcessEvent(UObject*, UFunction*, void*);
 		static void QueueItemUpdate();
+		static void ProcessConsole(const Unreal::TCHAR*);
 	private:
 		static bool hooked_into_returncheck;
 		static bool item_update_pending;
