@@ -4,11 +4,21 @@
 
 namespace Pseudoregalia_AP {
 	bool APGameManager::hooked_into_returncheck;
+	bool APGameManager::item_update_pending;
 
 	struct CollectibleSpawnInfo {
 		int64_t id;
 		FVector position;
 	};
+
+	struct AddUpgradeInfo {
+		FName name;
+		int count;
+	};
+
+	void APGameManager::QueueItemUpdate() {
+		item_update_pending = true;
+	}
 	
 	UWorld* APGameManager::GetWorld() {
 		UObject* player_controller = UObjectGlobals::FindFirstOf(STR("PlayerController"));
@@ -46,7 +56,7 @@ namespace Pseudoregalia_AP {
 			randomizer_blueprint->ProcessEvent(spawn_function, &new_info);
 		}
 		// Resync items on map load so that players don't lose items after dying or resetting   
-		APClient::QueueItemUpdate();
+		QueueItemUpdate();
 	}
 
 	void APGameManager::OnReturnCheck(Unreal::UnrealScriptFunctionCallableContext& context, void* customdata) {
@@ -58,6 +68,36 @@ namespace Pseudoregalia_AP {
 
 		UWorld* world = APGameManager::GetWorld();
 		APClient::SendCheck(params.id, world->GetName());
+	}
+
+	void APGameManager::PreProcessEvent(UObject* object, UFunction* function, void* params) {
+		if (!item_update_pending) {
+			return;
+		}
+
+		// Running this on the randomizer instance's EventTick instead of finding it on any preprocess,
+		// to avoid any chance of this code being run before a randomizerinstance has been introduced to a scene.
+		// I'm not actually sure how necessary that is though.
+		if (object->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
+			item_update_pending = false;
+			UFunction* add_upgrade_function = object->GetFunctionByName(STR("AP_AddUpgrade"));
+			SyncItems(object, add_upgrade_function);
+		}
+	}
+
+	void APGameManager::SyncItems(UObject* randomizer_blueprint, UFunction* add_upgrade_function) {
+		std::map<std::wstring, int> upgrade_table = APClient::GetUpgradeTable();
+
+		for (auto const& pair : upgrade_table) {
+			FName new_name = *new FName(pair.first);
+
+			AddUpgradeInfo params = {
+				new_name,
+				pair.second,
+			};
+			Output::send<LogLevel::Verbose>(STR("Attempting to add {} with value {}..."), pair.first, pair.second);
+			randomizer_blueprint->ProcessEvent(add_upgrade_function, &params);
+		}
 	}
 
 	void APGameManager::RegisterReturnCheckHook(AActor* collectible) {

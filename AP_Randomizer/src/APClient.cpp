@@ -26,24 +26,9 @@ namespace Pseudoregalia_AP {
 
     std::map <std::wstring, std::vector<APCollectible>> APClient::zone_table;
     std::map<std::wstring, int> APClient::upgrade_table;
-    bool APClient::item_update_pending;
 
-    struct CollectibleSpawnInfo {
-        int64_t id;
-        FVector position;
-        bool valid;
-
-        void FillSpawnInfo(int64_t, FVector);
-    };
-
-    struct AddUpgradeInfo {
-        FName name;
-        int count;
-    };
-
-    void CollectibleSpawnInfo::FillSpawnInfo(int64_t new_id, FVector new_position) {
-        id = new_id;
-        position = new_position;
+    std::map<std::wstring, int> APClient::GetUpgradeTable() {
+        return upgrade_table;
     }
 
     void APClient::FillZoneTable() {
@@ -92,10 +77,13 @@ namespace Pseudoregalia_AP {
         };
     }
 
+    std::vector<APCollectible> APClient::GetCurrentZoneCollectibles(std::wstring world_name) {
+        return zone_table[world_name];
+    }
+
     void APClient::Initialize() {
         FillZoneTable();
         ResetUpgradeTable();
-        item_update_pending = false;
     }
 
     void APClient::Connect(const char* new_ip, const char* new_slot_name, const char* new_password) {
@@ -114,7 +102,7 @@ namespace Pseudoregalia_AP {
     void APClient::ReceiveItem(int64_t new_item_id, bool notify) {
         upgrade_table[lookup_id_to_item[new_item_id]] ++;
         Output::send<LogLevel::Verbose>(STR("Set {} to {}"), lookup_id_to_item[new_item_id], upgrade_table[lookup_id_to_item[new_item_id]]);
-        item_update_pending = true;
+        APGameManager::QueueItemUpdate();
     }
 
     void APClient::CheckLocation(int64_t) {
@@ -128,67 +116,5 @@ namespace Pseudoregalia_AP {
                 return;
             }
         }
-    }
-
-    void APClient::PreProcessEvent(UObject* object, UFunction* function, void* params) {
-        if (!item_update_pending) {
-            return;
-        }
-
-        if (object->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
-            item_update_pending = false;
-
-            UFunction* add_upgrade_function = object->GetFunctionByName(STR("AP_AddUpgrade"));
-            if (!add_upgrade_function) {
-                // TODO: Make this set a timer to resync instead of just returning
-                // Also I seriously doubt this is actually necessary but whatever
-                Output::send<LogLevel::Error>(STR("An item sync was requested, but the function AP_AddUpgrade() could not be found."));
-                return;
-            }
-
-            SyncItems(object, add_upgrade_function);
-        }
-    }
-
-    void APClient::SyncItems(UObject* randomizer_blueprint, UFunction* add_upgrade_function) {
-        Output::send<LogLevel::Verbose>(STR("Calling SyncItems..."));
-
-        for (auto const& pair : upgrade_table)
-        {
-            FName new_name = *new FName(pair.first);
-
-            AddUpgradeInfo params = {
-                new_name,
-                pair.second,
-            };
-            Output::send<LogLevel::Verbose>(STR("Attempting to add {} with value {}..."), pair.first, pair.second);
-
-            randomizer_blueprint->ProcessEvent(add_upgrade_function, &params);
-        }
-    }
-
-    void APClient::OnMapLoad(AActor* randomizer_blueprint, UFunction* spawn_function, std::wstring world_name) {
-        if (!zone_table.count(world_name)) {
-            return;
-        }
-
-        for (APCollectible collectible : zone_table[world_name]) {
-            if (collectible.IsChecked()) {
-                Output::send<LogLevel::Warning>(STR("Collectible with ID {} has already been sent"), collectible.GetID());
-                continue;
-            }
-            Output::send<LogLevel::Verbose>(STR("Spawned collectible with ID {}"), collectible.GetID());
-
-            CollectibleSpawnInfo new_info = {
-                collectible.GetID(),
-                collectible.GetPosition(),
-                false
-            };
-
-            randomizer_blueprint->ProcessEvent(spawn_function, &new_info);
-        }
-
-        // Resync items on map load so that players don't lose items after dying or resetting   
-        item_update_pending = true;
     }
 }
