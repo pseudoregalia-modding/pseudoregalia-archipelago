@@ -3,12 +3,12 @@
 #include <print>
 #include <string>
 
-
 namespace Pseudoregalia_AP {
+	const char APConsoleManager::DELIM = ' ';
+
 	void APConsoleManager::ProcessCommand(const Unreal::TCHAR* new_command) {
 		std::string command = ConvertTcharToString(new_command);
-		std::string delimiter = " ";
-		std::string first_word = command.substr(0, command.find(delimiter));
+		std::string first_word = command.substr(0, command.find(DELIM));
 
 		transform(
 			first_word.begin(), first_word.end(),
@@ -16,11 +16,11 @@ namespace Pseudoregalia_AP {
 			tolower);
 
 		if (first_word == "connect") {
-			if (command.find(delimiter) == std::string::npos) {
+			if (command.find(DELIM) == std::string::npos) {
 				std::cout << "Please provide an address.\n";
 				return;
 			}
-			command.erase(0, command.find(delimiter) + delimiter.length());
+			command.erase(0, command.find(DELIM) + 1);
 			std::cout << command << "\n";
 			APConsoleManager::ParseConnect(command);
 		}
@@ -40,7 +40,6 @@ namespace Pseudoregalia_AP {
 			return;
 		}
 
-		std::string delimiter = " ";
-		std::string ip = args.substr(0, args.find(delimiter));
+		std::string ip = args.substr(0, args.find(DELIM));
 	}
 }

@@ -10,5 +10,6 @@ namespace Pseudoregalia_AP {
 	private:
 		static std::string ConvertTcharToString(const Unreal::TCHAR*);
 		static void ParseConnect(std::string args);
+		static const char DELIM;
 	};
 }
