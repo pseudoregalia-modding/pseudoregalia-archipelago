@@ -26,17 +26,6 @@ namespace Pseudoregalia_AP {
 		return static_cast<AActor*>(player_controller)->GetWorld();
 	}
 
-	void APGameManager::ProcessConsole(const Unreal::TCHAR* new_command) {
-		std::string command = ConvertTcharToString(new_command);
-	}
-
-	std::string APGameManager::ConvertTcharToString(const Unreal::TCHAR* tchars) {
-		char* new_chars = new char[wcslen(tchars)];
-		std::wcstombs(new_chars, tchars, wcslen(tchars));
-		std::string new_string = new_chars;
-		return new_string;
-	}
-
 	void APGameManager::OnBeginPlay(AActor* actor) {
 		if (actor->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
 			UFunction* spawn_function = actor->GetFunctionByName(STR("AP_SpawnCollectible"));

@@ -5,6 +5,7 @@
 #include "Mod/CppUserModBase.hpp"
 #include "APClient.hpp" // Currently is only included to connect on keypress
 #include "APGameManager.hpp"
+#include "APConsoleManager.hpp"
 
 using namespace RC;
 using namespace RC::Unreal;
@@ -43,7 +44,7 @@ public:
         Hook::RegisterProcessConsoleExecCallback([&](UObject* object, const Unreal::TCHAR* command, FOutputDevice& Ar, UObject* executor) -> bool {
             if (command[0] == '/' || command[0] == '!') {
                 command++; // Exclude the first character from the array
-                APGameManager::ProcessConsole(command);
+                APConsoleManager::ProcessCommand(command);
             }
             return PropogateCommand(command);
             });

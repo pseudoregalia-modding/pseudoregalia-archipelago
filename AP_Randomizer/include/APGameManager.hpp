@@ -16,7 +16,7 @@ namespace Pseudoregalia_AP {
 		static void OnBeginPlay(AActor*);
 		static void PreProcessEvent(UObject*, UFunction*, void*);
 		static void QueueItemUpdate();
-		static void ProcessConsole(const Unreal::TCHAR*);
+		
 	private:
 		static bool hooked_into_returncheck;
 		static bool item_update_pending;
@@ -25,6 +25,5 @@ namespace Pseudoregalia_AP {
 		static void RegisterReturnCheckHook(AActor*);
 		static void EmptyFunction(Unreal::UnrealScriptFunctionCallableContext&, void*);
 		static void SyncItems(UObject*, UFunction*);
-		static std::string ConvertTcharToString(const Unreal::TCHAR*);
 	};
 }
