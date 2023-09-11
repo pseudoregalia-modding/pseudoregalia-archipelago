@@ -41,7 +41,9 @@ public:
             });
 
         Hook::RegisterProcessConsoleExecCallback([&](UObject* object, const Unreal::TCHAR* command, FOutputDevice& Ar, UObject* executor) -> bool {
-            APGameManager::ProcessConsole(command);
+            if (command[0] == '/' || command[0] == '!') {
+                APGameManager::ProcessConsole(command);
+            }
             return PropogateCommand(command);
             });
 
