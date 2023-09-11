@@ -8,8 +8,9 @@ namespace Pseudoregalia_AP {
 	public:
 		static void ProcessCommand(const Unreal::TCHAR*);
 	private:
-		static std::string ConvertTcharToString(const Unreal::TCHAR*);
-		static void ParseConnect(std::string args);
 		static const char DELIM;
+		static void ParseConnect(std::string);
+		static std::string GetNextToken(std::string&);
+		static std::string ConvertTcharToString(const Unreal::TCHAR*);
 	};
 }
