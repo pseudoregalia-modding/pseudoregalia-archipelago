@@ -2,16 +2,10 @@
 #pragma once
 
 #include <Windows.h>
-#include <Mod/CppUserModBase.hpp>
-#include <DynamicOutput/DynamicOutput.hpp>
-#include <Unreal/UObjectGlobals.hpp>
-#include <Unreal/UObject.hpp>
-#include <Unreal/UFunction.hpp>
-#include <Unreal/AActor.hpp>
-#include <Unreal/UClass.hpp>
-#include <Unreal/World.hpp>
-#include "APClient.hpp"
+#include "Mod/CppUserModBase.hpp"
+#include "APClient.hpp" // Currently is only included to connect on keypress
 #include "APGameManager.hpp"
+#include "APConsoleManager.hpp"
 
 using namespace RC;
 using namespace RC::Unreal;
@@ -44,7 +38,16 @@ public:
         APClient::Initialize();
 
         Hook::RegisterProcessEventPreCallback([&](UObject* object, UFunction* function, void* params) {
-            APClient::PreProcessEvent(object, function, params);
+            APGameManager::PreProcessEvent(object, function, params);
+            });
+
+        Hook::RegisterProcessConsoleExecCallback([&](UObject* object, const Unreal::TCHAR* command, FOutputDevice& Ar, UObject* executor) -> bool {
+            if (command[0] == '/' || command[0] == '!') {
+                command++; // Exclude the first character from the array
+                APConsoleManager::ProcessCommand(command);
+                return true;
+            }
+            return PropogateCommand(command);
             });
 
         setup_keybinds();
@@ -54,6 +57,15 @@ public:
             });
     }
 
+    bool PropogateCommand(const Unreal::TCHAR* command) {
+        // Some console commands do dramatic things like crash on command or simulating debug scenarios.
+        // Only "reconnect" and "disconnect" are forbidden from propogating for now since they're easy to mistakenly enter.
+        // I haven't decided yet whether more obscure commands should be eaten here as well.
+        if (*command == *STR("disconnect") || *command == *STR("reconnect")) {
+            return true;
+        }
+        return false;
+    }
 
     auto bind_key(const int& keyCode, const std::function<void()>& callback) -> void {
         BoundKey newBoundKey{

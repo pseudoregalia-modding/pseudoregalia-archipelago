@@ -1,10 +1,5 @@
 #pragma once
 #include "APClient.hpp"
-#include <Mod/CppUserModBase.hpp>
-#include <DynamicOutput/DynamicOutput.hpp>
-
-using namespace RC;
-using namespace RC::Unreal;
 
 namespace Pseudoregalia_AP {
     const char* ip;
@@ -95,25 +90,31 @@ namespace Pseudoregalia_AP {
     }
 
     void APClient::ClearItems() {
-        Output::send<LogLevel::Verbose>(STR("Calling ClearItems..."));
+        Output::send<LogLevel::Verbose>(STR("Calling ClearItems...\n"));
         ResetUpgradeTable();
     }
 
     void APClient::ReceiveItem(int64_t new_item_id, bool notify) {
         upgrade_table[lookup_id_to_item[new_item_id]] ++;
-        Output::send<LogLevel::Verbose>(STR("Set {} to {}"), lookup_id_to_item[new_item_id], upgrade_table[lookup_id_to_item[new_item_id]]);
+        Output::send<LogLevel::Verbose>(STR("Set {} to {}\n"), lookup_id_to_item[new_item_id], upgrade_table[lookup_id_to_item[new_item_id]]);
         APGameManager::QueueItemUpdate();
-    }
-
-    void APClient::CheckLocation(int64_t) {
     }
 
     void APClient::SendCheck(int64_t id, std::wstring current_world) {
         for (APCollectible &collectible : zone_table[current_world]) {
             if (collectible.GetID() == id) {
-                collectible.Check();
                 AP_SendItem(id);
+                // Archipelago will call CheckLocation itself
                 return;
+            }
+        }
+    }
+
+    void APClient::CheckLocation(int64_t id) {
+        std::wstring current_world = APGameManager::GetWorld()->GetName();
+        for (APCollectible& collectible : zone_table[current_world]) {
+            if (collectible.GetID() == id) {
+                collectible.Check();
             }
         }
     }

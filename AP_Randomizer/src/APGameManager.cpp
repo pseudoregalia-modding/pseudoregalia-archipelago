@@ -1,6 +1,7 @@
 #pragma once
 #include "APGameManager.hpp"
-#include "APClient.hpp"
+#include <string>
+#include <iostream>
 
 namespace Pseudoregalia_AP {
 	bool APGameManager::hooked_into_returncheck;
@@ -44,10 +45,10 @@ namespace Pseudoregalia_AP {
 
 		for (APCollectible collectible : collectible_vector) {
 			if (collectible.IsChecked()) {
-				Output::send<LogLevel::Warning>(STR("Collectible with ID {} has already been sent"), collectible.GetID());
+				Output::send<LogLevel::Warning>(STR("Collectible with ID {} has already been sent\n"), collectible.GetID());
 				continue;
 			}
-			Output::send<LogLevel::Verbose>(STR("Spawned collectible with ID {}"), collectible.GetID());
+			Output::send<LogLevel::Verbose>(STR("Spawned collectible with ID {}\n"), collectible.GetID());
 
 			CollectibleSpawnInfo new_info = {
 				collectible.GetID(),
@@ -95,7 +96,7 @@ namespace Pseudoregalia_AP {
 				new_name,
 				pair.second,
 			};
-			Output::send<LogLevel::Verbose>(STR("Attempting to add {} with value {}..."), pair.first, pair.second);
+			Output::send<LogLevel::Verbose>(STR("Attempting to add {} with value {}...\n"), pair.first, pair.second);
 			randomizer_blueprint->ProcessEvent(add_upgrade_function, &params);
 		}
 	}
