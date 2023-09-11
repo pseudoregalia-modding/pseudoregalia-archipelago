@@ -42,6 +42,7 @@ public:
 
         Hook::RegisterProcessConsoleExecCallback([&](UObject* object, const Unreal::TCHAR* command, FOutputDevice& Ar, UObject* executor) -> bool {
             if (command[0] == '/' || command[0] == '!') {
+                command++; // Exclude the first character from the array
                 APGameManager::ProcessConsole(command);
             }
             return PropogateCommand(command);
