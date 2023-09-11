@@ -27,8 +27,14 @@ namespace Pseudoregalia_AP {
 	}
 
 	void APGameManager::ProcessConsole(const Unreal::TCHAR* new_command) {
-		const wchar_t* command = new_command;
-		Output::send<LogLevel::Verbose>(STR("command: {}"), command);
+		std::string command = ConvertTcharToString(new_command);
+	}
+
+	std::string APGameManager::ConvertTcharToString(const Unreal::TCHAR* tchars) {
+		char* new_chars = new char[wcslen(tchars)];
+		std::wcstombs(new_chars, tchars, wcslen(tchars));
+		std::string new_string = new_chars;
+		return new_string;
 	}
 
 	void APGameManager::OnBeginPlay(AActor* actor) {

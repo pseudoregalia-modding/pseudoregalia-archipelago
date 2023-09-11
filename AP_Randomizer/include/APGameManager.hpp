@@ -25,5 +25,6 @@ namespace Pseudoregalia_AP {
 		static void RegisterReturnCheckHook(AActor*);
 		static void EmptyFunction(Unreal::UnrealScriptFunctionCallableContext&, void*);
 		static void SyncItems(UObject*, UFunction*);
+		static std::string ConvertTcharToString(const Unreal::TCHAR*);
 	};
 }
