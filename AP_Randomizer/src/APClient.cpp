@@ -90,13 +90,13 @@ namespace Pseudoregalia_AP {
     }
 
     void APClient::ClearItems() {
-        Output::send<LogLevel::Verbose>(STR("Calling ClearItems..."));
+        Output::send<LogLevel::Verbose>(STR("Calling ClearItems...\n"));
         ResetUpgradeTable();
     }
 
     void APClient::ReceiveItem(int64_t new_item_id, bool notify) {
         upgrade_table[lookup_id_to_item[new_item_id]] ++;
-        Output::send<LogLevel::Verbose>(STR("Set {} to {}"), lookup_id_to_item[new_item_id], upgrade_table[lookup_id_to_item[new_item_id]]);
+        Output::send<LogLevel::Verbose>(STR("Set {} to {}\n"), lookup_id_to_item[new_item_id], upgrade_table[lookup_id_to_item[new_item_id]]);
         APGameManager::QueueItemUpdate();
     }
 
