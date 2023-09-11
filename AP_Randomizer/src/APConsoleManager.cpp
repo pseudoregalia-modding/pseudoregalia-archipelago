@@ -21,6 +21,7 @@ namespace Pseudoregalia_AP {
 	std::string APConsoleManager::ConvertTcharToString(const Unreal::TCHAR* tchars) {
 		char* new_chars = new char[wcslen(tchars)];
 		std::wcstombs(new_chars, tchars, wcslen(tchars));
+		new_chars[wcslen(tchars)] = 0;
 		std::string new_string = new_chars;
 		return new_string;
 	}
