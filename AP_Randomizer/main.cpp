@@ -45,6 +45,7 @@ public:
             if (command[0] == '/' || command[0] == '!') {
                 command++; // Exclude the first character from the array
                 APConsoleManager::ProcessCommand(command);
+                return true;
             }
             return PropogateCommand(command);
             });
