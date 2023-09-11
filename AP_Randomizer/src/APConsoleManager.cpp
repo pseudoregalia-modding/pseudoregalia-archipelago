@@ -35,11 +35,34 @@ namespace Pseudoregalia_AP {
 	}
 
 	void APConsoleManager::ParseConnect(std::string args) {
+		while (args[0] == DELIM) {
+			args.erase(args.begin());
+		}
 		if (args.empty()) {
-			std::cout << "Please provide an address.\n";
+			std::cout << "Please provide an ip address, slot name, and (if necessary) password.\n";
 			return;
 		}
-
 		std::string ip = args.substr(0, args.find(DELIM));
+		args.erase(0, args.find(DELIM));
+		std::cout << "ip:" << ip << "\n";
+
+		while (args[0] == DELIM) {
+			args.erase(args.begin());
+		}
+		if (args.empty()) {
+			std::cout << "Please provide a slot name and (if necessary) password.\n";
+			return;
+		}
+		std::string slot_name = args.substr(0, args.find(DELIM));
+		args.erase(0, args.find(DELIM));
+		std::cout << "slot name:" << slot_name << "\n";
+		
+		while (args[0] == DELIM) {
+			args.erase(args.begin());
+		}
+		std::string password = args.substr(0, args.find(DELIM));
+		std::cout << "password:" << password << "\n";
+
+		APClient::Connect(ip.c_str(), slot_name.c_str(), password.c_str());
 	}
 }
