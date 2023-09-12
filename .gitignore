@@ -2,3 +2,8 @@
 #########################################
 AP_Randomizer\apworld\BaseClasses.py
 AP_Randomizer\apworld\worlds
+
+# Visual Studio folders
+.vs/
+out/
+Output/
