@@ -1,5 +1,11 @@
 from BaseClasses import CollectionState, MultiWorld
 
+# Placed for better legibility since dream breaker is an exclusive requirement for breakable walls
+
+
+def has_breaker(state: CollectionState, player: int) -> bool:
+    return state.has(state, "Dream breaker", player)
+
 
 def can_bounce(state: CollectionState, player: int) -> bool:
     return state.has_all(state, {"Dream Breaker", "Ascendant Light"}, player)
