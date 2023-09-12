@@ -17,3 +17,11 @@ def get_kicks(state: CollectionState, player: int) -> int:
         kicks += 3
     kicks += state.count(state, "Sun Greaves", player)
     return kicks
+
+
+def has_small_keys(state: CollectionState, player: int) -> bool:
+    return (state.count(state, "Small Key", player) >= 6)
+
+
+def navigate_darkrooms(state: CollectionState, player: int) -> bool:
+    return (state.has(state, "Dream Breaker", player) or state.has(state, "Ascendant Light", player))
