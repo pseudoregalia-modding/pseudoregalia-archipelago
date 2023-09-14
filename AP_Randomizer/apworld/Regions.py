@@ -22,10 +22,10 @@ region_table: Dict[str, List[RegionExit]] = {
                                  RegionExit("Dungeon By Slide", has_breaker)],
     "Dungeon By Slide": [RegionExit("Dungeon First Save Point", has_breaker),
                          RegionExit("Dungeon Near Strong Eyes",
-                                    lambda state, player: state.has(state, "Slide", player)),
+                                    lambda state, player: state.has("Slide", player)),
                          RegionExit("Dungeon Escape Lower", has_breaker)],
     "Dungeon Near Strong Eyes": [RegionExit("Dungeon By Slide",
-                                            lambda state, player: state.has(state, "Slide", player)),
+                                            lambda state, player: state.has("Slide", player)),
                                  RegionExit("Dungeon To Castle", has_small_keys)],
     "Dungeon To Castle": [RegionExit("The Mirror"),
                           RegionExit("Castle Halls")],
@@ -33,8 +33,8 @@ region_table: Dict[str, List[RegionExit]] = {
                              RegionExit("Dungeon Escape Upper",
                                         lambda state, player:
                                         any(
-                                            can_bounce(state, player),
-                                            state.has(state, "Sunsetter", player) and get_kicks == 2,
+                                            can_bounce(player),
+                                            state.has("Sunsetter", player) and get_kicks(state, player) >= 2,
                                             # state.has(state, "Cling Gem", player)
                                         )),
                              # underbelly exit
