@@ -42,4 +42,25 @@ region_table: Dict[str, List[RegionExit]] = {
     "Dungeon Escape Upper": [RegionExit("Dungeon Escape Lower"),
                              # theatre exit
                              ],
+
+    "Castle Halls": [RegionExit("Dungeon To Castle"),
+                     # library exit
+                     # keep exit open
+                     # keep exit to cyuiyce goat
+                     # keep exit locked
+                     # bailey exit
+                     RegionExit("Castle To Theatre",
+                                # rule for "player can reach Castle Through Bubble Rooms" ??
+                                ),
+                     RegionExit("Castle Through Bubble Rooms",
+                                lambda state, player:
+                                any(
+                                    get_kicks(state, player) >= 3,
+                                    get_kicks(state, player) >= 1 and state.has_all(
+                                        ["Slide", "Solar Wind", "Sunsetter"], player)
+                                ))],
+    "Castle Through Bubble Rooms": [RegionExit("Castle Halls"),
+                                    # theatre exit
+                                    ],
+
 }
