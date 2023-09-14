@@ -36,6 +36,10 @@ region_table: Dict[str, List[RegionExit]] = {
                                             can_bounce(state, player),
                                             state.has(state, "Sunsetter", player) and get_kicks == 2,
                                             # state.has(state, "Cling Gem", player)
-                                        ))],
-    "Dungeon Escape Upper": [RegionExit("Dungeon Escape Lower")],
+                                        )),
+                             # underbelly exit
+                             ],
+    "Dungeon Escape Upper": [RegionExit("Dungeon Escape Lower"),
+                             # theatre exit
+                             ],
 }
