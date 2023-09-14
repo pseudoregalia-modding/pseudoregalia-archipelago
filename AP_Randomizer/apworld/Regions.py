@@ -17,14 +17,14 @@ class RegionExit(NamedTuple):
 
 region_table: Dict[str, List[RegionExit]] = {
     "Menu": [RegionExit("The Mirror")],
-    "The Mirror": [RegionExit("Dungeon: First Save Point", has_breaker)],
+    "The Mirror": [RegionExit("Dungeon First Save Point", has_breaker)],
     "Dungeon First Save Point": [RegionExit("The Mirror", has_breaker),
                                  RegionExit("Dungeon By Slide", has_breaker)],
     "Dungeon By Slide": [RegionExit("Dungeon First Save Point", has_breaker),
                          RegionExit("Dungeon Near Strong Eyes",
                                     lambda state, player: state.has(state, "Slide", player)),
                          RegionExit("Dungeon Escape Lower", has_breaker)],
-    "Dungeon Near Strong Eyes": [RegionExit("Dungeon Near Slide",
+    "Dungeon Near Strong Eyes": [RegionExit("Dungeon By Slide",
                                             lambda state, player: state.has(state, "Slide", player)),
                                  RegionExit("Dungeon By Castle", has_small_keys)],
     "Dungeon By Castle": [RegionExit("The Mirror"),
