@@ -1,6 +1,11 @@
-from typing import NamedTuple, Callable, Dict, List
+from typing import NamedTuple, Callable, Dict, List, Optional
 from BaseClasses import CollectionState
 from Rules import has_breaker, can_bounce, get_kicks, has_small_keys, navigate_darkrooms
+
+
+class PseudoregaliaRegionData(NamedTuple):
+    locations: Optional[List[str]]
+    region_exits: Optional[List[str]]
 
 
 class RegionExit(NamedTuple):
