@@ -6,11 +6,13 @@ from Rules import has_breaker, can_bounce, get_kicks, has_small_keys, navigate_d
 class PseudoregaliaRegionData(NamedTuple):
     locations: Optional[List[str]]
     region_exits: Optional[List[str]]
+    is_darkroom: bool = False
 
 
 class RegionExit(NamedTuple):
     region: str
     access_rule: Callable[[CollectionState, int], bool] = lambda state, player: True
+    breakable_wall: bool = False
 
 
 region_table: Dict[str, List[RegionExit]] = {
