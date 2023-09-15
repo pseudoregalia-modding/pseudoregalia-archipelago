@@ -12,14 +12,15 @@ class RegionExit(NamedTuple):
 region_table: Dict[str, List[RegionExit]] = {
     "Menu": [RegionExit("Dungeon Mirror")],
     "Dungeon Mirror": [RegionExit("Dungeon Strong Eyes",
-                                  lambda state, player: state.has("Slide", player)),
+                                  lambda state, player:
+                                  state.has("Slide", player) and has_breaker(state, player)),
                        RegionExit("Underbelly Main", has_breaker),
                        RegionExit("Theatre Main",
                                   lambda state, player:
                                   any(
-                                      get_kicks >= 3,
-                                      state.has("Cling Gem"),
-                                      can_slidejump and get_kicks >= 1,
+                                      get_kicks >= 3 and has_breaker,
+                                      state.has("Cling Gem", player) and has_breaker,
+                                      can_slidejump and get_kicks >= 1 and has_breaker,
                                       can_bounce,
                                   )
                                   )],
@@ -58,8 +59,8 @@ region_table: Dict[str, List[RegionExit]] = {
                   RegionExit("Theatre Main",
                              lambda state, player:
                              any(
-                                 state.has("Cling Gem") and get_kicks >= 3,
-                                 state.has("Cling Gem") and can_slidejump,
+                                 state.has("Cling Gem", player) and get_kicks >= 3,
+                                 state.has("Cling Gem", player) and can_slidejump,
                              ))],
     "Keep Sunsetter": [],
     "Empty Bailey": [RegionExit("Castle Sansa"),
@@ -75,8 +76,13 @@ region_table: Dict[str, List[RegionExit]] = {
                                  lambda state, player: state.has("Sunsetter", player)),
                       RegionExit("The Great Door",
                                  lambda state, player:
-                                 state.has("Cling Gem") and get_kicks >= 3)],
-    "Underbelly Main": [RegionExit("Empty Bailey")],
+                                 state.has("Cling Gem", player) and get_kicks >= 3)],
+    "Underbelly Main": [RegionExit("Empty Bailey",
+                                   lambda state, player:
+                                   any(
+                                       has_breaker(state, player),
+                                       state.has("Sunsetter", player),
+                                   ))],
     "Underbelly Hole": [RegionExit("Underbelly Main",
                                    lambda state, player: state.has("Sunsetter", player))],  # I don't actually know what this is.
     "Theatre Main": [RegionExit("Keep Main",
