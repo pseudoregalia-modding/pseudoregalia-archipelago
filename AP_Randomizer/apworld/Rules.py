@@ -4,7 +4,7 @@ from BaseClasses import CollectionState, MultiWorld
 
 
 def has_breaker(state: CollectionState, player: int) -> bool:
-    return state.has(state, "Dream breaker", player)
+    return state.has(state, "Dream Breaker", player)
 
 
 def can_bounce(state: CollectionState, player: int) -> bool:
