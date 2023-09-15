@@ -25,3 +25,7 @@ def has_small_keys(state: CollectionState, player: int) -> bool:
 
 def navigate_darkrooms(state: CollectionState, player: int) -> bool:
     return (state.has(state, "Dream Breaker", player) or state.has(state, "Ascendant Light", player))
+
+
+def can_slidejump(state: CollectionState, player: int) -> bool:
+    return (state.has_all(state, ["Slide", "Solar Wind"]))
