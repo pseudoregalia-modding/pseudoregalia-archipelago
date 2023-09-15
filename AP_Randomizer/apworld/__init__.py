@@ -1,5 +1,5 @@
 from worlds.AutoWorld import World
-from BaseClasses import Region
+from BaseClasses import Region, Location
 from .Items import PseudoregaliaItem, PseudoregaliaItemData, item_table
 from .Locations import location_table
 from .Regions import region_table
@@ -21,7 +21,9 @@ class PseudoregaliaWorld(World):
         for region_name in region_table.keys():
             self.multiworld.regions.append(Region(region_name, self.player, self.multiworld))
 
-        # TODO: assign locations
+        for loc_name, loc_data in location_table.items():
+            region = self.multiworld.get_region(loc_data.region, self.player)
+            region.locations.append(Location(self.player, loc_name, loc_data.code, region))
 
         for region_name, exit_list in region_table.items():
             region = self.multiworld.get_region(region_name, self.player)
