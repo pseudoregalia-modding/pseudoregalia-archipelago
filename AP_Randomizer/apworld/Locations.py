@@ -14,11 +14,14 @@ class PseudoregaliaLocationData(NamedTuple):
 location_table = {
     "Dungeon - Dream Breaker": PseudoregaliaLocationData(
         # Dream Breaker can't really be shuffled right now but I would like to later
-        code=2365810001,),
+        code=2365810001,
+        region="The Mirror"),
     "Dungeon - Slide": PseudoregaliaLocationData(
-        code=2365810002,),
+        code=2365810002,
+        region="Dungeon By Slide"),
     "Castle - Indignation": PseudoregaliaLocationData(
-        code=2365810003,),
+        code=2365810003,
+        region="Castle Halls"),
     "Keep - Sunsetter": PseudoregaliaLocationData(
         code=2365810004,),
     "Keep - Strikebreak": PseudoregaliaLocationData(
