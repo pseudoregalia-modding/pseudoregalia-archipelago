@@ -42,4 +42,20 @@ item_table: Dict[str, PseudoregaliaItemData] = {
     "Soul Cutter": PseudoregaliaItemData(
         code=2365810010,
         classification=ItemClassification.progression),
+
+    "Major Key - Empty Bailey": PseudoregaliaItemData(
+        code=2365810011,
+        classification=ItemClassification.progression),
+    "Major Key - The Underbelly": PseudoregaliaItemData(
+        code=2365810012,
+        classification=ItemClassification.progression),
+    "Major Key - Tower Remains": PseudoregaliaItemData(
+        code=2365810013,
+        classification=ItemClassification.progression),
+    "Major Key - Sansa Keep": PseudoregaliaItemData(
+        code=2365810014,
+        classification=ItemClassification.progression),
+    "Major Key - Twilight Theatre": PseudoregaliaItemData(
+        code=2365810015,
+        classification=ItemClassification.progression),
 }
