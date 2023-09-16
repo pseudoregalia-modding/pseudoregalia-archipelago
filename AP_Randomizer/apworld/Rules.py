@@ -54,7 +54,7 @@ location_rules: Dict[str, Callable[[CollectionState, int], bool]] = {
         any([
             state.has("Slide", player) and has_breaker(state, player),
             state.has("Cling Gem", player) and has_breaker(state, player),
-            get_kicks(state, player) >= 4,
+            # get_kicks(state, player) >= 4, Heliacal isn't shuffled yet
             can_slidejump(state, player),
         ]),
     "Theatre - Soul Cutter": can_strikebreak,

@@ -39,7 +39,8 @@ region_table: Dict[str, List[RegionExit]] = {
                                 lambda state, player:
                                 any([
                                     state.has("Cling Gem", player),
-                                    can_slidejump(state, player) and get_kicks(state, player) >= 4,
+                                    # can_slidejump(state, player) and get_kicks(state, player) >= 4,
+                                    # Heliacal isn't shuffled yet
                                 ]))],
     "Library Main": [RegionExit("Library Locked", has_small_keys)],
     "Library Locked": [],  # There's no point in connecting this back to library main.
@@ -91,7 +92,8 @@ region_table: Dict[str, List[RegionExit]] = {
                                   lambda state, player:
                                   any([
                                       state.has_all(["Sunsetter", "Cling Gem"], player),
-                                      state.has("Sunsetter", player) and get_kicks(state, player) >= 4,
+                                      # state.has("Sunsetter", player) and get_kicks(state, player) >= 4,
+                                      # Heliacal isn't shuffled yet
                                   ]))],
     "The Great Door": [],
 }
