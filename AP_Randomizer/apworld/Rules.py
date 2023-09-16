@@ -40,7 +40,7 @@ def can_soulcutter(state: CollectionState, player: int) -> bool:
     return (state.has_all(["Dream Breaker", "Strikebreak", "Soul Cutter"]))
 
 
-location_rules: Dict(str, Callable[[CollectionState, int], bool]) = {
+location_rules: Dict[str, Callable[[CollectionState, int], bool]] = {
     "Dungeon - Slide": has_breaker,
     "Keep - Sunsetter": has_breaker,
     "Keep - Strikebreak": lambda state, player:
