@@ -1,5 +1,5 @@
 from worlds.AutoWorld import World
-from BaseClasses import Region, Location
+from BaseClasses import Region, Location, Item
 from .Items import PseudoregaliaItem, PseudoregaliaItemData, item_table
 from .Locations import location_table
 from .Regions import region_table
@@ -16,6 +16,10 @@ class PseudoregaliaWorld(World):
     def create_item(self, name: str) -> PseudoregaliaItem:
         data = item_table[name]
         return PseudoregaliaItem(name, data.classification, data.code, self.player)
+
+    def create_items(self):
+        for item_name, item_data in item_table.items():
+            self.multiworld.itempool.append(Item(item_name, item_data.classification, item_data.code, self.player))
 
     def create_regions(self):
         for region_name in region_table.keys():
