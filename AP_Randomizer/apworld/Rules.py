@@ -29,15 +29,15 @@ def navigate_darkrooms(state: CollectionState, player: int) -> bool:
 
 
 def can_slidejump(state: CollectionState, player: int) -> bool:
-    return (state.has_all(["Slide", "Solar Wind"]))
+    return (state.has_all(["Slide", "Solar Wind"], player))
 
 
 def can_strikebreak(state: CollectionState, player: int) -> bool:
-    return (state.has_all(["Dream Breaker", "Strikebreak"]))
+    return (state.has_all(["Dream Breaker", "Strikebreak"], player))
 
 
 def can_soulcutter(state: CollectionState, player: int) -> bool:
-    return (state.has_all(["Dream Breaker", "Strikebreak", "Soul Cutter"]))
+    return (state.has_all(["Dream Breaker", "Strikebreak", "Soul Cutter"], player))
 
 
 location_rules: Dict[str, Callable[[CollectionState, int], bool]] = {
