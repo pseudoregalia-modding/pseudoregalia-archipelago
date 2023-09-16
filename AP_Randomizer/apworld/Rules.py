@@ -66,7 +66,7 @@ location_rules: Dict(str, Callable[[CollectionState, int], bool]) = {
             state.has("Cling Gem", player),
             can_slidejump(state, player) and get_kicks(state, player) > 0,
             ),
-    "Tower - Cling Gem": get_kicks >= 3,
+    "Tower - Cling Gem": lambda state, player: get_kicks(state, player) >= 3,
 
     "Bailey - Major Key": lambda state, player:
         any(
