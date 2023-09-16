@@ -36,7 +36,7 @@ location_rules: Dict(str, Callable[[CollectionState, int], bool]) = {
     "Dungeon - Slide": has_breaker,
     "Keep - Sunsetter": has_breaker,
     "Keep - Strikebreak": lambda state, player:
-        (state.has("Slide") or state.has("Strikebreak"))
+        (state.has("Slide", player) or state.has("Strikebreak", player))
         and any(
             can_slidejump(state, player),
             get_kicks(state, player) >= 1,
@@ -50,13 +50,13 @@ location_rules: Dict(str, Callable[[CollectionState, int], bool]) = {
             can_slidejump(state, player),
         ),
     "Theatre - Soul Cutter": lambda state, player: state.has("Strikebreak", player),
-    "Bailey - Solar Wind": lambda state, player: state.has("Slide"),
+    "Bailey - Solar Wind": lambda state, player: state.has("Slide", player),
     "Underbelly - Ascendant Light": lambda state, player:
         any(
             can_bounce(state, player),
             get_kicks(state, player) >= 3,
             state.has("Cling Gem", player),
-            can_slidejump(state, player) and get_kicks > 0,
+            can_slidejump(state, player) and get_kicks(state, player) > 0,
     ),
     "Tower - Cling Gem": get_kicks >= 3,
 
