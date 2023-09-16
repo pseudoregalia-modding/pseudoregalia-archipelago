@@ -28,6 +28,8 @@ class PseudoregaliaWorld(World):
         for region_name, exit_list in region_table.items():
             region = self.multiworld.get_region(region_name, self.player)
 
-            for exit in exit_list:
-                connecting_region = self.multiworld.get_region(exit.region, self.player)
-                region.connect(connecting_region, None, exit.access_rule if exit.access_rule else None)
+            exits = [region_exit.region for region_exit in exit_list]
+            region.add_exits(exits, {
+                region_exit.region: lambda state, region_exit=region_exit: region_exit.access_rule(state, self.player)
+                for region_exit in exit_list
+            })
