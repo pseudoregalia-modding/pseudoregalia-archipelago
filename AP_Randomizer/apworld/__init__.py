@@ -37,3 +37,13 @@ class PseudoregaliaWorld(World):
                 region_exit.region: lambda state, region_exit=region_exit: region_exit.access_rule(state, self.player)
                 for region_exit in exit_list
             })
+
+    def set_rules(self):
+        # TODO: Replace with a proper event
+        self.multiworld.completion_condition[self.player] = lambda state: state.has_all([
+            "Major Key - Empty Bailey",
+            "Major Key - The Underbelly",
+            "Major Key - Tower Remains",
+            "Major Key - Sansa Keep",
+            "Major Key - Twilight Theatre",
+        ], self.player) and self.multiworld.get_region("The Great Door", self.player).can_reach(state)
