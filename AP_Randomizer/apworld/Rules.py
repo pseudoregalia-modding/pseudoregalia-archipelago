@@ -5,31 +5,31 @@ from typing import Dict, Callable
 
 
 def has_breaker(state: CollectionState, player: int) -> bool:
-    return state.has(state, "Dream Breaker", player)
+    return state.has("Dream Breaker", player)
 
 
 def can_bounce(state: CollectionState, player: int) -> bool:
-    return state.has_all(state, {"Dream Breaker", "Ascendant Light"}, player)
+    return state.has_all({"Dream Breaker", "Ascendant Light"}, player)
 
 
 def get_kicks(state: CollectionState, player: int) -> int:
     kicks: int = 0
-    if (state.has(state, "Sun Greaves", player)):
+    if (state.has("Sun Greaves", player)):
         kicks += 3
-    kicks += state.count(state, "Sun Greaves", player)
+    kicks += state.count("Sun Greaves", player)
     return kicks
 
 
 def has_small_keys(state: CollectionState, player: int) -> bool:
-    return (state.count(state, "Small Key", player) >= 6)
+    return (state.count("Small Key", player) >= 6)
 
 
 def navigate_darkrooms(state: CollectionState, player: int) -> bool:
-    return (state.has(state, "Dream Breaker", player) or state.has(state, "Ascendant Light", player))
+    return (state.has("Dream Breaker", player) or state.has("Ascendant Light", player))
 
 
 def can_slidejump(state: CollectionState, player: int) -> bool:
-    return (state.has_all(state, ["Slide", "Solar Wind"]))
+    return (state.has_all(["Slide", "Solar Wind"]))
 
 
 def can_strikebreak(state: CollectionState, player: int) -> bool:
