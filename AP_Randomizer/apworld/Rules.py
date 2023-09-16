@@ -78,21 +78,22 @@ location_rules: Dict[str, Callable[[CollectionState, int], bool]] = {
         state.has("Sunsetter", player)
         and any([
             can_soulcutter(state, player) and can_bounce(state, player),
-            can_slidejump and get_kicks >= 3,
+            can_slidejump and get_kicks(state, player) >= 3,
             can_soulcutter(state, player) and state.has("Cling Gem"),
         ]),
     "Tower - Major Key": lambda state, player:
-        state.has("Cling Gem", player) and get_kicks >= 3,
+        state.has("Cling Gem", player) and get_kicks(state, player) >= 3,
     "Theatre - Major Key": lambda state, player:
         can_soulcutter(state, player)
         and any([
-            state.has("Cling Gem", player) and can_slidejump,
-            state.has("Cling Gem", player) and get_kicks > 0,
+            state.has("Cling Gem", player) and can_slidejump(state, player),
+            state.has("Cling Gem", player) and get_kicks(state, player) > 0,
         ]),
     "Keep - Major Key": lambda state, player:
         any([
             state.has_all(["Cling Gem", "Sunsetter"], player) and can_bounce(state, player),
             state.has("Cling Gem", player) and can_bounce(state, player) and get_kicks(state, player) >= 3,
-            state.has_all(["Sunsetter", "Cling Gem"], player) and can_bounce(state, player) and get_kicks >= 3,
+            state.has_all(["Sunsetter", "Cling Gem"], player)
+            and can_bounce(state, player) and get_kicks(state, player) >= 3,
         ])
 }
