@@ -46,13 +46,13 @@ location_table = {
     "Underbelly - Major Key": PseudoregaliaLocationData(
         code=2365810012,
         region="Underbelly Hole",),
-    "Tower Remains - Major Key": PseudoregaliaLocationData(
+    "Tower - Major Key": PseudoregaliaLocationData(
         code=2365810013,
         region="Tower Remains",),
-    "Sansa Keep - Major Key": PseudoregaliaLocationData(
+    "Keep - Major Key": PseudoregaliaLocationData(
         code=2365810014,
         region="Keep Main",),
-    "Twilight Theatre - Major Key": PseudoregaliaLocationData(
+    "Theatre - Major Key": PseudoregaliaLocationData(
         code=2365810015,
         region="Theatre Main",),
 }
