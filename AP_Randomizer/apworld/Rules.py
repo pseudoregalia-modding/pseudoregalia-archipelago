@@ -79,7 +79,7 @@ location_rules: Dict[str, Callable[[CollectionState, int], bool]] = {
         and any([
             can_soulcutter(state, player) and can_bounce(state, player),
             can_slidejump and get_kicks(state, player) >= 3,
-            can_soulcutter(state, player) and state.has("Cling Gem"),
+            can_soulcutter(state, player) and state.has("Cling Gem", player),
         ]),
     "Tower - Major Key": lambda state, player:
         state.has("Cling Gem", player) and get_kicks(state, player) >= 3,
