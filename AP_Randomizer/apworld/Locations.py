@@ -1,52 +1,58 @@
-from BaseClasses import Location, MultiWorld
-from typing import Callable, Dict, NamedTuple, Optional
-
-from .constants import ZONE
-
-
-class PseudoregaliaLocation(Location):
-    game = "Pseudoregalia"
+from BaseClasses import Location
+from typing import NamedTuple, Dict
 
 
 class PseudoregaliaLocationData(NamedTuple):
     region: str
-    code: Optional[int] = None
-    can_create: Callable[[MultiWorld, int], bool] = lambda multiworld, player: True
-    locked_item: Optional[str] = None
+    code: int = None
 
 
-location_data_table = {
+location_table = {
     "Dungeon - Dream Breaker": PseudoregaliaLocationData(
         # Dream Breaker can't really be shuffled right now but I would like to later
         code=2365810001,
-        region=ZONE.DUNGEON),
+        region="Dungeon Mirror"),
     "Dungeon - Slide": PseudoregaliaLocationData(
         code=2365810002,
-        region=ZONE.DUNGEON),
+        region="Dungeon Mirror"),
     "Castle - Indignation": PseudoregaliaLocationData(
         code=2365810003,
-        region=ZONE.CASTLE),
+        region="Castle Sansa"),
     "Keep - Sunsetter": PseudoregaliaLocationData(
         code=2365810004,
-        region=ZONE.KEEP),
+        region="Keep Sunsetter"),
     "Keep - Strikebreak": PseudoregaliaLocationData(
         code=2365810005,
-        region=ZONE.KEEP),
+        region="Keep Main"),
     "Library - Sun Greaves": PseudoregaliaLocationData(
         code=2365810006,
-        region=ZONE.LIBRARY),
+        region="Library Main"),
     "Theatre - Soul Cutter": PseudoregaliaLocationData(
         code=2365810007,
-        region=ZONE.THEATRE),
+        region="Theatre Main"),
     "Bailey - Solar Wind": PseudoregaliaLocationData(
         code=2365810008,
-        region=ZONE.BAILEY),
+        region="Empty Bailey"),
     "Underbelly - Ascendant Light": PseudoregaliaLocationData(
         code=2365810009,
-        region=ZONE.UNDERBELLY),
+        region="Underbelly Main"),
     "Tower - Cling Gem": PseudoregaliaLocationData(
         code=2365810010,
-        region=ZONE.TOWER),
-}
+        region="Tower Remains"),
 
-# locked_locations = {name: data for name, data in location_data_table.items() if data.locked_item}
+    "Bailey - Major Key": PseudoregaliaLocationData(
+        code=2365810011,
+        region="Empty Bailey",),
+    "Underbelly - Major Key": PseudoregaliaLocationData(
+        code=2365810012,
+        region="Underbelly Hole",),
+    "Tower - Major Key": PseudoregaliaLocationData(
+        code=2365810013,
+        region="Tower Remains",),
+    "Keep - Major Key": PseudoregaliaLocationData(
+        code=2365810014,
+        region="Keep Main",),
+    "Theatre - Major Key": PseudoregaliaLocationData(
+        code=2365810015,
+        region="Theatre Main",),
+}

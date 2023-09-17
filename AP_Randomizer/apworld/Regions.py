@@ -1,55 +1,99 @@
-from BaseClasses import MultiWorld, Region, Entrance
-from typing import Dict, List, NamedTuple, Optional
-from .Locations import PseudoregaliaLocation, location_data_table
-from .constants import ZONE
-
-# Code structure copied from Rogue Legacy's apworld.
+from typing import NamedTuple, Callable, Dict, List, Optional
+from BaseClasses import CollectionState
+from .Rules import has_breaker, can_bounce, get_kicks, has_small_keys, navigate_darkrooms, can_slidejump
 
 
-class PseudoregaliaRegionData(NamedTuple):
-    locations: Optional[List[str]]
-    region_exits: Optional[List[str]]
+class RegionExit(NamedTuple):
+    region: str
+    access_rule: Callable[[CollectionState, int], bool] = lambda state, player: True
+    breakable_wall: bool = False
 
 
-def create_regions(multiworld: MultiWorld, player: int):
-    region_table: Dict[str, PseudoregaliaRegionData] = {
-        "Menu": PseudoregaliaRegionData(None, [ZONE.DUNGEON]),
-        ZONE.DUNGEON: PseudoregaliaRegionData([], [ZONE.CASTLE, ZONE.UNDERBELLY, ZONE.THEATRE]),
-        ZONE.CASTLE: PseudoregaliaRegionData([], [ZONE.DUNGEON, ZONE.KEEP, ZONE.BAILEY, ZONE.THEATRE, ZONE.LIBRARY]),
-        ZONE.KEEP: PseudoregaliaRegionData([], [ZONE.CASTLE, ZONE.THEATRE, ZONE.UNDERBELLY]),
-        ZONE.LIBRARY: PseudoregaliaRegionData([], [ZONE.CASTLE]),
-        ZONE.THEATRE: PseudoregaliaRegionData([], [ZONE.CASTLE, ZONE.DUNGEON, ZONE.BAILEY, ZONE.KEEP]),
-        ZONE.BAILEY: PseudoregaliaRegionData([], [ZONE.CASTLE, ZONE.UNDERBELLY, ZONE.TOWER, ZONE.THEATRE]),
-        ZONE.UNDERBELLY: PseudoregaliaRegionData([], [ZONE.DUNGEON, ZONE.KEEP, ZONE.BAILEY]),
-        ZONE.TOWER: PseudoregaliaRegionData([], [ZONE.BAILEY, ZONE.CHAMBERS]),
-        # Chambers here for completeness but may be removed later as it's pretty obsolete
-        ZONE.CHAMBERS: PseudoregaliaRegionData(None, [ZONE.BAILEY])
-    }
-
-    # TODO: assign these dynamically by searching the location table
-    region_table[ZONE.DUNGEON].locations.append("Dungeon - Dream Breaker")
-    region_table[ZONE.DUNGEON].locations.append("Dungeon - Slide")
-    region_table[ZONE.CASTLE].locations.append("Castle - Indignation")
-    region_table[ZONE.LIBRARY].locations.append("Library - Sun Greaves")
-    region_table[ZONE.KEEP].locations.append("Keep - Sunsetter")
-    region_table[ZONE.KEEP].locations.append("Keep - Strikebreak")
-    region_table[ZONE.THEATRE].locations.append("Theatre - Soul Cutter")
-    region_table[ZONE.UNDERBELLY].locations.append("Underbelly - Ascendant Light")
-    region_table[ZONE.BAILEY].locations.append("Bailey - Solar Wind")
-    region_table[ZONE.TOWER].locations.append("Tower - Cling Gem")
-
-    for region_name, region_data in region_table.items():
-        region = Region(region_name, player, multiworld)
-        if region_data.locations:
-            for location_name in region_data.locations:
-                location_data = location_data_table.get(location_name)
-                location = PseudoregaliaLocation(
-                    player, location_name, location_data.code, region)
-                region.locations.append(location)
-
-        if region_data.region_exits:
-            for exit_name in region_data.region_exits:
-                connection = Region(region_table[exit_name], player, multiworld)
-                region.connect(connection)
-
-        multiworld.regions.append(region)
+region_table: Dict[str, List[RegionExit]] = {
+    "Menu": [RegionExit("Dungeon Mirror")],
+    "Dungeon Mirror": [RegionExit("Dungeon Strong Eyes",
+                                  lambda state, player:
+                                  state.has("Slide", player) and has_breaker(state, player)),
+                       RegionExit("Underbelly Main", has_breaker),
+                       RegionExit("Theatre Main",
+                                  lambda state, player:
+                                  any([
+                                      get_kicks(state, player) >= 3 and has_breaker,
+                                      state.has("Cling Gem", player) and has_breaker,
+                                      can_slidejump(state, player) and get_kicks(state, player) >= 1 and has_breaker,
+                                      can_bounce(state, player),
+                                  ])
+                                  )],
+    "Dungeon Strong Eyes": [RegionExit("Castle Sansa", has_small_keys)],
+    "Castle Sansa": [RegionExit("Library Main", has_breaker),
+                     RegionExit("Keep Main"),
+                     RegionExit("Empty Bailey"),
+                     RegionExit("Theatre Pillar",
+                                lambda state, player:
+                                any([
+                                    get_kicks(state, player) > 0,
+                                    state.has("Cling Gem", player),
+                                    state.has("Sunsetter", player),
+                                ])),
+                     RegionExit("Theatre Main",
+                                lambda state, player:
+                                any([
+                                    state.has("Cling Gem", player),
+                                    # can_slidejump(state, player) and get_kicks(state, player) >= 4,
+                                    # Heliacal isn't shuffled yet
+                                ]))],
+    "Library Main": [RegionExit("Library Locked", has_small_keys)],
+    "Library Locked": [],  # There's no point in connecting this back to library main.
+    "Keep Main": [RegionExit("Keep Sunsetter",
+                             lambda state, player:
+                             any([
+                                 has_small_keys(state, player),
+                                 state.has("Cling Gem", player),
+                                 get_kicks(state, player) >= 3,
+                             ])),
+                  RegionExit("Underbelly Hole",
+                             lambda state, player:
+                             any([
+                                 get_kicks(state, player) > 0,
+                                 state.has("Sunsetter", player),
+                             ])),
+                  RegionExit("Theatre Main",
+                             lambda state, player:
+                             any([
+                                 state.has("Cling Gem", player) and get_kicks(state, player) >= 3,
+                                 state.has("Cling Gem", player) and can_slidejump(state, player),
+                             ]))],
+    "Keep Sunsetter": [],
+    "Empty Bailey": [RegionExit("Castle Sansa"),
+                     RegionExit("Tower Remains",
+                                lambda state, player:
+                                any([
+                                    get_kicks(state, player) > 0,
+                                    state.has("Cling Gem", player),
+                                    state.has_all(["Slide", "Sunsetter"], player)
+                                ])),
+                     RegionExit("Theatre Pillar")],
+    "Tower Remains": [RegionExit("Underbelly Main",  # Simplified access rule copied from spuds' logic.
+                                 lambda state, player: state.has("Sunsetter", player)),
+                      RegionExit("The Great Door",
+                                 lambda state, player:
+                                 state.has("Cling Gem", player) and get_kicks(state, player) >= 3)],
+    "Underbelly Main": [RegionExit("Empty Bailey",
+                                   lambda state, player:
+                                   any([
+                                       has_breaker(state, player),
+                                       state.has("Sunsetter", player),
+                                   ]))],
+    "Underbelly Hole": [RegionExit("Underbelly Main",
+                                   lambda state, player: state.has("Sunsetter", player))],  # I don't actually know what this is.
+    "Theatre Main": [RegionExit("Keep Main",
+                                lambda state, player: state.has("Cling Gem", player))],
+    "Theatre Pillar": [RegionExit("Theatre Main",
+                                  lambda state, player:
+                                  any([
+                                      state.has_all(["Sunsetter", "Cling Gem"], player),
+                                      # state.has("Sunsetter", player) and get_kicks(state, player) >= 4,
+                                      # Heliacal isn't shuffled yet
+                                  ]))],
+    "The Great Door": [],
+}
