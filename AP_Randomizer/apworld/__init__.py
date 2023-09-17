@@ -4,7 +4,7 @@ from .Items import PseudoregaliaItem, PseudoregaliaItemData, item_table
 from .Locations import location_table
 from .Regions import region_table
 from worlds.generic.Rules import add_rule, set_rule, forbid_item
-from .Rules import get_kicks, can_bounce
+from .Rules import has_breaker, get_kicks, can_bounce, can_slidejump, can_strikebreak, can_soulcutter
 
 
 class PseudoregaliaWorld(World):
@@ -39,6 +39,77 @@ class PseudoregaliaWorld(World):
             })
 
     def set_rules(self):
+        # Putting all the access rules here is pretty ugly
+        # but I can't be fucked to get it to work properly from another module right now
+        set_rule(self.multiworld.get_location("Dungeon - Slide", self.player),
+                 lambda state: has_breaker(state, self.player))
+        set_rule(self.multiworld.get_location("Keep - Sunsetter", self.player),
+                 lambda state: has_breaker(state, self.player))
+        set_rule(self.multiworld.get_location("Keep - Strikebreak", self.player), lambda state:
+                 (state.has("Slide", self.player) or can_strikebreak(state, self.player))
+                 and any([
+                     can_slidejump(state, self.player),
+                     get_kicks(state, self.player) >= 1,
+                     state.has("Cling Gem", self.player),
+                 ]),)
+        set_rule(self.multiworld.get_location("Library - Sun Greaves", self.player), lambda state:
+                 any([
+                     state.has("Slide", self.player) and has_breaker(state, self.player),
+                     state.has("Cling Gem", self.player) and has_breaker(state, self.player),
+                     # get_kicks(state, self.player) >= 4, Heliacal isn't shuffled yet
+                     can_slidejump(state, self.player),
+                 ]),)
+        set_rule(self.multiworld.get_location("Theatre - Soul Cutter", self.player), lambda state:
+                 can_strikebreak(state, self.player))
+        set_rule(self.multiworld.get_location("Bailey - Solar Wind", self.player), lambda state:
+                 state.has("Slide", self.player))
+        set_rule(self.multiworld.get_location("Underbelly - Ascendant Light", self.player), lambda state:
+                 any([
+                     can_bounce(state, self.player),
+                     get_kicks(state, self.player) >= 3,
+                     state.has("Cling Gem", self.player),
+                     can_slidejump(state, self.player) and get_kicks(state, self.player) > 0,
+                 ])),
+        set_rule(self.multiworld.get_location("Tower - Cling Gem", self.player), lambda state:
+                 get_kicks(state, self.player) >= 3)
+        set_rule(self.multiworld.get_location("Bailey - Major Key", self.player), lambda state:
+                 any([
+                     state.has("Sunsetter", self.player),
+                     state.has("Cling Gem", self.player),
+                     get_kicks(state, self.player) >= 3,
+                 ])),
+        set_rule(self.multiworld.get_location("Underbelly - Major Key", self.player), lambda state:
+                 state.has("Sunsetter", self.player)
+                 and any([
+                     can_soulcutter(state, self.player) and can_bounce(state, self.player),
+                     can_slidejump and get_kicks(state, self.player) >= 3,
+                     can_soulcutter(state, self.player) and state.has("Cling Gem", self.player),
+                 ])),
+        set_rule(self.multiworld.get_location("Tower - Major Key", self.player), lambda state:
+                 state.has("Cling Gem", self.player) and get_kicks(state, self.player) >= 3),
+        set_rule(self.multiworld.get_location("Theatre - Major Key", self.player), lambda state:
+                 can_soulcutter(state, self.player)
+                 and any([
+                     state.has("Cling Gem", self.player) and can_slidejump(state, self.player),
+                     state.has("Cling Gem", self.player) and get_kicks(state, self.player) > 0,
+                 ])),
+        set_rule(self.multiworld.get_location("Keep - Major Key",
+                                              self.player),
+                 lambda state: any([state.has_all(["Cling Gem",
+                                                   "Sunsetter"],
+                                                  self.player) and can_bounce(state,
+                                                                              self.player),
+                                    state.has("Cling Gem",
+                                              self.player) and can_bounce(state,
+                                                                          self.player) and get_kicks(state,
+                                                                                                     self.player) >= 3,
+                                    state.has_all(["Sunsetter",
+                                                   "Cling Gem"],
+                                                  self.player) and can_bounce(state,
+                                                                              self.player) and get_kicks(state,
+                                                                                                         self.player) >= 3,
+                                    ]))
+
         # TODO: Replace with a proper event
         self.multiworld.completion_condition[self.player] = lambda state: state.has_all([
             "Major Key - Empty Bailey",
