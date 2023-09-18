@@ -12,6 +12,7 @@ namespace Pseudoregalia_AP {
 		static void SendCheck(int64_t, std::wstring);
 		static std::map<std::wstring, int> GetUpgradeTable();
 		static std::vector<APCollectible> GetCurrentZoneCollectibles(std::wstring);
+		static bool* GetMajorKeys();
 	private:
 		static void FillZoneTable();
 		static void ResetUpgradeTable();

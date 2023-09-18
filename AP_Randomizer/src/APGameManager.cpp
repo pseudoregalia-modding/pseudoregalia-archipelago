@@ -17,6 +17,11 @@ namespace Pseudoregalia_AP {
 		int count;
 	};
 
+	struct MajorKeyInfo {
+		int index;
+		bool to_give;
+	};
+
 	void APGameManager::QueueItemUpdate() {
 		item_update_pending = true;
 	}
@@ -87,8 +92,20 @@ namespace Pseudoregalia_AP {
 	}
 
 	void APGameManager::SyncItems(UObject* randomizer_blueprint, UFunction* add_upgrade_function) {
-		std::map<std::wstring, int> upgrade_table = APClient::GetUpgradeTable();
+		bool* major_key_table = APClient::GetMajorKeys();
+		UFunction* set_major_keys = randomizer_blueprint->GetFunctionByName(STR("AP_SetMajorKey"));
 
+		for (int i = 0; i < 5; i++)
+		{
+			MajorKeyInfo keyparams{
+				i,
+				major_key_table[i],
+			};
+			randomizer_blueprint->ProcessEvent(set_major_keys, &keyparams);
+		}
+
+
+		std::map<std::wstring, int> upgrade_table = APClient::GetUpgradeTable();
 		for (auto const& pair : upgrade_table) {
 			FName new_name = *new FName(pair.first);
 

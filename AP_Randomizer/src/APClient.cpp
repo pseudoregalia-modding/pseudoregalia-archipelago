@@ -27,6 +27,10 @@ namespace Pseudoregalia_AP {
         return upgrade_table;
     }
 
+    bool* APClient::GetMajorKeys() {
+        return major_keys;
+    }
+
     void APClient::FillZoneTable() {
         zone_table = {
             {L"ZONE_Dungeon", std::vector<APCollectible> {
