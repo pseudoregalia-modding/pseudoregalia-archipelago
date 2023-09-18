@@ -39,7 +39,7 @@ namespace Pseudoregalia_AP {
 	void APGameManager::OnBeginPlay(AActor* actor) {
 		if (actor->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
 			UFunction* spawn_function = actor->GetFunctionByName(STR("AP_SpawnCollectible"));
-			SpawnCollectibles(actor, GetWorld());
+			QueueSpawnUpdate();
 			QueueItemUpdate();
 		}
 
@@ -62,17 +62,22 @@ namespace Pseudoregalia_AP {
 	}
 
 	void APGameManager::PreProcessEvent(UObject* object, UFunction* function, void* params) {
-		if (!item_update_pending) {
-			return;
+		if (item_update_pending) {
+			// Running this on the randomizer instance's EventTick instead of finding it on any preprocess,
+			// to avoid any chance of this code being run before a randomizerinstance has been introduced to a scene.
+			// I'm not actually sure how necessary that is though.
+			if (object->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
+				item_update_pending = false;
+				UFunction* add_upgrade_function = object->GetFunctionByName(STR("AP_AddUpgrade"));
+				SyncItems(object, add_upgrade_function);
+			}
 		}
 
-		// Running this on the randomizer instance's EventTick instead of finding it on any preprocess,
-		// to avoid any chance of this code being run before a randomizerinstance has been introduced to a scene.
-		// I'm not actually sure how necessary that is though.
-		if (object->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
-			item_update_pending = false;
-			UFunction* add_upgrade_function = object->GetFunctionByName(STR("AP_AddUpgrade"));
-			SyncItems(object, add_upgrade_function);
+		if (spawn_update_pending) {
+			if (object->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
+				spawn_update_pending = false;
+				SpawnCollectibles(object, GetWorld());
+			}
 		}
 	}
 
