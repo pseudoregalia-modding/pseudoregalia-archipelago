@@ -21,6 +21,7 @@ namespace Pseudoregalia_AP {
 
     std::map <std::wstring, std::vector<APCollectible>> APClient::zone_table;
     std::map<std::wstring, int> APClient::upgrade_table;
+    bool APClient::major_keys[5];
 
     std::map<std::wstring, int> APClient::GetUpgradeTable() {
         return upgrade_table;
