@@ -138,8 +138,8 @@ namespace Pseudoregalia_AP {
     }
 
     void APClient::PollServer() {
-        if (AP_IsInit()) {
-            printf("init'ed!");
+        if (AP_GetConnectionStatus() == AP_ConnectionStatus::Authenticated) {
+            APGameManager::SetClientConnected(true);
         }
     }
 }
