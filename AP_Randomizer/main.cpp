@@ -95,7 +95,7 @@ public:
 
     auto on_update() -> void override
     {
-        APClient::PollMessages();
+        APClient::PollServer();
         for (auto& boundKey : m_boundKeys)
         {
             if ((GetKeyState(boundKey.key) & 0x8000) && !boundKey.isPressed)

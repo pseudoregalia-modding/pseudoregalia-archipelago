@@ -137,7 +137,9 @@ namespace Pseudoregalia_AP {
         }
     }
 
-    void APClient::PollMessages() {
-
+    void APClient::PollServer() {
+        if (AP_IsInit()) {
+            printf("init'ed!");
+        }
     }
 }
