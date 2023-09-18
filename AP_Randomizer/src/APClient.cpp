@@ -42,7 +42,7 @@ namespace Pseudoregalia_AP {
                 },
             {L"Zone_Upper", std::vector<APCollectible>{
                 APCollectible("Keep", FVector(-3000, 4900, -400), 2365810004),
-                APCollectible("Keep", FVector(10050, 1800, 85), 2365810005),
+                APCollectible("Keep", FVector(10050, 1800, 1000), 2365810005),
                 APCollectible("Keep", FVector(14350, -50, 1350), 2365810014)}
                 },
             {L"Zone_Library", std::vector<APCollectible>{
