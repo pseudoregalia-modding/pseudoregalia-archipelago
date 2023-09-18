@@ -12,6 +12,7 @@ namespace Pseudoregalia_AP {
 		static void SendCheck(int64_t, std::wstring);
 		static std::map<std::wstring, int> GetUpgradeTable();
 		static std::vector<APCollectible> GetCurrentZoneCollectibles(std::wstring);
+		static bool* GetMajorKeys();
 	private:
 		static void FillZoneTable();
 		static void ResetUpgradeTable();
@@ -22,5 +23,6 @@ namespace Pseudoregalia_AP {
 		static std::map<int64_t, std::wstring> lookup_id_to_item;
 		static std::map <std::wstring, std::vector<APCollectible>> zone_table;
 		static std::map<std::wstring, int> upgrade_table;
+		static bool major_keys[5];
 	};
 }
