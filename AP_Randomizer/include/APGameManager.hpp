@@ -17,10 +17,12 @@ namespace Pseudoregalia_AP {
 		static void PreProcessEvent(UObject*, UFunction*, void*);
 		static void QueueItemUpdate();
 		static void QueueSpawnUpdate();
+		static void SetClientConnected(bool);
 	private:
 		static bool hooked_into_returncheck;
 		static bool item_update_pending;
 		static bool spawn_update_pending;
+		static bool client_connected;
 		static void SpawnCollectibles(UObject*, UWorld*);
 		static void OnReturnCheck(Unreal::UnrealScriptFunctionCallableContext&, void*);
 		static void RegisterReturnCheckHook(AActor*);
