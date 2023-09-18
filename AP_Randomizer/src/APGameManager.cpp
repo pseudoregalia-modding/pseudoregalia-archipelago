@@ -103,7 +103,7 @@ namespace Pseudoregalia_AP {
 		}
 	}
 
-	void APGameManager::SpawnCollectibles(AActor* randomizer_blueprint, UWorld* world) {
+	void APGameManager::SpawnCollectibles(UObject* randomizer_blueprint, UWorld* world) {
 		std::vector<APCollectible> collectible_vector = APClient::GetCurrentZoneCollectibles(world->GetName());
 		UFunction* spawn_function = randomizer_blueprint->GetFunctionByName(STR("AP_SpawnCollectible"));
 
