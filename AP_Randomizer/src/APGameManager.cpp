@@ -45,22 +45,7 @@ namespace Pseudoregalia_AP {
 	}
 
 	void APGameManager::OnMapLoad(AActor* randomizer_blueprint, UWorld* world) {
-		std::vector<APCollectible> collectible_vector = APClient::GetCurrentZoneCollectibles(world->GetName());
-		UFunction* spawn_function = randomizer_blueprint->GetFunctionByName(STR("AP_SpawnCollectible"));
-
-		for (APCollectible collectible : collectible_vector) {
-			if (collectible.IsChecked()) {
-				Output::send<LogLevel::Warning>(STR("Collectible with ID {} has already been sent\n"), collectible.GetID());
-				continue;
-			}
-			Output::send<LogLevel::Verbose>(STR("Spawned collectible with ID {}\n"), collectible.GetID());
-
-			CollectibleSpawnInfo new_info = {
-				collectible.GetID(),
-				collectible.GetPosition(),
-			};
-			randomizer_blueprint->ProcessEvent(spawn_function, &new_info);
-		}
+		SpawnCollectibles(randomizer_blueprint, world);
 		// Resync items on map load so that players don't lose items after dying or resetting   
 		QueueItemUpdate();
 	}
@@ -115,6 +100,25 @@ namespace Pseudoregalia_AP {
 			};
 			Output::send<LogLevel::Verbose>(STR("Attempting to add {} with value {}...\n"), pair.first, pair.second);
 			randomizer_blueprint->ProcessEvent(add_upgrade_function, &params);
+		}
+	}
+
+	void APGameManager::SpawnCollectibles(AActor* randomizer_blueprint, UWorld* world) {
+		std::vector<APCollectible> collectible_vector = APClient::GetCurrentZoneCollectibles(world->GetName());
+		UFunction* spawn_function = randomizer_blueprint->GetFunctionByName(STR("AP_SpawnCollectible"));
+
+		for (APCollectible collectible : collectible_vector) {
+			if (collectible.IsChecked()) {
+				Output::send<LogLevel::Warning>(STR("Collectible with ID {} has already been sent\n"), collectible.GetID());
+				continue;
+			}
+			Output::send<LogLevel::Verbose>(STR("Spawned collectible with ID {}\n"), collectible.GetID());
+
+			CollectibleSpawnInfo new_info = {
+				collectible.GetID(),
+				collectible.GetPosition(),
+			};
+			randomizer_blueprint->ProcessEvent(spawn_function, &new_info);
 		}
 	}
 
