@@ -10,6 +10,7 @@ namespace Pseudoregalia_AP {
 		static void Initialize();
 		static void Connect(const char*, const char*, const char*);
 		static void SendCheck(int64_t, std::wstring);
+		static void PollMessages();
 		static std::map<std::wstring, int> GetUpgradeTable();
 		static std::vector<APCollectible> GetCurrentZoneCollectibles(std::wstring);
 		static bool* GetMajorKeys();

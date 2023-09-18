@@ -136,4 +136,8 @@ namespace Pseudoregalia_AP {
             }
         }
     }
+
+    void APClient::PollMessages() {
+
+    }
 }
