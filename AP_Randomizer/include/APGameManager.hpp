@@ -20,7 +20,6 @@ namespace Pseudoregalia_AP {
 	private:
 		static bool hooked_into_returncheck;
 		static bool item_update_pending;
-		static void OnMapLoad(AActor*, UWorld*);
 		static void SpawnCollectibles(AActor*, UWorld*);
 		static void OnReturnCheck(Unreal::UnrealScriptFunctionCallableContext&, void*);
 		static void RegisterReturnCheckHook(AActor*);

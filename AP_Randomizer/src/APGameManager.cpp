@@ -34,7 +34,8 @@ namespace Pseudoregalia_AP {
 	void APGameManager::OnBeginPlay(AActor* actor) {
 		if (actor->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
 			UFunction* spawn_function = actor->GetFunctionByName(STR("AP_SpawnCollectible"));
-			OnMapLoad(actor, GetWorld());
+			SpawnCollectibles(actor, GetWorld());
+			QueueItemUpdate();
 		}
 
 		if (!hooked_into_returncheck
@@ -42,12 +43,6 @@ namespace Pseudoregalia_AP {
 				RegisterReturnCheckHook(actor);
 				hooked_into_returncheck = true;
 		}
-	}
-
-	void APGameManager::OnMapLoad(AActor* randomizer_blueprint, UWorld* world) {
-		SpawnCollectibles(randomizer_blueprint, world);
-		// Resync items on map load so that players don't lose items after dying or resetting   
-		QueueItemUpdate();
 	}
 
 	void APGameManager::OnReturnCheck(Unreal::UnrealScriptFunctionCallableContext& context, void* customdata) {
