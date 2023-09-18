@@ -6,6 +6,7 @@
 namespace Pseudoregalia_AP {
 	bool APGameManager::hooked_into_returncheck;
 	bool APGameManager::item_update_pending;
+	bool APGameManager::spawn_update_pending;
 
 	struct CollectibleSpawnInfo {
 		int64_t id;
@@ -24,6 +25,10 @@ namespace Pseudoregalia_AP {
 
 	void APGameManager::QueueItemUpdate() {
 		item_update_pending = true;
+	}
+
+	void APGameManager::QueueSpawnUpdate() {
+		spawn_update_pending = true;
 	}
 	
 	UWorld* APGameManager::GetWorld() {
