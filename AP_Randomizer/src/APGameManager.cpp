@@ -32,8 +32,8 @@ namespace Pseudoregalia_AP {
 		spawn_update_pending = true;
 	}
 
-	void APGameManager::SetClientConnected(bool status) {
-		client_connected = status;
+	void APGameManager::SetClientConnected(bool connected) {
+		client_connected = connected;
 	}
 	
 	UWorld* APGameManager::GetWorld() {
@@ -79,6 +79,9 @@ namespace Pseudoregalia_AP {
 		}
 
 		if (spawn_update_pending) {
+			if (!client_connected) {
+				return;
+			}
 			if (object->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
 				spawn_update_pending = false;
 				SpawnCollectibles(object, GetWorld());
