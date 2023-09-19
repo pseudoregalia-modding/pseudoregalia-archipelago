@@ -6,10 +6,6 @@ namespace Pseudoregalia_AP {
     const char* slot_name;
     const char* password;
 
-    struct PrintToPlayerInfo {
-        FText text;
-    };
-
     std::map<int64_t, std::wstring> APClient::lookup_id_to_item = {
         {2365810001, L"attack"},
         {2365810002, L"powerBoost"},
@@ -148,31 +144,10 @@ namespace Pseudoregalia_AP {
 
         if (AP_IsMessagePending()) {
             AP_Message* message = AP_GetLatestMessage();
-            PrintToPlayer(message->text);
+            APGameManager::QueueMessage(message->text);
             printf(message->text.c_str());
             printf("\n");
             AP_ClearLatestMessage();
         }
-    }
-
-    void APClient::PrintToPlayer(std::string new_message) {
-        UObject* widget = UObjectGlobals::FindFirstOf(STR("APClientWidget_C"));
-        if (!widget) {
-            Output::send<LogLevel::Error>(STR("Error: Could not find APClientWidget. Message could not be printed.\n"));
-            return;
-        }
-        UFunction* text_func = widget->GetFunctionByName(STR("AP_PrintToPlayer"));
-        if (!text_func) {
-            Output::send<LogLevel::Error>(STR("Error: Found APClientWidget, but it has no function AP_PrintToPlayer. Message could not be printed.\n"));
-            return;
-        }
-
-        // Need to convert from string to wstring, then wstring to FText
-        std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-        FText new_text = *new FText(converter.from_bytes(new_message));
-        PrintToPlayerInfo input{
-            new_text,
-        };
-        widget->ProcessEvent(text_func, &input);
     }
 }
