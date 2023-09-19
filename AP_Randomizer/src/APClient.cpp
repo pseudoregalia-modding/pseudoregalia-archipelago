@@ -5,6 +5,8 @@ namespace Pseudoregalia_AP {
     const char* ip;
     const char* slot_name;
     const char* password;
+    int APClient::connection_timer;
+    AP_ConnectionStatus APClient::connection_status;
 
     std::map<int64_t, std::wstring> APClient::lookup_id_to_item = {
         {2365810001, L"attack"},
@@ -97,6 +99,8 @@ namespace Pseudoregalia_AP {
         AP_SetItemRecvCallback(&ReceiveItem);
         AP_SetLocationCheckedCallback(&CheckLocation);
         AP_Start();
+        connection_timer = 0;
+        connection_status = AP_GetConnectionStatus();
     }
 
     void APClient::ClearItems() {

@@ -30,5 +30,7 @@ namespace Pseudoregalia_AP {
 		static std::map <std::wstring, std::vector<APCollectible>> zone_table;
 		static std::map<std::wstring, int> upgrade_table;
 		static bool major_keys[5];
+		static int connection_timer;
+		static AP_ConnectionStatus connection_status;
 	};
 }
