@@ -148,6 +148,7 @@ namespace Pseudoregalia_AP {
 
         if (AP_IsMessagePending()) {
             AP_Message* message = AP_GetLatestMessage();
+            PrintToPlayer(message->text);
             printf(message->text.c_str());
             printf("\n");
             AP_ClearLatestMessage();
