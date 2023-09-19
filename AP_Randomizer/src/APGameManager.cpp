@@ -79,6 +79,12 @@ namespace Pseudoregalia_AP {
 		// A lot of stuff has to be run in the game thread, so this function handles that.
 		// It might be a good idea to just change this to a callback hooked into the main randomizer blueprint's EventTick.
 
+		if (!messages_to_print.empty()) {
+			std::string mew = messages_to_print.front();
+			messages_to_print.pop_front();
+			PrintToPlayer(mew);
+		}
+
 		if (item_update_pending) {
 			if (object->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
 				item_update_pending = false;
@@ -95,12 +101,6 @@ namespace Pseudoregalia_AP {
 				spawn_update_pending = false;
 				SpawnCollectibles(object, GetWorld());
 			}
-		}
-
-		if (!messages_to_print.empty()) {
-			std::string mew = messages_to_print.front();
-			messages_to_print.pop_front();
-			PrintToPlayer(mew);
 		}
 	}
 
