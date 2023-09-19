@@ -8,6 +8,11 @@ namespace Pseudoregalia_AP {
 	bool APGameManager::item_update_pending;
 	bool APGameManager::spawn_update_pending;
 	bool APGameManager::client_connected;
+	std::list<std::string> APGameManager::messages_to_print;
+
+	struct PrintToPlayerInfo {
+		FText text;
+	};
 
 	struct CollectibleSpawnInfo {
 		int64_t id;
@@ -30,6 +35,10 @@ namespace Pseudoregalia_AP {
 
 	void APGameManager::QueueSpawnUpdate() {
 		spawn_update_pending = true;
+	}
+	
+	void APGameManager::QueueMessage(std::string message) {
+		messages_to_print.push_back(message);
 	}
 
 	void APGameManager::SetClientConnected(bool connected) {
@@ -67,10 +76,10 @@ namespace Pseudoregalia_AP {
 	}
 
 	void APGameManager::PreProcessEvent(UObject* object, UFunction* function, void* params) {
+		// A lot of stuff has to be run in the game thread, so this function handles that.
+		// It might be a good idea to just change this to a callback hooked into the main randomizer blueprint's EventTick.
+
 		if (item_update_pending) {
-			// Running this on the randomizer instance's EventTick instead of finding it on any preprocess,
-			// to avoid any chance of this code being run before a randomizerinstance has been introduced to a scene.
-			// I'm not actually sure how necessary that is though.
 			if (object->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
 				item_update_pending = false;
 				UFunction* add_upgrade_function = object->GetFunctionByName(STR("AP_AddUpgrade"));
@@ -86,6 +95,12 @@ namespace Pseudoregalia_AP {
 				spawn_update_pending = false;
 				SpawnCollectibles(object, GetWorld());
 			}
+		}
+
+		if (!messages_to_print.empty()) {
+			std::string mew = messages_to_print.front();
+			messages_to_print.pop_front();
+			PrintToPlayer(mew);
 		}
 	}
 
@@ -133,6 +148,27 @@ namespace Pseudoregalia_AP {
 			};
 			randomizer_blueprint->ProcessEvent(spawn_function, &new_info);
 		}
+	}
+
+	void APGameManager::PrintToPlayer(std::string new_message) {
+		UObject* widget = UObjectGlobals::FindFirstOf(STR("APClientWidget_C"));
+		if (!widget) {
+			Output::send<LogLevel::Error>(STR("Error: Could not find APClientWidget. Message could not be printed.\n"));
+			return;
+		}
+		UFunction* text_func = widget->GetFunctionByName(STR("AP_PrintToPlayer"));
+		if (!text_func) {
+			Output::send<LogLevel::Error>(STR("Error: Found APClientWidget, but it has no function AP_PrintToPlayer. Message could not be printed.\n"));
+			return;
+		}
+
+		// Need to convert from string to wstring, then wstring to FText
+		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+		FText new_text = *new FText(converter.from_bytes(new_message));
+		PrintToPlayerInfo input{
+			new_text,
+		};
+		widget->ProcessEvent(text_func, &input);
 	}
 
 	void APGameManager::RegisterReturnCheckHook(AActor* collectible) {
