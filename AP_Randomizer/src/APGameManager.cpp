@@ -85,6 +85,9 @@ namespace Pseudoregalia_AP {
 			PrintToPlayer(mew);
 		}
 
+		if (!client_connected) {
+			return;
+		}
 		if (item_update_pending) {
 			if (object->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
 				item_update_pending = false;
@@ -92,11 +95,7 @@ namespace Pseudoregalia_AP {
 				SyncItems(object, add_upgrade_function);
 			}
 		}
-
 		if (spawn_update_pending) {
-			if (!client_connected) {
-				return;
-			}
 			if (object->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
 				spawn_update_pending = false;
 				SpawnCollectibles(object, GetWorld());
