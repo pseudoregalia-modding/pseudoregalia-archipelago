@@ -141,6 +141,14 @@ namespace Pseudoregalia_AP {
         }
     }
 
+    bool APClient::ConnectionStatusChanged() {
+        if (connection_status != AP_GetConnectionStatus()) {
+            connection_status = AP_GetConnectionStatus();
+            return true;
+        }
+        return false;
+    }
+
     void APClient::PollServer() {
         if (AP_GetConnectionStatus() == AP_ConnectionStatus::Authenticated) {
             APGameManager::SetClientConnected(true);

@@ -26,6 +26,7 @@ namespace Pseudoregalia_AP {
 		static void CheckLocation(int64_t);
 		static void CheckLocation(APCollectible&, std::wstring);
 		static void PrintToPlayer(std::string);
+		static bool ConnectionStatusChanged();
 		static std::map<int64_t, std::wstring> lookup_id_to_item;
 		static std::map <std::wstring, std::vector<APCollectible>> zone_table;
 		static std::map<std::wstring, int> upgrade_table;
