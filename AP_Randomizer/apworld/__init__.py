@@ -19,6 +19,8 @@ class PseudoregaliaWorld(World):
 
     def create_items(self):
         for item_name, item_data in item_table.items():
+            if (item_name == "Dream Breaker"):
+                continue  # Really skrunkled way of just adding the one locked breaker to the pool for now.
             self.multiworld.itempool.append(Item(item_name, item_data.classification, item_data.code, self.player))
 
     def create_regions(self):
@@ -39,6 +41,11 @@ class PseudoregaliaWorld(World):
             })
 
     def set_rules(self):
+        self.multiworld.get_location(
+            "Dungeon - Dream Breaker",
+            self.player).place_locked_item(
+            self.create_item("Dream Breaker"))
+
         # Putting all the access rules here is pretty ugly
         # but I can't be fucked to get it to work properly from another module right now
         set_rule(self.multiworld.get_location("Dungeon - Slide", self.player),
