@@ -156,6 +156,10 @@ namespace Pseudoregalia_AP {
                 APGameManager::SetClientConnected(true);
                 connection_timer = 0;
             }
+            if (connection_status == AP_ConnectionStatus::ConnectionRefused) {
+                APGameManager::QueueMessage("The server refused the connection. Please double-check your connection info and restart the game.");
+                connection_timer = 0;
+            }
         }
 
         if (connection_timer > 0) {
