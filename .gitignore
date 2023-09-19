@@ -3,6 +3,9 @@
 AP_Randomizer/apworld/BaseClasses.py
 AP_Randomizer/apworld/worlds
 
+# Release files
+Release
+
 # Visual Studio folders
 .vs/
 out/
