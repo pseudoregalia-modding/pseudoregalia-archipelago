@@ -99,8 +99,9 @@ namespace Pseudoregalia_AP {
         AP_SetItemRecvCallback(&ReceiveItem);
         AP_SetLocationCheckedCallback(&CheckLocation);
         AP_Start();
-        connection_timer = 0;
+        connection_timer = 1000;
         connection_status = AP_GetConnectionStatus();
+        APGameManager::QueueMessage("Attempting to connect...");
     }
 
     void APClient::ClearItems() {
@@ -150,8 +151,15 @@ namespace Pseudoregalia_AP {
     }
 
     void APClient::PollServer() {
+        if (connection_timer > 0 && ConnectionStatusChanged() == false) {
+            connection_timer--;
+            if (connection_timer <= 0) {
+                APGameManager::QueueMessage("Could not find the address entered. Please double-check your connection info and restart the game.");
+            }
+        }
         if (AP_GetConnectionStatus() == AP_ConnectionStatus::Authenticated) {
             APGameManager::SetClientConnected(true);
+            connection_timer = 0;
         }
 
         if (AP_IsMessagePending()) {
