@@ -1,6 +1,8 @@
 # pseudoregalia-archipelago
 This is a mod for Pseudoregalia that works with the [multi-game multi-world randomizer Archipelago](https://archipelago.gg/). It is currently in early alpha and is being actively developed. Only abilities and major keys are shuffled.
 
+You can get the latest release from [the releases page](https://github.com/pseudoregalia-modding/pseudoregalia-archipelago/releases).
+
 Currently the logic is copied from [spuds' standalone randomizer](https://github.com/pseudoregalia-modding/rando), and may require [movement tricks such as solar ultrahops and cling climbing](https://www.youtube.com/watch?v=kZJjYdh6huk).
 
 You'll spawn in Dungeon with Dream Breaker at its vanilla location, and you'll have to leave through the breakable wall to Underbelly. If you toss the breaker and bounce it off a wall, then pick it up, it'll continue to light your path.
@@ -9,7 +11,9 @@ You'll spawn in Dungeon with Dream Breaker at its vanilla location, and you'll h
 # Mod Installation
 1. In Steam/steamapps/common, make a copy of your Pseudoregalia folder and rename it "Pseudoregalia_AP" (or whatever else you like).
 2. Extract the contents of pseudoregalia-archipelago.zip directly into "Pseudoregalia_AP". You should notice no change to the root folder, but the mod files will be added to the subfolders.
+
 ![](https://i.imgur.com/SGPm9oq.jpg)
+
 4. Create a shortcut to Pseudoregalia_AP/pseudoregalia.exe and rename it "Pseudoregalia_AP" (or whatever else you like). Place it on your desktop or in your games folder or whatever.
 5. Launch the shortcut, which should open Pseudoregalia. Start a new file.
 6. Once you've loaded into dungeon, press F10 to open the in-game console, and enter your connect message:
@@ -19,7 +23,9 @@ You'll spawn in Dungeon with Dream Breaker at its vanilla location, and you'll h
 
 # Generating a Seed
 1. [Install Archipelago](https://archipelago.gg/tutorial/Archipelago/setup/en), including at least the generator.
+
 ![](https://i.imgur.com/9IedtY4.jpg)
+
 2. Place pseudoregalia.apworld into Archipelago/lib/worlds.
 3. Place all yamls for the seed into Archipelago/Players.
 4. Run ArchipelagoGenerate.exe.
