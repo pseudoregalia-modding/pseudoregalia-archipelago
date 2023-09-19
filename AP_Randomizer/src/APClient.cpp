@@ -5,6 +5,8 @@ namespace Pseudoregalia_AP {
     const char* ip;
     const char* slot_name;
     const char* password;
+    int APClient::connection_timer;
+    AP_ConnectionStatus APClient::connection_status;
 
     std::map<int64_t, std::wstring> APClient::lookup_id_to_item = {
         {2365810001, L"attack"},
@@ -97,6 +99,9 @@ namespace Pseudoregalia_AP {
         AP_SetItemRecvCallback(&ReceiveItem);
         AP_SetLocationCheckedCallback(&CheckLocation);
         AP_Start();
+        connection_timer = 4000;
+        connection_status = AP_GetConnectionStatus();
+        APGameManager::QueueMessage("Attempting to connect...");
     }
 
     void APClient::ClearItems() {
@@ -134,6 +139,42 @@ namespace Pseudoregalia_AP {
             if (collectible.GetID() == id) {
                 collectible.Check();
             }
+        }
+    }
+
+    bool APClient::ConnectionStatusChanged() {
+        if (connection_status != AP_GetConnectionStatus()) {
+            connection_status = AP_GetConnectionStatus();
+            return true;
+        }
+        return false;
+    }
+
+    void APClient::PollServer() {
+        if (ConnectionStatusChanged()) {
+            if (connection_status == AP_ConnectionStatus::Authenticated) {
+                APGameManager::SetClientConnected(true);
+                connection_timer = 0;
+            }
+            if (connection_status == AP_ConnectionStatus::ConnectionRefused) {
+                APGameManager::QueueMessage("The server refused the connection. Please double-check your connection info and restart the game.");
+                connection_timer = 0;
+            }
+        }
+
+        if (connection_timer > 0) {
+            connection_timer--;
+            if (connection_timer <= 0) {
+                APGameManager::QueueMessage("Could not find the address entered. Please double-check your connection info and restart the game.");
+            }
+        }
+
+        if (AP_IsMessagePending()) {
+            AP_Message* message = AP_GetLatestMessage();
+            APGameManager::QueueMessage(message->text);
+            printf(message->text.c_str());
+            printf("\n");
+            AP_ClearLatestMessage();
         }
     }
 }

@@ -6,6 +6,13 @@
 namespace Pseudoregalia_AP {
 	bool APGameManager::hooked_into_returncheck;
 	bool APGameManager::item_update_pending;
+	bool APGameManager::spawn_update_pending;
+	bool APGameManager::client_connected;
+	std::list<std::string> APGameManager::messages_to_print;
+
+	struct PrintToPlayerInfo {
+		FText text;
+	};
 
 	struct CollectibleSpawnInfo {
 		int64_t id;
@@ -25,6 +32,18 @@ namespace Pseudoregalia_AP {
 	void APGameManager::QueueItemUpdate() {
 		item_update_pending = true;
 	}
+
+	void APGameManager::QueueSpawnUpdate() {
+		spawn_update_pending = true;
+	}
+	
+	void APGameManager::QueueMessage(std::string message) {
+		messages_to_print.push_back(message);
+	}
+
+	void APGameManager::SetClientConnected(bool connected) {
+		client_connected = connected;
+	}
 	
 	UWorld* APGameManager::GetWorld() {
 		UObject* player_controller = UObjectGlobals::FindFirstOf(STR("PlayerController"));
@@ -34,7 +53,8 @@ namespace Pseudoregalia_AP {
 	void APGameManager::OnBeginPlay(AActor* actor) {
 		if (actor->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
 			UFunction* spawn_function = actor->GetFunctionByName(STR("AP_SpawnCollectible"));
-			OnMapLoad(actor, GetWorld());
+			QueueSpawnUpdate();
+			QueueItemUpdate();
 		}
 
 		if (!hooked_into_returncheck
@@ -42,27 +62,6 @@ namespace Pseudoregalia_AP {
 				RegisterReturnCheckHook(actor);
 				hooked_into_returncheck = true;
 		}
-	}
-
-	void APGameManager::OnMapLoad(AActor* randomizer_blueprint, UWorld* world) {
-		std::vector<APCollectible> collectible_vector = APClient::GetCurrentZoneCollectibles(world->GetName());
-		UFunction* spawn_function = randomizer_blueprint->GetFunctionByName(STR("AP_SpawnCollectible"));
-
-		for (APCollectible collectible : collectible_vector) {
-			if (collectible.IsChecked()) {
-				Output::send<LogLevel::Warning>(STR("Collectible with ID {} has already been sent\n"), collectible.GetID());
-				continue;
-			}
-			Output::send<LogLevel::Verbose>(STR("Spawned collectible with ID {}\n"), collectible.GetID());
-
-			CollectibleSpawnInfo new_info = {
-				collectible.GetID(),
-				collectible.GetPosition(),
-			};
-			randomizer_blueprint->ProcessEvent(spawn_function, &new_info);
-		}
-		// Resync items on map load so that players don't lose items after dying or resetting   
-		QueueItemUpdate();
 	}
 
 	void APGameManager::OnReturnCheck(Unreal::UnrealScriptFunctionCallableContext& context, void* customdata) {
@@ -77,17 +76,30 @@ namespace Pseudoregalia_AP {
 	}
 
 	void APGameManager::PreProcessEvent(UObject* object, UFunction* function, void* params) {
-		if (!item_update_pending) {
-			return;
+		// A lot of stuff has to be run in the game thread, so this function handles that.
+		// It might be a good idea to just change this to a callback hooked into the main randomizer blueprint's EventTick.
+
+		if (!messages_to_print.empty()) {
+			std::string mew = messages_to_print.front();
+			messages_to_print.pop_front();
+			PrintToPlayer(mew);
 		}
 
-		// Running this on the randomizer instance's EventTick instead of finding it on any preprocess,
-		// to avoid any chance of this code being run before a randomizerinstance has been introduced to a scene.
-		// I'm not actually sure how necessary that is though.
-		if (object->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
-			item_update_pending = false;
-			UFunction* add_upgrade_function = object->GetFunctionByName(STR("AP_AddUpgrade"));
-			SyncItems(object, add_upgrade_function);
+		if (!client_connected) {
+			return;
+		}
+		if (item_update_pending) {
+			if (object->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
+				item_update_pending = false;
+				UFunction* add_upgrade_function = object->GetFunctionByName(STR("AP_AddUpgrade"));
+				SyncItems(object, add_upgrade_function);
+			}
+		}
+		if (spawn_update_pending) {
+			if (object->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
+				spawn_update_pending = false;
+				SpawnCollectibles(object, GetWorld());
+			}
 		}
 	}
 
@@ -116,6 +128,46 @@ namespace Pseudoregalia_AP {
 			Output::send<LogLevel::Verbose>(STR("Attempting to add {} with value {}...\n"), pair.first, pair.second);
 			randomizer_blueprint->ProcessEvent(add_upgrade_function, &params);
 		}
+	}
+
+	void APGameManager::SpawnCollectibles(UObject* randomizer_blueprint, UWorld* world) {
+		std::vector<APCollectible> collectible_vector = APClient::GetCurrentZoneCollectibles(world->GetName());
+		UFunction* spawn_function = randomizer_blueprint->GetFunctionByName(STR("AP_SpawnCollectible"));
+
+		for (APCollectible collectible : collectible_vector) {
+			if (collectible.IsChecked()) {
+				Output::send<LogLevel::Warning>(STR("Collectible with ID {} has already been sent\n"), collectible.GetID());
+				continue;
+			}
+			Output::send<LogLevel::Verbose>(STR("Spawned collectible with ID {}\n"), collectible.GetID());
+
+			CollectibleSpawnInfo new_info = {
+				collectible.GetID(),
+				collectible.GetPosition(),
+			};
+			randomizer_blueprint->ProcessEvent(spawn_function, &new_info);
+		}
+	}
+
+	void APGameManager::PrintToPlayer(std::string new_message) {
+		UObject* widget = UObjectGlobals::FindFirstOf(STR("APClientWidget_C"));
+		if (!widget) {
+			Output::send<LogLevel::Error>(STR("Error: Could not find APClientWidget. Message could not be printed.\n"));
+			return;
+		}
+		UFunction* text_func = widget->GetFunctionByName(STR("AP_PrintToPlayer"));
+		if (!text_func) {
+			Output::send<LogLevel::Error>(STR("Error: Found APClientWidget, but it has no function AP_PrintToPlayer. Message could not be printed.\n"));
+			return;
+		}
+
+		// Need to convert from string to wstring, then wstring to FText
+		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+		FText new_text = *new FText(converter.from_bytes(new_message));
+		PrintToPlayerInfo input{
+			new_text,
+		};
+		widget->ProcessEvent(text_func, &input);
 	}
 
 	void APGameManager::RegisterReturnCheckHook(AActor* collectible) {
