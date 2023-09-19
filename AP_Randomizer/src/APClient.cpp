@@ -151,15 +151,18 @@ namespace Pseudoregalia_AP {
     }
 
     void APClient::PollServer() {
-        if (connection_timer > 0 && ConnectionStatusChanged() == false) {
+        if (ConnectionStatusChanged()) {
+            if (connection_status == AP_ConnectionStatus::Authenticated) {
+                APGameManager::SetClientConnected(true);
+                connection_timer = 0;
+            }
+        }
+
+        if (connection_timer > 0) {
             connection_timer--;
             if (connection_timer <= 0) {
                 APGameManager::QueueMessage("Could not find the address entered. Please double-check your connection info and restart the game.");
             }
-        }
-        if (AP_GetConnectionStatus() == AP_ConnectionStatus::Authenticated) {
-            APGameManager::SetClientConnected(true);
-            connection_timer = 0;
         }
 
         if (AP_IsMessagePending()) {
