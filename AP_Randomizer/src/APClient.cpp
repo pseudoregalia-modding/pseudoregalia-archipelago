@@ -99,7 +99,7 @@ namespace Pseudoregalia_AP {
         AP_SetItemRecvCallback(&ReceiveItem);
         AP_SetLocationCheckedCallback(&CheckLocation);
         AP_Start();
-        connection_timer = 1000;
+        connection_timer = 4000;
         connection_status = AP_GetConnectionStatus();
         APGameManager::QueueMessage("Attempting to connect...");
     }
