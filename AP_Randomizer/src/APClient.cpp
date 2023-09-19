@@ -141,5 +141,12 @@ namespace Pseudoregalia_AP {
         if (AP_GetConnectionStatus() == AP_ConnectionStatus::Authenticated) {
             APGameManager::SetClientConnected(true);
         }
+
+        if (AP_IsMessagePending()) {
+            AP_Message* message = AP_GetLatestMessage();
+            printf(message->text.c_str());
+            printf("\n");
+            AP_ClearLatestMessage();
+        }
     }
 }
