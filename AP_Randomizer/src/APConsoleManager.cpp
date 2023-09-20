@@ -17,7 +17,7 @@ namespace Pseudoregalia_AP {
 
 		if (first_word == "connect") {
 			if (command.find(DELIM) == std::string::npos) {
-				std::cout << "Please provide an address.\n";
+				APGameManager::QueueMessage("Please provide an address.");
 				return;
 			}
 			command.erase(0, command.find(DELIM) + 1);
@@ -37,14 +37,14 @@ namespace Pseudoregalia_AP {
 	void APConsoleManager::ParseConnect(std::string args) {
 		std::string ip = GetNextToken(args);
 		if (ip.empty()) {
-			std::cout << "Please provide an ip address, slot name, and (if necessary) password.\n";
+			APGameManager::QueueMessage("Please provide an ip address, slot name, and (if necessary) password.");
 			return;
 		}
 		std::cout << "ip:" << ip << "\n";
 
 		std::string slot_name = GetNextToken(args);
 		if (slot_name.empty()) {
-			std::cout << "Please provide a slot name and (if necessary) password.\n";
+			APGameManager::QueueMessage("Please provide a slot name and (if necessary) password.");
 			return;
 		}
 		std::cout << "slot name:" << slot_name << "\n";
