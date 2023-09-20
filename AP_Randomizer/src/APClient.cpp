@@ -41,6 +41,7 @@ namespace Pseudoregalia_AP {
         if (11 <= id && id <= 15) {
             return ItemType::MajorKey;
         }
+        return ItemType::Unknown;
     }
 
     void APClient::FillZoneTable() {
@@ -132,6 +133,9 @@ namespace Pseudoregalia_AP {
         else if (GetItemType(new_item_id) == ItemType::MajorKey) {
             int key_index = new_item_id - 2365810011;
             major_keys[key_index] = true;
+        }
+        else {
+            APGameManager::QueueMessage("Error: Unknown item ID received. Please check that you and the host are using the same version.");
         }
 
         APGameManager::QueueItemUpdate();

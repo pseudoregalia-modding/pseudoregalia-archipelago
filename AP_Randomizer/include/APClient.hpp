@@ -14,7 +14,8 @@ namespace Pseudoregalia_AP {
 		MinorUpgrade,
 		HealthPiece,
 		SmallKey,
-		MajorKey
+		MajorKey,
+		Unknown
 	};
 
 	class APClient {
