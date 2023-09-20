@@ -101,7 +101,11 @@ namespace Pseudoregalia_AP {
         AP_Start();
         connection_timer = 4000;
         connection_status = AP_GetConnectionStatus();
-        APGameManager::QueueMessage("Attempting to connect...");
+        std::string connect_message = "Attempting to connect to ";
+        connect_message.append(new_ip);
+        connect_message += " with name ";
+        connect_message.append(new_slot_name);
+        APGameManager::QueueMessage(connect_message);
     }
 
     void APClient::ClearItems() {
