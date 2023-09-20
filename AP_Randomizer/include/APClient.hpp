@@ -9,6 +9,14 @@
 #include <string>
 
 namespace Pseudoregalia_AP {
+	enum class ItemType {
+		Ability,
+		MinorUpgrade,
+		HealthPiece,
+		SmallKey,
+		MajorKey
+	};
+
 	class APClient {
 	public:
 		static void Initialize();
