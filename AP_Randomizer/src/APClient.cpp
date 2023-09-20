@@ -33,6 +33,16 @@ namespace Pseudoregalia_AP {
         return major_keys;
     }
 
+    ItemType APClient::GetItemType(int64_t id) {
+        id -= 2365810000;
+        if (1 <= id <= 10) {
+            return ItemType::Ability;
+        }
+        if (11 <= id <= 15) {
+            return ItemType::MajorKey;
+        }
+    }
+
     void APClient::FillZoneTable() {
         zone_table = {
             {L"ZONE_Dungeon", std::vector<APCollectible> {
@@ -115,13 +125,13 @@ namespace Pseudoregalia_AP {
 
     void APClient::ReceiveItem(int64_t new_item_id, bool notify) {
         // TODO: these id ranges should be defined with a constant
-        if (2365810011 <= new_item_id && new_item_id <= 2365810015) {
-            int key_index = new_item_id - 2365810011;
-            major_keys[key_index] = true;
-        }
-        else {
+        if (GetItemType(new_item_id) == ItemType::Ability) {
             upgrade_table[lookup_id_to_item[new_item_id]]++;
             Output::send<LogLevel::Verbose>(STR("Set {} to {}\n"), lookup_id_to_item[new_item_id], upgrade_table[lookup_id_to_item[new_item_id]]);
+        }
+        else if (GetItemType(new_item_id) == ItemType::MajorKey) {
+            int key_index = new_item_id - 2365810011;
+            major_keys[key_index] = true;
         }
 
         APGameManager::QueueItemUpdate();
