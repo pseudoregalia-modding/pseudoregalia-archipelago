@@ -27,6 +27,7 @@ namespace Pseudoregalia_AP {
 		static std::map<std::wstring, int> GetUpgradeTable();
 		static std::vector<APCollectible> GetCurrentZoneCollectibles(std::wstring);
 		static bool* GetMajorKeys();
+		static int GetSmallKeys();
 	private:
 		static void FillZoneTable();
 		static void ResetUpgradeTable();

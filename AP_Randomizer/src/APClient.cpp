@@ -135,6 +135,9 @@ namespace Pseudoregalia_AP {
             upgrade_table[lookup_id_to_item[new_item_id]]++;
             Output::send<LogLevel::Verbose>(STR("Set {} to {}\n"), lookup_id_to_item[new_item_id], upgrade_table[lookup_id_to_item[new_item_id]]);
         }
+        else if (GetItemType(new_item_id) == ItemType::SmallKey) {
+            small_keys++;
+        }
         else if (GetItemType(new_item_id) == ItemType::MajorKey) {
             int key_index = new_item_id - 2365810011;
             major_keys[key_index] = true;
