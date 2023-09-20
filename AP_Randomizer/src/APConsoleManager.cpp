@@ -17,7 +17,7 @@ namespace Pseudoregalia_AP {
 
 		if (first_word == "connect") {
 			if (command.find(DELIM) == std::string::npos) {
-				APGameManager::QueueMessage("Please provide an address.");
+				APGameManager::QueueMessage("Please provide an ip address, slot name, and (if necessary) password.");
 				return;
 			}
 			command.erase(0, command.find(DELIM) + 1);
