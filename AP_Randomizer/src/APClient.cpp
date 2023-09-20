@@ -30,6 +30,10 @@ namespace Pseudoregalia_AP {
         return upgrade_table;
     }
 
+    int APClient::GetSmallKeys() {
+        return small_keys;
+    }
+
     bool* APClient::GetMajorKeys() {
         return major_keys;
     }
