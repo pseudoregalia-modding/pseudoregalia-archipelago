@@ -77,6 +77,28 @@ location_table = {
         code=2365810022,
         region="Castle Sansa",),
 
+    "Dungeon - Small Key On Rafters": PseudoregaliaLocationData(
+        code=2365810023,
+        region="Dungeon Strong Eyes",),
+    "Dungeon - Strong Eyes": PseudoregaliaLocationData(
+        code=2365810024,
+        region="Dungeon Strong Eyes",),
+    "Castle - Small Key In Hallway": PseudoregaliaLocationData(
+        code=2365810025,
+        region="Castle Sansa",),
+    "Castle - High Small Key": PseudoregaliaLocationData(
+        code=2365810026,
+        region="Castle Sansa",),
+    "Keep - Small Key": PseudoregaliaLocationData(
+        code=2365810027,
+        region="Keep Main",),
+    "Bailey - Small Key": PseudoregaliaLocationData(
+        code=2365810028,
+        region="Empty Bailey",),
+    "Underbelly - Small Key": PseudoregaliaLocationData(
+        code=2365810029,
+        region="Underbelly Main",),
+
     "Bailey - Major Key": PseudoregaliaLocationData(
         code=2365810046,
         region="Empty Bailey",),
