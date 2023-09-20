@@ -29,6 +29,10 @@ namespace Pseudoregalia_AP {
 		bool to_give;
 	};
 
+	struct MinorKeyInfo {
+		int count;
+	};
+
 	void APGameManager::QueueItemUpdate() {
 		item_update_pending = true;
 	}
@@ -116,6 +120,12 @@ namespace Pseudoregalia_AP {
 			randomizer_blueprint->ProcessEvent(set_major_keys, &keyparams);
 		}
 
+		int key_count = APClient::GetSmallKeys();
+		UFunction* set_small_keys = randomizer_blueprint->GetFunctionByName(STR("AP_SetSmallKeys"));
+		MinorKeyInfo params{
+			key_count,
+		};
+		randomizer_blueprint->ProcessEvent(set_small_keys, &params);
 
 		std::map<std::wstring, int> upgrade_table = APClient::GetUpgradeTable();
 		for (auto const& pair : upgrade_table) {
