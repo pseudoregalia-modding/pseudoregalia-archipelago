@@ -43,6 +43,38 @@ item_table: Dict[str, PseudoregaliaItemData] = {
         code=2365810010,
         classification=ItemClassification.progression),
 
+    "Heliacal Power": PseudoregaliaItemData(
+        code=2365810011,
+        classification=ItemClassification.progression),
+    "Aerial Finesse": PseudoregaliaItemData(
+        code=2365810012,
+        classification=ItemClassification.filler),
+    "Pilgrimage": PseudoregaliaItemData(
+        code=2365810013,
+        classification=ItemClassification.filler),
+    "Empathy": PseudoregaliaItemData(
+        code=2365810014,
+        classification=ItemClassification.filler),
+    "Good Graces": PseudoregaliaItemData(
+        code=2365810015,
+        classification=ItemClassification.useful),
+    "Martial Prowess": PseudoregaliaItemData(
+        code=2365810016,
+        classification=ItemClassification.useful),
+    "Clear Mind": PseudoregaliaItemData(
+        code=2365810017,
+        classification=ItemClassification.filler),
+    "The Professional": PseudoregaliaItemData(
+        code=2365810018,
+        classification=ItemClassification.filler),
+
+    "Health Piece": PseudoregaliaItemData(
+        code=2365810019,
+        classification=ItemClassification.useful),
+    "Small Key": PseudoregaliaItemData(
+        code=2365810020,
+        classification=ItemClassification.progression),
+
     "Major Key - Empty Bailey": PseudoregaliaItemData(
         code=2365810011,
         classification=ItemClassification.progression),
