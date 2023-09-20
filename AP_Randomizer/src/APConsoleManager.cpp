@@ -59,7 +59,14 @@ namespace Pseudoregalia_AP {
 		while (input[0] == DELIM) {
 			input.erase(input.begin());
 		}
-		std::string token = input.substr(0, input.find(DELIM));
+		std::string token;
+		if (input[0] == '"') {
+			// look for second double quote and take everything between them as one token
+			token = input.substr(1, input.find('"', 1)-1);
+			input.erase(0, input.find('"', 1)+1);
+			return token;
+		}
+		token = input.substr(0, input.find(DELIM));
 		input.erase(0, input.find(DELIM));
 		return token;
 	}
