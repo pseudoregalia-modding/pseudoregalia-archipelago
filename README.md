@@ -32,11 +32,11 @@ You'll spawn in Dungeon with Dream Breaker at its vanilla location, and you'll h
 5. A zip file will be added to Archipelago/output, which can [hosted on the website](https://archipelago.gg/uploads) or hosted locally with ArchipelagoServer.exe.
 
 # Known Issues
-- Slot names and passwords with spaces in them will not work at all.
 - If you enter your connection info incorrectly, you have to restart the game to try again.
 - Minor upgrades and small keys have been removed from the game completely due to technical quirks.
 - Messages printed to the screen will be deleted when passing through a loading zone even if you didn't have time to read them.
 - If you get a lot of messages at once, such as from a released world, they'll extend off your screen.
+- A crash can occur when entering incorrect connection info under certain conditions.
 
 # Planned Updates
 - Spawning in Castle instead of Dungeon
