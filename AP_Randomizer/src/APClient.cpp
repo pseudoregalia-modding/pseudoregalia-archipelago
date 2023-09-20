@@ -35,10 +35,10 @@ namespace Pseudoregalia_AP {
 
     ItemType APClient::GetItemType(int64_t id) {
         id -= 2365810000;
-        if (1 <= id <= 10) {
+        if (1 <= id && id <= 10) {
             return ItemType::Ability;
         }
-        if (11 <= id <= 15) {
+        if (11 <= id && id <= 15) {
             return ItemType::MajorKey;
         }
     }
