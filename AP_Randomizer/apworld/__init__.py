@@ -143,7 +143,7 @@ class PseudoregaliaWorld(World):
                      state.has("Cling Gem", self.player),
                      get_kicks(state, self.player) >= 1
                  ]))
-        set_rule(self.multiworld.get_location("Castle - The Professional", self.player), lambda state:
+        set_rule(self.multiworld.get_location("Castle - Professionalism", self.player), lambda state:
                  has_small_keys(state, self.player))
 
         set_rule(self.multiworld.get_location("Bailey - Major Key", self.player), lambda state:
