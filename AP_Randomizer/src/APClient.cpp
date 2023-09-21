@@ -53,35 +53,54 @@ namespace Pseudoregalia_AP {
         zone_table = {
             {L"ZONE_Dungeon", std::vector<APCollectible> {
                 APCollectible("Dream Breaker", FVector(-3500.0, 4950.0, -50.0), 2365810001),
-                APCollectible("Slide", FVector(16650, 2600, 2350), 2365810002)}
-                },
+                APCollectible("Slide", FVector(16650, 2600, 2350), 2365810002),
+                APCollectible("Dungeon Good Graces", FVector(18250, -9750, 4200), 2365810016),
+                APCollectible("Strong Eyes Key", FVector(750, 8850, 2650), 2365810024),
+                APCollectible("Rafters Key", FVector(7487, 1407, 4250), 2365810023)
+                }},
             {L"ZONE_LowerCastle", std::vector<APCollectible> {
-                APCollectible("Indignation", FVector(5400, 2100, -550), 2365810003)}
-                },
+                APCollectible("Indignation", FVector(5400, 2100, -550), 2365810003),
+                APCollectible("Professionalism", FVector(2700, -1700, -500), 2365810022),
+                APCollectible("Castle Clear Mind", FVector(3390, 21150, 6600), 2365810019),
+                APCollectible("Castle Good Graces", FVector(-3150, 11500, 6300), 2365810017),
+                APCollectible("Pilgrimage", FVector(-5000, -600, 2050), 2365810013),
+                APCollectible("Castle Hallway Key", FVector(7950, 2750, -200), 2365810025),
+                APCollectible("Castle High Key", FVector(-4100, -8200, 2950), 2365810026)
+                }},
             {L"Zone_Upper", std::vector<APCollectible>{
                 APCollectible("Sunsetter", FVector(-3000, 4900, -400), 2365810004),
                 APCollectible("Strikebreak", FVector(10050, 1800, 1000), 2365810005),
-                APCollectible("Keep Major Key", FVector(14350, -50, 1350), 2365810014)}
-                },
+                APCollectible("Keep Major Key", FVector(14350, -50, 1350), 2365810014),
+                APCollectible("Keep Clear Mind", FVector(-3900, -6109, -450), 2365810021),
+                APCollectible("Keep Small Key", FVector(1050, 15700, 1300), 2365810027)
+                }},
             {L"Zone_Library", std::vector<APCollectible>{
-                APCollectible("Sun Greaves", FVector(-4150, 9200, -100), 2365810006)}
-                },
+                APCollectible("Sun Greaves", FVector(-4150, 9200, -100), 2365810006),
+                APCollectible("Clear Mind", FVector(-1300, -6750, -700), 2365810020)
+                }},
             {L"Zone_Theatre", std::vector<APCollectible>{
                 APCollectible("Soul Cutter", FVector(8500, 7850, -1400), 2365810007),
-                APCollectible("Theatre Major Key", FVector(5200, 1550, 700), 2365810015)}
-                },
+                APCollectible("Theatre Major Key", FVector(5200, 1550, 700), 2365810015),
+                APCollectible("Aerial Finesse", FVector(-14100, -150, 1950), 2365810012),
+                APCollectible("Theatre Empathy", FVector(-1460, -2550, 2240), 2365810015)
+                }},
             {L"ZONE_Exterior", std::vector<APCollectible>{
                 APCollectible("Solar Wind", FVector(-1100, 10850, 150), 2365810008),
-                APCollectible("Bailey Major Key", FVector(-1787, 5236, 650), 2365810011)}
-                },
+                APCollectible("Bailey Major Key", FVector(-1787, 5236, 650), 2365810011),
+                APCollectible("Bailey Empathy", FVector(5040, 7150, 2500), 2365810015),
+                APCollectible("Bailey Small Key", FVector(3007, 3457, 300), 2365810028)
+                }},
             {L"Zone_Caves", std::vector<APCollectible>{
                 APCollectible("Ascendant Light", FVector(-5400, 6650, 6750), 2365810009),
-                APCollectible("Underbelly Major Key", FVector(31900, 26250, 3850), 2365810012)
+                APCollectible("Underbelly Major Key", FVector(31900, 26250, 3850), 2365810012),
+                APCollectible("Heliacal Power", FVector(18896, 7937, 1200), 2365810011),
+                APCollectible("Martial Prowess", FVector(11300, 12700, 3107), 2365810018),
+                APCollectible("Underbelly Key", FVector(-726, 19782, 3200), 2365810029)
                 }},
             {L"Zone_Tower", std::vector<APCollectible>{
                 APCollectible("Cling Gem", FVector(13350, 5250, 4150), 2365810010),
-                APCollectible("Tower Major Key", FVector(9650, 5250, 7100), 2365810013)}
-                },
+                APCollectible("Tower Major Key", FVector(9650, 5250, 7100), 2365810013)
+                }},
         };
     }
 
