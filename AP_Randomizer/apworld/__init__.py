@@ -174,6 +174,28 @@ class PseudoregaliaWorld(World):
                      and get_kicks(state, self.player) >= 3,
                  ]))
 
+        set_rule(self.multiworld.get_location("Dungeon - Small Key On Rafters", self.player), lambda state:
+                 any([
+                     state.has("Cling Gem", self.player),
+                     state.has("Sunsetter", self.player) and get_kicks(state, self.player) >= 3,
+                     can_slidejump(state, self.player) and get_kicks(state, self.player) >= 3]))
+        set_rule(self.multiworld.get_location("Dungeon - Strong Eyes", self.player), lambda state:
+                 has_breaker(state, self.player))
+        set_rule(self.multiworld.get_location("Castle - Small Key In Hallway", self.player), lambda state:
+                 any([
+                     can_slidejump(state, self.player),
+                     get_kicks(state, self.player) >= 1,
+                     state.has("Sunsetter", self.player),
+                     state.has("Cling Gem", self.player)]))
+        set_rule(self.multiworld.get_location("Castle - High Small Key", self.player), lambda state:
+                 state.has("Cling Gem", self.player) or get_kicks(state, self.player) >= 3)
+        set_rule(self.multiworld.get_location("Keep - Small Key", self.player), lambda state:
+                 has_breaker(state, self.player))
+        set_rule(self.multiworld.get_location("Bailey - Small Key", self.player), lambda state:
+                 state.has("Slide", self.player))
+        set_rule(self.multiworld.get_location("Underbelly - Small Key", self.player), lambda state:
+                 state.has("Sunsetter", self.player) or can_slidejump(state, self.player))
+
         # TODO: Replace with a proper event
         self.multiworld.completion_condition[self.player] = lambda state: state.has_all([
             "Major Key - Empty Bailey",
