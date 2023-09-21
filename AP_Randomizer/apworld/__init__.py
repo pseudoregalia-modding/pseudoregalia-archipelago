@@ -1,6 +1,6 @@
 from worlds.AutoWorld import World
 from BaseClasses import Region, Location, Item
-from .Items import PseudoregaliaItem, PseudoregaliaItemData, item_table
+from .Items import PseudoregaliaItem, PseudoregaliaItemData, item_table, item_frequencies
 from .Locations import location_table
 from .Regions import region_table
 from worlds.generic.Rules import add_rule, set_rule, forbid_item
@@ -21,7 +21,12 @@ class PseudoregaliaWorld(World):
         for item_name, item_data in item_table.items():
             if (item_name == "Dream Breaker"):
                 continue  # Really skrunkled way of just adding the one locked breaker to the pool for now.
-            self.multiworld.itempool.append(Item(item_name, item_data.classification, item_data.code, self.player))
+            if (item_name in item_frequencies):
+                for count in range(item_frequencies[item_name]):
+                    self.multiworld.itempool.append(
+                        Item(item_name, item_data.classification, item_data.code, self.player))
+            else:
+                self.multiworld.itempool.append(Item(item_name, item_data.classification, item_data.code, self.player))
 
     def create_regions(self):
         for region_name in region_table.keys():
