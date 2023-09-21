@@ -19,6 +19,14 @@ namespace Pseudoregalia_AP {
         {2365810008, L"wallRide"},
         {2365810009, L"Light"},
         {2365810010, L"projectile"},
+        {2365810011, L"extraKick"},
+        {2365810012, L"airRecovery"},
+        {2365810013, L"mobileHeal"},
+        {2365810014, L"magicHaste"},
+        {2365810015, L"healBoost"},
+        {2365810016, L"damageBoost"},
+        {2365810017, L"magicPiece"},
+        {2365810018, L"outfitPro"},
     };
 
     std::map <std::wstring, std::vector<APCollectible>> APClient::zone_table;
@@ -116,6 +124,14 @@ namespace Pseudoregalia_AP {
             {L"wallRide", 0},
             {L"Light", 0},
             {L"projectile", 0},
+            {L"extraKick", 0},
+            {L"airRecovery", 0},
+            {L"mobileHeal", 0},
+            {L"magicHaste", 0},
+            {L"healBoost", 0},
+            {L"damageBoost", 0},
+            {L"magicPiece", 0},
+            {L"outfitPro", 0},
         };
     }
 
