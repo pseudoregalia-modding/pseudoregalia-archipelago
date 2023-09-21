@@ -64,7 +64,7 @@ item_table: Dict[str, PseudoregaliaItemData] = {
     "Clear Mind": PseudoregaliaItemData(
         code=2365810017,
         classification=ItemClassification.filler),
-    "The Professional": PseudoregaliaItemData(
+    "Professionalism": PseudoregaliaItemData(
         code=2365810018,
         classification=ItemClassification.filler),
 

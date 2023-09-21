@@ -73,7 +73,7 @@ location_table = {
     "Keep - Clear Mind": PseudoregaliaLocationData(
         code=2365810021,
         region="Keep Main",),
-    "Castle - The Professional": PseudoregaliaLocationData(
+    "Castle - Professionalism": PseudoregaliaLocationData(
         code=2365810022,
         region="Castle Sansa",),
 
