@@ -174,7 +174,7 @@ namespace Pseudoregalia_AP {
             small_keys++;
         }
         else if (GetItemType(new_item_id) == ItemType::MajorKey) {
-            int key_index = new_item_id - 2365810011;
+            int key_index = new_item_id - 2365810046;
             major_keys[key_index] = true;
         }
         else {
