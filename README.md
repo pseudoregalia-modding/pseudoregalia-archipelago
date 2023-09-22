@@ -1,5 +1,5 @@
 # pseudoregalia-archipelago
-This is a mod for Pseudoregalia that works with the [multi-game multi-world randomizer Archipelago](https://archipelago.gg/). It is currently in early alpha and is being actively developed. Only abilities and major keys are shuffled.
+This is a mod for Pseudoregalia that works with the [multi-game multi-world randomizer Archipelago](https://archipelago.gg/). It is currently in early alpha and is being actively developed. Abilities, minor upgrades, major keys, and small keys are shuffled.
 
 You can get the latest release from [the releases page](https://github.com/pseudoregalia-modding/pseudoregalia-archipelago/releases).
 
@@ -33,7 +33,7 @@ You'll spawn in Dungeon with Dream Breaker at its vanilla location, and you'll h
 
 # Known Issues
 - If you enter your connection info incorrectly, you have to restart the game to try again.
-- Minor upgrades and small keys have been removed from the game completely due to technical quirks.
+- Consumed small keys will be restored on scene transition.
 - Messages printed to the screen will be deleted when passing through a loading zone even if you didn't have time to read them.
 - If you get a lot of messages at once, such as from a released world, they'll extend off your screen.
 - A crash can occur when entering incorrect connection info under certain conditions.
