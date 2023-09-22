@@ -40,19 +40,78 @@ location_table = {
         code=2365810010,
         region="Tower Remains"),
 
-    "Bailey - Major Key": PseudoregaliaLocationData(
+    "Underbelly - Heliacal Power": PseudoregaliaLocationData(
         code=2365810011,
+        region="Underbelly Main",),
+    "Theatre - Aerial Finesse": PseudoregaliaLocationData(
+        code=2365810012,
+        region="Theatre Pillar",),
+    "Castle - Pilgrimage": PseudoregaliaLocationData(
+        code=2365810013,
+        region="Castle Sansa",),
+    "Bailey - Empathy": PseudoregaliaLocationData(
+        code=2365810014,
+        region="Empty Bailey",),
+    "Theatre - Empathy": PseudoregaliaLocationData(
+        code=2365810015,
+        region="Theatre Main",),
+    "Dungeon - Good Graces": PseudoregaliaLocationData(
+        code=2365810016,
+        region="Dungeon Mirror",),
+    "Castle - Good Graces": PseudoregaliaLocationData(
+        code=2365810017,
+        region="Castle Sansa",),
+    "Underbelly - Martial Prowess": PseudoregaliaLocationData(
+        code=2365810018,
+        region="Underbelly Main",),
+    "Castle - Clear Mind": PseudoregaliaLocationData(
+        code=2365810019,
+        region="Castle Sansa",),
+    "Library - Clear Mind": PseudoregaliaLocationData(
+        code=2365810020,
+        region="Library Locked",),
+    "Keep - Clear Mind": PseudoregaliaLocationData(
+        code=2365810021,
+        region="Keep Main",),
+    "Castle - Professionalism": PseudoregaliaLocationData(
+        code=2365810022,
+        region="Castle Sansa",),
+
+    "Dungeon - Small Key On Rafters": PseudoregaliaLocationData(
+        code=2365810023,
+        region="Dungeon Strong Eyes",),
+    "Dungeon - Strong Eyes": PseudoregaliaLocationData(
+        code=2365810024,
+        region="Dungeon Strong Eyes",),
+    "Castle - Small Key In Hallway": PseudoregaliaLocationData(
+        code=2365810025,
+        region="Castle Sansa",),
+    "Castle - High Small Key": PseudoregaliaLocationData(
+        code=2365810026,
+        region="Castle Sansa",),
+    "Keep - Small Key": PseudoregaliaLocationData(
+        code=2365810027,
+        region="Keep Main",),
+    "Bailey - Small Key": PseudoregaliaLocationData(
+        code=2365810028,
+        region="Empty Bailey",),
+    "Underbelly - Small Key": PseudoregaliaLocationData(
+        code=2365810029,
+        region="Underbelly Main",),
+
+    "Bailey - Major Key": PseudoregaliaLocationData(
+        code=2365810046,
         region="Empty Bailey",),
     "Underbelly - Major Key": PseudoregaliaLocationData(
-        code=2365810012,
+        code=2365810047,
         region="Underbelly Hole",),
     "Tower - Major Key": PseudoregaliaLocationData(
-        code=2365810013,
+        code=2365810048,
         region="Tower Remains",),
     "Keep - Major Key": PseudoregaliaLocationData(
-        code=2365810014,
+        code=2365810049,
         region="Keep Main",),
     "Theatre - Major Key": PseudoregaliaLocationData(
-        code=2365810015,
+        code=2365810050,
         region="Theatre Main",),
 }

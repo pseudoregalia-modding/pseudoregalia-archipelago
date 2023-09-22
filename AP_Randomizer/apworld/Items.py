@@ -43,19 +43,58 @@ item_table: Dict[str, PseudoregaliaItemData] = {
         code=2365810010,
         classification=ItemClassification.progression),
 
-    "Major Key - Empty Bailey": PseudoregaliaItemData(
+    "Heliacal Power": PseudoregaliaItemData(
         code=2365810011,
         classification=ItemClassification.progression),
-    "Major Key - The Underbelly": PseudoregaliaItemData(
+    "Aerial Finesse": PseudoregaliaItemData(
         code=2365810012,
+        classification=ItemClassification.filler),
+    "Pilgrimage": PseudoregaliaItemData(
+        code=2365810013,
+        classification=ItemClassification.filler),
+    "Empathy": PseudoregaliaItemData(
+        code=2365810014,
+        classification=ItemClassification.filler),
+    "Good Graces": PseudoregaliaItemData(
+        code=2365810015,
+        classification=ItemClassification.useful),
+    "Martial Prowess": PseudoregaliaItemData(
+        code=2365810016,
+        classification=ItemClassification.useful),
+    "Clear Mind": PseudoregaliaItemData(
+        code=2365810017,
+        classification=ItemClassification.filler),
+    "Professionalism": PseudoregaliaItemData(
+        code=2365810018,
+        classification=ItemClassification.filler),
+
+    # "Health Piece": PseudoregaliaItemData(
+    # code=2365810019,
+    # classification=ItemClassification.useful),
+    "Small Key": PseudoregaliaItemData(
+        code=2365810020,
+        classification=ItemClassification.progression),
+
+    "Major Key - Empty Bailey": PseudoregaliaItemData(
+        code=2365810021,
+        classification=ItemClassification.progression),
+    "Major Key - The Underbelly": PseudoregaliaItemData(
+        code=2365810022,
         classification=ItemClassification.progression),
     "Major Key - Tower Remains": PseudoregaliaItemData(
-        code=2365810013,
+        code=2365810023,
         classification=ItemClassification.progression),
     "Major Key - Sansa Keep": PseudoregaliaItemData(
-        code=2365810014,
+        code=2365810024,
         classification=ItemClassification.progression),
     "Major Key - Twilight Theatre": PseudoregaliaItemData(
-        code=2365810015,
+        code=2365810025,
         classification=ItemClassification.progression),
+}
+
+item_frequencies = {
+    "Empathy": 2,
+    "Good Graces": 2,
+    "Clear Mind": 3,
+    "Small Key": 7,
 }
