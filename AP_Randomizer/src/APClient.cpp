@@ -48,10 +48,13 @@ namespace Pseudoregalia_AP {
 
     ItemType APClient::GetItemType(int64_t id) {
         id -= 2365810000;
-        if (1 <= id && id <= 10) {
+        if (1 <= id && id <= 18) {
             return ItemType::Ability;
         }
-        if (11 <= id && id <= 15) {
+        if (id == 20) {
+            return ItemType::SmallKey;
+        }
+        if (21 <= id && id <= 25) {
             return ItemType::MajorKey;
         }
         return ItemType::Unknown;
@@ -176,7 +179,7 @@ namespace Pseudoregalia_AP {
             small_keys++;
         }
         else if (GetItemType(new_item_id) == ItemType::MajorKey) {
-            int key_index = new_item_id - 2365810046;
+            int key_index = new_item_id - 2365810021;
             major_keys[key_index] = true;
         }
         else {
