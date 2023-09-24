@@ -52,28 +52,28 @@ location_table = {
     "Bailey - Cheese Bell": PseudoregaliaLocationData(
         code=2365810014,
         region="Empty Bailey",),
-    "Theatre - Empathy": PseudoregaliaLocationData(
+    "Theatre - Locked Door": PseudoregaliaLocationData(
         code=2365810015,
         region="Theatre Main",),
-    "Dungeon - Good Graces": PseudoregaliaLocationData(
+    "Dungeon - Dark Orbs": PseudoregaliaLocationData(
         code=2365810016,
         region="Dungeon Mirror",),
     "Castle - Good Graces": PseudoregaliaLocationData(
         code=2365810017,
         region="Castle Sansa",),
-    "Underbelly - Martial Prowess": PseudoregaliaLocationData(
+    "Underbelly - Strikebreak Wall": PseudoregaliaLocationData(
         code=2365810018,
         region="Underbelly Main",),
     "Castle - Clear Mind": PseudoregaliaLocationData(
         code=2365810019,
         region="Castle Sansa",),
-    "Library - Clear Mind": PseudoregaliaLocationData(
+    "Library - Locked Door Across": PseudoregaliaLocationData(
         code=2365810020,
         region="Library Locked",),
-    "Keep - Clear Mind": PseudoregaliaLocationData(
+    "Keep - Near Theatre": PseudoregaliaLocationData(
         code=2365810021,
         region="Keep Main",),
-    "Castle - Professionalism": PseudoregaliaLocationData(
+    "Castle - Locked Door": PseudoregaliaLocationData(
         code=2365810022,
         region="Castle Sansa",),
 
