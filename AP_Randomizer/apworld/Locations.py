@@ -43,7 +43,7 @@ location_table = {
     "Underbelly - Locked Door": PseudoregaliaLocationData(
         code=2365810011,
         region="Underbelly Main",),
-    "Theatre - Aerial Finesse": PseudoregaliaLocationData(
+    "Theatre - Corner Beam": PseudoregaliaLocationData(
         code=2365810012,
         region="Theatre Pillar",),
     "Castle - Floater In Courtyard": PseudoregaliaLocationData(
