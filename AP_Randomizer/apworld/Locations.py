@@ -98,6 +98,56 @@ location_table = {
     "Underbelly - Small Key": PseudoregaliaLocationData(
         code=2365810029,
         region="Underbelly Main",),
+    
+    "Dungeon - Alcove Near Mirror": PseudoregaliaLocationData(
+        code=2365810030,
+        region="Dungeon Mirror",),
+    "Dungeon - Past Poles": PseudoregaliaLocationData(
+        code=236510031,
+        region="Dungeon Strong Eyes",),
+    "Castle - Alcove Near Dungeon Entrance": PseudoregaliaLocationData(
+        code=236510032,
+        region="Castle Sansa",),
+    "Castle - Corner Corridor": PseudoregaliaLocationData(
+        code=236510033,
+        region="Castle Sansa",),
+    "Castle - By Spike Wheels": PseudoregaliaLocationData(
+        code=236510034,
+        region="Castle Sansa",),
+    "Castle - Alcove Near Theatre": PseudoregaliaLocationData(
+        code=236510035,
+        region="Castle Sansa",),
+    "Castle - Balcony": PseudoregaliaLocationData(
+        code=236510036,
+        region="Castle Sansa",),
+    "Library - Upper Back": PseudoregaliaLocationData(
+        code=236510037,
+        region="Library Main",),
+    "Library - Locked Left": PseudoregaliaLocationData(
+        code=236510038,
+        region="Library Locked",),
+    "Keep - Alcove Near Locked Door": PseudoregaliaLocationData(
+        code=236510039,
+        region="Keep Main",),
+    "Bailey - Tower": PseudoregaliaLocationData(
+        code=236510040,
+        region="Empty Bailey",),
+    "Underbelly - Rafters Near Keep": PseudoregaliaLocationData(
+        code=236510041,
+        region="Underbelly Hole",),
+    "Underbelly - Top Of Building": PseudoregaliaLocationData(
+        code=236510042,
+        region="Underbelly Main",),
+    "Underbelly - Alcove Behind Pillars": PseudoregaliaLocationData(
+        code=236510043,
+        region="Underbelly Main",),
+    "Theatre - Among Boxes": PseudoregaliaLocationData(
+        code=236510044,
+        region="Theatre Main",),
+    "Theatre - On Pillar": PseudoregaliaLocationData(
+        code=236510045,
+        region="Theatre Main",),
+    
 
     "Bailey - Major Key": PseudoregaliaLocationData(
         code=2365810046,
