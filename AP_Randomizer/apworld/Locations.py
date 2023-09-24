@@ -105,7 +105,7 @@ location_table = {
     "Dungeon - Past Poles": PseudoregaliaLocationData(
         code=236510031,
         region="Dungeon Strong Eyes",),
-    "Castle - Alcove Near Dungeon Entrance": PseudoregaliaLocationData(
+    "Castle - Alcove Near Dungeon": PseudoregaliaLocationData(
         code=236510032,
         region="Castle Sansa",),
     "Castle - Corner Corridor": PseudoregaliaLocationData(
