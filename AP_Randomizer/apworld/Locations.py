@@ -58,13 +58,13 @@ location_table = {
     "Dungeon - Dark Orbs": PseudoregaliaLocationData(
         code=2365810016,
         region="Dungeon Mirror",),
-    "Castle - Good Graces": PseudoregaliaLocationData(
+    "Castle - Near Theatre Front": PseudoregaliaLocationData(
         code=2365810017,
         region="Castle Sansa",),
     "Underbelly - Strikebreak Wall": PseudoregaliaLocationData(
         code=2365810018,
         region="Underbelly Main",),
-    "Castle - Clear Mind": PseudoregaliaLocationData(
+    "Castle - High Climb": PseudoregaliaLocationData(
         code=2365810019,
         region="Castle Sansa",),
     "Library - Locked Door Across": PseudoregaliaLocationData(
@@ -114,7 +114,7 @@ location_table = {
     "Castle - Wheel Crawlers": PseudoregaliaLocationData(
         code=236510034,
         region="Castle Sansa",),
-    "Castle - Alcove Near Theatre": PseudoregaliaLocationData(
+    "Castle - Alcove Near Scythe Corridor": PseudoregaliaLocationData(
         code=236510035,
         region="Castle Sansa",),
     "Castle - Balcony": PseudoregaliaLocationData(
@@ -123,7 +123,7 @@ location_table = {
     "Library - Upper Back": PseudoregaliaLocationData(
         code=236510037,
         region="Library Main",),
-    "Library - Locked Left": PseudoregaliaLocationData(
+    "Library - Locked Door Left": PseudoregaliaLocationData(
         code=236510038,
         region="Library Locked",),
     "Keep - Alcove Near Locked Door": PseudoregaliaLocationData(
