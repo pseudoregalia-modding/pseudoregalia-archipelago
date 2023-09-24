@@ -40,16 +40,16 @@ location_table = {
         code=2365810010,
         region="Tower Remains"),
 
-    "Underbelly - Heliacal Power": PseudoregaliaLocationData(
+    "Underbelly - Locked Door": PseudoregaliaLocationData(
         code=2365810011,
         region="Underbelly Main",),
     "Theatre - Aerial Finesse": PseudoregaliaLocationData(
         code=2365810012,
         region="Theatre Pillar",),
-    "Castle - Pilgrimage": PseudoregaliaLocationData(
+    "Castle - Floater In Courtyard": PseudoregaliaLocationData(
         code=2365810013,
         region="Castle Sansa",),
-    "Bailey - Empathy": PseudoregaliaLocationData(
+    "Bailey - Cheese Bell": PseudoregaliaLocationData(
         code=2365810014,
         region="Empty Bailey",),
     "Theatre - Empathy": PseudoregaliaLocationData(
@@ -129,7 +129,7 @@ location_table = {
     "Keep - Alcove Near Locked Door": PseudoregaliaLocationData(
         code=236510039,
         region="Keep Main",),
-    "Bailey - Tower": PseudoregaliaLocationData(
+    "Bailey - Center Steeple": PseudoregaliaLocationData(
         code=236510040,
         region="Empty Bailey",),
     "Underbelly - Rafters Near Keep": PseudoregaliaLocationData(
