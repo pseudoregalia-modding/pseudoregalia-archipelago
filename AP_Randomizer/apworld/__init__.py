@@ -66,7 +66,7 @@ class PseudoregaliaWorld(World):
         set_rule(self.multiworld.get_location("Library - Sun Greaves", self.player), lambda state:
                   (state.has("Slide", self.player) and has_breaker(state, self.player))
                   or (state.has("Cling Gem", self.player) and has_breaker(state, self.player))
-                  # or get_kicks(state, self.player) >= 4 Heliacal isn't shuffled yet
+                  or get_kicks(state, self.player) >= 4
                   or can_slidejump(state, self.player))
         set_rule(self.multiworld.get_location("Theatre - Soul Cutter", self.player), lambda state:
                  can_strikebreak(state, self.player))
