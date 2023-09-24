@@ -111,7 +111,7 @@ location_table = {
     "Castle - Corner Corridor": PseudoregaliaLocationData(
         code=236510033,
         region="Castle Sansa",),
-    "Castle - Spike Wheels": PseudoregaliaLocationData(
+    "Castle - Wheel Crawlers": PseudoregaliaLocationData(
         code=236510034,
         region="Castle Sansa",),
     "Castle - Alcove Near Theatre": PseudoregaliaLocationData(
