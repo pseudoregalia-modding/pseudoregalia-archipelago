@@ -83,58 +83,58 @@ class PseudoregaliaWorld(World):
                  get_kicks(state, self.player) >= 3)
 
 
-        set_rule(self.multiworld.get_location("Underbelly - Heliacal Power", self.player), lambda state:
+        set_rule(self.multiworld.get_location("Underbelly - Locked Door", self.player), lambda state:
                  has_small_keys(state, self.player) and state.has("Slide", self.player)
                  and any([
                      get_kicks(state, self.player) >= 3,
                      state.has("Sunsetter", self.player)]))
-        set_rule(self.multiworld.get_location("Theatre - Aerial Finesse", self.player), lambda state:
+        set_rule(self.multiworld.get_location("Theatre - Corner Beam", self.player), lambda state:
                  any([
                      state.has("Cling Gem", self.player) and get_kicks(state, self.player) >= 3,
                      state.has("Cling Gem", self.player) and can_slidejump(state, self.player),
                      can_slidejump(state, self.player) and get_kicks(state, self.player) >= 3]))
-        set_rule(self.multiworld.get_location("Castle - Pilgrimage", self.player), lambda state:
+        set_rule(self.multiworld.get_location("Castle - Floater In Courtyard", self.player), lambda state:
                  any([
                      can_bounce(state, self.player),
                      get_kicks(state, self.player) >= 4,
                      state.has("Cling Gem", self.player) and get_kicks(state, self.player) >= 1,
                      state.has_all(["Cling Gem", "Sunsetter"], self.player),
                      state.has("Cling Gem", self.player) and can_slidejump(state, self.player)]))
-        set_rule(self.multiworld.get_location("Bailey - Empathy", self.player), lambda state:
+        set_rule(self.multiworld.get_location("Bailey - Cheese Bell", self.player), lambda state:
                  any([
                      can_slidejump(state, self.player) and state.has("Sunsetter", self.player)
                      and get_kicks(state, self.player) >= 1,
                      can_slidejump(state, self.player) and state.has("Cling Gem", self.player),
                      state.has("Sunsetter", self.player) and get_kicks(state, self.player) >= 3]))
-        set_rule(self.multiworld.get_location("Theatre - Empathy", self.player), lambda state:
+        set_rule(self.multiworld.get_location("Theatre - Locked Door", self.player), lambda state:
                  has_small_keys(state, self.player)
                  and state.has("Cling Gem", self.player)
                  and get_kicks(state, self.player) >= 3)
-        set_rule(self.multiworld.get_location("Dungeon - Good Graces", self.player), lambda state:
+        set_rule(self.multiworld.get_location("Dungeon - Dark Orbs", self.player), lambda state:
                  state.has("Cling Gem", self.player)
                  or (can_bounce(state, self.player) and get_kicks(state, self.player) >= 3))
-        set_rule(self.multiworld.get_location("Castle - Good Graces", self.player), lambda state:
+        set_rule(self.multiworld.get_location("Castle - Near Theatre Front", self.player), lambda state:
                  state.has("Cling Gem", self.player) and get_kicks(state, self.player) >= 3)
-        set_rule(self.multiworld.get_location("Underbelly - Martial Prowess", self.player), lambda state:
+        set_rule(self.multiworld.get_location("Underbelly - Strikebreak Wall", self.player), lambda state:
                  can_strikebreak(state, self.player) and can_bounce(state, self.player)
                  and any([
                      can_slidejump(state, self.player),
                      get_kicks(state, self.player) >= 1,
                      state.has("Sunsetter", self.player)]))
-        set_rule(self.multiworld.get_location("Castle - Clear Mind", self.player), lambda state:
+        set_rule(self.multiworld.get_location("Castle - High Climb", self.player), lambda state:
                  state.has("Cling Gem", self.player)
                  or (can_slidejump(state, self.player) and get_kicks(state, self.player) >= 1))
-        set_rule(self.multiworld.get_location("Library - Clear Mind", self.player), lambda state:
+        set_rule(self.multiworld.get_location("Library - Locked Door Across", self.player), lambda state:
                  any([
                      can_slidejump(state, self.player),
                      get_kicks(state, self.player) >= 1,
                      state.has("Cling Gem", self.player)]))
-        set_rule(self.multiworld.get_location("Keep - Clear Mind", self.player), lambda state:
+        set_rule(self.multiworld.get_location("Keep - Near Theatre", self.player), lambda state:
                  any([
                      state.has("Sunsetter", self.player),
                      state.has("Cling Gem", self.player),
                      get_kicks(state, self.player) >= 1]))
-        set_rule(self.multiworld.get_location("Castle - Professionalism", self.player), lambda state:
+        set_rule(self.multiworld.get_location("Castle - Locked Door", self.player), lambda state:
                  has_small_keys(state, self.player))
 
 
@@ -168,14 +168,14 @@ class PseudoregaliaWorld(World):
                      and get_kicks(state, self.player) >= 3]))
 
 
-        set_rule(self.multiworld.get_location("Dungeon - Small Key On Rafters", self.player), lambda state:
+        set_rule(self.multiworld.get_location("Dungeon - Rafters", self.player), lambda state:
                  any([
                      state.has("Cling Gem", self.player),
                      state.has("Sunsetter", self.player) and get_kicks(state, self.player) >= 3,
                      can_slidejump(state, self.player) and get_kicks(state, self.player) >= 3]))
         set_rule(self.multiworld.get_location("Dungeon - Strong Eyes", self.player), lambda state:
                  has_breaker(state, self.player))
-        set_rule(self.multiworld.get_location("Castle - Small Key In Hallway", self.player), lambda state:
+        set_rule(self.multiworld.get_location("Castle - Platform In Main Halls", self.player), lambda state:
                  any([
                      can_slidejump(state, self.player),
                      get_kicks(state, self.player) >= 1,
@@ -185,10 +185,28 @@ class PseudoregaliaWorld(World):
                  state.has("Cling Gem", self.player) or get_kicks(state, self.player) >= 3)
         set_rule(self.multiworld.get_location("Keep - Small Key", self.player), lambda state:
                  has_breaker(state, self.player))
-        set_rule(self.multiworld.get_location("Bailey - Small Key", self.player), lambda state:
+        set_rule(self.multiworld.get_location("Bailey - Inside Building", self.player), lambda state:
                  state.has("Slide", self.player))
-        set_rule(self.multiworld.get_location("Underbelly - Small Key", self.player), lambda state:
+        set_rule(self.multiworld.get_location("Underbelly - Main Room", self.player), lambda state:
                  state.has("Sunsetter", self.player) or can_slidejump(state, self.player))
+
+
+        set_rule(self.multiworld.get_location("Dungeon - Alcove Near Mirror", self.player), lambda state:
+        set_rule(self.multiworld.get_location("Dungeon - Past Poles", self.player), lambda state:
+        set_rule(self.multiworld.get_location("Castle - Alcove Near Dungeon", self.player), lambda state:
+        set_rule(self.multiworld.get_location("Castle - Corner Corridor", self.player), lambda state:
+        set_rule(self.multiworld.get_location("Castle - Wheel Crawlers", self.player), lambda state:
+        set_rule(self.multiworld.get_location("Castle - Alcove Near Scythe Corridor", self.player), lambda state:
+        set_rule(self.multiworld.get_location("Castle - Balcony", self.player), lambda state:
+        set_rule(self.multiworld.get_location("Library - Upper Back", self.player), lambda state:
+        set_rule(self.multiworld.get_location("Library - Locked Door Left", self.player), lambda state:
+        set_rule(self.multiworld.get_location("Keep - Alcove Near Locked Door", self.player), lambda state:
+        set_rule(self.multiworld.get_location("Bailey - Center Steeple", self.player), lambda state:
+        set_rule(self.multiworld.get_location("Underbelly - Rafters Near Keep", self.player), lambda state:
+        set_rule(self.multiworld.get_location("Underbelly - Building Near Little Guy", self.player), lambda state:
+        set_rule(self.multiworld.get_location("Underbelly - Alcove Behind Pillars", self.player), lambda state:
+        set_rule(self.multiworld.get_location("Theatre - Murderous Goat", self.player), lambda state:
+        set_rule(self.multiworld.get_location("Theatre - Back Of Auditorium", self.player), lambda state:
 
 
         # TODO: Replace with a proper event
