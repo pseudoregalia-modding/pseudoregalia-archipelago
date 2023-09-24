@@ -144,7 +144,7 @@ location_table = {
     "Theatre - Among Boxes": PseudoregaliaLocationData(
         code=236510044,
         region="Theatre Main",),
-    "Theatre - On Pillar": PseudoregaliaLocationData(
+    "Theatre - Back Of Auditorium": PseudoregaliaLocationData(
         code=236510045,
         region="Theatre Main",),
     
