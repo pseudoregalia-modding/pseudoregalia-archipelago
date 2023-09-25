@@ -16,7 +16,7 @@ def get_kicks(state: CollectionState, player: int) -> int:
     kicks: int = 0
     if (state.has("Sun Greaves", player)):
         kicks += 3
-    kicks += state.count("Sun Greaves", player)
+    kicks += state.count("Heliacal Power", player)
     return kicks
 
 
