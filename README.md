@@ -1,5 +1,5 @@
 # pseudoregalia-archipelago
-This is a mod for Pseudoregalia that works with the [multi-game multi-world randomizer Archipelago](https://archipelago.gg/). It is currently in early alpha and is being actively developed. Abilities, minor upgrades, major keys, and small keys are shuffled.
+This is a mod for Pseudoregalia that works with the [multi-game multi-world randomizer Archipelago](https://archipelago.gg/). It is currently in early alpha and is being actively developed. Abilities, minor upgrades, major keys, small keys, and health pieces are shuffled.
 
 You can get the latest release from [the releases page](https://github.com/pseudoregalia-modding/pseudoregalia-archipelago/releases).
 
