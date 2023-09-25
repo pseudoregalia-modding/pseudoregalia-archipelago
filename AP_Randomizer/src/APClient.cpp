@@ -33,6 +33,7 @@ namespace Pseudoregalia_AP {
     std::map<std::wstring, int> APClient::upgrade_table;
     bool APClient::major_keys[5];
     int APClient::small_keys;
+    int APClient::health_pieces;
 
     std::map<std::wstring, int> APClient::GetUpgradeTable() {
         return upgrade_table;
