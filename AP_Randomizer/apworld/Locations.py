@@ -103,49 +103,49 @@ location_table = {
         code=2365810030,
         region="Dungeon Mirror",),
     "Dungeon - Past Poles": PseudoregaliaLocationData(
-        code=236510031,
+        code=2365810031,
         region="Dungeon Strong Eyes",),
     "Castle - Alcove Near Dungeon": PseudoregaliaLocationData(
-        code=236510032,
+        code=2365810032,
         region="Castle Sansa",),
     "Castle - Corner Corridor": PseudoregaliaLocationData(
-        code=236510033,
+        code=2365810033,
         region="Castle Sansa",),
     "Castle - Wheel Crawlers": PseudoregaliaLocationData(
-        code=236510034,
+        code=2365810034,
         region="Castle Sansa",),
     "Castle - Alcove Near Scythe Corridor": PseudoregaliaLocationData(
-        code=236510035,
+        code=2365810035,
         region="Castle Sansa",),
     "Castle - Balcony": PseudoregaliaLocationData(
-        code=236510036,
+        code=2365810036,
         region="Castle Sansa",),
     "Library - Upper Back": PseudoregaliaLocationData(
-        code=236510037,
+        code=2365810037,
         region="Library Main",),
     "Library - Locked Door Left": PseudoregaliaLocationData(
-        code=236510038,
+        code=2365810038,
         region="Library Locked",),
     "Keep - Alcove Near Locked Door": PseudoregaliaLocationData(
-        code=236510039,
+        code=2365810039,
         region="Keep Main",),
     "Bailey - Center Steeple": PseudoregaliaLocationData(
-        code=236510040,
+        code=2365810040,
         region="Empty Bailey",),
     "Underbelly - Rafters Near Keep": PseudoregaliaLocationData(
-        code=236510041,
+        code=2365810041,
         region="Underbelly Hole",),
     "Underbelly - Building Near Little Guy": PseudoregaliaLocationData(
-        code=236510042,
+        code=2365810042,
         region="Underbelly Main",),
     "Underbelly - Alcove Behind Pillars": PseudoregaliaLocationData(
-        code=236510043,
+        code=2365810043,
         region="Underbelly Main",),
     "Theatre - Murderous Goat": PseudoregaliaLocationData(
-        code=236510044,
+        code=2365810044,
         region="Theatre Main",),
     "Theatre - Back Of Auditorium": PseudoregaliaLocationData(
-        code=236510045,
+        code=2365810045,
         region="Theatre Main",),
     
     "Bailey - Major Key": PseudoregaliaLocationData(
