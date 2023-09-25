@@ -115,7 +115,7 @@ class PseudoregaliaWorld(World):
                      can_slidejump(state, self.player)
                      or get_kicks(state, self.player) >= 1
                      or state.has("Sunsetter", self.player)))
-        set_rule(self.multiworld.get_location("Castle - High Climb", self.player), lambda state:
+        set_rule(self.multiworld.get_location("Castle - High Climb From Courtyard", self.player), lambda state:
                  state.has("Cling Gem", self.player)
                  or (can_slidejump(state, self.player) and get_kicks(state, self.player) >= 1))
         set_rule(self.multiworld.get_location("Library - Locked Door Across", self.player), lambda state:

@@ -64,7 +64,7 @@ location_table = {
     "Underbelly - Strikebreak Wall": PseudoregaliaLocationData(
         code=2365810018,
         region="Underbelly Main",),
-    "Castle - High Climb": PseudoregaliaLocationData(
+    "Castle - High Climb From Courtyard": PseudoregaliaLocationData(
         code=2365810019,
         region="Castle Sansa",),
     "Library - Locked Door Across": PseudoregaliaLocationData(
