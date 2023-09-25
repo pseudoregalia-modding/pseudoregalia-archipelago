@@ -52,6 +52,9 @@ namespace Pseudoregalia_AP {
         if (1 <= id && id <= 18) {
             return ItemType::Ability;
         }
+        if (id == 19) {
+            return ItemType::HealthPiece;
+        }
         if (id == 20) {
             return ItemType::SmallKey;
         }
@@ -191,6 +194,9 @@ namespace Pseudoregalia_AP {
         if (GetItemType(new_item_id) == ItemType::Ability) {
             upgrade_table[lookup_id_to_item[new_item_id]]++;
             Output::send<LogLevel::Verbose>(STR("Set {} to {}\n"), lookup_id_to_item[new_item_id], upgrade_table[lookup_id_to_item[new_item_id]]);
+        }
+        else if (GetItemType(new_item_id) == ItemType::HealthPiece) {
+            health_pieces++;
         }
         else if (GetItemType(new_item_id) == ItemType::SmallKey) {
             small_keys++;
