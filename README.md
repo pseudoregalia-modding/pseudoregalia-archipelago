@@ -37,6 +37,7 @@ You'll spawn in Dungeon with Dream Breaker at its vanilla location, and you'll h
 - Messages printed to the screen will be deleted when passing through a loading zone even if you didn't have time to read them.
 - If you get a lot of messages at once, such as from a released world, they'll extend off your screen.
 - A crash can occur when entering incorrect connection info under certain conditions.
+- If you're on top of an item when you first connect, it won't spawn until you reload the scene.
 
 # Planned Updates
 - Spawning in Castle instead of Dungeon
