@@ -28,6 +28,7 @@ namespace Pseudoregalia_AP {
 		static std::vector<APCollectible> GetCurrentZoneCollectibles(std::wstring);
 		static bool* GetMajorKeys();
 		static int GetSmallKeys();
+		static int GetHealthPieces();
 	private:
 		static void FillZoneTable();
 		static void ResetUpgradeTable();

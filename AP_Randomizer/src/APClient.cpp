@@ -47,6 +47,10 @@ namespace Pseudoregalia_AP {
         return major_keys;
     }
 
+    int APClient::GetHealthPieces() {
+        return health_pieces;
+    }
+
     ItemType APClient::GetItemType(int64_t id) {
         id -= 2365810000;
         if (1 <= id && id <= 18) {
