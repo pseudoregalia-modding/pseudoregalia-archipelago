@@ -33,6 +33,10 @@ namespace Pseudoregalia_AP {
 		int count;
 	};
 
+	struct HealthPieceInfo {
+		int count;
+	};
+
 	void APGameManager::QueueItemUpdate() {
 		item_update_pending = true;
 	}
@@ -108,24 +112,34 @@ namespace Pseudoregalia_AP {
 	}
 
 	void APGameManager::SyncItems(UObject* randomizer_blueprint, UFunction* add_upgrade_function) {
+		int healthpiece_count = APClient::GetHealthPieces();
+		UFunction* set_hp = randomizer_blueprint->GetFunctionByName(STR("AP_SetHealthPieces"));
+		{
+			HealthPieceInfo params{
+				healthpiece_count,
+			};
+			randomizer_blueprint->ProcessEvent(set_hp, &params);
+		}
+
 		bool* major_key_table = APClient::GetMajorKeys();
 		UFunction* set_major_keys = randomizer_blueprint->GetFunctionByName(STR("AP_SetMajorKey"));
-
 		for (int i = 0; i < 5; i++)
 		{
-			MajorKeyInfo keyparams{
+			MajorKeyInfo params{
 				i,
 				major_key_table[i],
 			};
-			randomizer_blueprint->ProcessEvent(set_major_keys, &keyparams);
+			randomizer_blueprint->ProcessEvent(set_major_keys, &params);
 		}
 
 		int key_count = APClient::GetSmallKeys();
 		UFunction* set_small_keys = randomizer_blueprint->GetFunctionByName(STR("AP_SetSmallKeys"));
-		MinorKeyInfo params{
-			key_count,
-		};
-		randomizer_blueprint->ProcessEvent(set_small_keys, &params);
+		{
+			MinorKeyInfo params{
+				key_count,
+			};
+			randomizer_blueprint->ProcessEvent(set_small_keys, &params);
+		}
 
 		std::map<std::wstring, int> upgrade_table = APClient::GetUpgradeTable();
 		for (auto const& pair : upgrade_table) {
