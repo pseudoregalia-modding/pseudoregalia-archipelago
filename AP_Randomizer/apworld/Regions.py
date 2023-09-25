@@ -39,8 +39,7 @@ region_table: Dict[str, List[RegionExit]] = {
                                 lambda state, player:
                                 any([
                                     state.has("Cling Gem", player),
-                                    # can_slidejump(state, player) and get_kicks(state, player) >= 4,
-                                    # Heliacal isn't shuffled yet
+                                    can_slidejump(state, player) and get_kicks(state, player) >= 4,
                                 ]))],
     "Library Main": [RegionExit("Library Locked", has_small_keys)],
     "Library Locked": [],  # There's no point in connecting this back to library main.
@@ -73,7 +72,7 @@ region_table: Dict[str, List[RegionExit]] = {
                                     state.has_all(["Slide", "Sunsetter"], player)
                                 ])),
                      RegionExit("Theatre Pillar")],
-    "Tower Remains": [RegionExit("Underbelly Main",  # Simplified access rule copied from spuds' logic.
+    "Tower Remains": [RegionExit("Underbelly Main",
                                  lambda state, player: state.has("Sunsetter", player)),
                       RegionExit("The Great Door",
                                  lambda state, player:
@@ -85,15 +84,14 @@ region_table: Dict[str, List[RegionExit]] = {
                                        state.has("Sunsetter", player),
                                    ]))],
     "Underbelly Hole": [RegionExit("Underbelly Main",
-                                   lambda state, player: state.has("Sunsetter", player))],  # I don't actually know what this is.
+                                   lambda state, player: state.has("Sunsetter", player))],
     "Theatre Main": [RegionExit("Keep Main",
                                 lambda state, player: state.has("Cling Gem", player))],
     "Theatre Pillar": [RegionExit("Theatre Main",
                                   lambda state, player:
                                   any([
                                       state.has_all(["Sunsetter", "Cling Gem"], player),
-                                      # state.has("Sunsetter", player) and get_kicks(state, player) >= 4,
-                                      # Heliacal isn't shuffled yet
+                                      state.has("Sunsetter", player) and get_kicks(state, player) >= 4,
                                   ]))],
     "The Great Door": [],
 }

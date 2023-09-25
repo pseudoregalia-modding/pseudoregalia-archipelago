@@ -26,7 +26,7 @@ namespace Pseudoregalia_AP {
 		static bool client_connected;
 		static std::list<std::string> messages_to_print;
 		static void SpawnCollectibles(UObject*, UWorld*);
-		static void PrintToPlayer(std::string);
+		static void PrintToPlayer(UObject*, std::string);
 		static void OnReturnCheck(Unreal::UnrealScriptFunctionCallableContext&, void*);
 		static void RegisterReturnCheckHook(AActor*);
 		static void EmptyFunction(Unreal::UnrealScriptFunctionCallableContext&, void*);

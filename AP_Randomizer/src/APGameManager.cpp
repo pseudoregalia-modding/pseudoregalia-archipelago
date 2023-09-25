@@ -33,6 +33,10 @@ namespace Pseudoregalia_AP {
 		int count;
 	};
 
+	struct HealthPieceInfo {
+		int count;
+	};
+
 	void APGameManager::QueueItemUpdate() {
 		item_update_pending = true;
 	}
@@ -84,9 +88,11 @@ namespace Pseudoregalia_AP {
 		// It might be a good idea to just change this to a callback hooked into the main randomizer blueprint's EventTick.
 
 		if (!messages_to_print.empty()) {
-			std::string mew = messages_to_print.front();
-			messages_to_print.pop_front();
-			PrintToPlayer(mew);
+			if (object->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
+				std::string mew = messages_to_print.front();
+				messages_to_print.pop_front();
+				PrintToPlayer(object, mew);
+			}
 		}
 
 		if (!client_connected) {
@@ -108,24 +114,34 @@ namespace Pseudoregalia_AP {
 	}
 
 	void APGameManager::SyncItems(UObject* randomizer_blueprint, UFunction* add_upgrade_function) {
+		int healthpiece_count = APClient::GetHealthPieces();
+		UFunction* set_hp = randomizer_blueprint->GetFunctionByName(STR("AP_SetHealthPieces"));
+		{
+			HealthPieceInfo params{
+				healthpiece_count,
+			};
+			randomizer_blueprint->ProcessEvent(set_hp, &params);
+		}
+
 		bool* major_key_table = APClient::GetMajorKeys();
 		UFunction* set_major_keys = randomizer_blueprint->GetFunctionByName(STR("AP_SetMajorKey"));
-
 		for (int i = 0; i < 5; i++)
 		{
-			MajorKeyInfo keyparams{
+			MajorKeyInfo params{
 				i,
 				major_key_table[i],
 			};
-			randomizer_blueprint->ProcessEvent(set_major_keys, &keyparams);
+			randomizer_blueprint->ProcessEvent(set_major_keys, &params);
 		}
 
 		int key_count = APClient::GetSmallKeys();
 		UFunction* set_small_keys = randomizer_blueprint->GetFunctionByName(STR("AP_SetSmallKeys"));
-		MinorKeyInfo params{
-			key_count,
-		};
-		randomizer_blueprint->ProcessEvent(set_small_keys, &params);
+		{
+			MinorKeyInfo params{
+				key_count,
+			};
+			randomizer_blueprint->ProcessEvent(set_small_keys, &params);
+		}
 
 		std::map<std::wstring, int> upgrade_table = APClient::GetUpgradeTable();
 		for (auto const& pair : upgrade_table) {
@@ -135,7 +151,7 @@ namespace Pseudoregalia_AP {
 				new_name,
 				pair.second,
 			};
-			Output::send<LogLevel::Verbose>(STR("Attempting to add {} with value {}...\n"), pair.first, pair.second);
+			// Output::send<LogLevel::Verbose>(STR("Attempting to add {} with value {}...\n"), pair.first, pair.second);
 			randomizer_blueprint->ProcessEvent(add_upgrade_function, &params);
 		}
 	}
@@ -159,15 +175,10 @@ namespace Pseudoregalia_AP {
 		}
 	}
 
-	void APGameManager::PrintToPlayer(std::string new_message) {
-		UObject* widget = UObjectGlobals::FindFirstOf(STR("APClientWidget_C"));
-		if (!widget) {
-			Output::send<LogLevel::Error>(STR("Error: Could not find APClientWidget. Message could not be printed.\n"));
-			return;
-		}
-		UFunction* text_func = widget->GetFunctionByName(STR("AP_PrintToPlayer"));
+	void APGameManager::PrintToPlayer(UObject* randomizer_blueprint, std::string new_message) {
+		UFunction* text_func = randomizer_blueprint->GetFunctionByName(STR("AP_QueueMessage"));
 		if (!text_func) {
-			Output::send<LogLevel::Error>(STR("Error: Found APClientWidget, but it has no function AP_PrintToPlayer. Message could not be printed.\n"));
+			Output::send<LogLevel::Error>(STR("Error: No function AP_QueueMessage() found in randomizer blueprint. Message could not be printed.\n"));
 			return;
 		}
 
@@ -177,7 +188,7 @@ namespace Pseudoregalia_AP {
 		PrintToPlayerInfo input{
 			new_text,
 		};
-		widget->ProcessEvent(text_func, &input);
+		randomizer_blueprint->ProcessEvent(text_func, &input);
 	}
 
 	void APGameManager::RegisterReturnCheckHook(AActor* collectible) {

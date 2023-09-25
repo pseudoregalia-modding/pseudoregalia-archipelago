@@ -40,64 +40,113 @@ location_table = {
         code=2365810010,
         region="Tower Remains"),
 
-    "Underbelly - Heliacal Power": PseudoregaliaLocationData(
+    "Underbelly - Locked Door": PseudoregaliaLocationData(
         code=2365810011,
         region="Underbelly Main",),
-    "Theatre - Aerial Finesse": PseudoregaliaLocationData(
+    "Theatre - Corner Beam": PseudoregaliaLocationData(
         code=2365810012,
         region="Theatre Pillar",),
-    "Castle - Pilgrimage": PseudoregaliaLocationData(
+    "Castle - Floater In Courtyard": PseudoregaliaLocationData(
         code=2365810013,
         region="Castle Sansa",),
-    "Bailey - Empathy": PseudoregaliaLocationData(
+    "Bailey - Cheese Bell": PseudoregaliaLocationData(
         code=2365810014,
         region="Empty Bailey",),
-    "Theatre - Empathy": PseudoregaliaLocationData(
+    "Theatre - Locked Door": PseudoregaliaLocationData(
         code=2365810015,
         region="Theatre Main",),
-    "Dungeon - Good Graces": PseudoregaliaLocationData(
+    "Dungeon - Dark Orbs": PseudoregaliaLocationData(
         code=2365810016,
         region="Dungeon Mirror",),
-    "Castle - Good Graces": PseudoregaliaLocationData(
+    "Castle - Near Theatre Front": PseudoregaliaLocationData(
         code=2365810017,
         region="Castle Sansa",),
-    "Underbelly - Martial Prowess": PseudoregaliaLocationData(
+    "Underbelly - Strikebreak Wall": PseudoregaliaLocationData(
         code=2365810018,
         region="Underbelly Main",),
-    "Castle - Clear Mind": PseudoregaliaLocationData(
+    "Castle - High Climb": PseudoregaliaLocationData(
         code=2365810019,
         region="Castle Sansa",),
-    "Library - Clear Mind": PseudoregaliaLocationData(
+    "Library - Locked Door Across": PseudoregaliaLocationData(
         code=2365810020,
         region="Library Locked",),
-    "Keep - Clear Mind": PseudoregaliaLocationData(
+    "Keep - Near Theatre": PseudoregaliaLocationData(
         code=2365810021,
         region="Keep Main",),
-    "Castle - Professionalism": PseudoregaliaLocationData(
+    "Castle - Locked Door": PseudoregaliaLocationData(
         code=2365810022,
         region="Castle Sansa",),
 
-    "Dungeon - Small Key On Rafters": PseudoregaliaLocationData(
+    "Dungeon - Rafters": PseudoregaliaLocationData(
         code=2365810023,
         region="Dungeon Strong Eyes",),
     "Dungeon - Strong Eyes": PseudoregaliaLocationData(
         code=2365810024,
         region="Dungeon Strong Eyes",),
-    "Castle - Small Key In Hallway": PseudoregaliaLocationData(
+    "Castle - Platform In Main Halls": PseudoregaliaLocationData(
         code=2365810025,
         region="Castle Sansa",),
-    "Castle - High Small Key": PseudoregaliaLocationData(
+    "Castle - Tall Room Near Wheel Crawlers": PseudoregaliaLocationData(
         code=2365810026,
         region="Castle Sansa",),
-    "Keep - Small Key": PseudoregaliaLocationData(
+    "Keep - Levers Room": PseudoregaliaLocationData(
         code=2365810027,
         region="Keep Main",),
-    "Bailey - Small Key": PseudoregaliaLocationData(
+    "Bailey - Inside Building": PseudoregaliaLocationData(
         code=2365810028,
         region="Empty Bailey",),
-    "Underbelly - Small Key": PseudoregaliaLocationData(
+    "Underbelly - Main Room": PseudoregaliaLocationData(
         code=2365810029,
         region="Underbelly Main",),
+
+    "Dungeon - Alcove Near Mirror": PseudoregaliaLocationData(
+        code=2365810030,
+        region="Dungeon Mirror",),
+    "Dungeon - Past Poles": PseudoregaliaLocationData(
+        code=2365810031,
+        region="Dungeon Strong Eyes",),
+    "Castle - Alcove Near Dungeon": PseudoregaliaLocationData(
+        code=2365810032,
+        region="Castle Sansa",),
+    "Castle - Corner Corridor": PseudoregaliaLocationData(
+        code=2365810033,
+        region="Castle Sansa",),
+    "Castle - Wheel Crawlers": PseudoregaliaLocationData(
+        code=2365810034,
+        region="Castle Sansa",),
+    "Castle - Alcove Near Scythe Corridor": PseudoregaliaLocationData(
+        code=2365810035,
+        region="Castle Sansa",),
+    "Castle - Balcony": PseudoregaliaLocationData(
+        code=2365810036,
+        region="Castle Sansa",),
+    "Library - Upper Back": PseudoregaliaLocationData(
+        code=2365810037,
+        region="Library Main",),
+    "Library - Locked Door Left": PseudoregaliaLocationData(
+        code=2365810038,
+        region="Library Locked",),
+    "Keep - Alcove Near Locked Door": PseudoregaliaLocationData(
+        code=2365810039,
+        region="Keep Main",),
+    "Bailey - Center Steeple": PseudoregaliaLocationData(
+        code=2365810040,
+        region="Empty Bailey",),
+    "Underbelly - Rafters Near Keep": PseudoregaliaLocationData(
+        code=2365810041,
+        region="Underbelly Hole",),
+    "Underbelly - Building Near Little Guy": PseudoregaliaLocationData(
+        code=2365810042,
+        region="Underbelly Main",),
+    "Underbelly - Alcove Behind Pillars": PseudoregaliaLocationData(
+        code=2365810043,
+        region="Underbelly Main",),
+    "Theatre - Murderous Goat": PseudoregaliaLocationData(
+        code=2365810044,
+        region="Theatre Main",),
+    "Theatre - Back Of Auditorium": PseudoregaliaLocationData(
+        code=2365810045,
+        region="Theatre Main",),
 
     "Bailey - Major Key": PseudoregaliaLocationData(
         code=2365810046,

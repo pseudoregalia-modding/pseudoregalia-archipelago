@@ -28,6 +28,7 @@ namespace Pseudoregalia_AP {
 		static std::vector<APCollectible> GetCurrentZoneCollectibles(std::wstring);
 		static bool* GetMajorKeys();
 		static int GetSmallKeys();
+		static int GetHealthPieces();
 	private:
 		static void FillZoneTable();
 		static void ResetUpgradeTable();
@@ -42,6 +43,7 @@ namespace Pseudoregalia_AP {
 		static std::map<std::wstring, int> upgrade_table;
 		static bool major_keys[5];
 		static int small_keys;
+		static int health_pieces;
 		static int connection_timer;
 		static AP_ConnectionStatus connection_status;
 	};

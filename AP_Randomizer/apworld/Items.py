@@ -68,9 +68,9 @@ item_table: Dict[str, PseudoregaliaItemData] = {
         code=2365810018,
         classification=ItemClassification.filler),
 
-    # "Health Piece": PseudoregaliaItemData(
-    # code=2365810019,
-    # classification=ItemClassification.useful),
+    "Health Piece": PseudoregaliaItemData(
+        code=2365810019,
+        classification=ItemClassification.useful),
     "Small Key": PseudoregaliaItemData(
         code=2365810020,
         classification=ItemClassification.progression),
@@ -97,4 +97,5 @@ item_frequencies = {
     "Good Graces": 2,
     "Clear Mind": 3,
     "Small Key": 7,
+    "Health Piece": 16
 }
