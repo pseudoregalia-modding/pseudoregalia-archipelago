@@ -171,10 +171,10 @@ class PseudoregaliaWorld(World):
                  or get_kicks(state, self.player) >= 1
                  or state.has("Sunsetter", self.player)
                  or state.has("Cling Gem", self.player))
-        set_rule(self.multiworld.get_location("Castle - High Small Key", self.player), lambda state:
+        set_rule(self.multiworld.get_location("Castle - Tall Room Near Wheel Crawlers", self.player), lambda state:
                  state.has("Cling Gem", self.player)
                  or get_kicks(state, self.player) >= 3)
-        set_rule(self.multiworld.get_location("Keep - Small Key", self.player), lambda state:
+        set_rule(self.multiworld.get_location("Keep - Levers Room", self.player), lambda state:
                  has_breaker(state, self.player))
         set_rule(self.multiworld.get_location("Bailey - Inside Building", self.player), lambda state:
                  state.has("Slide", self.player))
