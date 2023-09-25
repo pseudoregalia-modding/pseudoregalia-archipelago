@@ -86,10 +86,10 @@ location_table = {
     "Castle - Platform In Main Halls": PseudoregaliaLocationData(
         code=2365810025,
         region="Castle Sansa",),
-    "Castle - High Small Key": PseudoregaliaLocationData(
+    "Castle - Tall Room Near Wheel Crawlers": PseudoregaliaLocationData(
         code=2365810026,
         region="Castle Sansa",),
-    "Keep - Small Key": PseudoregaliaLocationData(
+    "Keep - Levers Room": PseudoregaliaLocationData(
         code=2365810027,
         region="Keep Main",),
     "Bailey - Inside Building": PseudoregaliaLocationData(
@@ -98,7 +98,7 @@ location_table = {
     "Underbelly - Main Room": PseudoregaliaLocationData(
         code=2365810029,
         region="Underbelly Main",),
-    
+
     "Dungeon - Alcove Near Mirror": PseudoregaliaLocationData(
         code=2365810030,
         region="Dungeon Mirror",),
@@ -147,7 +147,7 @@ location_table = {
     "Theatre - Back Of Auditorium": PseudoregaliaLocationData(
         code=2365810045,
         region="Theatre Main",),
-    
+
     "Bailey - Major Key": PseudoregaliaLocationData(
         code=2365810046,
         region="Empty Bailey",),
