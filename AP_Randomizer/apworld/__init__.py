@@ -233,7 +233,7 @@ class PseudoregaliaWorld(World):
                  True) # Just here for completeness, will remove later
         set_rule(self.multiworld.get_location("Theatre - Back Of Auditorium", self.player), lambda state:
                  get_kicks(state, self.player) >= 3
-                 or state.has("Cling Gem"))
+                 or state.has("Cling Gem", self.player))
 
 
         # TODO: Replace with a proper event
