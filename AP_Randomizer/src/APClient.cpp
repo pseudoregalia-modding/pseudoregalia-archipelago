@@ -114,8 +114,8 @@ namespace Pseudoregalia_AP {
                 APCollectible("Theatre Major", FVector(5200, 1550, 700), 2365810050),
                 APCollectible("Aerial Finesse", FVector(-14100, -150, 1950), 2365810012),
                 APCollectible("Theatre Empathy", FVector(-1460, -2550, 2240), 2365810015),
-                APCollectible("HP Murder Goat", FVector(-1600, 1500, 2600), 2365810044),
-                APCollectible("HP Auditorium", FVector(255, 1150, 50), 2365810045)
+                APCollectible("HP Murder Goat", FVector(255, 1150, 50), 2365810044),
+                APCollectible("HP Auditorium", FVector(-1600, 1500, 2600), 2365810045)
                 }},
             {L"ZONE_Exterior", std::vector<APCollectible>{
                 APCollectible("Solar Wind", FVector(-1100, 10850, 150), 2365810008),
