@@ -29,6 +29,7 @@ namespace Pseudoregalia_AP {
 		static bool* GetMajorKeys();
 		static int GetSmallKeys();
 		static int GetHealthPieces();
+		static void CompleteGame();
 	private:
 		static void FillZoneTable();
 		static void ResetUpgradeTable();

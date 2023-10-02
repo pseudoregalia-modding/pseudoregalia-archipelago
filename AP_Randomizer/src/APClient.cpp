@@ -234,6 +234,10 @@ namespace Pseudoregalia_AP {
             }
         }
     }
+    
+    void APClient::CompleteGame() {
+        AP_StoryComplete();
+    }
 
     bool APClient::ConnectionStatusChanged() {
         if (connection_status != AP_GetConnectionStatus()) {
