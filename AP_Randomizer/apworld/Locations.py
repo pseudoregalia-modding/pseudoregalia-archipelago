@@ -138,7 +138,7 @@ location_table = {
     "Underbelly - Building Near Little Guy": PseudoregaliaLocationData(
         code=2365810042,
         region="Underbelly Main",),
-    "Underbelly - Alcove Behind Pillars": PseudoregaliaLocationData(
+    "Underbelly - Alcove Near Light": PseudoregaliaLocationData(
         code=2365810043,
         region="Underbelly Main",),
     "Theatre - Murderous Goat": PseudoregaliaLocationData(
