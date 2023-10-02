@@ -28,7 +28,6 @@ namespace Pseudoregalia_AP {
 		static void SpawnCollectibles(UObject*, UWorld*);
 		static void PrintToPlayer(UObject*, std::string);
 		static void OnReturnCheck(Unreal::UnrealScriptFunctionCallableContext&, void*);
-		static void RegisterReturnCheckHook(AActor*);
 		static void EmptyFunction(Unreal::UnrealScriptFunctionCallableContext&, void*);
 		static void SyncItems(UObject*, UFunction*);
 	};

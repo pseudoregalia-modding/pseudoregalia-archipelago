@@ -70,7 +70,13 @@ namespace Pseudoregalia_AP {
 
 		if (!hooked_into_returncheck
 			&& actor->GetName().starts_with(STR("BP_APCollectible"))) {
-				RegisterReturnCheckHook(actor);
+
+				UFunction* return_check_function = actor->GetFunctionByName(STR("ReturnCheck"));
+				if (!return_check_function) {
+					Output::send<LogLevel::Error>(STR("Could not find function ReturnCheck in BP_APCollectible."));
+					return;
+				}
+				Unreal::UObjectGlobals::RegisterHook(return_check_function, EmptyFunction, OnReturnCheck, nullptr);
 				hooked_into_returncheck = true;
 		}
 	}
@@ -190,11 +196,6 @@ namespace Pseudoregalia_AP {
 			new_text,
 		};
 		randomizer_blueprint->ProcessEvent(text_func, &input);
-	}
-
-	void APGameManager::RegisterReturnCheckHook(AActor* collectible) {
-		UFunction* return_check_function = collectible->GetFunctionByName(STR("ReturnCheck"));
-		Unreal::UObjectGlobals::RegisterHook(return_check_function, EmptyFunction, OnReturnCheck, nullptr);
 	}
 
 	void APGameManager::EmptyFunction(Unreal::UnrealScriptFunctionCallableContext& context, void* customdata) {
