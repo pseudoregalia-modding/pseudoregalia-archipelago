@@ -32,6 +32,7 @@ You'll spawn in Dungeon with Dream Breaker at its vanilla location, and you'll h
 5. A zip file will be added to Archipelago/output, which can [hosted on the website](https://archipelago.gg/uploads) or hosted locally with ArchipelagoServer.exe.
 
 # Known Issues
+- Beating your game won't actually mark your goal as being completed.
 - If you enter your connection info incorrectly, you have to restart the game to try again.
 - Consumed small keys will be restored on scene transition.
 - Messages printed to the screen will be deleted when passing through a loading zone even if you didn't have time to read them.
