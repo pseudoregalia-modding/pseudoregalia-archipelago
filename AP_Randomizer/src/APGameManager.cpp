@@ -9,6 +9,7 @@ namespace Pseudoregalia_AP {
 	bool APGameManager::spawn_update_pending;
 	bool APGameManager::client_connected;
 	std::list<std::string> APGameManager::messages_to_print;
+	int APGameManager::message_timer;
 
 	struct PrintToPlayerInfo {
 		FText text;
@@ -58,6 +59,12 @@ namespace Pseudoregalia_AP {
 		return static_cast<AActor*>(player_controller)->GetWorld();
 	}
 
+	void APGameManager::OnUpdate() {
+		if (message_timer > 0) {
+			message_timer--;
+		}
+	}
+
 	void APGameManager::OnBeginPlay(AActor* actor) {
 		if (actor->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
 			if (GetWorld()->GetName() == STR("EndScreen")) {
@@ -94,16 +101,19 @@ namespace Pseudoregalia_AP {
 
 	void APGameManager::PreProcessEvent(UObject* object, UFunction* function, void* params) {
 		// A lot of stuff has to be run in the game thread, so this function handles that.
-		// It might be a good idea to just change this to a callback hooked into the main randomizer blueprint's EventTick.
+		// It might be a good idea to just change this to a callback hooked into the main randomizer blueprint's EventTick,
+		// but I haven't yet sorted out how to pass around a pointer to the blueprint by doing that.
+		// It might honestly be a good idea to just shovel everything into one great big OnEventTick function and define everything it does inline.
 
 		if (!object->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
 			return;
 		}
 
-		if (!messages_to_print.empty()) {
+		if (!messages_to_print.empty() and message_timer <= 0 and function->GetName() == STR("ReceiveTick")) {
 			std::string mew = messages_to_print.front();
 			messages_to_print.pop_front();
 			PrintToPlayer(object, mew);
+			message_timer = 200;
 		}
 
 		if (!client_connected) {
@@ -183,9 +193,9 @@ namespace Pseudoregalia_AP {
 	}
 
 	void APGameManager::PrintToPlayer(UObject* randomizer_blueprint, std::string new_message) {
-		UFunction* text_func = randomizer_blueprint->GetFunctionByName(STR("AP_QueueMessage"));
+		UFunction* text_func = randomizer_blueprint->GetFunctionByName(STR("AP_PrintMessage"));
 		if (!text_func) {
-			Output::send<LogLevel::Error>(STR("Error: No function AP_QueueMessage() found in randomizer blueprint. Message could not be printed.\n"));
+			Output::send<LogLevel::Error>(STR("Error: No function AP_PrintMessage found in randomizer blueprint.\n"));
 			return;
 		}
 

@@ -80,7 +80,7 @@ public:
     {
         // List of key codes at https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
         bind_key(VK_NUMPAD1, [&]() {
-            // APClient::Connect("localhost:38281", "goat", "");
+            APClient::Connect("localhost:38281", "goat", "");
             });
 
         bind_key(VK_NUMPAD2, [&]() {
@@ -96,6 +96,7 @@ public:
     auto on_update() -> void override
     {
         APClient::PollServer();
+        APGameManager::OnUpdate();
         for (auto& boundKey : m_boundKeys)
         {
             if ((GetKeyState(boundKey.key) & 0x8000) && !boundKey.isPressed)

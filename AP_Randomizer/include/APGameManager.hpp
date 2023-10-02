@@ -19,12 +19,14 @@ namespace Pseudoregalia_AP {
 		static void QueueSpawnUpdate();
 		static void QueueMessage(std::string);
 		static void SetClientConnected(bool);
+		static void OnUpdate();
 	private:
 		static bool hooked_into_returncheck;
 		static bool item_update_pending;
 		static bool spawn_update_pending;
 		static bool client_connected;
 		static std::list<std::string> messages_to_print;
+		static int message_timer;
 		static void SpawnCollectibles(UObject*, UWorld*);
 		static void PrintToPlayer(UObject*, std::string);
 		static void OnReturnCheck(Unreal::UnrealScriptFunctionCallableContext&, void*);
