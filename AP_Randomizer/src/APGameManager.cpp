@@ -60,6 +60,9 @@ namespace Pseudoregalia_AP {
 
 	void APGameManager::OnBeginPlay(AActor* actor) {
 		if (actor->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
+			if (GetWorld()->GetName() == STR("EndScreen")) {
+				APClient::CompleteGame();
+			}
 			UFunction* spawn_function = actor->GetFunctionByName(STR("AP_SpawnCollectible"));
 			QueueSpawnUpdate();
 			QueueItemUpdate();
