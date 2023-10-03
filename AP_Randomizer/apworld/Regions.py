@@ -17,12 +17,14 @@ region_table: Dict[str, List[RegionExit]] = {
                        RegionExit("Underbelly Main", has_breaker),
                        RegionExit("Theatre Main",
                                   lambda state, player:
-                                  any([
-                                      get_kicks(state, player) >= 3 and has_breaker,
-                                      state.has("Cling Gem", player) and has_breaker,
-                                      can_slidejump(state, player) and get_kicks(state, player) >= 1 and has_breaker,
-                                      can_bounce(state, player),
-                                  ])
+                                  state.has(
+                                      "Cling Gem",
+                                      player) and (
+                                      get_kicks(
+                                          state,
+                                          player) >= 3 or can_slidejump(
+                                          state,
+                                          player))
                                   )],
     "Dungeon Strong Eyes": [RegionExit("Castle Sansa", has_small_keys)],
     "Castle Sansa": [RegionExit("Library Main", has_breaker),
