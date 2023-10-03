@@ -90,7 +90,8 @@ class PseudoregaliaWorld(World):
                  or (state.has("Cling Gem", self.player) and can_slidejump(state, self.player))
                  or (can_slidejump(state, self.player) and get_kicks(state, self.player) >= 3))
         set_rule(self.multiworld.get_location("Castle - Floater In Courtyard", self.player), lambda state:
-                 can_bounce(state, self.player)
+                 can_bounce(state, self.player) and (get_kicks(state, self.player) >= 1
+                                                     or state.has("Sunsetter", self.player))
                  or get_kicks(state, self.player) >= 4
                  or (state.has("Cling Gem", self.player) and get_kicks(state, self.player) >= 1)
                  or (state.has("Cling Gem", self.player) and can_slidejump(state, self.player))
