@@ -227,10 +227,13 @@ namespace Pseudoregalia_AP {
     }
 
     void APClient::CheckLocation(int64_t id) {
-        std::wstring current_world = APGameManager::GetWorld()->GetName();
-        for (APCollectible& collectible : zone_table[current_world]) {
-            if (collectible.GetID() == id) {
-                collectible.Check();
+        for (auto& zone_data : zone_table) {
+            std::vector<APCollectible> collectible_vector = zone_data.second;
+            for (APCollectible& collectible : zone_data.second) {
+                if (collectible.GetID() == id) {
+                    collectible.Check();
+                    return;
+                }
             }
         }
     }
