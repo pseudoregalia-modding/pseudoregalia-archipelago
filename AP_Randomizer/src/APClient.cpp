@@ -236,6 +236,7 @@ namespace Pseudoregalia_AP {
                 }
             }
         }
+        Output::send<LogLevel::Error>(STR("APClient::CheckLocation: No location with id {} could be found."), id);
     }
     
     void APClient::CompleteGame() {
