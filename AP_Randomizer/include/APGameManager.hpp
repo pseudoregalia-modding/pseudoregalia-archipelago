@@ -21,12 +21,14 @@ namespace Pseudoregalia_AP {
 		static void SetClientConnected(bool);
 		static void OnUpdate();
 		static void ToggleMessageHide();
+		static void ToggleMessageMute();
 	private:
 		static bool hooked_into_returncheck;
 		static bool item_update_pending;
 		static bool spawn_update_pending;
 		static bool client_connected;
 		static bool messages_hidden;
+		static bool messages_muted;
 		static std::list<std::string> messages_to_print;
 		static std::list<std::string> mini_messages_to_print;
 		static int message_timer;

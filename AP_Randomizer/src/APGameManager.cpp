@@ -9,6 +9,7 @@ namespace Pseudoregalia_AP {
 	bool APGameManager::spawn_update_pending;
 	bool APGameManager::client_connected;
 	bool APGameManager::messages_hidden;
+	bool APGameManager::messages_muted;
 	std::list<std::string> APGameManager::messages_to_print;
 	std::list<std::string> APGameManager::mini_messages_to_print;
 	int APGameManager::message_timer;
@@ -67,6 +68,19 @@ namespace Pseudoregalia_AP {
 	void APGameManager::OnUpdate() {
 		if (message_timer > 0) {
 			message_timer--;
+		}
+	}
+
+	void APGameManager::ToggleMessageMute() {
+		if (messages_muted) {
+			messages_muted = false;
+			mini_messages_to_print.push_back("Message sounds are no longer muted.");
+			Output::send<LogLevel::Verbose>(STR("Message sounds are no longer muted."));
+		}
+		else {
+			messages_muted = true;
+			mini_messages_to_print.push_back("Message sounds are now muted.");
+			Output::send<LogLevel::Verbose>(STR("Message sounds are now muted."));
 		}
 	}
 
