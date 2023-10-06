@@ -10,8 +10,9 @@ from .Rules import has_breaker, get_kicks, can_bounce, can_slidejump, can_strike
 class PseudoregaliaWorld(World):
     game = "Pseudoregalia"
 
-    item_name_to_id = {name: data.code for name, data in item_table.items()}
-    location_name_to_id = {name: data.code for name, data in location_table.items()}
+    item_name_to_id = {name: data.code for name, data in item_table.items() if data.code is not None}
+    location_name_to_id = {name: data.code for name, data in location_table.items() if data.code is not None}
+    locked_locations = {name: data for name, data in location_table.items() if data.locked_item}
 
     def create_item(self, name: str) -> PseudoregaliaItem:
         data = item_table[name]
@@ -21,6 +22,8 @@ class PseudoregaliaWorld(World):
         for item_name, item_data in item_table.items():
             if (item_name == "Dream Breaker"):
                 continue  # Really skrunkled way of just adding the one locked breaker to the pool for now.
+            if (item_data.code is None):
+                continue
             if (item_name in item_frequencies):
                 for count in range(item_frequencies[item_name]):
                     self.multiworld.itempool.append(
@@ -44,6 +47,11 @@ class PseudoregaliaWorld(World):
                 region_exit.region: lambda state, region_exit=region_exit: region_exit.access_rule(state, self.player)
                 for region_exit in exit_list
             })
+
+        # Place locked locations.
+        for location_name, location_data in self.locked_locations.items():
+            locked_item = self.create_item(location_table[location_name].locked_item)
+            self.multiworld.get_location(location_name, self.player).place_locked_item(locked_item)
 
     def set_rules(self):
         self.multiworld.get_location(
