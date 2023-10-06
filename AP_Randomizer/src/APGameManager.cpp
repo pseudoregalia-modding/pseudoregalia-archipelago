@@ -113,7 +113,7 @@ namespace Pseudoregalia_AP {
 			std::string mew = messages_to_print.front();
 			messages_to_print.pop_front();
 			PrintToPlayer(object, mew);
-			message_timer = 400;
+			message_timer = 600;
 		}
 
 		if (!client_connected) {
