@@ -76,7 +76,7 @@ namespace Pseudoregalia_AP {
 		}
 
 		if (option == "mute" || option == "unmute") {
-			//toggle whether to play sound
+			APGameManager::ToggleMessageMute();
 		}
 	}
 

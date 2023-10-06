@@ -16,6 +16,7 @@ namespace Pseudoregalia_AP {
 
 	struct PrintToPlayerInfo {
 		FText text;
+		bool mute_sound;
 	};
 
 	struct CollectibleSpawnInfo {
@@ -243,6 +244,7 @@ namespace Pseudoregalia_AP {
 		FText new_text = *new FText(converter.from_bytes(new_message));
 		PrintToPlayerInfo input{
 			new_text,
+			messages_muted,
 		};
 		randomizer_blueprint->ProcessEvent(text_func, &input);
 	}
