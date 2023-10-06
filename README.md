@@ -31,6 +31,10 @@ You'll spawn in Dungeon with Dream Breaker at its vanilla location, and you'll h
 4. Run ArchipelagoGenerate.exe.
 5. A zip file will be added to Archipelago/output, which can [hosted on the website](https://archipelago.gg/uploads) or hosted locally with ArchipelagoServer.exe.
 
+# Console Commands
+- Entering `/messages mute` will mute the sound effects of messages from Archipelago.
+- Entering `/messages hide` will stop Archipelago messages from appearing in-game completely.
+
 # Known Issues
 - If you enter your connection info incorrectly, you have to restart the game to try again.
 - Consumed small keys will be restored on scene transition.
