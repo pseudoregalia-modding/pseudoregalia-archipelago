@@ -8,6 +8,7 @@ namespace Pseudoregalia_AP {
 	bool APGameManager::item_update_pending;
 	bool APGameManager::spawn_update_pending;
 	bool APGameManager::client_connected;
+	bool APGameManager::messages_hidden;
 	std::list<std::string> APGameManager::messages_to_print;
 	int APGameManager::message_timer;
 
@@ -47,6 +48,9 @@ namespace Pseudoregalia_AP {
 	}
 	
 	void APGameManager::QueueMessage(std::string message) {
+		if (messages_hidden) {
+			return;
+		}
 		messages_to_print.push_back(message);
 	}
 
@@ -62,6 +66,18 @@ namespace Pseudoregalia_AP {
 	void APGameManager::OnUpdate() {
 		if (message_timer > 0) {
 			message_timer--;
+		}
+	}
+
+	void APGameManager::ToggleMessageHide() {
+		if (messages_hidden) {
+			messages_hidden = false;
+			Output::send<LogLevel::Verbose>(STR("Messages are no longer hidden."));
+		}
+		else {
+			messages_hidden = true;
+			messages_to_print.clear();
+			Output::send<LogLevel::Verbose>(STR("Messages are now hidden."));
 		}
 	}
 

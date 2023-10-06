@@ -20,11 +20,13 @@ namespace Pseudoregalia_AP {
 		static void QueueMessage(std::string);
 		static void SetClientConnected(bool);
 		static void OnUpdate();
+		static void ToggleMessageHide();
 	private:
 		static bool hooked_into_returncheck;
 		static bool item_update_pending;
 		static bool spawn_update_pending;
 		static bool client_connected;
+		static bool messages_hidden;
 		static std::list<std::string> messages_to_print;
 		static int message_timer;
 		static void SpawnCollectibles(UObject*, UWorld*);
