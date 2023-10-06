@@ -90,6 +90,9 @@ item_table: Dict[str, PseudoregaliaItemData] = {
     "Major Key - Twilight Theatre": PseudoregaliaItemData(
         code=2365810025,
         classification=ItemClassification.progression),
+
+    "Something Worth Being Awake For": PseudoregaliaItemData(
+        classification=ItemClassification.progression),
 }
 
 item_frequencies = {

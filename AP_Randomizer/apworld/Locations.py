@@ -1,10 +1,11 @@
 from BaseClasses import Location
-from typing import NamedTuple, Dict
+from typing import NamedTuple, Dict, Optional
 
 
 class PseudoregaliaLocationData(NamedTuple):
     region: str
     code: int = None
+    locked_item: Optional[str] = None
 
 
 location_table = {
@@ -163,4 +164,8 @@ location_table = {
     "Theatre - Major Key": PseudoregaliaLocationData(
         code=2365810050,
         region="Theatre Main",),
+
+    "D S T RT ED M M O   Y": PseudoregaliaLocationData(
+        region="The Great Door",
+        locked_item="Something Worth Being Awake For"),
 }
