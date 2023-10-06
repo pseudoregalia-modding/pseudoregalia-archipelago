@@ -28,9 +28,11 @@ namespace Pseudoregalia_AP {
 		static bool client_connected;
 		static bool messages_hidden;
 		static std::list<std::string> messages_to_print;
+		static std::list<std::string> mini_messages_to_print;
 		static int message_timer;
 		static void SpawnCollectibles(UObject*, UWorld*);
 		static void PrintToPlayer(UObject*, std::string);
+		static void MiniPrintToPlayer(UObject*, std::string);
 		static void OnReturnCheck(Unreal::UnrealScriptFunctionCallableContext&, void*);
 		static void EmptyFunction(Unreal::UnrealScriptFunctionCallableContext&, void*);
 		static void SyncItems(UObject*, UFunction*);

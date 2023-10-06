@@ -10,6 +10,7 @@ namespace Pseudoregalia_AP {
 	bool APGameManager::client_connected;
 	bool APGameManager::messages_hidden;
 	std::list<std::string> APGameManager::messages_to_print;
+	std::list<std::string> APGameManager::mini_messages_to_print;
 	int APGameManager::message_timer;
 
 	struct PrintToPlayerInfo {
@@ -72,11 +73,13 @@ namespace Pseudoregalia_AP {
 	void APGameManager::ToggleMessageHide() {
 		if (messages_hidden) {
 			messages_hidden = false;
+			mini_messages_to_print.push_back("Messages are no longer hidden.");
 			Output::send<LogLevel::Verbose>(STR("Messages are no longer hidden."));
 		}
 		else {
 			messages_hidden = true;
 			messages_to_print.clear();
+			mini_messages_to_print.push_back("Messages are now hidden.");
 			Output::send<LogLevel::Verbose>(STR("Messages are now hidden."));
 		}
 	}
@@ -130,6 +133,12 @@ namespace Pseudoregalia_AP {
 			messages_to_print.pop_front();
 			PrintToPlayer(object, mew);
 			message_timer = 600;
+		}
+
+		if (!mini_messages_to_print.empty()) {
+			std::string mew = mini_messages_to_print.front();
+			mini_messages_to_print.pop_front();
+			MiniPrintToPlayer(object, mew);
 		}
 
 		if (!client_connected) {
@@ -212,6 +221,22 @@ namespace Pseudoregalia_AP {
 		UFunction* text_func = randomizer_blueprint->GetFunctionByName(STR("AP_PrintMessage"));
 		if (!text_func) {
 			Output::send<LogLevel::Error>(STR("Error: No function AP_PrintMessage found in randomizer blueprint.\n"));
+			return;
+		}
+
+		// Need to convert from string to wstring, then wstring to FText
+		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+		FText new_text = *new FText(converter.from_bytes(new_message));
+		PrintToPlayerInfo input{
+			new_text,
+		};
+		randomizer_blueprint->ProcessEvent(text_func, &input);
+	}
+
+	void APGameManager::MiniPrintToPlayer(UObject* randomizer_blueprint, std::string new_message) {
+		UFunction* text_func = randomizer_blueprint->GetFunctionByName(STR("AP_PrintMiniMessage"));
+		if (!text_func) {
+			Output::send<LogLevel::Error>(STR("Error: No function AP_PrintMiniMessage found in randomizer blueprint.\n"));
 			return;
 		}
 
