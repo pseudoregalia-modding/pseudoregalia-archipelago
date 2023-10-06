@@ -99,28 +99,14 @@ class PseudoregaliaWorld(World):
                  or (state.has("Cling Gem", self.player) and get_kicks(state, self.player) >= 1)
                  or (state.has("Cling Gem", self.player) and can_slidejump(state, self.player))
                  or state.has_all(["Cling Gem", "Sunsetter"], self.player))
-        set_rule(
-            self.multiworld.get_location(
-                "Bailey - Cheese Bell",
-                self.player),
-            lambda state: (
-                can_slidejump(
-                    state,
-                    self.player) and state.has(
-                    "Sunsetter",
-                    self.player) and get_kicks(
-                        state,
-                        self.player) >= 1) or (
-                            can_slidejump(
-                                state,
-                                self.player) and state.has(
-                                    "Cling Gem",
-                                    self.player)) or (
-                                        state.has(
-                                            "Sunsetter",
-                                            self.player) and get_kicks(
-                                                state,
-                                            self.player) >= 3))
+        set_rule(self.multiworld.get_location("Bailey - Cheese Bell", self.player), lambda state:
+                 (can_slidejump(state, self.player)
+                     and state.has("Sunsetter", self.player)
+                     and get_kicks(state, self.player) >= 1)
+                 or (can_slidejump(state, self.player)
+                     and state.has("Cling Gem", self.player))
+                 or (state.has("Sunsetter", self.player)
+                     and get_kicks(state, self.player) >= 3))
         set_rule(self.multiworld.get_location("Theatre - Locked Door", self.player), lambda state:
                  has_small_keys(state, self.player)
                  and state.has("Cling Gem", self.player)
