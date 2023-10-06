@@ -25,7 +25,7 @@ namespace Pseudoregalia_AP {
 			APConsoleManager::ParseConnect(command);
 		}
 
-		if (first_word == "message") {
+		if (first_word == "message" || first_word == "messages") {
 			if (command.find(DELIM) == std::string::npos) {
 				APGameManager::QueueMessage("Please input an option, such as \"mute\" or \"hide\".");
 				return;
