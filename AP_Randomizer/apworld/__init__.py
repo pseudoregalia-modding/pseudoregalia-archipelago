@@ -54,11 +54,6 @@ class PseudoregaliaWorld(World):
             self.multiworld.get_location(location_name, self.player).place_locked_item(locked_item)
 
     def set_rules(self):
-        self.multiworld.get_location(
-            "Dungeon - Dream Breaker",
-            self.player).place_locked_item(
-            self.create_item("Dream Breaker"))
-
         # Putting all the access rules here is pretty ugly
         # but I can't be fucked to get it to work properly from another module right now
         set_rule(self.multiworld.get_location("Dungeon - Slide", self.player), lambda state:

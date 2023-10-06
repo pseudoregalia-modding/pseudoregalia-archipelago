@@ -12,7 +12,8 @@ location_table = {
     "Dungeon - Dream Breaker": PseudoregaliaLocationData(
         # Dream Breaker can't really be shuffled right now but I would like to later
         code=2365810001,
-        region="Dungeon Mirror"),
+        region="Dungeon Mirror",
+        locked_item="Dream Breaker"),
     "Dungeon - Slide": PseudoregaliaLocationData(
         code=2365810002,
         region="Dungeon Mirror"),
