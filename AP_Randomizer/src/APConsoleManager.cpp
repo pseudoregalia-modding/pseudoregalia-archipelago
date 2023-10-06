@@ -24,6 +24,16 @@ namespace Pseudoregalia_AP {
 			std::cout << command << "\n";
 			APConsoleManager::ParseConnect(command);
 		}
+
+		if (first_word == "message") {
+			if (command.find(DELIM) == std::string::npos) {
+				APGameManager::QueueMessage("Please input an option, such as \"mute\" or \"hide\".");
+				return;
+			}
+			command.erase(0, command.find(DELIM) + 1);
+			std::cout << command << "\n";
+			APConsoleManager::ParseMessageOption(command);
+		}
 	}
 
 	std::string APConsoleManager::ConvertTcharToString(const Unreal::TCHAR* tchars) {
@@ -53,6 +63,22 @@ namespace Pseudoregalia_AP {
 		std::cout << "password:" << password << "\n";
 
 		APClient::Connect(ip.c_str(), slot_name.c_str(), password.c_str());
+	}
+
+	void APConsoleManager::ParseMessageOption(std::string args) {
+		std::string option = GetNextToken(args);
+		if (args.empty()) {
+			APGameManager::QueueMessage("Please input an option, such as \"mute\" or \"hide\".");
+			return;
+		}
+
+		if (option == "hide" || option == "unhide" || option == "show") {
+			//toggle visiblity of popup (should mute when hidden too)
+		}
+
+		if (option == "mute" || option == "unmute") {
+			//toggle whether to play sound
+		}
 	}
 
 	std::string APConsoleManager::GetNextToken(std::string& input) {
