@@ -76,10 +76,7 @@ class PseudoregaliaWorld(World):
         set_rule(self.multiworld.get_location("Bailey - Solar Wind", self.player), lambda state:
                  state.has("Slide", self.player))
         set_rule(self.multiworld.get_location("Underbelly - Ascendant Light", self.player), lambda state:
-                 can_bounce(state, self.player)
-                 or get_kicks(state, self.player) >= 3
-                 or state.has("Cling Gem", self.player)
-                 or (can_slidejump(state, self.player) and get_kicks(state, self.player) > 0))
+                 True) # Just here for completeness, will remove later
         set_rule(self.multiworld.get_location("Tower - Cling Gem", self.player), lambda state:
                  get_kicks(state, self.player) >= 3)
 
@@ -188,10 +185,7 @@ class PseudoregaliaWorld(World):
                  or can_slidejump(state, self.player))
 
         set_rule(self.multiworld.get_location("Dungeon - Alcove Near Mirror", self.player), lambda state:
-                 can_slidejump(state, self.player)
-                 or can_bounce(state, self.player)
-                 or state.has("Sunsetter", self.player)
-                 or state.has("Cling Gem", self.player))
+                 True) # Just here for completeness, will remove later
         set_rule(self.multiworld.get_location("Dungeon - Past Poles", self.player), lambda state:
                  state.has("Cling Gem", self.player)
                  or get_kicks(state, self.player) >= 3)
