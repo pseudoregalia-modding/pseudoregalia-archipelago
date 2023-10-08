@@ -241,6 +241,18 @@ namespace Pseudoregalia_AP {
     
     void APClient::CompleteGame() {
         AP_StoryComplete();
+
+        // Send a key to datastorage upon game completion for PopTracker integration
+        AP_SetServerDataRequest* completion_flag = new AP_SetServerDataRequest();
+        AP_DataStorageOperation operation = *new AP_DataStorageOperation();
+        int filler_value = 0;
+        operation.operation = "add";
+        operation.value = &filler_value;
+        completion_flag->key = "Game Complete";
+        completion_flag->type = AP_DataType::Int;
+        completion_flag->want_reply = true;
+        completion_flag->operations.push_back(operation);
+        AP_SetServerData(completion_flag);
     }
 
     bool APClient::ConnectionStatusChanged() {
