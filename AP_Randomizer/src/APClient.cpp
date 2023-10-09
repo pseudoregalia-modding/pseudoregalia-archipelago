@@ -249,7 +249,7 @@ namespace Pseudoregalia_AP {
         int filler_value = 0;
         operation.operation = "add";
         operation.value = &filler_value;
-        completion_flag->key = "Game Complete";
+        completion_flag->key = slot_name + "Game Complete";
         completion_flag->type = AP_DataType::Int;
         completion_flag->want_reply = true;
         completion_flag->operations.push_back(operation);
