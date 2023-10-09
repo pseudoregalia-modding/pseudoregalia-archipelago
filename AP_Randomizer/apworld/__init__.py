@@ -5,6 +5,7 @@ from .Locations import location_table
 from .Regions import region_table
 from worlds.generic.Rules import add_rule, set_rule, forbid_item
 from .Rules import has_breaker, get_kicks, can_bounce, can_slidejump, can_strikebreak, can_soulcutter, has_small_keys
+from typing import Dict, Any
 
 
 class PseudoregaliaWorld(World):
@@ -52,6 +53,9 @@ class PseudoregaliaWorld(World):
         for location_name, location_data in self.locked_locations.items():
             locked_item = self.create_item(location_table[location_name].locked_item)
             self.multiworld.get_location(location_name, self.player).place_locked_item(locked_item)
+    
+    def fill_slot_data(self) -> Dict[str, Any]:
+        return {"slot_number": self.player}
 
     def set_rules(self):
         # Putting all the access rules here is pretty ugly
