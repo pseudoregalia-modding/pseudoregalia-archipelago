@@ -2,8 +2,8 @@
 #include "APClient.hpp"
 
 namespace Pseudoregalia_AP {
+    std::string APClient::slot_name;
     const char* ip;
-    const char* slot_name;
     const char* password;
     int APClient::connection_timer;
     AP_ConnectionStatus APClient::connection_status;
@@ -174,6 +174,7 @@ namespace Pseudoregalia_AP {
     }
 
     void APClient::Connect(const char* new_ip, const char* new_slot_name, const char* new_password) {
+        slot_name = new_slot_name;
         AP_Init(new_ip, "Pseudoregalia", new_slot_name, new_password);
         AP_SetItemClearCallback(&ClearItems);
         AP_SetItemRecvCallback(&ReceiveItem);

@@ -31,6 +31,7 @@ namespace Pseudoregalia_AP {
 		static int GetHealthPieces();
 		static void CompleteGame();
 	private:
+		static std::string slot_name;
 		static void FillZoneTable();
 		static void ResetUpgradeTable();
 		static void ClearItems();
