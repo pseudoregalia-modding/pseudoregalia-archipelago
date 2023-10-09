@@ -5,6 +5,7 @@ namespace Pseudoregalia_AP {
     const char* ip;
     const char* slot_name;
     const char* password;
+    int APClient::slot_number;
     int APClient::connection_timer;
     AP_ConnectionStatus APClient::connection_status;
 
@@ -178,6 +179,7 @@ namespace Pseudoregalia_AP {
         AP_SetItemClearCallback(&ClearItems);
         AP_SetItemRecvCallback(&ReceiveItem);
         AP_SetLocationCheckedCallback(&CheckLocation);
+        AP_RegisterSlotDataIntCallback("slot_number", &SetSlotNumber);
         AP_Start();
         connection_timer = 4000;
         connection_status = AP_GetConnectionStatus();
@@ -186,6 +188,10 @@ namespace Pseudoregalia_AP {
         connect_message += " with name ";
         connect_message.append(new_slot_name);
         APGameManager::QueueMessage(connect_message);
+    }
+
+    void APClient::SetSlotNumber(int num) {
+        slot_number = num;
     }
 
     void APClient::ClearItems() {
@@ -248,7 +254,7 @@ namespace Pseudoregalia_AP {
         int filler_value = 0;
         operation.operation = "add";
         operation.value = &filler_value;
-        completion_flag->key = "Game Complete";
+        completion_flag->key = "Pseudoregalia - Player " + std::to_string(slot_number) + " - Game Complete";
         completion_flag->type = AP_DataType::Int;
         completion_flag->want_reply = true;
         completion_flag->operations.push_back(operation);

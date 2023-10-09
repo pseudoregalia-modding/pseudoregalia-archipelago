@@ -38,6 +38,7 @@ namespace Pseudoregalia_AP {
 		static void CheckLocation(int64_t);
 		static void CheckLocation(APCollectible&, std::wstring);
 		static bool ConnectionStatusChanged();
+		static void SetSlotNumber(int);
 		static ItemType GetItemType(int64_t);
 		static std::map<int64_t, std::wstring> lookup_id_to_item;
 		static std::map <std::wstring, std::vector<APCollectible>> zone_table;
@@ -47,5 +48,6 @@ namespace Pseudoregalia_AP {
 		static int health_pieces;
 		static int connection_timer;
 		static AP_ConnectionStatus connection_status;
+		static int slot_number;
 	};
 }
