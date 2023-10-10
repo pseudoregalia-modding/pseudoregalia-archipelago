@@ -18,29 +18,6 @@ namespace Pseudoregalia_AP {
 		bool mute_sound;
 	};
 
-	struct CollectibleSpawnInfo {
-		int64_t id;
-		FVector position;
-	};
-
-	struct AddUpgradeInfo {
-		FName name;
-		int count;
-	};
-
-	struct MajorKeyInfo {
-		int index;
-		bool to_give;
-	};
-
-	struct MinorKeyInfo {
-		int count;
-	};
-
-	struct HealthPieceInfo {
-		int count;
-	};
-	
 	void APGameManager::QueueMessage(std::string message) {
 		if (messages_hidden) {
 			return;
