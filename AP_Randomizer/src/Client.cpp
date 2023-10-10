@@ -1,15 +1,17 @@
 #pragma once
-#include "APClient.hpp"
+#include "Client.hpp"
 
-namespace Pseudoregalia_AP {
-    const char* ip;
-    const char* slot_name;
-    const char* password;
-    int APClient::slot_number;
-    int APClient::connection_timer;
-    AP_ConnectionStatus APClient::connection_status;
+namespace Client {
+    void ClearItems();
+    void ReceiveItem(int64_t, bool);
+    void CheckLocation(int64_t);
+    bool ConnectionStatusChanged();
+    void SetSlotNumber(int);
+    int connection_timer;
+    AP_ConnectionStatus connection_status;
+    int slot_number;
 
-    void APClient::Connect(const char* new_ip, const char* new_slot_name, const char* new_password) {
+    void Client::Connect(const char* new_ip, const char* new_slot_name, const char* new_password) {
         AP_Init(new_ip, "Pseudoregalia", new_slot_name, new_password);
         AP_SetItemClearCallback(&ClearItems);
         AP_SetItemRecvCallback(&ReceiveItem);
@@ -22,25 +24,25 @@ namespace Pseudoregalia_AP {
         connect_message.append(new_ip);
         connect_message += " with name ";
         connect_message.append(new_slot_name);
-        APGameManager::QueueMessage(connect_message);
+        GameManager::QueueMessage(connect_message);
     }
 
-    void APClient::SetSlotNumber(int num) {
+    void Client::SetSlotNumber(int num) {
         slot_number = num;
     }
 
-    void APClient::ClearItems() {
+    void Client::ClearItems() {
         GameData::Initialize();
     }
 
-    void APClient::ReceiveItem(int64_t id, bool notify) {
+    void Client::ReceiveItem(int64_t id, bool notify) {
         GameData::ReceiveItem(id);
         Engine::SyncItems();
     }
 
-    void APClient::SendCheck(int64_t id, std::wstring current_world) {
-        std::vector<APCollectible> collectible_vector = GameData::GetCollectiblesOfZone(Engine::GetWorld()->GetName());
-        for (APCollectible& collectible : collectible_vector) {
+    void Client::SendCheck(int64_t id, std::wstring current_world) {
+        std::vector<GameData::Collectible> collectible_vector = GameData::GetCollectiblesOfZone(Engine::GetWorld()->GetName());
+        for (GameData::Collectible& collectible : collectible_vector) {
             if (collectible.GetID() == id) {
                 AP_SendItem(id);
                 return;
@@ -48,11 +50,11 @@ namespace Pseudoregalia_AP {
         }
     }
 
-    void APClient::CheckLocation(int64_t id) {
+    void Client::CheckLocation(int64_t id) {
         GameData::CheckLocation(id);
     }
     
-    void APClient::CompleteGame() {
+    void Client::CompleteGame() {
         AP_StoryComplete();
 
         // Send a key to datastorage upon game completion for PopTracker integration
@@ -68,7 +70,7 @@ namespace Pseudoregalia_AP {
         AP_SetServerData(completion_flag);
     }
 
-    bool APClient::ConnectionStatusChanged() {
+    bool Client::ConnectionStatusChanged() {
         if (connection_status != AP_GetConnectionStatus()) {
             connection_status = AP_GetConnectionStatus();
             return true;
@@ -76,14 +78,14 @@ namespace Pseudoregalia_AP {
         return false;
     }
 
-    void APClient::PollServer() {
+    void Client::PollServer() {
         if (ConnectionStatusChanged()) {
             if (connection_status == AP_ConnectionStatus::Authenticated) {
-                APGameManager::SetClientConnected(true);
+                GameManager::SetClientConnected(true);
                 connection_timer = 0;
             }
             if (connection_status == AP_ConnectionStatus::ConnectionRefused) {
-                APGameManager::QueueMessage("The server refused the connection. Please double-check your connection info and restart the game.");
+                GameManager::QueueMessage("The server refused the connection. Please double-check your connection info and restart the game.");
                 connection_timer = 0;
             }
         }
@@ -91,13 +93,13 @@ namespace Pseudoregalia_AP {
         if (connection_timer > 0) {
             connection_timer--;
             if (connection_timer <= 0) {
-                APGameManager::QueueMessage("Could not find the address entered. Please double-check your connection info and restart the game.");
+                GameManager::QueueMessage("Could not find the address entered. Please double-check your connection info and restart the game.");
             }
         }
 
         if (AP_IsMessagePending()) {
             AP_Message* message = AP_GetLatestMessage();
-            APGameManager::QueueMessage(message->text);
+            GameManager::QueueMessage(message->text);
             printf(message->text.c_str());
             printf("\n");
             AP_ClearLatestMessage();

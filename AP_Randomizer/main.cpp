@@ -3,15 +3,14 @@
 
 #include <Windows.h>
 #include "Mod/CppUserModBase.hpp"
-#include "APClient.hpp" // Currently is only included to connect on keypress
-#include "APGameManager.hpp"
-#include "APConsoleManager.hpp"
+#include "Client.hpp"
+#include "GameManager.hpp"
+#include "UnrealConsole.hpp"
 #include "Engine.hpp"
 #include "Unreal/UObjectGlobals.hpp"
 
 using namespace RC;
 using namespace RC::Unreal;
-using namespace Pseudoregalia_AP;
 
 class AP_Randomizer : public RC::CppUserModBase {
 public:
@@ -50,7 +49,7 @@ public:
         Hook::RegisterProcessConsoleExecCallback([&](UObject* object, const Unreal::TCHAR* command, FOutputDevice& Ar, UObject* executor) -> bool {
             if (command[0] == '/' || command[0] == '!') {
                 command++; // Exclude the first character from the array
-                APConsoleManager::ProcessCommand(command);
+                UnrealConsole::ProcessCommand(command);
                 return true;
             }
             return PropogateCommand(command);
@@ -66,7 +65,7 @@ public:
                     int64_t id;
                 };
                 auto& params = context.GetParams<return_check_params>();
-                APClient::SendCheck(params.id, Engine::GetWorld()->GetName());
+                Client::SendCheck(params.id, Engine::GetWorld()->GetName());
                 };
 
             if (!returncheck_hooked
@@ -77,11 +76,11 @@ public:
                     Output::send<LogLevel::Error>(STR("Could not find function ReturnCheck in BP_APCollectible."));
                     return;
                 }
-                Unreal::UObjectGlobals::RegisterHook(return_check_function, APGameManager::EmptyFunction, returncheck, nullptr);
+                Unreal::UObjectGlobals::RegisterHook(return_check_function, GameManager::EmptyFunction, returncheck, nullptr);
                 returncheck_hooked = true;
             }
 
-            APGameManager::OnBeginPlay(Actor);
+            GameManager::OnBeginPlay(Actor);
             });
     }
 
@@ -123,8 +122,8 @@ public:
 
     auto on_update() -> void override
     {
-        APClient::PollServer();
-        APGameManager::OnUpdate();
+        Client::PollServer();
+        GameManager::OnUpdate();
         for (auto& boundKey : m_boundKeys)
         {
             if ((GetKeyState(boundKey.key) & 0x8000) && !boundKey.isPressed)
