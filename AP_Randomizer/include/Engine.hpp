@@ -9,6 +9,7 @@ namespace Pseudoregalia_AP {
 		static void OnTick(UObject*);
 		static void SyncItems();
 	private:
+		static UWorld* GetWorld();
 		static std::vector<void (*)(UObject*)> function_queue;
 	};
 }

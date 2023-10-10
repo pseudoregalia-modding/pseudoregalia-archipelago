@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine.hpp"
 #include "Unreal/UObject.hpp"
+#include "Unreal/AActor.hpp"
 
 using namespace RC::Unreal;
 
@@ -9,6 +10,11 @@ namespace Pseudoregalia_AP {
 		int index;
 		bool to_give;
 	};
+
+	UWorld* Engine::GetWorld() {
+		UObject* player_controller = UObjectGlobals::FindFirstOf(STR("PlayerController"));
+		return static_cast<AActor*>(player_controller)->GetWorld();
+	}
 
 	void Engine::ExecuteInGameThread(void (*function)(UObject*) ) {
 		function_queue.push_back(function);
