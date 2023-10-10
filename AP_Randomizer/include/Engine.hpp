@@ -7,15 +7,13 @@
 
 using namespace RC::Unreal;
 
-namespace Pseudoregalia_AP {
-	class Engine {
-	public:
-		static void ExecuteInGameThread(void (*)(UObject*));
-		static void OnTick(UObject*);
-		static void SyncItems();
-		static void SpawnCollectibles();
-		static UWorld* GetWorld();
-	private:
-		static std::vector<void (*)(UObject*)> function_queue;
-	};
+namespace Engine {
+	void ExecuteInGameThread(void (*)(UObject*));
+	void OnTick(UObject*);
+	void SyncItems();
+	void SpawnCollectibles();
+	UWorld* GetWorld();
+	
+
+	std::vector<void (*)(UObject*)> function_queue;
 }

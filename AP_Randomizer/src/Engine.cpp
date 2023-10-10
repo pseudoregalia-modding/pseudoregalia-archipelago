@@ -3,7 +3,7 @@
 
 using namespace RC::Unreal;
 
-namespace Pseudoregalia_AP {
+namespace Engine {
 	struct MajorKeyInfo {
 		int index;
 		bool to_give;
