@@ -3,9 +3,9 @@
 
 #include <Windows.h>
 #include "Mod/CppUserModBase.hpp"
-#include "APClient.hpp" // Currently is only included to connect on keypress
-#include "APGameManager.hpp"
-#include "APConsoleManager.hpp"
+#include "Client.hpp"
+#include "GameManager.hpp"
+#include "UnrealConsole.hpp"
 #include "Engine.hpp"
 #include "Unreal/UObjectGlobals.hpp"
 
@@ -50,7 +50,7 @@ public:
         Hook::RegisterProcessConsoleExecCallback([&](UObject* object, const Unreal::TCHAR* command, FOutputDevice& Ar, UObject* executor) -> bool {
             if (command[0] == '/' || command[0] == '!') {
                 command++; // Exclude the first character from the array
-                APConsoleManager::ProcessCommand(command);
+                UnrealConsole::ProcessCommand(command);
                 return true;
             }
             return PropogateCommand(command);

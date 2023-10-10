@@ -3,7 +3,7 @@
 #include "Unreal/UObjectGlobals.hpp"
 #include "Unreal/UFunction.hpp"
 #include "Unreal/World.hpp"
-#include "APClient.hpp"
+#include "Client.hpp"
 #include "APCollectible.hpp"
 
 using namespace RC;

@@ -1,7 +1,7 @@
 #pragma once
 #include "DynamicOutput/DynamicOutput.hpp"
 #include "Archipelago.h"
-#include "APGameManager.hpp"
+#include "GameManager.hpp"
 #include "APCollectible.hpp"
 #include "GameData.hpp"
 #include "Engine.hpp"

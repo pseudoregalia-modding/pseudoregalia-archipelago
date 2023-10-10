@@ -1,5 +1,5 @@
 #pragma once
-#include "APGameManager.hpp"
+#include "GameManager.hpp"
 #include <string>
 #include <iostream>
 #include "Engine.hpp"
