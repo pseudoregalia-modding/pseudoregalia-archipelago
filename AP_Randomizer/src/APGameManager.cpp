@@ -6,7 +6,6 @@
 
 namespace Pseudoregalia_AP {
 	bool APGameManager::hooked_into_returncheck;
-	bool APGameManager::item_update_pending;
 	bool APGameManager::spawn_update_pending;
 	bool APGameManager::client_connected;
 	bool APGameManager::messages_hidden;
@@ -42,11 +41,6 @@ namespace Pseudoregalia_AP {
 	struct HealthPieceInfo {
 		int count;
 	};
-
-	void APGameManager::QueueItemUpdate() {
-		Engine::SyncItems;
-		item_update_pending = true;
-	}
 
 	void APGameManager::QueueSpawnUpdate() {
 		spawn_update_pending = true;
@@ -108,7 +102,7 @@ namespace Pseudoregalia_AP {
 			}
 			UFunction* spawn_function = actor->GetFunctionByName(STR("AP_SpawnCollectible"));
 			QueueSpawnUpdate();
-			QueueItemUpdate();
+			Engine::SyncItems();
 		}
 
 		if (!hooked_into_returncheck
@@ -161,57 +155,10 @@ namespace Pseudoregalia_AP {
 		if (!client_connected) {
 			return;
 		}
-		if (item_update_pending) {
-			item_update_pending = false;
-			UFunction* add_upgrade_function = object->GetFunctionByName(STR("AP_AddUpgrade"));
-			SyncItems(object, add_upgrade_function);
-		}
+
 		if (spawn_update_pending) {
 			spawn_update_pending = false;
 			SpawnCollectibles(object, GetWorld());
-		}
-	}
-
-	void APGameManager::SyncItems(UObject* randomizer_blueprint, UFunction* add_upgrade_function) {
-		int healthpiece_count = APClient::GetHealthPieces();
-		UFunction* set_hp = randomizer_blueprint->GetFunctionByName(STR("AP_SetHealthPieces"));
-		{
-			HealthPieceInfo params{
-				healthpiece_count,
-			};
-			randomizer_blueprint->ProcessEvent(set_hp, &params);
-		}
-
-		bool* major_key_table = APClient::GetMajorKeys();
-		UFunction* set_major_keys = randomizer_blueprint->GetFunctionByName(STR("AP_SetMajorKey"));
-		for (int i = 0; i < 5; i++)
-		{
-			MajorKeyInfo params{
-				i,
-				major_key_table[i],
-			};
-			randomizer_blueprint->ProcessEvent(set_major_keys, &params);
-		}
-
-		int key_count = APClient::GetSmallKeys();
-		UFunction* set_small_keys = randomizer_blueprint->GetFunctionByName(STR("AP_SetSmallKeys"));
-		{
-			MinorKeyInfo params{
-				key_count,
-			};
-			randomizer_blueprint->ProcessEvent(set_small_keys, &params);
-		}
-
-		std::map<std::wstring, int> upgrade_table = APClient::GetUpgradeTable();
-		for (auto const& pair : upgrade_table) {
-			FName new_name = *new FName(pair.first);
-
-			AddUpgradeInfo params = {
-				new_name,
-				pair.second,
-			};
-			// Output::send<LogLevel::Verbose>(STR("Attempting to add {} with value {}...\n"), pair.first, pair.second);
-			randomizer_blueprint->ProcessEvent(add_upgrade_function, &params);
 		}
 	}
 

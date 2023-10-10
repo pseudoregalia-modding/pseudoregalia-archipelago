@@ -15,7 +15,6 @@ namespace Pseudoregalia_AP {
 		static UWorld* GetWorld();
 		static void OnBeginPlay(AActor*);
 		static void PreProcessEvent(UObject*, UFunction*, void*);
-		static void QueueItemUpdate();
 		static void QueueSpawnUpdate();
 		static void QueueMessage(std::string);
 		static void SetClientConnected(bool);
@@ -24,7 +23,6 @@ namespace Pseudoregalia_AP {
 		static void ToggleMessageMute();
 	private:
 		static bool hooked_into_returncheck;
-		static bool item_update_pending;
 		static bool spawn_update_pending;
 		static bool client_connected;
 		static bool messages_hidden;
@@ -37,6 +35,5 @@ namespace Pseudoregalia_AP {
 		static void MiniPrintToPlayer(UObject*, std::string);
 		static void OnReturnCheck(Unreal::UnrealScriptFunctionCallableContext&, void*);
 		static void EmptyFunction(Unreal::UnrealScriptFunctionCallableContext&, void*);
-		static void SyncItems(UObject*, UFunction*);
 	};
 }
