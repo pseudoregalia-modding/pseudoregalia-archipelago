@@ -59,6 +59,16 @@ public:
         setup_keybinds();
 
         Hook::RegisterBeginPlayPostCallback([&](AActor* Actor) {
+
+            // TODO: There should probably be less of this function in main
+            auto returncheck = [](UnrealScriptFunctionCallableContext& context, void* customdata) {
+                struct return_check_params {
+                    int64_t id;
+                };
+                auto& params = context.GetParams<return_check_params>();
+                APClient::SendCheck(params.id, Engine::GetWorld()->GetName());
+                };
+
             if (!returncheck_hooked
                 && Actor->GetName().starts_with(STR("BP_APCollectible"))) {
 
@@ -67,10 +77,9 @@ public:
                     Output::send<LogLevel::Error>(STR("Could not find function ReturnCheck in BP_APCollectible."));
                     return;
                 }
-                Unreal::UObjectGlobals::RegisterHook(return_check_function, APGameManager::EmptyFunction, APGameManager::OnReturnCheck, nullptr);
+                Unreal::UObjectGlobals::RegisterHook(return_check_function, APGameManager::EmptyFunction, returncheck, nullptr);
                 returncheck_hooked = true;
             }
-
 
             APGameManager::OnBeginPlay(Actor);
             });

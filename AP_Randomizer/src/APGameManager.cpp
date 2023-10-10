@@ -77,17 +77,6 @@ namespace Pseudoregalia_AP {
 		}
 	}
 
-	void APGameManager::OnReturnCheck(Unreal::UnrealScriptFunctionCallableContext& context, void* customdata) {
-		struct return_check_params {
-			int64_t id;
-		};
-		auto& params = context.GetParams<return_check_params>();
-		Output::send<LogLevel::Verbose>(STR("Obtained check with ID {}\n"), params.id);
-
-		UWorld* world = APGameManager::GetWorld();
-		APClient::SendCheck(params.id, world->GetName());
-	}
-
 	void APGameManager::PreProcessEvent(UObject* object, UFunction* function, void* params) {
 		// A lot of stuff has to be run in the game thread, so this function handles that.
 		// It might be a good idea to just change this to a callback hooked into the main randomizer blueprint's EventTick,
