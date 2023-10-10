@@ -1,6 +1,8 @@
 #pragma once
 #include <vector>
 #include "GameData.hpp"
+#include "Unreal/UObject.hpp"
+#include "Unreal/AActor.hpp"
 
 namespace Pseudoregalia_AP {
 	class Engine {
