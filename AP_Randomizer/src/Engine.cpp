@@ -12,7 +12,7 @@ namespace Engine {
 	struct BlueprintFunctionInfo {
 		std::wstring parent_name;
 		std::wstring function_name;
-		std::shared_ptr<void> params;
+		void* params;
 	};
 
 	std::vector<BlueprintFunctionInfo> blueprint_function_queue;
@@ -27,7 +27,7 @@ namespace Engine {
 		function_queue.push_back(function);
 	}
 
-	void Engine::ExecuteBlueprintFunction(std::wstring new_parent, std::wstring new_name, std::shared_ptr<void> function) {
+	void Engine::ExecuteBlueprintFunction(std::wstring new_parent, std::wstring new_name, void* function) {
 		blueprint_function_queue.push_back(BlueprintFunctionInfo(new_parent, new_name, function));
 	}
 
@@ -44,7 +44,7 @@ namespace Engine {
 				return;
 			}
 			void* ptr = &info.params;
-			parent->ProcessEvent(function, ptr);
+			parent->ProcessEvent(function, info.params);
 		}
 		blueprint_function_queue.clear();
 
