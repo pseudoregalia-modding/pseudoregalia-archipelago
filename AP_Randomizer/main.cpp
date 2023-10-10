@@ -6,6 +6,7 @@
 #include "APClient.hpp" // Currently is only included to connect on keypress
 #include "APGameManager.hpp"
 #include "APConsoleManager.hpp"
+#include "Engine.hpp"
 
 using namespace RC;
 using namespace RC::Unreal;
@@ -38,6 +39,9 @@ public:
         APClient::Initialize();
 
         Hook::RegisterProcessEventPreCallback([&](UObject* object, UFunction* function, void* params) {
+            if (object->GetName().starts_with(STR("BP_APRandomizerInstance")) && function->GetName() == STR("ReceiveTick")) {
+                Engine::OnTick();
+            }
             APGameManager::PreProcessEvent(object, function, params);
             });
 

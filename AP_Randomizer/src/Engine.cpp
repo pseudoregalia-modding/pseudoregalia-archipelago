@@ -5,4 +5,8 @@ namespace Pseudoregalia_AP {
 	void Engine::ExecuteInGameThread() {
 
 	}
+
+	void Engine::OnTick() {
+
+	}
 }
