@@ -43,8 +43,8 @@ namespace Engine {
 				// TODO: return an error
 				return;
 			}
-			void* ptr = &info.params;
 			parent->ProcessEvent(function, info.params);
+			delete info.params;
 		}
 		blueprint_function_queue.clear();
 
@@ -80,11 +80,10 @@ namespace Engine {
 
 	void Engine::SyncItems() {
 		// TODO: considering modularizing this function in-line a bit
-		auto item_sync = [](UObject* blueprint) {
-			UFunction* set_hp = blueprint->GetFunctionByName(STR("AP_SetHealthPieces"));
-			int hp_count = GameData::GetHealthPieces();
-			blueprint->ProcessEvent(set_hp, &hp_count);
+		void* hp_params = new int(GameData::GetHealthPieces());
+		ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetHealthPieces", hp_params);
 
+		auto item_sync = [](UObject* blueprint) {
 			// TODO: reconfigure major keys to be an int and reconfigure this function
 			UFunction* set_major_keys = blueprint->GetFunctionByName(STR("AP_SetMajorKey"));
 			bool* major_keys = GameData::GetMajorKeys();
