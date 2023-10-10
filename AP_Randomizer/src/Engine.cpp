@@ -4,11 +4,6 @@
 using namespace RC::Unreal;
 
 namespace Engine {
-	struct MajorKeyInfo {
-		int index;
-		bool to_give;
-	};
-
 	struct BlueprintFunctionInfo {
 		std::wstring parent_name;
 		std::wstring function_name;
@@ -79,44 +74,33 @@ namespace Engine {
 	}
 
 	void Engine::SyncItems() {
-		// TODO: considering modularizing this function in-line a bit
+		// Call blueprint functions to sync health pieces, small keys, major keys, and upgrades
 		void* hp_params = new int(GameData::GetHealthPieces());
 		ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetHealthPieces", hp_params);
 
-		auto item_sync = [](UObject* blueprint) {
-			// TODO: reconfigure major keys to be an int and reconfigure this function
-			UFunction* set_major_keys = blueprint->GetFunctionByName(STR("AP_SetMajorKey"));
-			bool* major_keys = GameData::GetMajorKeys();
-			for (int i = 0; i < 5; i++)
-			{
-				MajorKeyInfo params{
-					i,
-					major_keys[i],
-				};
-				blueprint->ProcessEvent(set_major_keys, &params);
-			}
+		void* small_key_params = new int(GameData::GetSmallKeys());
+		ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetSmallKeys", small_key_params);
 
-			UFunction* set_small_keys = blueprint->GetFunctionByName(STR("AP_SetSmallKeys"));
-			int small_key_count = GameData::GetSmallKeys();
-			blueprint->ProcessEvent(set_small_keys, &small_key_count);
+		// TODO: reconfigure major keys to be an int and reconfigure this function
+		bool* major_keys = GameData::GetMajorKeys();
+		struct MajorKeyInfo {
+			int index;
+			bool to_give;
+		};
+		for (int i = 0; i < 5; i++)
+		{
+			void* major_key_params = new MajorKeyInfo{ i, major_keys[i] };
+			ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetMajorKey", major_key_params);
+		}
 
-
-			struct AddUpgradeInfo {
-				FName name;
-				int count;
-			};
-			UFunction* add_upgrades = blueprint->GetFunctionByName(STR("AP_AddUpgrade"));
-			for (auto const& pair : GameData::GetUpgradeTable()) {
-				FName new_name = *new FName(pair.first);
-
-				AddUpgradeInfo params = {
-					new_name,
-					pair.second,
-				};
-				blueprint->ProcessEvent(add_upgrades, &params);
-			}
-			};
-
-		ExecuteInGameThread(item_sync);
+		struct AddUpgradeInfo {
+			FName name;
+			int count;
+		};
+		for (auto const& pair : GameData::GetUpgradeTable()) {
+			FName new_name = *new FName(pair.first);
+			void* upgrade_params = new AddUpgradeInfo{ new_name, pair.second };
+			ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_AddUpgrade", upgrade_params);
+		}
 	}
 }
