@@ -13,7 +13,4 @@ namespace Engine {
 	void SyncItems();
 	void SpawnCollectibles();
 	UWorld* GetWorld();
-	
-
-	std::vector<void (*)(UObject*)> function_queue;
 }

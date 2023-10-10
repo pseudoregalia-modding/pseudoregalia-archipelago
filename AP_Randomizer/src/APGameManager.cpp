@@ -10,6 +10,15 @@ namespace GameManager {
 		bool mute_sound;
 	};
 
+	bool client_connected;
+	bool messages_hidden;
+	bool messages_muted;
+	std::list<std::string> messages_to_print;
+	std::list<std::string> mini_messages_to_print;
+	int message_timer;
+	void PrintToPlayer(UObject*, std::string);
+	void MiniPrintToPlayer(UObject*, std::string);
+
 	void GameManager::QueueMessage(std::string message) {
 		if (messages_hidden) {
 			return;

@@ -9,6 +9,8 @@ namespace Engine {
 		bool to_give;
 	};
 
+	std::vector<void (*)(UObject*)> function_queue;
+
 	UWorld* Engine::GetWorld() {
 		UObject* player_controller = UObjectGlobals::FindFirstOf(STR("PlayerController"));
 		return static_cast<AActor*>(player_controller)->GetWorld();
