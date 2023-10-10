@@ -34,10 +34,19 @@ namespace Engine {
 	void Engine::OnTick(UObject* blueprint) {
 		for (BlueprintFunctionInfo& info : blueprint_function_queue) {
 			UObject* parent = UObjectGlobals::FindFirstOf(info.parent_name);
+			if (!parent) {
+				// TODO: return an error
+				return;
+			}
 			UFunction* function = parent->GetFunctionByName(info.function_name.c_str());
+			if (!function) {
+				// TODO: return an error
+				return;
+			}
 			void* ptr = &info.params;
 			parent->ProcessEvent(function, ptr);
 		}
+		blueprint_function_queue.clear();
 
 		for (auto& function : function_queue) {
 			function(blueprint);
