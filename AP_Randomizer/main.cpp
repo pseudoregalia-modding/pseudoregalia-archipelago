@@ -36,8 +36,6 @@ public:
 
     auto on_unreal_init() -> void override
     {
-        APClient::Initialize();
-
         Hook::RegisterProcessEventPreCallback([&](UObject* object, UFunction* function, void* params) {
             if (object->GetName().starts_with(STR("BP_APRandomizerInstance")) && function->GetName() == STR("ReceiveTick")) {
                 Engine::OnTick(object);
