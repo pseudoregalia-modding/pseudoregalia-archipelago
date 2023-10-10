@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include "GameData.hpp"
 
 namespace Pseudoregalia_AP {
 	class Engine {
