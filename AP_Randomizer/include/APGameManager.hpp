@@ -20,8 +20,9 @@ namespace Pseudoregalia_AP {
 		static void OnUpdate();
 		static void ToggleMessageHide();
 		static void ToggleMessageMute();
+		static void OnReturnCheck(Unreal::UnrealScriptFunctionCallableContext&, void*);
+		static void EmptyFunction(Unreal::UnrealScriptFunctionCallableContext&, void*);
 	private:
-		static bool hooked_into_returncheck;
 		static bool client_connected;
 		static bool messages_hidden;
 		static bool messages_muted;
@@ -30,7 +31,5 @@ namespace Pseudoregalia_AP {
 		static int message_timer;
 		static void PrintToPlayer(UObject*, std::string);
 		static void MiniPrintToPlayer(UObject*, std::string);
-		static void OnReturnCheck(Unreal::UnrealScriptFunctionCallableContext&, void*);
-		static void EmptyFunction(Unreal::UnrealScriptFunctionCallableContext&, void*);
 	};
 }

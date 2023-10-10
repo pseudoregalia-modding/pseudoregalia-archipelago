@@ -5,7 +5,6 @@
 #include "Engine.hpp"
 
 namespace Pseudoregalia_AP {
-	bool APGameManager::hooked_into_returncheck;
 	bool APGameManager::client_connected;
 	bool APGameManager::messages_hidden;
 	bool APGameManager::messages_muted;
@@ -75,18 +74,6 @@ namespace Pseudoregalia_AP {
 			UFunction* spawn_function = actor->GetFunctionByName(STR("AP_SpawnCollectible"));
 			Engine::SpawnCollectibles();
 			Engine::SyncItems();
-		}
-
-		if (!hooked_into_returncheck
-			&& actor->GetName().starts_with(STR("BP_APCollectible"))) {
-
-				UFunction* return_check_function = actor->GetFunctionByName(STR("ReturnCheck"));
-				if (!return_check_function) {
-					Output::send<LogLevel::Error>(STR("Could not find function ReturnCheck in BP_APCollectible."));
-					return;
-				}
-				Unreal::UObjectGlobals::RegisterHook(return_check_function, EmptyFunction, OnReturnCheck, nullptr);
-				hooked_into_returncheck = true;
 		}
 	}
 

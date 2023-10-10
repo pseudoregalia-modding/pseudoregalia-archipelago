@@ -7,6 +7,7 @@
 #include "APGameManager.hpp"
 #include "APConsoleManager.hpp"
 #include "Engine.hpp"
+#include "Unreal/UObjectGlobals.hpp"
 
 using namespace RC;
 using namespace RC::Unreal;
@@ -22,6 +23,9 @@ public:
     };
 
 public:
+
+    bool returncheck_hooked = false;
+
     AP_Randomizer() : CppUserModBase() {
         ModName = STR("AP_Randomizer");
         ModVersion = STR("0.1.0");
@@ -55,6 +59,19 @@ public:
         setup_keybinds();
 
         Hook::RegisterBeginPlayPostCallback([&](AActor* Actor) {
+            if (!returncheck_hooked
+                && Actor->GetName().starts_with(STR("BP_APCollectible"))) {
+
+                UFunction* return_check_function = Actor->GetFunctionByName(STR("ReturnCheck"));
+                if (!return_check_function) {
+                    Output::send<LogLevel::Error>(STR("Could not find function ReturnCheck in BP_APCollectible."));
+                    return;
+                }
+                Unreal::UObjectGlobals::RegisterHook(return_check_function, APGameManager::EmptyFunction, APGameManager::OnReturnCheck, nullptr);
+                returncheck_hooked = true;
+            }
+
+
             APGameManager::OnBeginPlay(Actor);
             });
     }
