@@ -8,7 +8,7 @@
 using namespace RC::Unreal;
 
 namespace Engine {
-	void ExecuteInGameThread(void (*)(UObject*));
+	void ExecuteInGameThread(std::function<void(UObject*)>);
 	void OnTick(UObject*);
 	void SyncItems();
 	void SpawnCollectibles();

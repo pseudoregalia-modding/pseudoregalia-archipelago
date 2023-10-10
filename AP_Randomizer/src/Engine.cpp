@@ -9,14 +9,14 @@ namespace Engine {
 		bool to_give;
 	};
 
-	std::vector<void (*)(UObject*)> function_queue;
+	std::vector<std::function<void (UObject*)>> function_queue;
 
 	UWorld* Engine::GetWorld() {
 		UObject* player_controller = UObjectGlobals::FindFirstOf(STR("PlayerController"));
 		return static_cast<AActor*>(player_controller)->GetWorld();
 	}
 
-	void Engine::ExecuteInGameThread(void (*function)(UObject*) ) {
+	void Engine::ExecuteInGameThread(std::function<void(UObject*)> function) {
 		function_queue.push_back(function);
 	}
 
