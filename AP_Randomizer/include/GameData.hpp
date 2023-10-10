@@ -4,6 +4,8 @@
 #include <string>
 #include "APCollectible.hpp"
 
+using namespace RC::Unreal;
+
 namespace GameData {
 	enum class ItemType {
 		Ability,

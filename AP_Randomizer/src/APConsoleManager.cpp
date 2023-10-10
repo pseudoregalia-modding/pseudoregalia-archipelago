@@ -17,7 +17,7 @@ namespace Pseudoregalia_AP {
 
 		if (first_word == "connect") {
 			if (command.find(DELIM) == std::string::npos) {
-				APGameManager::QueueMessage("Please provide an ip address, slot name, and (if necessary) password.");
+				GameManager::QueueMessage("Please provide an ip address, slot name, and (if necessary) password.");
 				return;
 			}
 			command.erase(0, command.find(DELIM) + 1);
@@ -27,7 +27,7 @@ namespace Pseudoregalia_AP {
 
 		if (first_word == "message" || first_word == "messages") {
 			if (command.find(DELIM) == std::string::npos) {
-				APGameManager::QueueMessage("Please input an option, such as \"mute\" or \"hide\".");
+				GameManager::QueueMessage("Please input an option, such as \"mute\" or \"hide\".");
 				return;
 			}
 			command.erase(0, command.find(DELIM) + 1);
@@ -47,14 +47,14 @@ namespace Pseudoregalia_AP {
 	void APConsoleManager::ParseConnect(std::string args) {
 		std::string ip = GetNextToken(args);
 		if (ip.empty()) {
-			APGameManager::QueueMessage("Please provide an ip address, slot name, and (if necessary) password.");
+			GameManager::QueueMessage("Please provide an ip address, slot name, and (if necessary) password.");
 			return;
 		}
 		std::cout << "ip:" << ip << "\n";
 
 		std::string slot_name = GetNextToken(args);
 		if (slot_name.empty()) {
-			APGameManager::QueueMessage("Please provide a slot name and (if necessary) password.");
+			GameManager::QueueMessage("Please provide a slot name and (if necessary) password.");
 			return;
 		}
 		std::cout << "slot name:" << slot_name << "\n";
@@ -62,21 +62,21 @@ namespace Pseudoregalia_AP {
 		std::string password = GetNextToken(args);
 		std::cout << "password:" << password << "\n";
 
-		APClient::Connect(ip.c_str(), slot_name.c_str(), password.c_str());
+		Client::Connect(ip.c_str(), slot_name.c_str(), password.c_str());
 	}
 
 	void APConsoleManager::ParseMessageOption(std::string option) {
 		if (option.empty()) {
-			APGameManager::QueueMessage("Please input an option, such as \"mute\" or \"hide\".");
+			GameManager::QueueMessage("Please input an option, such as \"mute\" or \"hide\".");
 			return;
 		}
 
 		if (option == "hide" || option == "unhide" || option == "show") {
-			APGameManager::ToggleMessageHide();
+			GameManager::ToggleMessageHide();
 		}
 
 		if (option == "mute" || option == "unmute") {
-			APGameManager::ToggleMessageMute();
+			GameManager::ToggleMessageMute();
 		}
 	}
 
