@@ -9,27 +9,25 @@
 using namespace RC;
 using namespace RC::Unreal;
 
-namespace Pseudoregalia_AP {
-	class APGameManager {
-	public:
-		static UWorld* GetWorld();
-		static void OnBeginPlay(AActor*);
-		static void PreProcessEvent(UObject*, UFunction*, void*);
-		static void QueueMessage(std::string);
-		static void SetClientConnected(bool);
-		static void OnUpdate();
-		static void ToggleMessageHide();
-		static void ToggleMessageMute();
-		static void OnReturnCheck(Unreal::UnrealScriptFunctionCallableContext&, void*);
-		static void EmptyFunction(Unreal::UnrealScriptFunctionCallableContext&, void*);
-	private:
-		static bool client_connected;
-		static bool messages_hidden;
-		static bool messages_muted;
-		static std::list<std::string> messages_to_print;
-		static std::list<std::string> mini_messages_to_print;
-		static int message_timer;
-		static void PrintToPlayer(UObject*, std::string);
-		static void MiniPrintToPlayer(UObject*, std::string);
-	};
+namespace GameManager {
+	UWorld* GetWorld();
+	void OnBeginPlay(AActor*);
+	void PreProcessEvent(UObject*, UFunction*, void*);
+	void QueueMessage(std::string);
+	void SetClientConnected(bool);
+	void OnUpdate();
+	void ToggleMessageHide();
+	void ToggleMessageMute();
+	void OnReturnCheck(Unreal::UnrealScriptFunctionCallableContext&, void*);
+	void EmptyFunction(Unreal::UnrealScriptFunctionCallableContext&, void*);
+
+
+	bool client_connected;
+	bool messages_hidden;
+	bool messages_muted;
+	std::list<std::string> messages_to_print;
+	std::list<std::string> mini_messages_to_print;
+	int message_timer;
+	void PrintToPlayer(UObject*, std::string);
+	void MiniPrintToPlayer(UObject*, std::string);
 }

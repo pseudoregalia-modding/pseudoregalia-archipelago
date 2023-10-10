@@ -22,7 +22,7 @@ namespace Client {
         connect_message.append(new_ip);
         connect_message += " with name ";
         connect_message.append(new_slot_name);
-        APGameManager::QueueMessage(connect_message);
+        GameManager::QueueMessage(connect_message);
     }
 
     void Client::SetSlotNumber(int num) {
@@ -79,11 +79,11 @@ namespace Client {
     void Client::PollServer() {
         if (ConnectionStatusChanged()) {
             if (connection_status == AP_ConnectionStatus::Authenticated) {
-                APGameManager::SetClientConnected(true);
+                GameManager::SetClientConnected(true);
                 connection_timer = 0;
             }
             if (connection_status == AP_ConnectionStatus::ConnectionRefused) {
-                APGameManager::QueueMessage("The server refused the connection. Please double-check your connection info and restart the game.");
+                GameManager::QueueMessage("The server refused the connection. Please double-check your connection info and restart the game.");
                 connection_timer = 0;
             }
         }
@@ -91,13 +91,13 @@ namespace Client {
         if (connection_timer > 0) {
             connection_timer--;
             if (connection_timer <= 0) {
-                APGameManager::QueueMessage("Could not find the address entered. Please double-check your connection info and restart the game.");
+                GameManager::QueueMessage("Could not find the address entered. Please double-check your connection info and restart the game.");
             }
         }
 
         if (AP_IsMessagePending()) {
             AP_Message* message = AP_GetLatestMessage();
-            APGameManager::QueueMessage(message->text);
+            GameManager::QueueMessage(message->text);
             printf(message->text.c_str());
             printf("\n");
             AP_ClearLatestMessage();
