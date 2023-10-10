@@ -89,8 +89,8 @@ namespace Engine {
 			int count;
 		};
 		for (auto const& pair : GameData::GetUpgradeTable()) {
-			FName new_name = *new FName(pair.first);
-			void* upgrade_params = new AddUpgradeInfo{ new_name, pair.second };
+			std::unique_ptr<FName> new_name(new FName(pair.first));
+			void* upgrade_params = new AddUpgradeInfo{ *new_name, pair.second };
 			ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_AddUpgrade", upgrade_params);
 		}
 	}

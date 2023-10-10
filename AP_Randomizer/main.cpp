@@ -43,7 +43,7 @@ public:
             if (object->GetName().starts_with(STR("BP_APRandomizerInstance")) && function->GetName() == STR("ReceiveTick")) {
                 Engine::OnTick(object);
             }
-            GameManager::PreProcessEvent(object, function, params);
+            Logger::OnTick();
             });
 
         Hook::RegisterProcessConsoleExecCallback([&](UObject* object, const Unreal::TCHAR* command, FOutputDevice& Ar, UObject* executor) -> bool {
@@ -123,7 +123,7 @@ public:
     auto on_update() -> void override
     {
         Client::PollServer();
-        GameManager::OnUpdate();
+        Logger::OnTick();
         for (auto& boundKey : m_boundKeys)
         {
             if ((GetKeyState(boundKey.key) & 0x8000) && !boundKey.isPressed)
