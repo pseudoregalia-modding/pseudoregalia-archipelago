@@ -2,7 +2,7 @@
 
 using namespace RC::Unreal;
 
-namespace Pseudoregalia_AP {
+namespace GameData {
 	class APCollectible {
 	public:
 		APCollectible(std::string new_name, RC::Unreal::FVector new_position, int64_t new_id) {

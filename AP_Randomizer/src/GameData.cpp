@@ -1,7 +1,7 @@
 #pragma once
 #include "GameData.hpp"
 
-namespace Pseudoregalia_AP {
+namespace GameData {
     const std::map<int64_t, std::wstring> GameData::lookup_id_to_upgrade = {
         {2365810001, L"attack"},
         {2365810002, L"powerBoost"},
