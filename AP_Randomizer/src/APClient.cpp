@@ -1,15 +1,15 @@
 #pragma once
 #include "APClient.hpp"
 
-namespace Pseudoregalia_AP {
+namespace Client {
     const char* ip;
     const char* slot_name;
     const char* password;
-    int APClient::slot_number;
-    int APClient::connection_timer;
-    AP_ConnectionStatus APClient::connection_status;
+    int Client::slot_number;
+    int Client::connection_timer;
+    AP_ConnectionStatus Client::connection_status;
 
-    void APClient::Connect(const char* new_ip, const char* new_slot_name, const char* new_password) {
+    void Client::Connect(const char* new_ip, const char* new_slot_name, const char* new_password) {
         AP_Init(new_ip, "Pseudoregalia", new_slot_name, new_password);
         AP_SetItemClearCallback(&ClearItems);
         AP_SetItemRecvCallback(&ReceiveItem);
@@ -25,22 +25,22 @@ namespace Pseudoregalia_AP {
         APGameManager::QueueMessage(connect_message);
     }
 
-    void APClient::SetSlotNumber(int num) {
+    void Client::SetSlotNumber(int num) {
         slot_number = num;
     }
 
-    void APClient::ClearItems() {
+    void Client::ClearItems() {
         GameData::Initialize();
     }
 
-    void APClient::ReceiveItem(int64_t id, bool notify) {
+    void Client::ReceiveItem(int64_t id, bool notify) {
         GameData::ReceiveItem(id);
         Engine::SyncItems();
     }
 
-    void APClient::SendCheck(int64_t id, std::wstring current_world) {
-        std::vector<APCollectible> collectible_vector = GameData::GetCollectiblesOfZone(Engine::GetWorld()->GetName());
-        for (APCollectible& collectible : collectible_vector) {
+    void Client::SendCheck(int64_t id, std::wstring current_world) {
+        std::vector<GameData::APCollectible> collectible_vector = GameData::GetCollectiblesOfZone(Engine::GetWorld()->GetName());
+        for (GameData::APCollectible& collectible : collectible_vector) {
             if (collectible.GetID() == id) {
                 AP_SendItem(id);
                 return;
@@ -48,11 +48,11 @@ namespace Pseudoregalia_AP {
         }
     }
 
-    void APClient::CheckLocation(int64_t id) {
+    void Client::CheckLocation(int64_t id) {
         GameData::CheckLocation(id);
     }
     
-    void APClient::CompleteGame() {
+    void Client::CompleteGame() {
         AP_StoryComplete();
 
         // Send a key to datastorage upon game completion for PopTracker integration
@@ -68,7 +68,7 @@ namespace Pseudoregalia_AP {
         AP_SetServerData(completion_flag);
     }
 
-    bool APClient::ConnectionStatusChanged() {
+    bool Client::ConnectionStatusChanged() {
         if (connection_status != AP_GetConnectionStatus()) {
             connection_status = AP_GetConnectionStatus();
             return true;
@@ -76,7 +76,7 @@ namespace Pseudoregalia_AP {
         return false;
     }
 
-    void APClient::PollServer() {
+    void Client::PollServer() {
         if (ConnectionStatusChanged()) {
             if (connection_status == AP_ConnectionStatus::Authenticated) {
                 APGameManager::SetClientConnected(true);

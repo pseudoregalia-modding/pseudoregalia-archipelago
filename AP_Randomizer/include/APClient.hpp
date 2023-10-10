@@ -10,21 +10,19 @@
 #include <codecvt>
 #include <string>
 
-namespace Pseudoregalia_AP {
-	class APClient {
-	public:
-		static void Connect(const char*, const char*, const char*);
-		static void SendCheck(int64_t, std::wstring);
-		static void PollServer();
-		static void CompleteGame();
-	private:
-		static void ClearItems();
-		static void ReceiveItem(int64_t, bool);
-		static void CheckLocation(int64_t);
-		static bool ConnectionStatusChanged();
-		static void SetSlotNumber(int);
-		static int connection_timer;
-		static AP_ConnectionStatus connection_status;
-		static int slot_number;
-	};
+namespace Client {
+	void Connect(const char*, const char*, const char*);
+	void SendCheck(int64_t, std::wstring);
+	void PollServer();
+	void CompleteGame();
+
+
+	void ClearItems();
+	void ReceiveItem(int64_t, bool);
+	void CheckLocation(int64_t);
+	bool ConnectionStatusChanged();
+	void SetSlotNumber(int);
+	int connection_timer;
+	AP_ConnectionStatus connection_status;
+	int slot_number;
 }
