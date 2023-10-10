@@ -5,5 +5,4 @@
 
 namespace UnrealConsole {
 	void ProcessCommand(const Unreal::TCHAR*);
-	};
 }
