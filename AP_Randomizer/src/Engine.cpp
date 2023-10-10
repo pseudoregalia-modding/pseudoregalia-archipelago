@@ -27,14 +27,14 @@ namespace Engine {
 	void Engine::SpawnCollectibles() {
 		auto spawn_collectibles = [](UObject* blueprint) {
 			// Get collectible vector for just the current map
-			std::vector<APCollectible> collectible_vector = GameData::GetCollectiblesOfZone(GetWorld()->GetName());
+			std::vector<GameData::APCollectible> collectible_vector = GameData::GetCollectiblesOfZone(GetWorld()->GetName());
 			UFunction* spawn_function = blueprint->GetFunctionByName(STR("AP_SpawnCollectible"));
 
 			struct CollectibleSpawnInfo {
 				int64_t id;
 				FVector position;
 			};
-			for (APCollectible collectible : collectible_vector) {
+			for (GameData::APCollectible collectible : collectible_vector) {
 				CollectibleSpawnInfo new_info = {
 					collectible.GetID(),
 					collectible.GetPosition(),
