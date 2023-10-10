@@ -13,7 +13,6 @@
 namespace Pseudoregalia_AP {
 	class APClient {
 	public:
-		static void Initialize();
 		static void Connect(const char*, const char*, const char*);
 		static void SendCheck(int64_t, std::wstring);
 		static void PollServer();
@@ -22,7 +21,6 @@ namespace Pseudoregalia_AP {
 		static void ClearItems();
 		static void ReceiveItem(int64_t, bool);
 		static void CheckLocation(int64_t);
-		static void CheckLocation(APCollectible&, std::wstring);
 		static bool ConnectionStatusChanged();
 		static void SetSlotNumber(int);
 		static int connection_timer;
