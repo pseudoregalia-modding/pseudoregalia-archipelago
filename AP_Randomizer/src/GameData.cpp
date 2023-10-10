@@ -39,6 +39,10 @@ namespace Pseudoregalia_AP {
         return upgrade_table;
     }
 
+    std::vector<APCollectible> GameData::GetCollectiblesOfZone(std::wstring world_name) {
+        return collectible_table[world_name];
+    }
+
     void GameData::Initialize() {
         collectible_table = {
             {L"ZONE_Dungeon", std::vector<APCollectible> {
