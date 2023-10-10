@@ -9,6 +9,13 @@ namespace Engine {
 		bool to_give;
 	};
 
+	struct BlueprintFunctionInfo {
+		std::wstring parent_name;
+		std::wstring function_name;
+		std::shared_ptr<void> params;
+	};
+
+	std::vector<BlueprintFunctionInfo> blueprint_function_queue;
 	std::vector<std::function<void (UObject*)>> function_queue;
 
 	UWorld* Engine::GetWorld() {
@@ -20,7 +27,18 @@ namespace Engine {
 		function_queue.push_back(function);
 	}
 
+	void Engine::ExecuteBlueprintFunction(std::wstring new_parent, std::wstring new_name, std::shared_ptr<void> function) {
+		blueprint_function_queue.push_back(BlueprintFunctionInfo(new_parent, new_name, function));
+	}
+
 	void Engine::OnTick(UObject* blueprint) {
+		for (BlueprintFunctionInfo& info : blueprint_function_queue) {
+			UObject* parent = UObjectGlobals::FindFirstOf(info.parent_name);
+			UFunction* function = parent->GetFunctionByName(info.function_name.c_str());
+			void* ptr = &info.params;
+			parent->ProcessEvent(function, ptr);
+		}
+
 		for (auto& function : function_queue) {
 			function(blueprint);
 		}

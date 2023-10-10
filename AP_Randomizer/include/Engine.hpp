@@ -9,6 +9,7 @@ using namespace RC::Unreal;
 
 namespace Engine {
 	void ExecuteInGameThread(std::function<void(UObject*)>);
+	void ExecuteBlueprintFunction(std::wstring, std::wstring, std::shared_ptr<void>);
 	void OnTick(UObject*);
 	void SyncItems();
 	void SpawnCollectibles();
