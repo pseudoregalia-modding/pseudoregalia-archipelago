@@ -6,7 +6,6 @@
 
 namespace Pseudoregalia_AP {
 	bool APGameManager::hooked_into_returncheck;
-	bool APGameManager::spawn_update_pending;
 	bool APGameManager::client_connected;
 	bool APGameManager::messages_hidden;
 	bool APGameManager::messages_muted;
@@ -41,10 +40,6 @@ namespace Pseudoregalia_AP {
 	struct HealthPieceInfo {
 		int count;
 	};
-
-	void APGameManager::QueueSpawnUpdate() {
-		spawn_update_pending = true;
-	}
 	
 	void APGameManager::QueueMessage(std::string message) {
 		if (messages_hidden) {
@@ -101,7 +96,7 @@ namespace Pseudoregalia_AP {
 				APClient::CompleteGame();
 			}
 			UFunction* spawn_function = actor->GetFunctionByName(STR("AP_SpawnCollectible"));
-			QueueSpawnUpdate();
+			Engine::SpawnCollectibles();
 			Engine::SyncItems();
 		}
 
@@ -154,30 +149,6 @@ namespace Pseudoregalia_AP {
 
 		if (!client_connected) {
 			return;
-		}
-
-		if (spawn_update_pending) {
-			spawn_update_pending = false;
-			SpawnCollectibles(object, GetWorld());
-		}
-	}
-
-	void APGameManager::SpawnCollectibles(UObject* randomizer_blueprint, UWorld* world) {
-		std::vector<APCollectible> collectible_vector = APClient::GetCurrentZoneCollectibles(world->GetName());
-		UFunction* spawn_function = randomizer_blueprint->GetFunctionByName(STR("AP_SpawnCollectible"));
-
-		for (APCollectible collectible : collectible_vector) {
-			if (collectible.IsChecked()) {
-				Output::send<LogLevel::Warning>(STR("Collectible with ID {} has already been sent\n"), collectible.GetID());
-				continue;
-			}
-			Output::send<LogLevel::Verbose>(STR("Spawned collectible with ID {}\n"), collectible.GetID());
-
-			CollectibleSpawnInfo new_info = {
-				collectible.GetID(),
-				collectible.GetPosition(),
-			};
-			randomizer_blueprint->ProcessEvent(spawn_function, &new_info);
 		}
 	}
 
