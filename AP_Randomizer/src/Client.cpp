@@ -41,8 +41,8 @@ namespace Client {
     }
 
     void Client::SendCheck(int64_t id, std::wstring current_world) {
-        std::vector<GameData::APCollectible> collectible_vector = GameData::GetCollectiblesOfZone(Engine::GetWorld()->GetName());
-        for (GameData::APCollectible& collectible : collectible_vector) {
+        std::vector<GameData::Collectible> collectible_vector = GameData::GetCollectiblesOfZone(Engine::GetWorld()->GetName());
+        for (GameData::Collectible& collectible : collectible_vector) {
             if (collectible.GetID() == id) {
                 AP_SendItem(id);
                 return;

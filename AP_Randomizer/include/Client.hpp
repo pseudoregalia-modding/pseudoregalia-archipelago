@@ -2,7 +2,7 @@
 #include "DynamicOutput/DynamicOutput.hpp"
 #include "Archipelago.h"
 #include "GameManager.hpp"
-#include "APCollectible.hpp"
+#include "Collectible.hpp"
 #include "GameData.hpp"
 #include "Engine.hpp"
 

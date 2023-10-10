@@ -4,9 +4,9 @@
 using namespace RC::Unreal;
 
 namespace GameData {
-	class APCollectible {
+	class Collectible {
 	public:
-		APCollectible(std::string new_name, RC::Unreal::FVector new_position, int64_t new_id) {
+		Collectible(std::string new_name, RC::Unreal::FVector new_position, int64_t new_id) {
 			name = new_name;
 			position = new_position;
 			id = new_id;

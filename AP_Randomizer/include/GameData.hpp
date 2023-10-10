@@ -2,7 +2,7 @@
 #include <map>
 #include <vector>
 #include <string>
-#include "APCollectible.hpp"
+#include "Collectible.hpp"
 
 using namespace RC::Unreal;
 
@@ -12,7 +12,7 @@ namespace GameData {
 	int GetSmallKeys();
 	bool* GetMajorKeys();
 	std::map<std::wstring, int> GetUpgradeTable();
-	std::vector<APCollectible> GetCollectiblesOfZone(std::wstring);
+	std::vector<Collectible> GetCollectiblesOfZone(std::wstring);
 	void CheckLocation(int64_t);
 	void ReceiveItem(int64_t);
 }

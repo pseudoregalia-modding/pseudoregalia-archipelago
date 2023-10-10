@@ -4,7 +4,7 @@
 #include "Unreal/UFunction.hpp"
 #include "Unreal/World.hpp"
 #include "Client.hpp"
-#include "APCollectible.hpp"
+#include "Collectible.hpp"
 
 using namespace RC;
 using namespace RC::Unreal;
