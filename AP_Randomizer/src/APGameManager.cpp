@@ -2,6 +2,7 @@
 #include "APGameManager.hpp"
 #include <string>
 #include <iostream>
+#include "Engine.hpp"
 
 namespace Pseudoregalia_AP {
 	bool APGameManager::hooked_into_returncheck;
@@ -43,6 +44,7 @@ namespace Pseudoregalia_AP {
 	};
 
 	void APGameManager::QueueItemUpdate() {
+		Engine::SyncItems;
 		item_update_pending = true;
 	}
 

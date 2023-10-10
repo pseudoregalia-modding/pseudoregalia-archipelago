@@ -11,4 +11,12 @@ namespace Pseudoregalia_AP {
 			function(blueprint);
 		}
 	}
+
+	void Engine::SyncItems() {
+		auto item_sync = [](UObject* blueprint) {
+			// do item sync stuff
+			};
+
+		ExecuteInGameThread(item_sync);
+	}
 }
