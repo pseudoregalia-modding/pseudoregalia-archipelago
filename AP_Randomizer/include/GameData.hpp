@@ -18,6 +18,7 @@ namespace Pseudoregalia_AP {
 		static int GetHealthPieces();
 		static int GetSmallKeys();
 		static bool* GetMajorKeys();
+		static std::map<std::wstring, int> GetUpgradeTable();
 		static void Initialize();
 		static void ReceiveItem(int64_t);
 	private:
