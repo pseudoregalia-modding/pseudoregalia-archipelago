@@ -30,8 +30,7 @@ namespace Pseudoregalia_AP {
     }
 
     void APClient::ClearItems() {
-        Output::send<LogLevel::Verbose>(STR("Calling ClearItems...\n"));
-        ResetUpgradeTable();
+        GameData::Initialize();
     }
 
     void APClient::ReceiveItem(int64_t id, bool notify) {
@@ -40,26 +39,17 @@ namespace Pseudoregalia_AP {
     }
 
     void APClient::SendCheck(int64_t id, std::wstring current_world) {
-        for (APCollectible &collectible : zone_table[current_world]) {
+        std::vector<APCollectible> collectible_vector = GameData::GetCollectiblesOfZone(Engine::GetWorld()->GetName());
+        for (APCollectible& collectible : collectible_vector) {
             if (collectible.GetID() == id) {
                 AP_SendItem(id);
-                // Archipelago will call CheckLocation itself
                 return;
             }
         }
     }
 
     void APClient::CheckLocation(int64_t id) {
-        for (auto& zone_data : zone_table) {
-            std::vector<APCollectible> collectible_vector = zone_data.second;
-            for (APCollectible& collectible : zone_data.second) {
-                if (collectible.GetID() == id) {
-                    collectible.Check();
-                    return;
-                }
-            }
-        }
-        Output::send<LogLevel::Error>(STR("APClient::CheckLocation: No location with id {} could be found."), id);
+        GameData::CheckLocation(id);
     }
     
     void APClient::CompleteGame() {

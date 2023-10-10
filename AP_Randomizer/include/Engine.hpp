@@ -14,8 +14,8 @@ namespace Pseudoregalia_AP {
 		static void OnTick(UObject*);
 		static void SyncItems();
 		static void SpawnCollectibles();
-	private:
 		static UWorld* GetWorld();
+	private:
 		static std::vector<void (*)(UObject*)> function_queue;
 	};
 }

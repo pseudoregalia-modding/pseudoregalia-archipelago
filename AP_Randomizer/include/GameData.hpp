@@ -22,6 +22,7 @@ namespace Pseudoregalia_AP {
 		static void Initialize();
 		static void ReceiveItem(int64_t);
 		static std::vector<APCollectible> GetCollectiblesOfZone(std::wstring);
+		static void CheckLocation(int64_t);
 	private:
 		static ItemType GetItemType(int64_t);
 		const static std::map<int64_t, std::wstring> lookup_id_to_upgrade;

@@ -172,4 +172,17 @@ namespace Pseudoregalia_AP {
             break;
         }
     }
+
+    void GameData::CheckLocation(int64_t id) {
+        // TODO: clean this function up
+        for (auto& collectible_data : collectible_table) {
+            for (APCollectible& collectible : collectible_data.second) {
+                if (collectible.GetID() == id) {
+                    collectible.Check();
+                    return;
+                }
+            }
+        }
+        // return an error
+    }
 }
