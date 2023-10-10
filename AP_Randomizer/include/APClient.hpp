@@ -3,6 +3,8 @@
 #include "Archipelago.h"
 #include "APGameManager.hpp"
 #include "APCollectible.hpp"
+#include "GameData.hpp"
+#include "Engine.hpp"
 
 #include <locale>
 #include <codecvt>

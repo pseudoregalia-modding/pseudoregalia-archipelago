@@ -199,27 +199,9 @@ namespace Pseudoregalia_AP {
         ResetUpgradeTable();
     }
 
-    void APClient::ReceiveItem(int64_t new_item_id, bool notify) {
-        // TODO: these id ranges should be defined with a constant
-        if (GetItemType(new_item_id) == ItemType::Ability) {
-            upgrade_table[lookup_id_to_item[new_item_id]]++;
-            Output::send<LogLevel::Verbose>(STR("Set {} to {}\n"), lookup_id_to_item[new_item_id], upgrade_table[lookup_id_to_item[new_item_id]]);
-        }
-        else if (GetItemType(new_item_id) == ItemType::HealthPiece) {
-            health_pieces++;
-        }
-        else if (GetItemType(new_item_id) == ItemType::SmallKey) {
-            small_keys++;
-        }
-        else if (GetItemType(new_item_id) == ItemType::MajorKey) {
-            int key_index = new_item_id - 2365810021;
-            major_keys[key_index] = true;
-        }
-        else {
-            APGameManager::QueueMessage("Error: Unknown item ID received. Please check that you and the host are using the same version.");
-        }
-
-        APGameManager::QueueItemUpdate();
+    void APClient::ReceiveItem(int64_t id, bool notify) {
+        GameData::ReceiveItem(id);
+        Engine::SyncItems();
     }
 
     void APClient::SendCheck(int64_t id, std::wstring current_world) {
