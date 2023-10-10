@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine.hpp"
+#include <iostream>
 
 using namespace RC::Unreal;
 
@@ -22,8 +23,8 @@ namespace Engine {
 		function_queue.push_back(function);
 	}
 
-	void Engine::ExecuteBlueprintFunction(std::wstring new_parent, std::wstring new_name, void* function) {
-		blueprint_function_queue.push_back(BlueprintFunctionInfo(new_parent, new_name, function));
+	void Engine::ExecuteBlueprintFunction(std::wstring new_parent, std::wstring new_name, void* params) {
+		blueprint_function_queue.push_back(BlueprintFunctionInfo(new_parent, new_name, params));
 	}
 
 	void Engine::OnTick(UObject* blueprint) {
@@ -50,27 +51,17 @@ namespace Engine {
 	}
 
 	void Engine::SpawnCollectibles() {
-		auto spawn_collectibles = [](UObject* blueprint) {
-			// Get collectible vector for just the current map
-			std::vector<GameData::Collectible> collectible_vector = GameData::GetCollectiblesOfZone(GetWorld()->GetName());
-			UFunction* spawn_function = blueprint->GetFunctionByName(STR("AP_SpawnCollectible"));
-
-			struct CollectibleSpawnInfo {
-				int64_t id;
-				FVector position;
-			};
-			for (GameData::Collectible collectible : collectible_vector) {
-				CollectibleSpawnInfo new_info = {
-					collectible.GetID(),
-					collectible.GetPosition(),
-				};
-				if (!collectible.IsChecked()) {
-					blueprint->ProcessEvent(spawn_function, &new_info);
-				}
+		struct CollectibleSpawnInfo {
+			int64_t id;
+			FVector position;
+		};
+		std::vector<GameData::Collectible> collectible_vector = GameData::GetCollectiblesOfZone(GetWorld()->GetName());
+		for (GameData::Collectible collectible : collectible_vector) {
+			if (!collectible.IsChecked()) {
+				void* collectible_info = new CollectibleSpawnInfo{ collectible.GetID(), collectible.GetPosition() };
+				ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SpawnCollectible", collectible_info);
 			}
-			};
-
-		ExecuteInGameThread(spawn_collectibles);
+		}
 	}
 
 	void Engine::SyncItems() {
@@ -82,11 +73,11 @@ namespace Engine {
 		ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetSmallKeys", small_key_params);
 
 		// TODO: reconfigure major keys to be an int and reconfigure this function
-		bool* major_keys = GameData::GetMajorKeys();
 		struct MajorKeyInfo {
 			int index;
 			bool to_give;
 		};
+		bool* major_keys = GameData::GetMajorKeys();
 		for (int i = 0; i < 5; i++)
 		{
 			void* major_key_params = new MajorKeyInfo{ i, major_keys[i] };
