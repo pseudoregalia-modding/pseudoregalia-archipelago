@@ -5,13 +5,6 @@
 #include "Engine.hpp"
 
 namespace GameManager {
-	bool GameManager::client_connected;
-	bool GameManager::messages_hidden;
-	bool GameManager::messages_muted;
-	std::list<std::string> GameManager::messages_to_print;
-	std::list<std::string> GameManager::mini_messages_to_print;
-	int GameManager::message_timer;
-
 	struct PrintToPlayerInfo {
 		FText text;
 		bool mute_sound;
