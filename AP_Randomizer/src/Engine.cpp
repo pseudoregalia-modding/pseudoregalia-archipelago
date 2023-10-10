@@ -24,6 +24,7 @@ namespace Engine {
 		for (auto& function : function_queue) {
 			function(blueprint);
 		}
+		function_queue.clear();
 	}
 
 	void Engine::SpawnCollectibles() {

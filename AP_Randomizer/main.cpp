@@ -43,7 +43,7 @@ public:
             if (object->GetName().starts_with(STR("BP_APRandomizerInstance")) && function->GetName() == STR("ReceiveTick")) {
                 Engine::OnTick(object);
             }
-            // APGameManager::PreProcessEvent(object, function, params);
+            GameManager::PreProcessEvent(object, function, params);
             });
 
         Hook::RegisterProcessConsoleExecCallback([&](UObject* object, const Unreal::TCHAR* command, FOutputDevice& Ar, UObject* executor) -> bool {
