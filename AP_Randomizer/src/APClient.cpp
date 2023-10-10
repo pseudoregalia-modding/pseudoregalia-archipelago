@@ -2,13 +2,6 @@
 #include "APClient.hpp"
 
 namespace Client {
-    const char* ip;
-    const char* slot_name;
-    const char* password;
-    int Client::slot_number;
-    int Client::connection_timer;
-    AP_ConnectionStatus Client::connection_status;
-
     void Client::Connect(const char* new_ip, const char* new_slot_name, const char* new_password) {
         AP_Init(new_ip, "Pseudoregalia", new_slot_name, new_password);
         AP_SetItemClearCallback(&ClearItems);
