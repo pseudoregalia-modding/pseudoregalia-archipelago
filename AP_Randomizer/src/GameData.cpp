@@ -143,4 +143,25 @@ namespace Pseudoregalia_AP {
         }
         return ItemType::Unknown;
     }
+
+    void GameData::ReceiveItem(int64_t id) {
+        switch (GetItemType(id)) {
+        case ItemType::Ability:
+            upgrade_table[lookup_id_to_upgrade.at(id)]++;
+            break;
+        case ItemType::HealthPiece:
+            health_pieces++;
+            break;
+        case ItemType::SmallKey:
+            small_keys++;
+            break;
+        case ItemType::MajorKey:
+            // Remove prefix digits from id to assign directly to major_keys array
+            major_keys[id - 2365810021] = true;
+            break;
+        default:
+            // return an error
+            break;
+        }
+    }
 }

@@ -19,6 +19,7 @@ namespace Pseudoregalia_AP {
 		static int GetSmallKeys();
 		static bool* GetMajorKeys();
 		static void Initialize();
+		static void ReceiveItem(int64_t);
 	private:
 		static ItemType GetItemType(int64_t);
 		const static std::map<int64_t, std::wstring> lookup_id_to_upgrade;
