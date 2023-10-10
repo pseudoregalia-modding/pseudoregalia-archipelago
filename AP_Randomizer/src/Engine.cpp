@@ -24,6 +24,30 @@ namespace Pseudoregalia_AP {
 		}
 	}
 
+	void Engine::SpawnCollectibles() {
+		auto spawn_collectibles = [](UObject* blueprint) {
+			// Get collectible vector for just the current map
+			std::vector<APCollectible> collectible_vector = GameData::GetCollectiblesOfZone(GetWorld()->GetName());
+			UFunction* spawn_function = blueprint->GetFunctionByName(STR("AP_SpawnCollectible"));
+
+			struct CollectibleSpawnInfo {
+				int64_t id;
+				FVector position;
+			};
+			for (APCollectible collectible : collectible_vector) {
+				CollectibleSpawnInfo new_info = {
+					collectible.GetID(),
+					collectible.GetPosition(),
+				};
+				if (!collectible.IsChecked()) {
+					blueprint->ProcessEvent(spawn_function, &new_info);
+				}
+			}
+			};
+
+		ExecuteInGameThread(spawn_collectibles);
+	}
+
 	void Engine::SyncItems() {
 		// TODO: considering modularizing this function in-line a bit
 		auto item_sync = [](UObject* blueprint) {
