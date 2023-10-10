@@ -6,7 +6,7 @@ namespace Pseudoregalia_AP {
 		function_queue.push_back(function);
 	}
 
-	void Engine::OnTick() {
+	void Engine::OnTick(UObject* blueprint) {
 		for (auto& function : function_queue) {
 			function();
 		}

@@ -40,7 +40,7 @@ public:
 
         Hook::RegisterProcessEventPreCallback([&](UObject* object, UFunction* function, void* params) {
             if (object->GetName().starts_with(STR("BP_APRandomizerInstance")) && function->GetName() == STR("ReceiveTick")) {
-                Engine::OnTick();
+                Engine::OnTick(object);
             }
             // APGameManager::PreProcessEvent(object, function, params);
             });
