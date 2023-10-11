@@ -135,7 +135,7 @@ namespace Engine {
 		ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetMajorKeys", major_key_params);
 	}
 
-	void Engine::ReceiveItem(int64_t id) {
+	void Engine::ReceiveItem(int64_t id, bool notify) {
 		GameData::ItemType type = GameData::ReceiveItem(id);
 		switch (type)
 		{

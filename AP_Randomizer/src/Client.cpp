@@ -23,7 +23,7 @@ namespace Client {
         AP_Init(new_ip, "Pseudoregalia", new_slot_name, new_password);
         AP_SetItemClearCallback(&GameData::Initialize);
         AP_SetLocationCheckedCallback(&GameData::CheckLocation);
-        AP_SetItemRecvCallback(&ReceiveItem);
+        AP_SetItemRecvCallback(&Engine::ReceiveItem);
         AP_RegisterSlotDataIntCallback("slot_number", &SetSlotNumber);
         AP_Start();
         connection_timer = 4000;
@@ -38,10 +38,6 @@ namespace Client {
 
     void Client::SetSlotNumber(int num) {
         slot_number = num;
-    }
-
-    void Client::ReceiveItem(int64_t id, bool notify) {
-        Engine::ReceiveItem(id);
     }
 
     void Client::SendCheck(int64_t id, std::wstring current_world) {
