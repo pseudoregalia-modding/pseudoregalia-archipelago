@@ -60,14 +60,9 @@ public:
         setup_keybinds();
 
         Hook::RegisterBeginPlayPostCallback([&](AActor* Actor) {
-
-            // TODO: There should probably be less of this function in main
+            // TODO: Consider moving some of this function out of main
             auto returncheck = [](UnrealScriptFunctionCallableContext& context, void* customdata) {
-                struct return_check_params {
-                    int64_t id;
-                };
-                auto& params = context.GetParams<return_check_params>();
-                Client::SendCheck(params.id, Engine::GetWorld()->GetName());
+                Client::SendCheck(context.GetParams<int64_t>(), Engine::GetWorld()->GetName());
                 };
 
             if (!returncheck_hooked
