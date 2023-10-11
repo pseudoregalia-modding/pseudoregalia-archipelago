@@ -1,8 +1,6 @@
 #pragma once
 #include <vector>
-#include "GameData.hpp"
 #include "Unreal/UObject.hpp"
-#include "Unreal/AActor.hpp"
 #include "Unreal/World.hpp"
 
 namespace Engine {
@@ -14,4 +12,5 @@ namespace Engine {
 	void SyncItems();
 	void SpawnCollectibles();
 	UWorld* GetWorld();
+	void ReceiveItem(int64_t, bool);
 }

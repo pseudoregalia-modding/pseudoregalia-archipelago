@@ -3,12 +3,13 @@
 
 #include <Windows.h>
 #include "Mod/CppUserModBase.hpp"
-#include "Client.hpp"
-#include "UnrealConsole.hpp"
-#include "Engine.hpp"
 #include "Unreal/UObjectGlobals.hpp"
 #include "Unreal/Hooks.hpp"
 #include "Unreal/UFunction.hpp"
+#include "Client.hpp"
+#include "UnrealConsole.hpp"
+#include "Engine.hpp"
+#include "Logger.hpp"
 
 class AP_Randomizer : public RC::CppUserModBase {
 public:
@@ -70,7 +71,7 @@ public:
 
                 UFunction* return_check_function = actor->GetFunctionByName(STR("ReturnCheck"));
                 if (!return_check_function) {
-                    Output::send<LogLevel::Error>(STR("Could not find function ReturnCheck in BP_APCollectible."));
+                    Logger::Log(L"Could not find function \"ReturnCheck\" in BP_APCollectible.", Logger::LogType::Error);
                     return;
                 }
                 Unreal::UObjectGlobals::RegisterHook(return_check_function, EmptyFunction, returncheck, nullptr);
@@ -78,6 +79,7 @@ public:
             }
 
             if (actor->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
+                Logger::Log(L"Loaded scene " + Engine::GetWorld()->GetName());
                 if (Engine::GetWorld()->GetName() == STR("EndScreen")) {
                     Client::CompleteGame();
                 }
@@ -114,7 +116,8 @@ public:
     {
         // List of key codes at https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
         bind_key(VK_NUMPAD1, [&]() {
-            // APClient::Connect("localhost:38281", "goat", "");
+            // Client::CompleteGame();
+            // Client::Connect("localhost:38281", "goat", "");
             });
 
         bind_key(VK_NUMPAD2, [&]() {

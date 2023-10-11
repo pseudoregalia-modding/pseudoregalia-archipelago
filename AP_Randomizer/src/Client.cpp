@@ -1,5 +1,12 @@
 #pragma once
+#include <locale>
+#include <codecvt>
+#include <string>
+#include "Archipelago.h"
+#include "GameData.hpp"
+#include "Engine.hpp"
 #include "Client.hpp"
+#include "Logger.hpp"
 
 namespace Client {
     void ClearItems();
@@ -16,7 +23,7 @@ namespace Client {
         AP_Init(new_ip, "Pseudoregalia", new_slot_name, new_password);
         AP_SetItemClearCallback(&GameData::Initialize);
         AP_SetLocationCheckedCallback(&GameData::CheckLocation);
-        AP_SetItemRecvCallback(&ReceiveItem);
+        AP_SetItemRecvCallback(&Engine::ReceiveItem);
         AP_RegisterSlotDataIntCallback("slot_number", &SetSlotNumber);
         AP_Start();
         connection_timer = 4000;
@@ -25,7 +32,7 @@ namespace Client {
         connect_message.append(new_ip);
         connect_message += " with name ";
         connect_message.append(new_slot_name);
-        Logger::PrintToPlayer(connect_message);
+        Logger::Log(connect_message, Logger::LogType::System);
         // No need to call SyncItems, that will happen through the callback set in AP_SetItemRecvCallback
     }
 
@@ -33,16 +40,12 @@ namespace Client {
         slot_number = num;
     }
 
-    void Client::ReceiveItem(int64_t id, bool notify) {
-        GameData::ReceiveItem(id);
-        Engine::SyncItems();
-    }
-
     void Client::SendCheck(int64_t id, std::wstring current_world) {
         std::vector<GameData::Collectible> collectible_vector = GameData::GetCollectiblesOfZone(Engine::GetWorld()->GetName());
         for (GameData::Collectible& collectible : collectible_vector) {
             if (collectible.GetID() == id) {
                 AP_SendItem(id);
+                Logger::Log(L"Sending check with id " + id);
                 return;
             }
         }
@@ -53,15 +56,17 @@ namespace Client {
 
         // Send a key to datastorage upon game completion for PopTracker integration
         AP_SetServerDataRequest* completion_flag = new AP_SetServerDataRequest();
-        AP_DataStorageOperation operation = *new AP_DataStorageOperation();
+        AP_DataStorageOperation* operation = new AP_DataStorageOperation();
         int filler_value = 0;
-        operation.operation = "add";
-        operation.value = &filler_value;
+        operation->operation = "add";
+        operation->value = &filler_value;
         completion_flag->key = "Pseudoregalia - Player " + std::to_string(slot_number) + " - Game Complete";
         completion_flag->type = AP_DataType::Int;
         completion_flag->want_reply = true;
-        completion_flag->operations.push_back(operation);
+        completion_flag->operations.push_back(*operation);
         AP_SetServerData(completion_flag);
+        delete completion_flag;
+        delete operation;
     }
 
     bool Client::ConnectionStatusChanged() {
@@ -79,7 +84,7 @@ namespace Client {
                 Engine::SpawnCollectibles();
             }
             if (connection_status == AP_ConnectionStatus::ConnectionRefused) {
-                Logger::PrintToPlayer("The server refused the connection. Please double-check your connection info and restart the game.");
+                Logger::Log(L"The server refused the connection. Please double-check your connection info and restart the game.", Logger::LogType::System);
                 connection_timer = 0;
             }
         }
@@ -87,16 +92,15 @@ namespace Client {
         if (connection_timer > 0) {
             connection_timer--;
             if (connection_timer <= 0) {
-                Logger::PrintToPlayer("Could not find the address entered. Please double-check your connection info and restart the game.");
+                Logger::Log(L"Could not find the address entered. Please double-check your connection info and restart the game.", Logger::LogType::System);
             }
         }
 
         if (AP_IsMessagePending()) {
             AP_Message* message = AP_GetLatestMessage();
-            Logger::PrintToPlayer(message->text);
-            printf(message->text.c_str());
-            printf("\n");
+            Logger::Log(message->text, Logger::LogType::Popup);
             AP_ClearLatestMessage();
+            // APCpp releases the memory of message
         }
     }
 }

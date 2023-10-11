@@ -1,13 +1,4 @@
 #pragma once
-#include "DynamicOutput/DynamicOutput.hpp"
-#include "Archipelago.h"
-#include "GameData.hpp"
-#include "Engine.hpp"
-#include "Logger.hpp"
-
-#include <locale>
-#include <codecvt>
-#include <string>
 
 namespace Client {
 	void Connect(const char*, const char*, const char*);

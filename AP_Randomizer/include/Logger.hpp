@@ -1,11 +1,17 @@
 #pragma once
-#include "Engine.hpp"
-#include <iostream>
+#include <string>
 
 namespace Logger {
-	using RC::Unreal::FText;
+	enum class LogType {
+		Default,
+		Popup,
+		System,
+		Warning,
+		Error
+	};
 
-	void PrintToPlayer(std::string);
+	void Log(std::wstring, LogType = LogType::Default);
+	void Log(std::string, LogType = LogType::Default);
 	void OnTick();
 	void ToggleMessageMute();
 	void ToggleMessageHide();
