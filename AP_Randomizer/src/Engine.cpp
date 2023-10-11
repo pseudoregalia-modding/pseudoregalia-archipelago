@@ -27,10 +27,17 @@ namespace Engine {
 	}
 
 	void Engine::ExecuteBlueprintFunction(std::wstring new_parent, std::wstring new_name, void* params) {
+		Logger::Log(L"Queueing " + new_parent + L"::" + new_name);
 		blueprint_function_queue.push_back(BlueprintFunctionInfo(new_parent, new_name, params));
 	}
 
 	void Engine::OnTick(UObject* blueprint) {
+		// Often (but not always) when I connect, I see an invalid blueprint function go through here.
+		// It passes the validation for parent but not for function, and if i try to delete its params or continue instead of return the whole queue breaks.
+		// By returning I would expect it to stay in the queue for the next tick, but it doesn't.
+		// The log message prints nothing for its parent_name or function_name, but comparing either of them to L"" or .empty() finds nothing.
+		// I have no idea where it's coming from or what it is. I fear for my life.
+
 		for (BlueprintFunctionInfo& info : blueprint_function_queue) {
 			UObject* parent = UObjectGlobals::FindFirstOf(info.parent_name);
 			if (!parent) {
@@ -63,7 +70,7 @@ namespace Engine {
 		std::vector<GameData::Collectible> collectible_vector = GameData::GetCollectiblesOfZone(GetWorld()->GetName());
 		for (GameData::Collectible collectible : collectible_vector) {
 			if (!collectible.IsChecked()) {
-				Logger::Log(L"Spawning collectible with id " + collectible.GetID());
+				Logger::Log(L"Spawning collectible with id " + std::to_wstring(collectible.GetID()));
 				void* collectible_info = new CollectibleSpawnInfo{ collectible.GetID(), collectible.GetPosition() };
 				ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SpawnCollectible", collectible_info);
 			}
