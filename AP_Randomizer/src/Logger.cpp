@@ -22,6 +22,31 @@ namespace Logger {
 		PrintToPlayer(converter.from_bytes(message));
 	}
 
+	void Log(std::wstring text) {
+		Log(LogType::Default, text);
+	}
+
+	void Log(LogType type, std::wstring text) {
+		switch (type)
+		{
+		case LogType::Popup:
+			send<LogLevel::Verbose>(text);
+			break;
+		case LogType::System:
+			send<LogLevel::Verbose>(text);
+			break;
+		case LogType::Warning:
+			send<LogLevel::Warning>(text);
+			break;
+		case LogType::Error:
+			send<LogLevel::Error>(text);
+			break;
+		default:
+			send<LogLevel::Default>(text);
+			break;
+		}
+	}
+
 	void Logger::OnTick() {
 		// TODO: make a struct or class with a MessageType enum and switch on that to determine how to handle each message
 		if (!system_message_queue.empty()) {
