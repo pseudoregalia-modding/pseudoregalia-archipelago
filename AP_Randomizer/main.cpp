@@ -70,7 +70,7 @@ public:
 
                 UFunction* return_check_function = actor->GetFunctionByName(STR("ReturnCheck"));
                 if (!return_check_function) {
-                    Output::send<LogLevel::Error>(STR("Could not find function ReturnCheck in BP_APCollectible."));
+                    Logger::Log(L"Could not find function \"ReturnCheck\" in BP_APCollectible.", Logger::LogType::Error);
                     return;
                 }
                 Unreal::UObjectGlobals::RegisterHook(return_check_function, EmptyFunction, returncheck, nullptr);
