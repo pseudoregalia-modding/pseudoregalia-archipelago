@@ -8,26 +8,10 @@ namespace Logger {
 	bool messages_hidden;
 	bool messages_muted;
 
-	void Logger::ToggleMessageMute() {
-		if (messages_muted) {
-			messages_muted = false;
-			system_message_queue.push_back("Message sounds are no longer muted.");
-		}
-		else {
-			messages_muted = true;
-			system_message_queue.push_back("Message sounds are now muted.");
-		}
-	}
-
-	void Logger::ToggleMessageHide() {
-		if (messages_hidden) {
-			messages_hidden = false;
-			system_message_queue.push_back("Messages are no longer hidden.");
-		}
-		else {
-			messages_hidden = true;
-			message_queue.clear();
-			system_message_queue.push_back("Messages are now hidden.");
+	void Logger::PrintToPlayer(std::string message) {
+		if (!messages_hidden) {
+			message_queue.push_back(message);
+			std::cout << "pushed " << message << " to queue\n";
 		}
 	}
 
@@ -70,10 +54,26 @@ namespace Logger {
 		}
 	}
 
-	void Logger::PrintToPlayer(std::string message) {
-		if (!messages_hidden) {
-			message_queue.push_back(message);
-			std::cout << "pushed " << message << " to queue\n";
+	void Logger::ToggleMessageMute() {
+		if (messages_muted) {
+			messages_muted = false;
+			system_message_queue.push_back("Message sounds are no longer muted.");
+		}
+		else {
+			messages_muted = true;
+			system_message_queue.push_back("Message sounds are now muted.");
+		}
+	}
+
+	void Logger::ToggleMessageHide() {
+		if (messages_hidden) {
+			messages_hidden = false;
+			system_message_queue.push_back("Messages are no longer hidden.");
+		}
+		else {
+			messages_hidden = true;
+			message_queue.clear();
+			system_message_queue.push_back("Messages are now hidden.");
 		}
 	}
 }
