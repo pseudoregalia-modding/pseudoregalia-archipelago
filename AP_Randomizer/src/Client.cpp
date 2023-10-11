@@ -41,8 +41,7 @@ namespace Client {
     }
 
     void Client::ReceiveItem(int64_t id, bool notify) {
-        GameData::ReceiveItem(id);
-        Engine::SyncItems();
+        Engine::ReceiveItem(id);
     }
 
     void Client::SendCheck(int64_t id, std::wstring current_world) {
