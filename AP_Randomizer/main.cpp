@@ -39,6 +39,9 @@ public:
 
     auto on_unreal_init() -> void override
     {
+        // I want to make this an AActorTickCallback hook so I can use delta_seconds and only check actor name,
+        // but for some reason that doesn't seem to respond.
+        // Might check with UE4SS devs on that.
         Hook::RegisterProcessEventPreCallback([&](UObject* object, UFunction* function, void* params) {
             if (object->GetName().starts_with(STR("BP_APRandomizerInstance")) && function->GetName() == STR("ReceiveTick")) {
                 Engine::OnTick(object);
