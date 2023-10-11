@@ -29,7 +29,7 @@ namespace Logger {
 		Log(converter.from_bytes(text), type);
 	}
 
-	void Logger::Log(std::wstring text, LogType type = LogType::Default) {
+	void Logger::Log(std::wstring text, LogType type) {
 		switch (type) {
 		case LogType::Popup:
 			send<LogLevel::Verbose>(L"[APRandomizer] Message: " + text + L"\n");
