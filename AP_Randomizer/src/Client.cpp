@@ -99,9 +99,8 @@ namespace Client {
         if (AP_IsMessagePending()) {
             AP_Message* message = AP_GetLatestMessage();
             Logger::Log(message->text, Logger::LogType::Popup);
-            printf(message->text.c_str());
-            printf("\n");
             AP_ClearLatestMessage();
+            // APCpp releases the memory of message
         }
     }
 }
