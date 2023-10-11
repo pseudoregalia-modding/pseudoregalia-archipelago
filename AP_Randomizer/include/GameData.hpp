@@ -4,8 +4,6 @@
 #include <string>
 #include "Collectible.hpp"
 
-using namespace RC::Unreal;
-
 namespace GameData {
 	void Initialize();
 	int GetHealthPieces();

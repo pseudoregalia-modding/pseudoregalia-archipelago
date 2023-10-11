@@ -2,8 +2,6 @@
 #include "Engine.hpp"
 #include <iostream>
 
-using namespace RC::Unreal;
-
 namespace Engine {
 	struct BlueprintFunctionInfo {
 		std::wstring parent_name;

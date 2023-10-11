@@ -7,9 +7,8 @@
 #include "UnrealConsole.hpp"
 #include "Engine.hpp"
 #include "Unreal/UObjectGlobals.hpp"
-
-using namespace RC;
-using namespace RC::Unreal;
+#include "Unreal/Hooks.hpp"
+#include "Unreal/UFunction.hpp"
 
 class AP_Randomizer : public RC::CppUserModBase {
 public:
@@ -38,6 +37,8 @@ public:
 
     auto on_unreal_init() -> void override
     {
+        using namespace RC::Unreal;
+
         // I want to make this an AActorTickCallback hook so I can use delta_seconds and only check actor name,
         // but for some reason that doesn't seem to respond.
         // Might check with UE4SS devs on that.

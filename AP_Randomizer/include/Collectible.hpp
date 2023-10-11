@@ -1,12 +1,12 @@
 #pragma once
 #include "Unreal/UnrealCoreStructs.hpp"
 
-using namespace RC::Unreal;
-
 namespace GameData {
+	using RC::Unreal::FVector;
+
 	class Collectible {
 	public:
-		Collectible(std::string new_name, RC::Unreal::FVector new_position, int64_t new_id) {
+		Collectible(std::string new_name, FVector new_position, int64_t new_id) {
 			name = new_name;
 			position = new_position;
 			id = new_id;
@@ -33,7 +33,7 @@ namespace GameData {
 	private:
 		std::string name;
 		int64_t id;
-		RC::Unreal::FVector position;
+		FVector position;
 		bool checked;
 	};
 }
