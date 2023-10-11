@@ -18,6 +18,7 @@ namespace Engine {
 	}
 
 	void Engine::ExecuteInGameThread(std::function<void(UObject*)> function) {
+		Logger::Log(L"ExecuteInGameThread was called. This function is not currently fully implemented.", LogType::Warning);
 		function_queue.push_back(function);
 	}
 
@@ -42,6 +43,7 @@ namespace Engine {
 		}
 		blueprint_function_queue.clear();
 
+		return;
 		for (auto& function : function_queue) {
 			function(blueprint);
 		}
