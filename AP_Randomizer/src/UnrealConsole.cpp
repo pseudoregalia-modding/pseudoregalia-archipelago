@@ -11,6 +11,8 @@ namespace UnrealConsole {
 	std::string ConvertTcharToString(const TCHAR*);
 
 	void UnrealConsole::ProcessCommand(const TCHAR* new_command) {
+		// TODO: This should maybe just return something and have a parent check on its return value to decide what to do, 
+		// but for now it's not really worth refactoring
 		std::string command = ConvertTcharToString(new_command);
 		std::string first_word = command.substr(0, command.find(DELIM));
 
@@ -21,7 +23,7 @@ namespace UnrealConsole {
 
 		if (first_word == "connect") {
 			if (command.find(DELIM) == std::string::npos) {
-				Logger::Log(L"Please provide an ip address, slot name, and (if necessary) password.", LogType::Popup);
+				Logger::Log(L"Please provide an ip address, slot name, and (if necessary) password.", LogType::System);
 				return;
 			}
 			command.erase(0, command.find(DELIM) + 1);
@@ -31,7 +33,7 @@ namespace UnrealConsole {
 
 		if (first_word == "message" || first_word == "messages") {
 			if (command.find(DELIM) == std::string::npos) {
-				Logger::Log(L"Please input an option, such as \"mute\" or \"hide\".", LogType::Popup);
+				Logger::Log(L"Please input an option, such as \"mute\" or \"hide\".", LogType::System);
 				return;
 			}
 			command.erase(0, command.find(DELIM) + 1);
@@ -51,14 +53,14 @@ namespace UnrealConsole {
 	void UnrealConsole::ParseConnect(std::string args) {
 		std::string ip = GetNextToken(args);
 		if (ip.empty()) {
-			Logger::Log("Please provide an ip address, slot name, and (if necessary) password.", LogType::Popup);
+			Logger::Log("Please provide an ip address, slot name, and (if necessary) password.", LogType::System);
 			return;
 		}
 		std::cout << "ip:" << ip << "\n";
 
 		std::string slot_name = GetNextToken(args);
 		if (slot_name.empty()) {
-			Logger::Log("Please provide a slot name and (if necessary) password.", LogType::Popup);
+			Logger::Log("Please provide a slot name and (if necessary) password.", LogType::System);
 			return;
 		}
 		std::cout << "slot name:" << slot_name << "\n";
@@ -71,7 +73,7 @@ namespace UnrealConsole {
 
 	void UnrealConsole::ParseMessageOption(std::string option) {
 		if (option.empty()) {
-			Logger::Log("Please input an option, such as \"mute\" or \"hide\".", LogType::Popup);
+			Logger::Log("Please input an option, such as \"mute\" or \"hide\".", LogType::System);
 			return;
 		}
 

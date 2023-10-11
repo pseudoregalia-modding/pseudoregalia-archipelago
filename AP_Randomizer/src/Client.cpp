@@ -25,7 +25,7 @@ namespace Client {
         connect_message.append(new_ip);
         connect_message += " with name ";
         connect_message.append(new_slot_name);
-        Logger::Log(connect_message, LogType::Popup);
+        Logger::Log(connect_message, LogType::System);
         // No need to call SyncItems, that will happen through the callback set in AP_SetItemRecvCallback
     }
 
@@ -79,7 +79,7 @@ namespace Client {
                 Engine::SpawnCollectibles();
             }
             if (connection_status == AP_ConnectionStatus::ConnectionRefused) {
-                Logger::Log(L"The server refused the connection. Please double-check your connection info and restart the game.", LogType::Popup);
+                Logger::Log(L"The server refused the connection. Please double-check your connection info and restart the game.", LogType::System);
                 connection_timer = 0;
             }
         }
@@ -87,7 +87,7 @@ namespace Client {
         if (connection_timer > 0) {
             connection_timer--;
             if (connection_timer <= 0) {
-                Logger::Log(L"Could not find the address entered. Please double-check your connection info and restart the game.", LogType::Popup);
+                Logger::Log(L"Could not find the address entered. Please double-check your connection info and restart the game.", LogType::System);
             }
         }
 
