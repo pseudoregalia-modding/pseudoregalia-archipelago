@@ -1,6 +1,5 @@
 #pragma once
-#include "Client.hpp"
-#include <iostream>
+#include "Unreal/UnrealCoreStructs.hpp"
 
 namespace UnrealConsole {
 	using Logger::LogType;

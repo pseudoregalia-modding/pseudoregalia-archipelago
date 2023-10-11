@@ -1,12 +1,7 @@
 #pragma once
-#include "Engine.hpp"
-#include "DynamicOutput/DynamicOutput.hpp"
+#include <string>
 
 namespace Logger {
-	using namespace RC::Output;
-	using namespace RC::LogLevel;
-	using RC::Unreal::FText;
-
 	enum class LogType {
 		Default,
 		Popup,

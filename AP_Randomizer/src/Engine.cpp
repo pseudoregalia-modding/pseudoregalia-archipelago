@@ -1,6 +1,9 @@
 #pragma once
-#include "Engine.hpp"
 #include <iostream>
+#include "Engine.hpp"
+#include "GameData.hpp"
+#include "Unreal/AActor.hpp"
+#include "Logger.hpp"
 
 namespace Engine {
 	struct BlueprintFunctionInfo {
@@ -14,6 +17,7 @@ namespace Engine {
 
 	UWorld* Engine::GetWorld() {
 		UObject* player_controller = UObjectGlobals::FindFirstOf(STR("PlayerController"));
+		// TODO: check whether this actually has to be cast to an AActor anyway
 		return static_cast<AActor*>(player_controller)->GetWorld();
 	}
 

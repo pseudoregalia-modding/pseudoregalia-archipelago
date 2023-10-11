@@ -1,7 +1,13 @@
 #pragma once
 #include "Logger.hpp"
+#include "Engine.hpp"
+#include "DynamicOutput/DynamicOutput.hpp"
 
 namespace Logger {
+	using namespace RC::Output;
+	using namespace RC::LogLevel;
+	using RC::Unreal::FText;
+
 	std::list<std::wstring> message_queue;
 	std::list<std::wstring> system_message_queue;
 	int message_timer;

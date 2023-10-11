@@ -3,12 +3,13 @@
 
 #include <Windows.h>
 #include "Mod/CppUserModBase.hpp"
-#include "Client.hpp"
-#include "UnrealConsole.hpp"
-#include "Engine.hpp"
 #include "Unreal/UObjectGlobals.hpp"
 #include "Unreal/Hooks.hpp"
 #include "Unreal/UFunction.hpp"
+#include "Client.hpp"
+#include "UnrealConsole.hpp"
+#include "Engine.hpp"
+#include "Logger.hpp"
 
 class AP_Randomizer : public RC::CppUserModBase {
 public:
