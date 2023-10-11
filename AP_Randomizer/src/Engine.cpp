@@ -34,7 +34,6 @@ namespace Engine {
 	}
 
 	void Engine::ExecuteBlueprintFunction(std::wstring new_parent, std::wstring new_name, void* params) {
-		Logger::Log(L"Queueing " + new_parent + L"::" + new_name);
 		blueprint_function_queue.push_back(BlueprintFunctionInfo(new_parent, new_name, params));
 	}
 

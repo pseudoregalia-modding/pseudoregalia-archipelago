@@ -116,7 +116,8 @@ public:
     {
         // List of key codes at https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
         bind_key(VK_NUMPAD1, [&]() {
-            // APClient::Connect("localhost:38281", "goat", "");
+            // Client::CompleteGame();
+            // Client::Connect("localhost:38281", "goat", "");
             });
 
         bind_key(VK_NUMPAD2, [&]() {
