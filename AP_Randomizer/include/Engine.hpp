@@ -8,7 +8,6 @@
 
 namespace Engine {
 	using namespace RC::Unreal;
-	using Logger::LogType;
 
 	void ExecuteInGameThread(std::function<void(UObject*)>);
 	void ExecuteBlueprintFunction(std::wstring, std::wstring, void*);

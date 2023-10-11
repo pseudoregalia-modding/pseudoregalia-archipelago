@@ -18,7 +18,7 @@ namespace Engine {
 	}
 
 	void Engine::ExecuteInGameThread(std::function<void(UObject*)> function) {
-		Logger::Log(L"ExecuteInGameThread was called. This function is not currently fully implemented.", LogType::Warning);
+		Logger::Log(L"ExecuteInGameThread was called. This function is not currently fully implemented.", Logger::LogType::Warning);
 		function_queue.push_back(function);
 	}
 
@@ -30,12 +30,12 @@ namespace Engine {
 		for (BlueprintFunctionInfo& info : blueprint_function_queue) {
 			UObject* parent = UObjectGlobals::FindFirstOf(info.parent_name);
 			if (!parent) {
-				Logger::Log(L"Could not find blueprint with name" + info.parent_name, LogType::Error);
+				Logger::Log(L"Could not find blueprint with name" + info.parent_name, Logger::LogType::Error);
 				return;
 			}
 			UFunction* function = parent->GetFunctionByName(info.function_name.c_str());
 			if (!function) {
-				Logger::Log(L"Could not find function with name" + info.function_name + L" in " + info.parent_name, LogType::Error);
+				Logger::Log(L"Could not find function with name" + info.function_name + L" in " + info.parent_name, Logger::LogType::Error);
 				return;
 			}
 			Logger::Log(L"Executing " + info.parent_name + L"::" + info.function_name);
