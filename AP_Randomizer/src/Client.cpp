@@ -26,7 +26,6 @@ namespace Client {
         connect_message += " with name ";
         connect_message.append(new_slot_name);
         Logger::PrintToPlayer(connect_message);
-        Engine::SpawnCollectibles();
         // No need to call SyncItems, that will happen through the callback set in AP_SetItemRecvCallback
     }
 
@@ -77,6 +76,7 @@ namespace Client {
         if (ConnectionStatusChanged()) {
             if (connection_status == AP_ConnectionStatus::Authenticated) {
                 connection_timer = 0;
+                Engine::SpawnCollectibles();
             }
             if (connection_status == AP_ConnectionStatus::ConnectionRefused) {
                 Logger::PrintToPlayer("The server refused the connection. Please double-check your connection info and restart the game.");
