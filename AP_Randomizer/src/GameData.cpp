@@ -2,14 +2,6 @@
 #include "GameData.hpp"
 
 namespace GameData {
-    enum class ItemType {
-        Ability,
-        HealthPiece,
-        SmallKey,
-        MajorKey,
-        Unknown
-    };
-
     ItemType GetItemType(int64_t);
     int health_pieces;
     int small_keys;
@@ -166,8 +158,9 @@ namespace GameData {
         return ItemType::Unknown;
     }
 
-    void GameData::ReceiveItem(int64_t id) {
-        switch (GetItemType(id)) {
+    ItemType GameData::ReceiveItem(int64_t id) {
+        ItemType type = GetItemType(id);
+        switch (type) {
         case ItemType::Ability:
             upgrade_table[lookup_id_to_upgrade.at(id)]++;
             break;
@@ -185,6 +178,7 @@ namespace GameData {
             // return an error
             break;
         }
+        return type;
     }
 
     void GameData::CheckLocation(int64_t id) {
