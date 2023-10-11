@@ -4,13 +4,11 @@
 #include <Windows.h>
 #include "Mod/CppUserModBase.hpp"
 #include "Client.hpp"
-#include "GameManager.hpp"
 #include "UnrealConsole.hpp"
 #include "Engine.hpp"
 #include "Unreal/UObjectGlobals.hpp"
-
-using namespace RC;
-using namespace RC::Unreal;
+#include "Unreal/Hooks.hpp"
+#include "Unreal/UFunction.hpp"
 
 class AP_Randomizer : public RC::CppUserModBase {
 public:
@@ -39,11 +37,15 @@ public:
 
     auto on_unreal_init() -> void override
     {
+        using namespace RC::Unreal;
+
+        // I want to make this an AActorTickCallback hook so I can use delta_seconds and only check actor name,
+        // but for some reason that doesn't seem to respond.
+        // Might check with UE4SS devs on that.
         Hook::RegisterProcessEventPreCallback([&](UObject* object, UFunction* function, void* params) {
             if (object->GetName().starts_with(STR("BP_APRandomizerInstance")) && function->GetName() == STR("ReceiveTick")) {
                 Engine::OnTick(object);
             }
-            // APGameManager::PreProcessEvent(object, function, params);
             });
 
         Hook::RegisterProcessConsoleExecCallback([&](UObject* object, const Unreal::TCHAR* command, FOutputDevice& Ar, UObject* executor) -> bool {
@@ -57,31 +59,36 @@ public:
 
         setup_keybinds();
 
-        Hook::RegisterBeginPlayPostCallback([&](AActor* Actor) {
-
-            // TODO: There should probably be less of this function in main
+        Hook::RegisterBeginPlayPostCallback([&](AActor* actor) {
+            // TODO: Consider moving some of this function out of main
             auto returncheck = [](UnrealScriptFunctionCallableContext& context, void* customdata) {
-                struct return_check_params {
-                    int64_t id;
-                };
-                auto& params = context.GetParams<return_check_params>();
-                Client::SendCheck(params.id, Engine::GetWorld()->GetName());
+                Client::SendCheck(context.GetParams<int64_t>(), Engine::GetWorld()->GetName());
                 };
 
             if (!returncheck_hooked
-                && Actor->GetName().starts_with(STR("BP_APCollectible"))) {
+                && actor->GetName().starts_with(STR("BP_APCollectible"))) {
 
-                UFunction* return_check_function = Actor->GetFunctionByName(STR("ReturnCheck"));
+                UFunction* return_check_function = actor->GetFunctionByName(STR("ReturnCheck"));
                 if (!return_check_function) {
                     Output::send<LogLevel::Error>(STR("Could not find function ReturnCheck in BP_APCollectible."));
                     return;
                 }
-                Unreal::UObjectGlobals::RegisterHook(return_check_function, GameManager::EmptyFunction, returncheck, nullptr);
+                Unreal::UObjectGlobals::RegisterHook(return_check_function, EmptyFunction, returncheck, nullptr);
                 returncheck_hooked = true;
             }
 
-            GameManager::OnBeginPlay(Actor);
+            if (actor->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
+                if (Engine::GetWorld()->GetName() == STR("EndScreen")) {
+                    Client::CompleteGame();
+                }
+                Engine::SpawnCollectibles();
+                Engine::SyncItems();
+            }
             });
+    }
+
+    static void EmptyFunction(RC::Unreal::UnrealScriptFunctionCallableContext& context, void* customdata) {
+
     }
 
     bool PropogateCommand(const Unreal::TCHAR* command) {
@@ -123,7 +130,7 @@ public:
     auto on_update() -> void override
     {
         Client::PollServer();
-        GameManager::OnUpdate();
+        Logger::OnTick();
         for (auto& boundKey : m_boundKeys)
         {
             if ((GetKeyState(boundKey.key) & 0x8000) && !boundKey.isPressed)

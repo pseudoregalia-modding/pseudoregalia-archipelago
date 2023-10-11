@@ -4,5 +4,6 @@
 #include <iostream>
 
 namespace UnrealConsole {
-	void ProcessCommand(const Unreal::TCHAR*);
+	using RC::Unreal::TCHAR;
+	void ProcessCommand(const TCHAR*);
 }

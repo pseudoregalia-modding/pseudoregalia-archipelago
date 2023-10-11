@@ -5,10 +5,11 @@
 #include "Unreal/AActor.hpp"
 #include "Unreal/World.hpp"
 
-using namespace RC::Unreal;
-
 namespace Engine {
-	void ExecuteInGameThread(void (*)(UObject*));
+	using namespace RC::Unreal;
+
+	void ExecuteInGameThread(std::function<void(UObject*)>);
+	void ExecuteBlueprintFunction(std::wstring, std::wstring, void*);
 	void OnTick(UObject*);
 	void SyncItems();
 	void SpawnCollectibles();

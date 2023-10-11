@@ -8,9 +8,9 @@ namespace UnrealConsole {
 	void ParseConnect(std::string);
 	void ParseMessageOption(std::string);
 	std::string GetNextToken(std::string&);
-	std::string ConvertTcharToString(const Unreal::TCHAR*);
+	std::string ConvertTcharToString(const TCHAR*);
 
-	void UnrealConsole::ProcessCommand(const Unreal::TCHAR* new_command) {
+	void UnrealConsole::ProcessCommand(const TCHAR* new_command) {
 		std::string command = ConvertTcharToString(new_command);
 		std::string first_word = command.substr(0, command.find(DELIM));
 
@@ -21,7 +21,7 @@ namespace UnrealConsole {
 
 		if (first_word == "connect") {
 			if (command.find(DELIM) == std::string::npos) {
-				GameManager::QueueMessage("Please provide an ip address, slot name, and (if necessary) password.");
+				Logger::PrintToPlayer("Please provide an ip address, slot name, and (if necessary) password.");
 				return;
 			}
 			command.erase(0, command.find(DELIM) + 1);
@@ -31,7 +31,7 @@ namespace UnrealConsole {
 
 		if (first_word == "message" || first_word == "messages") {
 			if (command.find(DELIM) == std::string::npos) {
-				GameManager::QueueMessage("Please input an option, such as \"mute\" or \"hide\".");
+				Logger::PrintToPlayer("Please input an option, such as \"mute\" or \"hide\".");
 				return;
 			}
 			command.erase(0, command.find(DELIM) + 1);
@@ -40,7 +40,7 @@ namespace UnrealConsole {
 		}
 	}
 
-	std::string UnrealConsole::ConvertTcharToString(const Unreal::TCHAR* tchars) {
+	std::string UnrealConsole::ConvertTcharToString(const TCHAR* tchars) {
 		char* new_chars = new char[wcslen(tchars)];
 		std::wcstombs(new_chars, tchars, wcslen(tchars));
 		new_chars[wcslen(tchars)] = 0;
@@ -51,14 +51,14 @@ namespace UnrealConsole {
 	void UnrealConsole::ParseConnect(std::string args) {
 		std::string ip = GetNextToken(args);
 		if (ip.empty()) {
-			GameManager::QueueMessage("Please provide an ip address, slot name, and (if necessary) password.");
+			Logger::PrintToPlayer("Please provide an ip address, slot name, and (if necessary) password.");
 			return;
 		}
 		std::cout << "ip:" << ip << "\n";
 
 		std::string slot_name = GetNextToken(args);
 		if (slot_name.empty()) {
-			GameManager::QueueMessage("Please provide a slot name and (if necessary) password.");
+			Logger::PrintToPlayer("Please provide a slot name and (if necessary) password.");
 			return;
 		}
 		std::cout << "slot name:" << slot_name << "\n";
@@ -71,16 +71,16 @@ namespace UnrealConsole {
 
 	void UnrealConsole::ParseMessageOption(std::string option) {
 		if (option.empty()) {
-			GameManager::QueueMessage("Please input an option, such as \"mute\" or \"hide\".");
+			Logger::PrintToPlayer("Please input an option, such as \"mute\" or \"hide\".");
 			return;
 		}
 
 		if (option == "hide" || option == "unhide" || option == "show") {
-			GameManager::ToggleMessageHide();
+			Logger::ToggleMessageHide();
 		}
 
 		if (option == "mute" || option == "unmute") {
-			GameManager::ToggleMessageMute();
+			Logger::ToggleMessageMute();
 		}
 	}
 

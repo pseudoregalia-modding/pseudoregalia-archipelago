@@ -1,95 +1,95 @@
 #pragma once
 #include "Engine.hpp"
-
-using namespace RC::Unreal;
+#include <iostream>
 
 namespace Engine {
-	struct MajorKeyInfo {
-		int index;
-		bool to_give;
+	struct BlueprintFunctionInfo {
+		std::wstring parent_name;
+		std::wstring function_name;
+		void* params;
 	};
 
-	std::vector<void (*)(UObject*)> function_queue;
+	std::vector<BlueprintFunctionInfo> blueprint_function_queue;
+	std::vector<std::function<void (UObject*)>> function_queue;
 
 	UWorld* Engine::GetWorld() {
 		UObject* player_controller = UObjectGlobals::FindFirstOf(STR("PlayerController"));
 		return static_cast<AActor*>(player_controller)->GetWorld();
 	}
 
-	void Engine::ExecuteInGameThread(void (*function)(UObject*) ) {
+	void Engine::ExecuteInGameThread(std::function<void(UObject*)> function) {
 		function_queue.push_back(function);
 	}
 
+	void Engine::ExecuteBlueprintFunction(std::wstring new_parent, std::wstring new_name, void* params) {
+		blueprint_function_queue.push_back(BlueprintFunctionInfo(new_parent, new_name, params));
+	}
+
 	void Engine::OnTick(UObject* blueprint) {
+		for (BlueprintFunctionInfo& info : blueprint_function_queue) {
+			UObject* parent = UObjectGlobals::FindFirstOf(info.parent_name);
+			if (!parent) {
+				// TODO: return an error
+				return;
+			}
+			UFunction* function = parent->GetFunctionByName(info.function_name.c_str());
+			if (!function) {
+				// TODO: return an error
+				return;
+			}
+			parent->ProcessEvent(function, info.params);
+			delete info.params;
+		}
+		blueprint_function_queue.clear();
+
 		for (auto& function : function_queue) {
 			function(blueprint);
 		}
+		function_queue.clear();
 	}
 
 	void Engine::SpawnCollectibles() {
-		auto spawn_collectibles = [](UObject* blueprint) {
-			// Get collectible vector for just the current map
-			std::vector<GameData::Collectible> collectible_vector = GameData::GetCollectiblesOfZone(GetWorld()->GetName());
-			UFunction* spawn_function = blueprint->GetFunctionByName(STR("AP_SpawnCollectible"));
-
-			struct CollectibleSpawnInfo {
-				int64_t id;
-				FVector position;
-			};
-			for (GameData::Collectible collectible : collectible_vector) {
-				CollectibleSpawnInfo new_info = {
-					collectible.GetID(),
-					collectible.GetPosition(),
-				};
-				if (!collectible.IsChecked()) {
-					blueprint->ProcessEvent(spawn_function, &new_info);
-				}
+		struct CollectibleSpawnInfo {
+			int64_t id;
+			FVector position;
+		};
+		std::vector<GameData::Collectible> collectible_vector = GameData::GetCollectiblesOfZone(GetWorld()->GetName());
+		for (GameData::Collectible collectible : collectible_vector) {
+			if (!collectible.IsChecked()) {
+				void* collectible_info = new CollectibleSpawnInfo{ collectible.GetID(), collectible.GetPosition() };
+				ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SpawnCollectible", collectible_info);
 			}
-			};
-
-		ExecuteInGameThread(spawn_collectibles);
+		}
 	}
 
 	void Engine::SyncItems() {
-		// TODO: considering modularizing this function in-line a bit
-		auto item_sync = [](UObject* blueprint) {
-			UFunction* set_hp = blueprint->GetFunctionByName(STR("AP_SetHealthPieces"));
-			int hp_count = GameData::GetHealthPieces();
-			blueprint->ProcessEvent(set_hp, &hp_count);
+		// Call blueprint functions to sync health pieces, small keys, major keys, and upgrades
+		void* hp_params = new int(GameData::GetHealthPieces());
+		ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetHealthPieces", hp_params);
 
-			// TODO: reconfigure major keys to be an int and reconfigure this function
-			UFunction* set_major_keys = blueprint->GetFunctionByName(STR("AP_SetMajorKey"));
-			bool* major_keys = GameData::GetMajorKeys();
-			for (int i = 0; i < 5; i++)
-			{
-				MajorKeyInfo params{
-					i,
-					major_keys[i],
-				};
-				blueprint->ProcessEvent(set_major_keys, &params);
-			}
+		void* small_key_params = new int(GameData::GetSmallKeys());
+		ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetSmallKeys", small_key_params);
 
-			UFunction* set_small_keys = blueprint->GetFunctionByName(STR("AP_SetSmallKeys"));
-			int small_key_count = GameData::GetSmallKeys();
-			blueprint->ProcessEvent(set_small_keys, &small_key_count);
+		// TODO: reconfigure major keys to be an int and reconfigure this function
+		struct MajorKeyInfo {
+			int index;
+			bool to_give;
+		};
+		bool* major_keys = GameData::GetMajorKeys();
+		for (int i = 0; i < 5; i++)
+		{
+			void* major_key_params = new MajorKeyInfo{ i, major_keys[i] };
+			ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetMajorKey", major_key_params);
+		}
 
-
-			struct AddUpgradeInfo {
-				FName name;
-				int count;
-			};
-			UFunction* add_upgrades = blueprint->GetFunctionByName(STR("AP_AddUpgrade"));
-			for (auto const& pair : GameData::GetUpgradeTable()) {
-				FName new_name = *new FName(pair.first);
-
-				AddUpgradeInfo params = {
-					new_name,
-					pair.second,
-				};
-				blueprint->ProcessEvent(add_upgrades, &params);
-			}
-			};
-
-		ExecuteInGameThread(item_sync);
+		struct AddUpgradeInfo {
+			FName name;
+			int count;
+		};
+		for (auto const& pair : GameData::GetUpgradeTable()) {
+			std::unique_ptr<FName> new_name(new FName(pair.first));
+			void* upgrade_params = new AddUpgradeInfo{ *new_name, pair.second };
+			ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_AddUpgrade", upgrade_params);
+		}
 	}
 }

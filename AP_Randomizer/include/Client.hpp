@@ -1,9 +1,9 @@
 #pragma once
 #include "DynamicOutput/DynamicOutput.hpp"
 #include "Archipelago.h"
-#include "GameManager.hpp"
 #include "GameData.hpp"
 #include "Engine.hpp"
+#include "Logger.hpp"
 
 #include <locale>
 #include <codecvt>
