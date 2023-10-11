@@ -13,6 +13,7 @@ namespace Logger {
 		Error
 	};
 
+	void PrintToPlayer(std::wstring);
 	void PrintToPlayer(std::string);
 	void OnTick();
 	void ToggleMessageMute();
