@@ -11,7 +11,6 @@ using namespace RC;
 using namespace RC::Unreal;
 
 namespace GameManager {
-	UWorld* GetWorld();
 	void OnBeginPlay(AActor*);
 	void PreProcessEvent(UObject*, UFunction*, void*);
 	void SetClientConnected(bool);

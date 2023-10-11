@@ -10,15 +10,10 @@ namespace GameManager {
 	void GameManager::SetClientConnected(bool connected) {
 		client_connected = connected;
 	}
-	
-	UWorld* GameManager::GetWorld() {
-		UObject* player_controller = UObjectGlobals::FindFirstOf(STR("PlayerController"));
-		return static_cast<AActor*>(player_controller)->GetWorld();
-	}
 
 	void GameManager::OnBeginPlay(AActor* actor) {
 		if (actor->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
-			if (GetWorld()->GetName() == STR("EndScreen")) {
+			if (Engine::GetWorld()->GetName() == STR("EndScreen")) {
 				Client::CompleteGame();
 			}
 			UFunction* spawn_function = actor->GetFunctionByName(STR("AP_SpawnCollectible"));
