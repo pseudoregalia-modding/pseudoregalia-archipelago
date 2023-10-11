@@ -22,21 +22,14 @@ namespace Logger {
 		PrintToPlayer(converter.from_bytes(message));
 	}
 
-	void Log(std::string text) {
+	void Log(std::string text, LogType type) {
+		// Convert message to wstring and just pass it to the wstring version of Log
+		// Consider logging a warning since this is a bit more roundabout than usually necessary
 		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-		Log(LogType::Default, converter.from_bytes(text));
+		Log(converter.from_bytes(text), type);
 	}
 
-	void Log(LogType type, std::string text) {
-		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-		Log(type, converter.from_bytes(text));
-	}
-
-	void Log(std::wstring text) {
-		Log(LogType::Default, text);
-	}
-
-	void Log(LogType type, std::wstring text) {
+	void Log(std::wstring text, LogType type = LogType::Default) {
 		switch (type)
 		{
 		case LogType::Popup:
