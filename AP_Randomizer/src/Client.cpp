@@ -25,6 +25,8 @@ namespace Client {
         connect_message += " with name ";
         connect_message.append(new_slot_name);
         Logger::PrintToPlayer(connect_message);
+        Engine::SpawnCollectibles();
+        // No need to call SyncItems, that will happen through the callback set in AP_SetItemRecvCallback
     }
 
     void Client::SetSlotNumber(int num) {
