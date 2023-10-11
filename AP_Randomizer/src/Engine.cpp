@@ -4,6 +4,8 @@
 #include "GameData.hpp"
 #include "Unreal/AActor.hpp"
 #include "Logger.hpp"
+#include "Unreal/TPair.hpp"
+#include "Unreal/TArray.hpp"
 
 namespace Engine {
 	void SyncMajorKeys();
@@ -94,24 +96,29 @@ namespace Engine {
 
 	void Engine::SyncAbilities() {
 		struct AddUpgradeInfo {
-			FName name;
-			int count;
+			TArray<FName> names;
+			TArray<int> counts;
 		};
-		for (auto const& pair : GameData::GetUpgradeTable()) {
-			std::unique_ptr<FName> new_name(new FName(pair.first));
-			void* upgrade_params = new AddUpgradeInfo{ *new_name, pair.second };
-			ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_AddUpgrade", upgrade_params);
+		TArray<FName> ue_names;
+		TArray<int> ue_counts;
+
+		for (const auto& pair : GameData::GetUpgradeTable()) {
+			//std::unique_ptr<FName> new_name(new FName(pair.first));
+			FName* new_name = new FName(pair.first);
+			ue_names.Add(*new_name);
+			ue_counts.Add(pair.second);
 		}
+
+		void* upgrade_params = new AddUpgradeInfo{ ue_names, ue_counts };
+		ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_AddUpgrade", upgrade_params);
 	}
 
 	void Engine::SyncHealthPieces() {
-
 		void* hp_params = new int(GameData::GetHealthPieces());
 		ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetHealthPieces", hp_params);
 	}
 
 	void Engine::SyncSmallKeys() {
-
 		void* small_key_params = new int(GameData::GetSmallKeys());
 		ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetSmallKeys", small_key_params);
 	}
