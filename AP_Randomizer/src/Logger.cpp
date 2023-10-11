@@ -32,28 +32,28 @@ namespace Logger {
 	void Logger::Log(std::wstring text, LogType type = LogType::Default) {
 		switch (type) {
 		case LogType::Popup:
-			send<LogLevel::Verbose>(L"[APRandomizer] Message: " + text);
+			send<LogLevel::Verbose>(L"[APRandomizer] Message: " + text + L"\n");
 			PrintToPlayer(text);
 			break;
 
 		case LogType::System:
-			send<LogLevel::Verbose>(L"[APRandomizer] System: " + text);
+			send<LogLevel::Verbose>(L"[APRandomizer] System: " + text + L"\n");
 			// There's not really any point in having a system message queue if it doesn't use delays.
 			// This should probably just call ExecuteBlueprintFunction directly.
 			system_message_queue.push_back(text);
 			break;
 
 		case LogType::Warning:
-			send<LogLevel::Warning>(L"[APRandomizer] WARNING: " + text);
+			send<LogLevel::Warning>(L"[APRandomizer] WARNING: " + text + L"\n");
 			break;
 
 		case LogType::Error:
-			send<LogLevel::Error>(L"[APRandomizer] ERROR: " + text);
+			send<LogLevel::Error>(L"[APRandomizer] ERROR: " + text + L"\n");
 			// TODO: functionality to display errors to player
 			break;
 
 		default:
-			send<LogLevel::Default>(L"[APRandomizer] : " + text);
+			send<LogLevel::Default>(L"[APRandomizer] : " + text + L"\n");
 			break;
 		}
 	}
