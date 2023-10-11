@@ -12,6 +12,7 @@ namespace Client {
     int slot_number;
 
     void Client::Connect(const char* new_ip, const char* new_slot_name, const char* new_password) {
+        GameData::Initialize();
         AP_Init(new_ip, "Pseudoregalia", new_slot_name, new_password);
         AP_SetItemClearCallback(&GameData::Initialize);
         AP_SetLocationCheckedCallback(&GameData::CheckLocation);
