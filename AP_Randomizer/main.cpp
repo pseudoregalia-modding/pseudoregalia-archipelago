@@ -78,6 +78,7 @@ public:
             }
 
             if (actor->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
+                Logger::Log(L"Loaded scene " + Engine::GetWorld()->GetName());
                 if (Engine::GetWorld()->GetName() == STR("EndScreen")) {
                     Client::CompleteGame();
                 }
