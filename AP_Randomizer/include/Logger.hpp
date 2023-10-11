@@ -18,7 +18,9 @@ namespace Logger {
 	void PrintToPlayer(std::wstring);
 	void PrintToPlayer(std::string);
 	void Log(LogType type, std::wstring text);
+	void Log(LogType type, std::string text);
 	void Log(std::wstring text);
+	void Log(std::string text);
 	void OnTick();
 	void ToggleMessageMute();
 	void ToggleMessageHide();
