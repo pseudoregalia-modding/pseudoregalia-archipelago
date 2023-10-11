@@ -110,7 +110,7 @@ namespace Engine {
 		}
 
 		void* upgrade_params = new AddUpgradeInfo{ ue_names, ue_counts };
-		ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_AddUpgrade", upgrade_params);
+		ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetUpgrades", upgrade_params);
 	}
 
 	void Engine::SyncHealthPieces() {
@@ -124,17 +124,18 @@ namespace Engine {
 	}
 
 	void Engine::SyncMajorKeys() {
-		// TODO: reconfigure major keys to be an int and reconfigure this function
 		struct MajorKeyInfo {
-			int index;
-			bool to_give;
+			TArray<bool> keys;
 		};
+		TArray<bool> ue_keys;
 		bool* major_keys = GameData::GetMajorKeys();
 		for (int i = 0; i < 5; i++)
 		{
-			void* major_key_params = new MajorKeyInfo{ i, major_keys[i] };
-			ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetMajorKey", major_key_params);
+			ue_keys.Add(major_keys[i]);
 		}
+
+		void* major_key_params = new MajorKeyInfo{ ue_keys };
+		ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetMajorKeys", major_key_params);
 	}
 
 	void Engine::ReceiveItem(int64_t id) {
