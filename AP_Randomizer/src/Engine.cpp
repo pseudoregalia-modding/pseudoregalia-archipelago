@@ -19,8 +19,8 @@ namespace Engine {
 		void* params;
 	};
 
-	std::vector<BlueprintFunctionInfo> blueprint_function_queue;
-	std::vector<std::function<void (UObject*)>> function_queue;
+	std::list<BlueprintFunctionInfo> blueprint_function_queue;
+	std::list<std::function<void (UObject*)>> function_queue;
 
 	UWorld* Engine::GetWorld() {
 		UObject* player_controller = UObjectGlobals::FindFirstOf(STR("PlayerController"));
@@ -59,14 +59,14 @@ namespace Engine {
 			Logger::Log(L"Executing " + info.parent_name + L"::" + info.function_name);
 			parent->ProcessEvent(function, info.params);
 			delete info.params;
+			blueprint_function_queue.pop_front();
 		}
-		blueprint_function_queue.clear();
 
 		return;
 		for (auto& function : function_queue) {
 			function(blueprint);
+			function_queue.pop_front();
 		}
-		function_queue.clear();
 	}
 
 	void Engine::SpawnCollectibles() {
