@@ -66,7 +66,7 @@ namespace Logger {
 			};
 			void* params = new PrintToPlayerInfo{ *new_text, messages_muted };
 			Engine::ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_PrintMessage", params);
-			message_timer = 2000;
+			message_timer = 600;
 		}
 	}
 
