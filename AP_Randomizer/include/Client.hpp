@@ -10,6 +10,8 @@
 #include <string>
 
 namespace Client {
+	using Logger::LogType;
+
 	void Connect(const char*, const char*, const char*);
 	void SendCheck(int64_t, std::wstring);
 	void PollServer();

@@ -15,8 +15,6 @@ namespace Logger {
 		Error
 	};
 
-	void PrintToPlayer(std::wstring);
-	void PrintToPlayer(std::string);
 	void Log(std::wstring, LogType);
 	void Log(std::string, LogType);
 	void OnTick();

@@ -25,7 +25,7 @@ namespace Client {
         connect_message.append(new_ip);
         connect_message += " with name ";
         connect_message.append(new_slot_name);
-        Logger::PrintToPlayer(connect_message);
+        Logger::Log(connect_message, LogType::Popup);
         // No need to call SyncItems, that will happen through the callback set in AP_SetItemRecvCallback
     }
 
@@ -79,7 +79,7 @@ namespace Client {
                 Engine::SpawnCollectibles();
             }
             if (connection_status == AP_ConnectionStatus::ConnectionRefused) {
-                Logger::PrintToPlayer("The server refused the connection. Please double-check your connection info and restart the game.");
+                Logger::Log(L"The server refused the connection. Please double-check your connection info and restart the game.", LogType::Popup);
                 connection_timer = 0;
             }
         }
@@ -87,13 +87,13 @@ namespace Client {
         if (connection_timer > 0) {
             connection_timer--;
             if (connection_timer <= 0) {
-                Logger::PrintToPlayer("Could not find the address entered. Please double-check your connection info and restart the game.");
+                Logger::Log(L"Could not find the address entered. Please double-check your connection info and restart the game.", LogType::Popup);
             }
         }
 
         if (AP_IsMessagePending()) {
             AP_Message* message = AP_GetLatestMessage();
-            Logger::PrintToPlayer(message->text);
+            Logger::Log(message->text, LogType::Popup);
             printf(message->text.c_str());
             printf("\n");
             AP_ClearLatestMessage();

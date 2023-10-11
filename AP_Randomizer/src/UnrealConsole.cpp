@@ -21,7 +21,7 @@ namespace UnrealConsole {
 
 		if (first_word == "connect") {
 			if (command.find(DELIM) == std::string::npos) {
-				Logger::PrintToPlayer("Please provide an ip address, slot name, and (if necessary) password.");
+				Logger::Log(L"Please provide an ip address, slot name, and (if necessary) password.", LogType::Popup);
 				return;
 			}
 			command.erase(0, command.find(DELIM) + 1);
@@ -31,7 +31,7 @@ namespace UnrealConsole {
 
 		if (first_word == "message" || first_word == "messages") {
 			if (command.find(DELIM) == std::string::npos) {
-				Logger::PrintToPlayer("Please input an option, such as \"mute\" or \"hide\".");
+				Logger::Log(L"Please input an option, such as \"mute\" or \"hide\".", LogType::Popup);
 				return;
 			}
 			command.erase(0, command.find(DELIM) + 1);
@@ -51,14 +51,14 @@ namespace UnrealConsole {
 	void UnrealConsole::ParseConnect(std::string args) {
 		std::string ip = GetNextToken(args);
 		if (ip.empty()) {
-			Logger::PrintToPlayer("Please provide an ip address, slot name, and (if necessary) password.");
+			Logger::Log("Please provide an ip address, slot name, and (if necessary) password.", LogType::Popup);
 			return;
 		}
 		std::cout << "ip:" << ip << "\n";
 
 		std::string slot_name = GetNextToken(args);
 		if (slot_name.empty()) {
-			Logger::PrintToPlayer("Please provide a slot name and (if necessary) password.");
+			Logger::Log("Please provide a slot name and (if necessary) password.", LogType::Popup);
 			return;
 		}
 		std::cout << "slot name:" << slot_name << "\n";
@@ -71,7 +71,7 @@ namespace UnrealConsole {
 
 	void UnrealConsole::ParseMessageOption(std::string option) {
 		if (option.empty()) {
-			Logger::PrintToPlayer("Please input an option, such as \"mute\" or \"hide\".");
+			Logger::Log("Please input an option, such as \"mute\" or \"hide\".", LogType::Popup);
 			return;
 		}
 

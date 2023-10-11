@@ -8,42 +8,50 @@ namespace Logger {
 	bool messages_hidden;
 	bool messages_muted;
 
-	void Logger::PrintToPlayer(std::wstring message) {
+	void PrintToPlayer(std::wstring message) {
 		if (!messages_hidden) {
 			message_queue.push_back(message);
 			//std::cout << "pushed " << message << " to queue\n";
 		}
 	}
 
-	void Logger::PrintToPlayer(std::string message) {
+	void PrintToPlayer(std::string message) {
 		// Convert message to wstring and just pass it to the wstring version of PrintToPlayer
 		// Consider logging a warning since this is a bit more roundabout than usually necessary
 		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
 		PrintToPlayer(converter.from_bytes(message));
 	}
 
-	void Log(std::string text, LogType type) {
+	void Logger::Log(std::string text, LogType type) {
 		// Convert message to wstring and just pass it to the wstring version of Log
 		// Consider logging a warning since this is a bit more roundabout than usually necessary
 		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
 		Log(converter.from_bytes(text), type);
 	}
 
-	void Log(std::wstring text, LogType type = LogType::Default) {
+	void Logger::Log(std::wstring text, LogType type = LogType::Default) {
 		switch (type)
 		{
 		case LogType::Popup:
 			send<LogLevel::Verbose>(text);
+			PrintToPlayer(text);
 			break;
+
 		case LogType::System:
 			send<LogLevel::Verbose>(text);
+			// There's not really any point in having a system message queue if it doesn't use delays.
+			// This should probably just call ExecuteBlueprintFunction directly.
+			system_message_queue.push_back(text);
 			break;
+
 		case LogType::Warning:
 			send<LogLevel::Warning>(text);
 			break;
 		case LogType::Error:
 			send<LogLevel::Error>(text);
+			// TODO: functionality to display errors to player
 			break;
+
 		default:
 			send<LogLevel::Default>(text);
 			break;
@@ -84,23 +92,23 @@ namespace Logger {
 	void Logger::ToggleMessageMute() {
 		if (messages_muted) {
 			messages_muted = false;
-			system_message_queue.push_back(L"Message sounds are no longer muted.");
+			Log(L"Message sounds are no longer muted.", LogType::System);
 		}
 		else {
 			messages_muted = true;
-			system_message_queue.push_back(L"Message sounds are now muted.");
+			Log(L"Message sounds are now muted.", LogType::System);
 		}
 	}
 
 	void Logger::ToggleMessageHide() {
 		if (messages_hidden) {
 			messages_hidden = false;
-			system_message_queue.push_back(L"Messages are no longer hidden.");
+			Log(L"Messages are no longer hidden.", LogType::System);
 		}
 		else {
 			messages_hidden = true;
 			message_queue.clear();
-			system_message_queue.push_back(L"Messages are now hidden.");
+			Log(L"Messages are now hidden.", LogType::System);
 		}
 	}
 }
