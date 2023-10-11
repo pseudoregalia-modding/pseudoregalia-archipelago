@@ -49,12 +49,16 @@ namespace Engine {
 			UObject* parent = UObjectGlobals::FindFirstOf(info.parent_name);
 			if (!parent) {
 				Logger::Log(L"Could not find blueprint with name " + info.parent_name, Logger::LogType::Error);
-				return;
+				delete info.params;
+				blueprint_function_queue.pop_front();
+				continue;
 			}
 			UFunction* function = parent->GetFunctionByName(info.function_name.c_str());
 			if (!function) {
 				Logger::Log(L"Could not find function with name " + info.function_name + L" in " + info.parent_name, Logger::LogType::Error);
-				return;
+				delete info.params;
+				blueprint_function_queue.pop_front();
+				continue;
 			}
 			Logger::Log(L"Executing " + info.parent_name + L"::" + info.function_name);
 			parent->ProcessEvent(function, info.params);
