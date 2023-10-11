@@ -2,7 +2,6 @@
 #include <iostream>
 #include "Engine.hpp"
 #include "GameData.hpp"
-#include "Unreal/AActor.hpp"
 #include "Logger.hpp"
 #include "Unreal/TPair.hpp"
 #include "Unreal/TArray.hpp"
@@ -24,8 +23,7 @@ namespace Engine {
 
 	UWorld* Engine::GetWorld() {
 		UObject* player_controller = UObjectGlobals::FindFirstOf(STR("PlayerController"));
-		// TODO: check whether this actually has to be cast to an AActor anyway
-		return static_cast<AActor*>(player_controller)->GetWorld();
+		return player_controller->GetWorld();
 	}
 
 	void Engine::ExecuteInGameThread(std::function<void(UObject*)> function) {
