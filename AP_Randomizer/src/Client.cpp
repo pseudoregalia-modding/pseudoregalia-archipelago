@@ -81,7 +81,6 @@ namespace Client {
     void Client::PollServer() {
         if (ConnectionStatusChanged()) {
             if (connection_status == AP_ConnectionStatus::Authenticated) {
-                GameManager::SetClientConnected(true);
                 connection_timer = 0;
             }
             if (connection_status == AP_ConnectionStatus::ConnectionRefused) {

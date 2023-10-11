@@ -4,7 +4,6 @@
 #include <Windows.h>
 #include "Mod/CppUserModBase.hpp"
 #include "Client.hpp"
-#include "GameManager.hpp"
 #include "UnrealConsole.hpp"
 #include "Engine.hpp"
 #include "Unreal/UObjectGlobals.hpp"
