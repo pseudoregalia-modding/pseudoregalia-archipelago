@@ -39,12 +39,6 @@ namespace Engine {
 	}
 
 	void Engine::OnTick(UObject* blueprint) {
-		// Often (but not always) when I connect, I see an invalid blueprint function go through here.
-		// It passes the validation for parent but not for function, and if i try to delete its params or continue instead of return the whole queue breaks.
-		// By returning I would expect it to stay in the queue for the next tick, but it doesn't.
-		// The log message prints nothing for its parent_name or function_name, but comparing either of them to L"" or .empty() finds nothing.
-		// I have no idea where it's coming from or what it is. I fear for my life.
-
 		for (BlueprintFunctionInfo& info : blueprint_function_queue) {
 			UObject* parent = UObjectGlobals::FindFirstOf(info.parent_name);
 			if (!parent) {
@@ -107,8 +101,7 @@ namespace Engine {
 		TArray<int> ue_counts;
 
 		for (const auto& pair : GameData::GetUpgradeTable()) {
-			//std::unique_ptr<FName> new_name(new FName(pair.first));
-			FName* new_name = new FName(pair.first);
+			std::unique_ptr<FName> new_name(new FName(pair.first));
 			ue_names.Add(*new_name);
 			ue_counts.Add(pair.second);
 		}
