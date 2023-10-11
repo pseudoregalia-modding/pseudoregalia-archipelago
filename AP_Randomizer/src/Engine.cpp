@@ -59,8 +59,12 @@ namespace Engine {
 		std::vector<GameData::Collectible> collectible_vector = GameData::GetCollectiblesOfZone(GetWorld()->GetName());
 		for (GameData::Collectible collectible : collectible_vector) {
 			if (!collectible.IsChecked()) {
+				Logger::Log(L"Spawning collectible with id " + collectible.GetID());
 				void* collectible_info = new CollectibleSpawnInfo{ collectible.GetID(), collectible.GetPosition() };
 				ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SpawnCollectible", collectible_info);
+			}
+			else {
+				Logger::Log(L"Collectible with id " + std::to_wstring(collectible.GetID()) + L" has already been checked");
 			}
 		}
 	}
