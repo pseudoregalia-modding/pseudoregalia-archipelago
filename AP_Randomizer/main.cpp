@@ -58,26 +58,36 @@ public:
 
         setup_keybinds();
 
-        Hook::RegisterBeginPlayPostCallback([&](AActor* Actor) {
+        Hook::RegisterBeginPlayPostCallback([&](AActor* actor) {
             // TODO: Consider moving some of this function out of main
             auto returncheck = [](UnrealScriptFunctionCallableContext& context, void* customdata) {
                 Client::SendCheck(context.GetParams<int64_t>(), Engine::GetWorld()->GetName());
                 };
 
             if (!returncheck_hooked
-                && Actor->GetName().starts_with(STR("BP_APCollectible"))) {
+                && actor->GetName().starts_with(STR("BP_APCollectible"))) {
 
-                UFunction* return_check_function = Actor->GetFunctionByName(STR("ReturnCheck"));
+                UFunction* return_check_function = actor->GetFunctionByName(STR("ReturnCheck"));
                 if (!return_check_function) {
                     Output::send<LogLevel::Error>(STR("Could not find function ReturnCheck in BP_APCollectible."));
                     return;
                 }
-                Unreal::UObjectGlobals::RegisterHook(return_check_function, GameManager::EmptyFunction, returncheck, nullptr);
+                Unreal::UObjectGlobals::RegisterHook(return_check_function, EmptyFunction, returncheck, nullptr);
                 returncheck_hooked = true;
             }
 
-            GameManager::OnBeginPlay(Actor);
+            if (actor->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
+                if (Engine::GetWorld()->GetName() == STR("EndScreen")) {
+                    Client::CompleteGame();
+                }
+                Engine::SpawnCollectibles();
+                Engine::SyncItems();
+            }
             });
+    }
+
+    static void EmptyFunction(RC::Unreal::UnrealScriptFunctionCallableContext& context, void* customdata) {
+
     }
 
     bool PropogateCommand(const Unreal::TCHAR* command) {
