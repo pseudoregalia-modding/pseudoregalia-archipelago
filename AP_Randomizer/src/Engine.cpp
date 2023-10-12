@@ -79,6 +79,10 @@ namespace Engine {
 	}
 
 	void Engine::SpawnCollectibles() {
+		// This function must loop through instead of calling once with an array;
+		// as of 10/11/23 the params struct method I use can't easily represent FVectors or FTransforms in C++.
+		// This might be worked around by storing positions as three separate numbers instead and constructing the vectors in BP,
+		// but I don't think it's worth changing right now since this is just called once each map load.
 		struct CollectibleSpawnInfo {
 			int64_t id;
 			FVector position;
