@@ -37,22 +37,27 @@ namespace Engine {
 
 	void Engine::OnTick(UObject* blueprint) {
 		for (BlueprintFunctionInfo& info : blueprint_function_queue) {
-			UObject* parent = UObjectGlobals::FindFirstOf(info.parent_name);
+			// Since I only call functions in BP_APRandomizerInstance right now there's no need to run FindFirstof to find a parent blueprint.
+			// If I decide to pull back from using blueprint functions as much (maybe after TMap is implemented in UE4SS)
+			// this functionality may become useful again.
+
+			/*UObject* parent = UObjectGlobals::FindFirstOf(info.parent_name);
 			if (!parent) {
 				Logger::Log(L"Could not find blueprint with name " + info.parent_name, Logger::LogType::Error);
 				delete info.params;
 				blueprint_function_queue.pop_front();
 				continue;
-			}
-			UFunction* function = parent->GetFunctionByName(info.function_name.c_str());
+			}*/
+
+			UFunction* function = blueprint->GetFunctionByName(info.function_name.c_str());
 			if (!function) {
-				Logger::Log(L"Could not find function with name " + info.function_name + L" in " + info.parent_name, Logger::LogType::Error);
+				Logger::Log(L"Could not find function " + info.function_name, Logger::LogType::Error);
 				delete info.params;
 				blueprint_function_queue.pop_front();
 				continue;
 			}
-			Logger::Log(L"Executing " + info.parent_name + L"::" + info.function_name);
-			parent->ProcessEvent(function, info.params);
+			Logger::Log(L"Executing " + info.function_name);
+			blueprint->ProcessEvent(function, info.params);
 			delete info.params;
 			blueprint_function_queue.pop_front();
 		}
