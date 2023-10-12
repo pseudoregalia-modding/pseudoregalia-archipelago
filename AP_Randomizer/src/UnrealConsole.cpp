@@ -1,5 +1,4 @@
 #pragma once
-#include <iostream>
 #include "UnrealConsole.hpp"
 #include "Client.hpp"
 #include "Logger.hpp"
@@ -16,11 +15,8 @@ namespace UnrealConsole {
 		// but for now it's not really worth refactoring
 		std::string command = ConvertTcharToString(new_command);
 		std::string first_word = command.substr(0, command.find(DELIM));
-
-		transform(
-			first_word.begin(), first_word.end(),
-			first_word.begin(),
-			tolower);
+		transform(first_word.begin(), first_word.end(), first_word.begin(), tolower); // Convert the first word in the command to lowercase
+		Logger::Log("AP console command: " + command);
 
 		if (first_word == "connect") {
 			if (command.find(DELIM) == std::string::npos) {
@@ -28,7 +24,6 @@ namespace UnrealConsole {
 				return;
 			}
 			command.erase(0, command.find(DELIM) + 1);
-			std::cout << command << "\n";
 			UnrealConsole::ParseConnect(command);
 		}
 
@@ -38,7 +33,6 @@ namespace UnrealConsole {
 				return;
 			}
 			command.erase(0, command.find(DELIM) + 1);
-			std::cout << command << "\n";
 			UnrealConsole::ParseMessageOption(GetNextToken(command));
 		}
 	}
@@ -60,18 +54,14 @@ namespace UnrealConsole {
 			Logger::Log("Please provide an ip address, slot name, and (if necessary) password.", Logger::LogType::System);
 			return;
 		}
-		std::cout << "ip:" << ip << "\n";
 
 		std::string slot_name = GetNextToken(args);
 		if (slot_name.empty()) {
 			Logger::Log("Please provide a slot name and (if necessary) password.", Logger::LogType::System);
 			return;
 		}
-		std::cout << "slot name:" << slot_name << "\n";
 
 		std::string password = GetNextToken(args);
-		std::cout << "password:" << password << "\n";
-
 		Client::Connect(ip.c_str(), slot_name.c_str(), password.c_str());
 	}
 
@@ -80,17 +70,16 @@ namespace UnrealConsole {
 			Logger::Log("Please input an option, such as \"mute\" or \"hide\".", Logger::LogType::System);
 			return;
 		}
-
 		if (option == "hide" || option == "unhide" || option == "show") {
 			Logger::ToggleMessageHide();
 		}
-
 		if (option == "mute" || option == "unmute") {
 			Logger::ToggleMessageMute();
 		}
 	}
 
 	std::string UnrealConsole::GetNextToken(std::string& input) {
+		// Gets the next space-separated word and removes it from the input string.
 		while (input[0] == DELIM) {
 			input.erase(input.begin());
 		}
