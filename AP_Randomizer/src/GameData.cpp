@@ -54,7 +54,7 @@ namespace GameData {
 
     void GameData::Initialize() {
         collectible_table = {
-            {L"Zone_Dungeon", std::unordered_map<int64_t, Collectible>{
+            {L"ZONE_Dungeon", std::unordered_map<int64_t, Collectible>{
             // Dream Breaker
                 {2365810001, Collectible(FVector(-3500.0, 4950.0, -50.0))},
             // Slide
