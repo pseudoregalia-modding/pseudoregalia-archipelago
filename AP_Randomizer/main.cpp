@@ -6,6 +6,7 @@
 #include "Unreal/UObjectGlobals.hpp"
 #include "Unreal/Hooks.hpp"
 #include "Unreal/UFunction.hpp"
+#include "Unreal/AActor.hpp"
 #include "Client.hpp"
 #include "UnrealConsole.hpp"
 #include "Engine.hpp"

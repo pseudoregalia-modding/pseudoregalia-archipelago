@@ -1,6 +1,5 @@
 #pragma once
 #include "Unreal/UObject.hpp"
-#include "Unreal/World.hpp"
 
 namespace Engine {
 	using namespace RC::Unreal;

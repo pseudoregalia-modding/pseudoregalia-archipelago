@@ -1,4 +1,6 @@
 #pragma once
+#include <codecvt>
+#include "Unreal/FText.hpp"
 #include "DynamicOutput/DynamicOutput.hpp"
 #include "Logger.hpp"
 #include "Engine.hpp"

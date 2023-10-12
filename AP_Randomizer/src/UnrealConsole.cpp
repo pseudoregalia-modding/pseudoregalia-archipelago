@@ -1,4 +1,5 @@
 #pragma once
+#include "Unreal/FText.hpp"
 #include "UnrealConsole.hpp"
 #include "Client.hpp"
 #include "Logger.hpp"
