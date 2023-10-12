@@ -5,7 +5,7 @@ You can get the latest release from [the releases page](https://github.com/pseud
 
 Currently the logic is copied from [spuds' standalone randomizer](https://github.com/pseudoregalia-modding/rando), and may require [movement tricks such as solar ultrahops and cling climbing](https://www.youtube.com/watch?v=kZJjYdh6huk).
 
-You'll spawn in Dungeon with Dream Breaker at its vanilla location, and you'll have to leave through the breakable wall to Underbelly. If you toss the breaker and bounce it off a wall, then pick it up, it'll continue to light your path.
+You'll spawn in Dungeon with Dream Breaker at its vanilla location, and you'll have to leave through the breakable wall to Underbelly by backflipping up to the first ledge. If you toss the breaker and bounce it off a wall, then pick it up, it'll continue to light your path.
 
 
 # Mod Installation
