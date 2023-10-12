@@ -13,15 +13,11 @@
 
 class AP_Randomizer : public RC::CppUserModBase {
 public:
-    // Probably remove direct keybinds like this outside of debugging
     struct BoundKey {
         int key;
         std::function<void()> callback;
         bool isPressed = false;
     };
-
-public:
-
     bool returncheck_hooked = false;
 
     AP_Randomizer() : CppUserModBase() {
@@ -58,8 +54,6 @@ public:
             return PropogateCommand(command);
             });
 
-        setup_keybinds();
-
         Hook::RegisterBeginPlayPostCallback([&](AActor* actor) {
             // TODO: Consider moving some of this function out of main
             auto returncheck = [](UnrealScriptFunctionCallableContext& context, void* customdata) {
@@ -87,10 +81,8 @@ public:
                 Engine::SyncItems();
             }
             });
-    }
 
-    static void EmptyFunction(RC::Unreal::UnrealScriptFunctionCallableContext& context, void* customdata) {
-
+        setup_keybinds();
     }
 
     bool PropogateCommand(const Unreal::TCHAR* command) {
@@ -101,6 +93,24 @@ public:
             return true;
         }
         return false;
+    }
+
+    auto on_update() -> void override
+    {
+        Client::PollServer();
+        Logger::OnTick();
+        for (auto& boundKey : m_boundKeys)
+        {
+            if ((GetKeyState(boundKey.key) & 0x8000) && !boundKey.isPressed)
+            {
+                boundKey.isPressed = true;
+            }
+            if (!(GetKeyState(boundKey.key) & 0x8000) && boundKey.isPressed)
+            {
+                boundKey.isPressed = false;
+                boundKey.callback();
+            }
+        }
     }
 
     auto bind_key(const int& keyCode, const std::function<void()>& callback) -> void {
@@ -130,22 +140,8 @@ public:
             });
     }
 
-    auto on_update() -> void override
-    {
-        Client::PollServer();
-        Logger::OnTick();
-        for (auto& boundKey : m_boundKeys)
-        {
-            if ((GetKeyState(boundKey.key) & 0x8000) && !boundKey.isPressed)
-            {
-                boundKey.isPressed = true;
-            }
-            if (!(GetKeyState(boundKey.key) & 0x8000) && boundKey.isPressed)
-            {
-                boundKey.isPressed = false;
-                boundKey.callback();
-            }
-        }
+    static void EmptyFunction(RC::Unreal::UnrealScriptFunctionCallableContext& context, void* customdata) {
+        // Empty function to provide to RegisterHook.
     }
 
 private:

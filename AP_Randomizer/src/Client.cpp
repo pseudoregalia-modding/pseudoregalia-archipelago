@@ -23,6 +23,7 @@ namespace Client {
         AP_SetItemRecvCallback(&ReceiveItem);
         AP_RegisterSlotDataIntCallback("slot_number", &SetSlotNumber);
         AP_Start();
+
         connection_timer = 4000;
         connection_status = AP_GetConnectionStatus();
         std::string connect_message = "Attempting to connect to ";
@@ -40,7 +41,6 @@ namespace Client {
     void Client::SendCheck(int64_t id, std::wstring current_world) {
         AP_SendItem(id);
         Logger::Log(L"Sending check with id " + std::to_wstring(id));
-        return;
     }
 
     void Client::ReceiveItem(int64_t id, bool notify) {
@@ -52,6 +52,7 @@ namespace Client {
         AP_StoryComplete();
 
         // Send a key to datastorage upon game completion for PopTracker integration
+        // I get the slot number by storing it in slot data on generation but I'm pretty sure there's a less dumb way.
         AP_SetServerDataRequest* completion_flag = new AP_SetServerDataRequest();
         AP_DataStorageOperation* operation = new AP_DataStorageOperation();
         int filler_value = 0;
@@ -75,6 +76,13 @@ namespace Client {
     }
 
     void Client::PollServer() {
+        if (AP_IsMessagePending()) {
+            AP_Message* message = AP_GetLatestMessage();
+            Logger::Log(message->text, Logger::LogType::Popup);
+            AP_ClearLatestMessage();
+            // APCpp releases the memory of message
+        }
+
         if (ConnectionStatusChanged()) {
             if (connection_status == AP_ConnectionStatus::Authenticated) {
                 connection_timer = 0;
@@ -91,13 +99,6 @@ namespace Client {
             if (connection_timer <= 0) {
                 Logger::Log(L"Could not find the address entered. Please double-check your connection info and restart the game.", Logger::LogType::System);
             }
-        }
-
-        if (AP_IsMessagePending()) {
-            AP_Message* message = AP_GetLatestMessage();
-            Logger::Log(message->text, Logger::LogType::Popup);
-            AP_ClearLatestMessage();
-            // APCpp releases the memory of message
         }
     }
 }

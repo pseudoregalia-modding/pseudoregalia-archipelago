@@ -8,23 +8,25 @@ namespace Logger {
 	using namespace RC::LogLevel;
 	using RC::Unreal::FText;
 
+	void PrintToPlayer(std::wstring);
+	void PrintToPlayer(std::string);
+
 	std::list<std::wstring> message_queue;
 	std::list<std::wstring> system_message_queue;
 	int message_timer;
 	bool messages_hidden;
 	bool messages_muted;
 
-	void PrintToPlayer(std::wstring message) {
+	void Logger::PrintToPlayer(std::wstring message) {
 		if (!messages_hidden) {
 			message_queue.push_back(message);
-			//std::cout << "pushed " << message << " to queue\n";
 		}
 	}
 
-	void PrintToPlayer(std::string message) {
+	void Logger::PrintToPlayer(std::string message) {
 		// Convert message to wstring and just pass it to the wstring version of PrintToPlayer
-		// Consider logging a warning since this is a bit more roundabout than usually necessary
 		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+		std::wstring newwide(message.begin(), message.end());
 		PrintToPlayer(converter.from_bytes(message));
 	}
 

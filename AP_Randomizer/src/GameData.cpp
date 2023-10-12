@@ -3,11 +3,13 @@
 
 namespace GameData {
     ItemType GetItemType(int64_t);
+
     int health_pieces;
     int small_keys;
     bool major_keys[5];
     std::map<std::wstring, int> upgrade_table;
-    std::map<std::wstring, std::vector<Collectible>> collectible_table;
+    std::map<std::wstring, std::vector<Collectible>> collectible_table; // TODO: the vectors should probably be another map with ID as the key
+
     const std::map<int64_t, std::wstring> lookup_id_to_upgrade = {
         {2365810001, L"attack"},
         {2365810002, L"powerBoost"},
