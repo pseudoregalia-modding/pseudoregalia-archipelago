@@ -45,7 +45,7 @@ namespace Client {
         for (GameData::Collectible& collectible : collectible_vector) {
             if (collectible.GetID() == id) {
                 AP_SendItem(id);
-                Logger::Log(L"Sending check with id " + id);
+                Logger::Log(L"Sending check with id " + std::to_wstring(id));
                 return;
             }
         }
