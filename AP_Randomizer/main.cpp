@@ -57,7 +57,7 @@ public:
         Hook::RegisterBeginPlayPostCallback([&](AActor* actor) {
             // TODO: Consider moving some of this function out of main
             auto returncheck = [](UnrealScriptFunctionCallableContext& context, void* customdata) {
-                Client::SendCheck(context.GetParams<int64_t>(), Engine::GetWorld()->GetName());
+                Client::SendCheck(context.GetParams<int64_t>(), Engine::GetWorldName());
                 };
 
             if (!returncheck_hooked
@@ -73,8 +73,8 @@ public:
             }
 
             if (actor->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
-                Logger::Log(L"Loaded scene " + Engine::GetWorld()->GetName());
-                if (Engine::GetWorld()->GetName() == STR("EndScreen")) {
+                Logger::Log(L"Loaded scene " + Engine::GetWorldName());
+                if (Engine::GetWorldName() == STR("EndScreen")) {
                     Client::CompleteGame();
                 }
                 Engine::SpawnCollectibles();

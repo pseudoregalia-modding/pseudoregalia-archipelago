@@ -10,5 +10,5 @@ namespace Engine {
 	void OnTick(UObject*);
 	void SyncItems();
 	void SpawnCollectibles();
-	UWorld* GetWorld();
+	std::wstring GetWorldName();
 }

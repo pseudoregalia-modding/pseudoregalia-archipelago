@@ -20,9 +20,9 @@ namespace Engine {
 	std::list<BlueprintFunctionInfo> blueprint_function_queue;
 	std::list<std::function<void (UObject*)>> function_queue;
 
-	UWorld* Engine::GetWorld() {
+	std::wstring Engine::GetWorldName() {
 		UObject* player_controller = UObjectGlobals::FindFirstOf(STR("PlayerController"));
-		return player_controller->GetWorld();
+		return player_controller->GetWorld()->GetName();
 	}
 
 	void Engine::ExecuteInGameThread(std::function<void(UObject*)> function) {
@@ -85,7 +85,7 @@ namespace Engine {
 			int64_t new_id;
 			FVector position;
 		};
-		std::unordered_map<int64_t, GameData::Collectible> collectible_map = GameData::GetCollectiblesOfZone(GetWorld()->GetName());
+		std::unordered_map<int64_t, GameData::Collectible> collectible_map = GameData::GetCollectiblesOfZone(GetWorldName());
 		for (auto& pair : collectible_map) {
 			int64_t id = pair.first;
 			GameData::Collectible collectible = pair.second;
