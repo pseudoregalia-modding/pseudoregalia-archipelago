@@ -98,25 +98,23 @@ namespace Logger {
 	}
 
 	void Logger::ToggleMessageMute() {
+		messages_muted = !messages_muted;
 		if (messages_muted) {
-			messages_muted = false;
-			Log(L"Message sounds are no longer muted.", LogType::System);
+			Log(L"Message sounds are now muted.", LogType::System);
 		}
 		else {
-			messages_muted = true;
-			Log(L"Message sounds are now muted.", LogType::System);
+			Log(L"Message sounds are no longer muted.", LogType::System);
 		}
 	}
 
 	void Logger::ToggleMessageHide() {
+		messages_hidden = !messages_hidden;
 		if (messages_hidden) {
-			messages_hidden = false;
-			Log(L"Messages are no longer hidden.", LogType::System);
-		}
-		else {
-			messages_hidden = true;
 			message_queue.clear();
 			Log(L"Messages are now hidden.", LogType::System);
+		}
+		else {
+			Log(L"Messages are no longer hidden.", LogType::System);
 		}
 	}
 }
