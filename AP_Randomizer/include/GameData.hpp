@@ -17,7 +17,7 @@ namespace GameData {
 	int GetSmallKeys();
 	bool* GetMajorKeys();
 	std::map<std::wstring, int> GetUpgradeTable();
-	std::vector<Collectible> GetCollectiblesOfZone(std::wstring);
+	std::unordered_map<int64_t, Collectible> GetCollectiblesOfZone(std::wstring);
 	void CheckLocation(int64_t);
 	ItemType ReceiveItem(int64_t);
 }

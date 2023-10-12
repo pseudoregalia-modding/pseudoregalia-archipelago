@@ -82,18 +82,21 @@ namespace Engine {
 		// This might be worked around by storing positions as three separate numbers instead and constructing the vectors in BP,
 		// but I don't think it's worth changing right now since this is just called once each map load.
 		struct CollectibleSpawnInfo {
-			int64_t id;
+			int64_t new_id;
 			FVector position;
 		};
-		std::vector<GameData::Collectible> collectible_vector = GameData::GetCollectiblesOfZone(GetWorld()->GetName());
-		for (GameData::Collectible collectible : collectible_vector) {
+		std::unordered_map<int64_t, GameData::Collectible> collectible_map = GameData::GetCollectiblesOfZone(GetWorld()->GetName());
+		for (auto& pair : collectible_map) {
+			int64_t id = pair.first;
+			GameData::Collectible collectible = pair.second;
+
 			if (!collectible.IsChecked()) {
-				Logger::Log(L"Spawning collectible with id " + std::to_wstring(collectible.GetID()));
-				void* collectible_info = new CollectibleSpawnInfo{ collectible.GetID(), collectible.GetPosition() };
+				Logger::Log(L"Spawning collectible with id " + std::to_wstring(id));
+				void* collectible_info = new CollectibleSpawnInfo{ id, collectible.GetPosition() };
 				ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SpawnCollectible", collectible_info);
 			}
 			else {
-				Logger::Log(L"Collectible with id " + std::to_wstring(collectible.GetID()) + L" has already been checked");
+				Logger::Log(L"Collectible with id " + std::to_wstring(id) + L" has already been checked");
 			}
 		}
 	}

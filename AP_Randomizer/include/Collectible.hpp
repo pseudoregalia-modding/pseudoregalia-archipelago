@@ -6,9 +6,8 @@ namespace GameData {
 
 	class Collectible {
 	public:
-		Collectible(FVector new_position, int64_t new_id) {
+		Collectible(FVector new_position) {
 			position = new_position;
-			id = new_id;
 			checked = false;
 		}
 
@@ -20,14 +19,10 @@ namespace GameData {
 		bool IsChecked() {
 			return this->checked;}
 
-		int64_t GetID() {
-			return id;}
-
 		FVector GetPosition() {
 			return position;}
 
 	private:
-		int64_t id;
 		FVector position;
 		bool checked;
 	};
