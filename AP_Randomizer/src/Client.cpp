@@ -39,11 +39,12 @@ namespace Client {
     }
 
     void Client::SendCheck(int64_t id, std::wstring current_world) {
-        AP_SendItem(id);
         Logger::Log(L"Sending check with id " + std::to_wstring(id));
+        AP_SendItem(id);
     }
 
     void Client::ReceiveItem(int64_t id, bool notify) {
+        Logger::Log(L"Receiving item with id " + std::to_wstring(id));
         GameData::ReceiveItem(id);
         Engine::SyncItems();
     }
