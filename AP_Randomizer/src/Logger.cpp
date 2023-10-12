@@ -1,7 +1,7 @@
 #pragma once
+#include "DynamicOutput/DynamicOutput.hpp"
 #include "Logger.hpp"
 #include "Engine.hpp"
-#include "DynamicOutput/DynamicOutput.hpp"
 
 namespace Logger {
 	using namespace RC::Output;

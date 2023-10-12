@@ -1,7 +1,4 @@
 #pragma once
-#include <locale>
-#include <codecvt>
-#include <string>
 #include "Archipelago.h"
 #include "GameData.hpp"
 #include "Engine.hpp"
