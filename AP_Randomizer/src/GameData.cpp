@@ -228,7 +228,7 @@ namespace GameData {
             major_keys[id - 2365810021] = true;
             break;
         default:
-            // return an error
+            Logger::Log(L"You were sent an item, but its id wasn't recognized. Verify that you're playing on the same version this seed was generated on.");
             break;
         }
         return type;
