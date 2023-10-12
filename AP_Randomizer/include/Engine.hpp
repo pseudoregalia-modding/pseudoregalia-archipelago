@@ -12,5 +12,4 @@ namespace Engine {
 	void SyncItems();
 	void SpawnCollectibles();
 	UWorld* GetWorld();
-	void ReceiveItem(int64_t, bool);
 }

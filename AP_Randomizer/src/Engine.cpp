@@ -18,6 +18,7 @@ namespace Engine {
 		void* params;
 	};
 
+	bool awaiting_item_sync;
 	std::list<BlueprintFunctionInfo> blueprint_function_queue;
 	std::list<std::function<void (UObject*)>> function_queue;
 
@@ -36,6 +37,14 @@ namespace Engine {
 	}
 
 	void Engine::OnTick(UObject* blueprint) {
+		if (awaiting_item_sync) {
+			SyncHealthPieces();
+			SyncSmallKeys();
+			SyncMajorKeys();
+			SyncAbilities();
+			awaiting_item_sync = false;
+		}
+
 		for (BlueprintFunctionInfo& info : blueprint_function_queue) {
 			// Since I only call functions in BP_APRandomizerInstance right now there's no need to run FindFirstof to find a parent blueprint.
 			// If I decide to pull back from using blueprint functions as much (maybe after TMap is implemented in UE4SS)
@@ -88,10 +97,7 @@ namespace Engine {
 	}
 
 	void Engine::SyncItems() {
-		SyncHealthPieces();
-		SyncSmallKeys();
-		SyncMajorKeys();
-		SyncAbilities();
+		awaiting_item_sync = true;
 	}
 
 	void Engine::SyncAbilities() {
@@ -135,28 +141,5 @@ namespace Engine {
 
 		void* major_key_params = new MajorKeyInfo{ ue_keys };
 		ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetMajorKeys", major_key_params);
-	}
-
-	void Engine::ReceiveItem(int64_t id, bool notify) {
-		GameData::ItemType type = GameData::ReceiveItem(id);
-		switch (type)
-		{
-		case GameData::ItemType::Ability:
-			SyncAbilities();
-			break;
-		case GameData::ItemType::HealthPiece:
-			SyncHealthPieces();
-			break;
-		case GameData::ItemType::SmallKey:
-			SyncSmallKeys();
-			break;
-		case GameData::ItemType::MajorKey:
-			SyncMajorKeys();
-			break;
-		case GameData::ItemType::Unknown:
-			break;
-		default:
-			break;
-		}
 	}
 }
