@@ -44,11 +44,14 @@ namespace UnrealConsole {
 	}
 
 	std::string UnrealConsole::ConvertTcharToString(const TCHAR* tchars) {
-		char* new_chars = new char[wcslen(tchars)];
-		std::wcstombs(new_chars, tchars, wcslen(tchars));
-		new_chars[wcslen(tchars)] = 0;
-		std::string new_string = new_chars;
-		return new_string;
+		// Handling strings instead of wstrings here because they need to be narrow eventually to pass to APCpp.
+		// There's no character set conversion so if nonlatin unicode characters are entered this will break completely.
+		std::wstring wide(tchars);
+		std::string narrow;
+		std::transform(wide.begin(), wide.end(), std::back_inserter(narrow), [](wchar_t c) {
+			return (char)c;
+			});
+		return narrow;
 	}
 
 	void UnrealConsole::ParseConnect(std::string args) {
