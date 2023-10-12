@@ -6,8 +6,7 @@ namespace GameData {
 
 	class Collectible {
 	public:
-		Collectible(std::string new_name, FVector new_position, int64_t new_id) {
-			name = new_name;
+		Collectible(FVector new_position, int64_t new_id) {
 			position = new_position;
 			id = new_id;
 			checked = false;
@@ -21,9 +20,6 @@ namespace GameData {
 		bool IsChecked() {
 			return this->checked;}
 
-		std::string GetMap() {
-			return name;}
-
 		int64_t GetID() {
 			return id;}
 
@@ -31,7 +27,6 @@ namespace GameData {
 			return position;}
 
 	private:
-		std::string name;
 		int64_t id;
 		FVector position;
 		bool checked;
