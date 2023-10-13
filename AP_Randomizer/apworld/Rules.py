@@ -40,16 +40,14 @@ EXTREMELY_PRECISE = 304
 
 
 class PseudoregaliaRules:
-    world: PseudoregaliaWorld
     player: int
     # TODO: Consider breaking these down a bit more
 
     region_rules: Dict[str, Dict[str, Set[Callable[[CollectionState], bool]]]]
     location_rules: Dict[str, Dict[str, Set[Callable[[CollectionState], bool]]]]
 
-    def __init__(self, world: PseudoregaliaWorld) -> None:
-        self.world = world
-        self.player = world.player
+    def __init__(self, player) -> None:
+        self.player = player
 
         self.location_rules = {
             # Only Universal rules are always included, e.g. Normal rules are NOT added if the difficulty is set to Hard.
