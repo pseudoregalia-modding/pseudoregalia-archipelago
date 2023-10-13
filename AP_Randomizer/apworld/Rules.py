@@ -50,6 +50,51 @@ class PseudoregaliaRules:
         self.world = world
         self.player = world.player
 
+        self.location_rules = {
+            # Only Universal rules are always included, e.g. Normal rules are NOT added if the difficulty is set to Hard.
+            # Care must be taken to ensure that relevant rules are not excluded from harder difficulties.
+            "Castle - Platform In Main Halls": {
+                UNIVERSAL: [
+                    [lambda state: state.has("Sunsetter", self.player)],
+                    [lambda state: state.has("Cling Gem", self.player)],
+                ],
+                NORMAL: [
+                    [lambda state: self.get_kicks(state, self.player) >= 2],
+                ],
+                HARD: [
+                    [lambda state: self.get_kicks(state, self.player) >= 1],
+                ],
+                EXPERT: [
+                    [lambda state: self.get_kicks(state, self.player) >= 1],
+                    [lambda state: state.has("Slide", self.player)],
+                ],
+                LUNATIC: [
+                    [lambda state: self.get_kicks(state, self.player) >= 1],
+                    [lambda state: state.has("Slide", self.player)],
+                    [lambda state: self.can_bounce(state, self.player)],
+                ]
+            },
+            "Castle - Corner Corridor": {
+                UNIVERSAL: [
+                    [lambda state: state.has("Cling Gem", self.player)],
+                ],
+                NORMAL: [
+                    [lambda state: self.get_kicks(state, self.player) >= 4],
+                ],
+                HARD: [
+                    [lambda state: self.get_kicks(state, self.player) >= 3],
+                ],
+                EXPERT: [
+                    [lambda state: self.get_kicks(state, self.player) >= 3],
+                    [lambda state: state.has("Slide", self.player) and self.get_kicks(state, self.player) >= 2],
+                ],
+                LUNATIC: [
+                    [lambda state: self.get_kicks(state, self.player) >= 3],
+                    [lambda state: state.has("Slide", self.player) and self.get_kicks(state, self.player) >= 1],
+                ],
+            }
+        }
+
     # Placed for better legibility since dream breaker is an exclusive requirement for breakable walls
 
     def has_breaker(state: CollectionState, player: int) -> bool:
