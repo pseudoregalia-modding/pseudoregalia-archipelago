@@ -57,17 +57,17 @@ class PseudoregaliaRules:
                     [lambda state: state.has("Cling Gem", self.player)],
                 ],
                 NORMAL: [
-                    [lambda state: self.get_kicks(state, self.player) >= 2],
+                    [lambda state: self.get_kicks(state) >= 2],
                 ],
                 HARD: [
-                    [lambda state: self.get_kicks(state, self.player) >= 1],
+                    [lambda state: self.get_kicks(state) >= 1],
                 ],
                 EXPERT: [
-                    [lambda state: self.get_kicks(state, self.player) >= 1],
+                    [lambda state: self.get_kicks(state) >= 1],
                     [lambda state: state.has("Slide", self.player)],
                 ],
                 LUNATIC: [
-                    [lambda state: self.get_kicks(state, self.player) >= 1],
+                    [lambda state: self.get_kicks(state) >= 1],
                     [lambda state: state.has("Slide", self.player)],
                     [lambda state: self.can_bounce(state, self.player)],
                 ]
@@ -77,66 +77,62 @@ class PseudoregaliaRules:
                     [lambda state: state.has("Cling Gem", self.player)],
                 ],
                 NORMAL: [
-                    [lambda state: self.get_kicks(state, self.player) >= 4],
+                    [lambda state: self.get_kicks(state) >= 4],
                 ],
                 HARD: [
-                    [lambda state: self.get_kicks(state, self.player) >= 3],
+                    [lambda state: self.get_kicks(state) >= 3],
                 ],
                 EXPERT: [
-                    [lambda state: self.get_kicks(state, self.player) >= 3],
-                    [lambda state: state.has("Slide", self.player) and self.get_kicks(state, self.player) >= 2],
+                    [lambda state: self.get_kicks(state) >= 3],
+                    [lambda state: state.has("Slide", self.player) and self.get_kicks(state) >= 2],
                 ],
                 LUNATIC: [
-                    [lambda state: self.get_kicks(state, self.player) >= 3],
-                    [lambda state: state.has("Slide", self.player) and self.get_kicks(state, self.player) >= 1],
+                    [lambda state: self.get_kicks(state) >= 3],
+                    [lambda state: state.has("Slide", self.player) and self.get_kicks(state) >= 1],
                 ],
             }
         }
 
     def set_pseudoregalia_rules(self, multiworld, difficulty):
+        for region in self.region_rules:
+            for exit in region:
+                for rule in exit[UNIVERSAL]:
+                    add_rule(multiworld.get_entrance(exit, self.player), rule, "or")
+                for rule in exit[difficulty]:
+                    add_rule(multiworld.get_entrance(exit, self.player), rule, "or")
+
         for location in self.location_rules:
             for rule in location[UNIVERSAL]:
                 add_rule(multiworld.get_location(location, self.player), rule, "or")
-            match difficulty:
-                case 0:
-                    for rule in location[NORMAL]:
-                        add_rule(multiworld.get_location(location, self.player), rule, "or")
-                case 1:
-                    for rule in location[HARD]:
-                        add_rule(multiworld.get_location(location, self.player), rule, "or")
-                case 2:
-                    for rule in location[EXPERT]:
-                        add_rule(multiworld.get_location(location, self.player), rule, "or")
-                case 3:
-                    for rule in location[LUNATIC]:
-                        add_rule(multiworld.get_location(location, self.player), rule, "or")
+            for rule in exit[difficulty]:
+                add_rule(multiworld.get_location(location, self.player), rule, "or")
 
     # Placed for better legibility since dream breaker is an exclusive requirement for breakable walls
 
-    def has_breaker(state: CollectionState, player: int) -> bool:
-        return state.has("Dream Breaker", player)
+    def has_breaker(self, state: CollectionState) -> bool:
+        return state.has("Dream Breaker", self.player)
 
-    def can_bounce(state: CollectionState, player: int) -> bool:
-        return state.has_all({"Dream Breaker", "Ascendant Light"}, player)
+    def can_bounce(self, state: CollectionState) -> bool:
+        return state.has_all({"Dream Breaker", "Ascendant Light"}, self.player)
 
-    def get_kicks(state: CollectionState, player: int) -> int:
+    def get_kicks(self, state: CollectionState) -> int:
         kicks: int = 0
-        if (state.has("Sun Greaves", player)):
+        if (state.has("Sun Greaves", self.player)):
             kicks += 3
-        kicks += state.count("Heliacal Power", player)
+        kicks += state.count("Heliacal Power", self.player)
         return kicks
 
-    def has_small_keys(state: CollectionState, player: int) -> bool:
-        return (state.count("Small Key", player) >= 6)
+    def has_small_keys(self, state: CollectionState) -> bool:
+        return (state.count("Small Key", self.player) >= 6)
 
-    def navigate_darkrooms(state: CollectionState, player: int) -> bool:
-        return (state.has("Dream Breaker", player) or state.has("Ascendant Light", player))
+    def navigate_darkrooms(self, state: CollectionState) -> bool:
+        return (state.has("Dream Breaker", self.player) or state.has("Ascendant Light", self.player))
 
-    def can_slidejump(state: CollectionState, player: int) -> bool:
-        return (state.has_all(["Slide", "Solar Wind"], player))
+    def can_slidejump(self, state: CollectionState) -> bool:
+        return (state.has_all(["Slide", "Solar Wind"], self.player))
 
-    def can_strikebreak(state: CollectionState, player: int) -> bool:
-        return (state.has_all(["Dream Breaker", "Strikebreak"], player))
+    def can_strikebreak(self, state: CollectionState) -> bool:
+        return (state.has_all(["Dream Breaker", "Strikebreak"], self.player))
 
-    def can_soulcutter(state: CollectionState, player: int) -> bool:
-        return (state.has_all(["Dream Breaker", "Strikebreak", "Soul Cutter"], player))
+    def can_soulcutter(self, state: CollectionState) -> bool:
+        return (state.has_all(["Dream Breaker", "Strikebreak", "Soul Cutter"], self.player))
