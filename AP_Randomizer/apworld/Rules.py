@@ -1,7 +1,6 @@
 from BaseClasses import CollectionState, MultiWorld
 from typing import Dict, Callable, Set
 from worlds.generic.Rules import add_rule
-from . import PseudoregaliaWorld
 
 
 UNIVERSAL = 0
