@@ -94,23 +94,23 @@ class PseudoregaliaRules:
             }
         }
 
-    def set_pseudoregalia_rules(self, multiworld, player, difficulty):
+    def set_pseudoregalia_rules(self, multiworld, difficulty):
         for location in self.location_rules:
             for rule in location[UNIVERSAL]:
-                add_rule(multiworld.get_location(location, player), rule, "or")
+                add_rule(multiworld.get_location(location, self.player), rule, "or")
             match difficulty:
                 case 0:
                     for rule in location[NORMAL]:
-                        add_rule(multiworld.get_location(location, player), rule, "or")
+                        add_rule(multiworld.get_location(location, self.player), rule, "or")
                 case 1:
                     for rule in location[HARD]:
-                        add_rule(multiworld.get_location(location, player), rule, "or")
+                        add_rule(multiworld.get_location(location, self.player), rule, "or")
                 case 2:
                     for rule in location[EXPERT]:
-                        add_rule(multiworld.get_location(location, player), rule, "or")
+                        add_rule(multiworld.get_location(location, self.player), rule, "or")
                 case 3:
                     for rule in location[LUNATIC]:
-                        add_rule(multiworld.get_location(location, player), rule, "or")
+                        add_rule(multiworld.get_location(location, self.player), rule, "or")
 
     # Placed for better legibility since dream breaker is an exclusive requirement for breakable walls
 
