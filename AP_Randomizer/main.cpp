@@ -3,24 +3,24 @@
 
 #include <Windows.h>
 #include "Mod/CppUserModBase.hpp"
-#include "APClient.hpp" // Currently is only included to connect on keypress
-#include "APGameManager.hpp"
-#include "APConsoleManager.hpp"
-
-using namespace RC;
-using namespace RC::Unreal;
-using namespace Pseudoregalia_AP;
+#include "Unreal/UObjectGlobals.hpp"
+#include "Unreal/Hooks.hpp"
+#include "Unreal/UFunction.hpp"
+#include "Unreal/AActor.hpp"
+#include "Client.hpp"
+#include "UnrealConsole.hpp"
+#include "Engine.hpp"
+#include "Logger.hpp"
 
 class AP_Randomizer : public RC::CppUserModBase {
 public:
-    // Probably remove direct keybinds like this outside of debugging
     struct BoundKey {
         int key;
         std::function<void()> callback;
         bool isPressed = false;
     };
+    bool returncheck_hooked = false;
 
-public:
     AP_Randomizer() : CppUserModBase() {
         ModName = STR("AP_Randomizer");
         ModVersion = STR("0.1.0");
@@ -35,26 +35,55 @@ public:
 
     auto on_unreal_init() -> void override
     {
-        APClient::Initialize();
+        using namespace RC::Unreal;
 
+        // I want to make this an AActorTickCallback hook so I can use delta_seconds and only check actor name,
+        // but for some reason that doesn't seem to respond.
+        // Might check with UE4SS devs on that.
         Hook::RegisterProcessEventPreCallback([&](UObject* object, UFunction* function, void* params) {
-            APGameManager::PreProcessEvent(object, function, params);
+            if (object->GetName().starts_with(STR("BP_APRandomizerInstance")) && function->GetName() == STR("ReceiveTick")) {
+                Engine::OnTick(object);
+            }
             });
 
         Hook::RegisterProcessConsoleExecCallback([&](UObject* object, const Unreal::TCHAR* command, FOutputDevice& Ar, UObject* executor) -> bool {
             if (command[0] == '/' || command[0] == '!') {
                 command++; // Exclude the first character from the array
-                APConsoleManager::ProcessCommand(command);
+                UnrealConsole::ProcessCommand(command);
                 return true;
             }
             return PropogateCommand(command);
             });
 
-        setup_keybinds();
+        Hook::RegisterBeginPlayPostCallback([&](AActor* actor) {
+            // TODO: Consider moving some of this function out of main
+            auto returncheck = [](UnrealScriptFunctionCallableContext& context, void* customdata) {
+                Client::SendCheck(context.GetParams<int64_t>(), Engine::GetWorldName());
+                };
 
-        Hook::RegisterBeginPlayPostCallback([&](AActor* Actor) {
-            APGameManager::OnBeginPlay(Actor);
+            if (!returncheck_hooked
+                && actor->GetName().starts_with(STR("BP_APCollectible"))) {
+
+                UFunction* return_check_function = actor->GetFunctionByName(STR("ReturnCheck"));
+                if (!return_check_function) {
+                    Logger::Log(L"Could not find function \"ReturnCheck\" in BP_APCollectible.", Logger::LogType::Error);
+                    return;
+                }
+                Unreal::UObjectGlobals::RegisterHook(return_check_function, EmptyFunction, returncheck, nullptr);
+                returncheck_hooked = true;
+            }
+
+            if (actor->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
+                Logger::Log(L"Loaded scene " + Engine::GetWorldName());
+                if (Engine::GetWorldName() == STR("EndScreen")) {
+                    Client::CompleteGame();
+                }
+                Engine::SpawnCollectibles();
+                Engine::SyncItems();
+            }
             });
+
+        setup_keybinds();
     }
 
     bool PropogateCommand(const Unreal::TCHAR* command) {
@@ -65,6 +94,24 @@ public:
             return true;
         }
         return false;
+    }
+
+    auto on_update() -> void override
+    {
+        Client::PollServer();
+        Logger::OnTick();
+        for (auto& boundKey : m_boundKeys)
+        {
+            if ((GetKeyState(boundKey.key) & 0x8000) && !boundKey.isPressed)
+            {
+                boundKey.isPressed = true;
+            }
+            if (!(GetKeyState(boundKey.key) & 0x8000) && boundKey.isPressed)
+            {
+                boundKey.isPressed = false;
+                boundKey.callback();
+            }
+        }
     }
 
     auto bind_key(const int& keyCode, const std::function<void()>& callback) -> void {
@@ -80,7 +127,8 @@ public:
     {
         // List of key codes at https://learn.microsoft.com/en-us/windows/win32/inputdev/virtual-key-codes
         bind_key(VK_NUMPAD1, [&]() {
-            // APClient::Connect("localhost:38281", "goat", "");
+            // Client::CompleteGame();
+            // Client::Connect("localhost:38281", "goat", "");
             });
 
         bind_key(VK_NUMPAD2, [&]() {
@@ -93,22 +141,8 @@ public:
             });
     }
 
-    auto on_update() -> void override
-    {
-        APClient::PollServer();
-        APGameManager::OnUpdate();
-        for (auto& boundKey : m_boundKeys)
-        {
-            if ((GetKeyState(boundKey.key) & 0x8000) && !boundKey.isPressed)
-            {
-                boundKey.isPressed = true;
-            }
-            if (!(GetKeyState(boundKey.key) & 0x8000) && boundKey.isPressed)
-            {
-                boundKey.isPressed = false;
-                boundKey.callback();
-            }
-        }
+    static void EmptyFunction(RC::Unreal::UnrealScriptFunctionCallableContext& context, void* customdata) {
+        // Empty function to provide to RegisterHook.
     }
 
 private:
