@@ -109,30 +109,30 @@ class PseudoregaliaRules:
 
     # Placed for better legibility since dream breaker is an exclusive requirement for breakable walls
 
-    def has_breaker(self, state: CollectionState) -> bool:
+    def has_breaker(self, state) -> bool:
         return state.has("Dream Breaker", self.player)
 
-    def can_bounce(self, state: CollectionState) -> bool:
+    def can_bounce(self, state) -> bool:
         return state.has_all({"Dream Breaker", "Ascendant Light"}, self.player)
 
-    def get_kicks(self, state: CollectionState) -> int:
+    def get_kicks(self, state) -> int:
         kicks: int = 0
         if (state.has("Sun Greaves", self.player)):
             kicks += 3
         kicks += state.count("Heliacal Power", self.player)
         return kicks
 
-    def has_small_keys(self, state: CollectionState) -> bool:
+    def has_small_keys(self, state) -> bool:
         return (state.count("Small Key", self.player) >= 6)
 
-    def navigate_darkrooms(self, state: CollectionState) -> bool:
+    def navigate_darkrooms(self, state) -> bool:
         return (state.has("Dream Breaker", self.player) or state.has("Ascendant Light", self.player))
 
-    def can_slidejump(self, state: CollectionState) -> bool:
+    def can_slidejump(self, state) -> bool:
         return (state.has_all(["Slide", "Solar Wind"], self.player))
 
-    def can_strikebreak(self, state: CollectionState) -> bool:
+    def can_strikebreak(self, state) -> bool:
         return (state.has_all(["Dream Breaker", "Strikebreak"], self.player))
 
-    def can_soulcutter(self, state: CollectionState) -> bool:
+    def can_soulcutter(self, state) -> bool:
         return (state.has_all(["Dream Breaker", "Strikebreak", "Soul Cutter"], self.player))
