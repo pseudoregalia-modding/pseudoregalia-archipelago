@@ -1,5 +1,6 @@
 from BaseClasses import CollectionState, MultiWorld
 from typing import Dict, Callable, Set
+from . import PseudoregaliaWorld
 
 
 UNIVERSAL = 0
@@ -36,78 +37,45 @@ PRECISE = 302
 VERY_PRECISE = 303
 EXTREMELY_PRECISE = 304
 
-castle_rules: Dict[str, Dict[str, Set]] = {
-    "Castle - Platform In Main Halls":
-    {UNIVERSAL: [
-        [SUNSETTER],
-        [CLING_GEM],
-    ],
-        NORMAL: [
-        [AIR_KICK, AIR_KICK],
-    ],
-        HARD: [
-        [AIR_KICK],
-    ],
-        EXPERT: [
-        [ULTRA],
-    ],
-        LUNATIC: [
-        [LIGHT],
-    ]
-    },
-    "Castle - Corner Corridor":
-    {UNIVERSAL: [
-        [CLING_GEM],
-    ],
-        NORMAL: [
-        [AIR_KICK, AIR_KICK, AIR_KICK, AIR_KICK],
-    ],
-        HARD: [
-        [AIR_KICK, AIR_KICK, AIR_KICK],
-    ],
-        EXPERT: [
-        [ULTRA, AIR_KICK, AIR_KICK],
-    ],
-        LUNATIC: [
-        [ULTRA, AIR_KICK],
-    ],
-    }
-}
 
-# Placed for better legibility since dream breaker is an exclusive requirement for breakable walls
+class PseudoregaliaRules:
+    world: PseudoregaliaWorld
+    player: int
+    # TODO: Consider breaking these down a bit more
 
+    region_rules: Dict[str, Dict[str, Set[Callable[[CollectionState], bool]]]]
+    location_rules: Dict[str, Dict[str, Set[Callable[[CollectionState], bool]]]]
 
-def has_breaker(state: CollectionState, player: int) -> bool:
-    return state.has("Dream Breaker", player)
+    def __init__(self, world: PseudoregaliaWorld) -> None:
+        self.world = world
+        self.player = world.player
 
+    # Placed for better legibility since dream breaker is an exclusive requirement for breakable walls
 
-def can_bounce(state: CollectionState, player: int) -> bool:
-    return state.has_all({"Dream Breaker", "Ascendant Light"}, player)
+    def has_breaker(state: CollectionState, player: int) -> bool:
+        return state.has("Dream Breaker", player)
 
+    def can_bounce(state: CollectionState, player: int) -> bool:
+        return state.has_all({"Dream Breaker", "Ascendant Light"}, player)
 
-def get_kicks(state: CollectionState, player: int) -> int:
-    kicks: int = 0
-    if (state.has("Sun Greaves", player)):
-        kicks += 3
-    kicks += state.count("Heliacal Power", player)
-    return kicks
+    def get_kicks(state: CollectionState, player: int) -> int:
+        kicks: int = 0
+        if (state.has("Sun Greaves", player)):
+            kicks += 3
+        kicks += state.count("Heliacal Power", player)
+        return kicks
 
+    def has_small_keys(state: CollectionState, player: int) -> bool:
+        return (state.count("Small Key", player) >= 6)
 
-def has_small_keys(state: CollectionState, player: int) -> bool:
-    return (state.count("Small Key", player) >= 6)
+    def navigate_darkrooms(state: CollectionState, player: int) -> bool:
+        return (state.has("Dream Breaker", player) or state.has("Ascendant Light", player))
 
+    def can_slidejump(state: CollectionState, player: int) -> bool:
+        return (state.has_all(["Slide", "Solar Wind"], player))
 
-def navigate_darkrooms(state: CollectionState, player: int) -> bool:
-    return (state.has("Dream Breaker", player) or state.has("Ascendant Light", player))
+    def can_strikebreak(state: CollectionState, player: int) -> bool:
+        return (state.has_all(["Dream Breaker", "Strikebreak"], player))
 
-
-def can_slidejump(state: CollectionState, player: int) -> bool:
-    return (state.has_all(["Slide", "Solar Wind"], player))
-
-
-def can_strikebreak(state: CollectionState, player: int) -> bool:
-    return (state.has_all(["Dream Breaker", "Strikebreak"], player))
-
-
-def can_soulcutter(state: CollectionState, player: int) -> bool:
-    return (state.has_all(["Dream Breaker", "Strikebreak", "Soul Cutter"], player))
+    def can_soulcutter(state: CollectionState, player: int) -> bool:
+        return (state.has_all(["Dream Breaker", "Strikebreak", "Soul Cutter"], player))
