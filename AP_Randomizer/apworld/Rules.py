@@ -1,5 +1,5 @@
 from BaseClasses import CollectionState, MultiWorld
-from typing import Dict, Callable
+from typing import Dict, Callable, Set
 
 
 UNIVERSAL = 0
@@ -36,6 +36,43 @@ PRECISE = 302
 VERY_PRECISE = 303
 EXTREMELY_PRECISE = 304
 
+castle_rules: Dict[str, Dict[str, Set]] = {
+    "Castle - Platform In Main Halls":
+    {UNIVERSAL: [
+        [SUNSETTER],
+        [CLING_GEM],
+    ],
+        NORMAL: [
+        [AIR_KICK, AIR_KICK],
+    ],
+        HARD: [
+        [AIR_KICK],
+    ],
+        EXPERT: [
+        [ULTRA],
+    ],
+        LUNATIC: [
+        [LIGHT],
+    ]
+    },
+    "Castle - Corner Corridor":
+    {UNIVERSAL: [
+        [CLING_GEM],
+    ],
+        NORMAL: [
+        [AIR_KICK, AIR_KICK, AIR_KICK, AIR_KICK],
+    ],
+        HARD: [
+        [AIR_KICK, AIR_KICK, AIR_KICK],
+    ],
+        EXPERT: [
+        [ULTRA, AIR_KICK, AIR_KICK],
+    ],
+        LUNATIC: [
+        [ULTRA, AIR_KICK],
+    ],
+    }
+}
 
 # Placed for better legibility since dream breaker is an exclusive requirement for breakable walls
 
