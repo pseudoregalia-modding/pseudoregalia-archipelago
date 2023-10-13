@@ -4,7 +4,7 @@ from .Items import PseudoregaliaItem, PseudoregaliaItemData, item_table, item_fr
 from .Locations import location_table
 from .Regions import region_table
 from worlds.generic.Rules import add_rule, set_rule, forbid_item
-from .Rules import has_breaker, get_kicks, can_bounce, can_slidejump, can_strikebreak, can_soulcutter, has_small_keys
+from .Rules import has_breaker, get_kicks, can_bounce, can_slidejump, can_strikebreak, can_soulcutter, has_small_keys, set_pseudoregalia_rules, PseudoregaliaRules
 from typing import Dict, Any
 
 
@@ -53,11 +53,14 @@ class PseudoregaliaWorld(World):
         for location_name, location_data in self.locked_locations.items():
             locked_item = self.create_item(location_table[location_name].locked_item)
             self.multiworld.get_location(location_name, self.player).place_locked_item(locked_item)
-    
+
     def fill_slot_data(self) -> Dict[str, Any]:
         return {"slot_number": self.player}
 
     def set_rules(self):
+        difficulty = 0
+        PseudoregaliaRules(self.player).set_pseudoregalia_rules(self.multiworld, difficulty)
+
         # Putting all the access rules here is pretty ugly
         # but I can't be fucked to get it to work properly from another module right now
         set_rule(self.multiworld.get_location("Dungeon - Slide", self.player), lambda state:
@@ -80,7 +83,7 @@ class PseudoregaliaWorld(World):
         set_rule(self.multiworld.get_location("Bailey - Solar Wind", self.player), lambda state:
                  state.has("Slide", self.player))
         set_rule(self.multiworld.get_location("Underbelly - Ascendant Light", self.player), lambda state:
-                 True) # Just here for completeness, will remove later
+                 True)  # Just here for completeness, will remove later
         set_rule(self.multiworld.get_location("Tower - Cling Gem", self.player), lambda state:
                  get_kicks(state, self.player) >= 3)
 
@@ -172,11 +175,6 @@ class PseudoregaliaWorld(World):
                      or state.has("Sunsetter", self.player)))
         set_rule(self.multiworld.get_location("Dungeon - Strong Eyes", self.player), lambda state:
                  has_breaker(state, self.player))
-        set_rule(self.multiworld.get_location("Castle - Platform In Main Halls", self.player), lambda state:
-                 can_slidejump(state, self.player)
-                 or get_kicks(state, self.player) >= 1
-                 or state.has("Sunsetter", self.player)
-                 or state.has("Cling Gem", self.player))
         set_rule(self.multiworld.get_location("Castle - Tall Room Near Wheel Crawlers", self.player), lambda state:
                  state.has("Cling Gem", self.player)
                  or get_kicks(state, self.player) >= 3)
@@ -189,16 +187,13 @@ class PseudoregaliaWorld(World):
                  or can_slidejump(state, self.player))
 
         set_rule(self.multiworld.get_location("Dungeon - Alcove Near Mirror", self.player), lambda state:
-                 True) # Just here for completeness, will remove later
+                 True)  # Just here for completeness, will remove later
         set_rule(self.multiworld.get_location("Dungeon - Past Poles", self.player), lambda state:
                  state.has("Cling Gem", self.player)
                  or get_kicks(state, self.player) >= 3)
         set_rule(self.multiworld.get_location("Castle - Alcove Near Dungeon", self.player), lambda state:
                  get_kicks(state, self.player) >= 1
                  or state.has("Cling Gem", self.player))
-        set_rule(self.multiworld.get_location("Castle - Corner Corridor", self.player), lambda state:
-                 state.has("Cling Gem", self.player)
-                 or get_kicks(state, self.player) >= 4)
         set_rule(self.multiworld.get_location("Castle - Wheel Crawlers", self.player), lambda state:
                  can_bounce(state, self.player)
                  or get_kicks(state, self.player) >= 3
