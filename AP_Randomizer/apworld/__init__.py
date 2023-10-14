@@ -6,6 +6,7 @@ from .Regions import region_table
 from worlds.generic.Rules import add_rule, set_rule, forbid_item
 from .Rules import has_breaker, get_kicks, can_bounce, can_slidejump, can_strikebreak, can_soulcutter, has_small_keys, set_pseudoregalia_rules, PseudoregaliaRules
 from typing import Dict, Any
+from .constants.DIFFICULTIES import UNIVERSAL, NORMAL, HARD, EXPERT, LUNATIC
 
 
 class PseudoregaliaWorld(World):
@@ -54,7 +55,7 @@ class PseudoregaliaWorld(World):
         return {"slot_number": self.player}
 
     def set_rules(self):
-        difficulty = 1
+        difficulty = NORMAL
         PseudoregaliaRules(self.player).set_pseudoregalia_rules(self.multiworld, difficulty)
 
         # Putting all the access rules here is pretty ugly

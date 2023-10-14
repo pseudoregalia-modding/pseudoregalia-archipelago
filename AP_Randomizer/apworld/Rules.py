@@ -1,14 +1,7 @@
 from BaseClasses import CollectionState, MultiWorld
 from typing import Dict, Callable, Set
 from worlds.generic.Rules import add_rule
-
-
-UNIVERSAL = 0
-NORMAL = 1
-HARD = 2
-EXPERT = 3
-LUNATIC = 4
-
+from .constants.DIFFICULTIES import UNIVERSAL, NORMAL, HARD, EXPERT, LUNATIC
 
 BREAKER = 101
 INDIGNATION = 102
