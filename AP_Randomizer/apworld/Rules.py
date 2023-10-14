@@ -187,46 +187,67 @@ class PseudoregaliaRules:
         self.location_rules = {
             # Only Universal rules are always included, e.g. Normal rules are NOT added if the difficulty is set to Hard.
             # Care must be taken to ensure that relevant rules are not excluded from harder difficulties.
-            "Castle - Platform In Main Halls": {
+            "Dungeon - Dream Breaker": {
                 UNIVERSAL: [
-                    lambda state: state.has("Sunsetter", self.player),
-                    lambda state: state.has("Cling Gem", self.player),
                 ],
                 NORMAL: [
-                    lambda state: self.get_kicks(state, 2),
                 ],
                 HARD: [
-                    lambda state: self.get_kicks(state, 1),
                 ],
                 EXPERT: [
-                    lambda state: self.get_kicks(state, 1),
-                    lambda state: state.has("Slide", self.player),
                 ],
                 LUNATIC: [
-                    lambda state: self.get_kicks(state, 1),
-                    lambda state: state.has("Slide", self.player),
-                    lambda state: self.can_bounce(state, self.player),
                 ]
             },
-            "Castle - Corner Corridor": {
-                UNIVERSAL: [
-                    lambda state: state.has("Cling Gem", self.player),
-                ],
-                NORMAL: [
-                    lambda state: self.get_kicks(state, 4),
-                ],
-                HARD: [
-                    lambda state: self.get_kicks(state, 3),
-                ],
-                EXPERT: [
-                    lambda state: self.get_kicks(state, 3),
-                    lambda state: state.has("Slide", self.player) and self.get_kicks(state, 2),
-                ],
-                LUNATIC: [
-                    lambda state: self.get_kicks(state, 3),
-                    lambda state: state.has("Slide", self.player) and self.get_kicks(state, 1),
-                ],
-            }
+            "Dungeon - Slide": {},
+            "Dungeon - Dark Orbs": {},
+            "Dungeon - Rafters": {},
+            "Dungeon - Strong Eyes": {},
+            "Dungeon - Alcove Near Mirror": {},
+            "Dungeon - Past Poles": {},
+            "Castle - Indignation": {},
+            "Castle - Floater In Courtyard": {},
+            "Castle - High Climb From Courtyard": {},
+            "Castle - Locked Door": {},
+            "Castle - Near Theatre Front": {},
+            "Castle - Platform In Main Halls": {},
+            "Castle - Tall Room Near Wheel Crawlers": {},
+            "Castle - Alcove Near Dungeon": {},
+            "Castle - Alcove Near Scythe Corridor": {},
+            "Castle - Balcony": {},
+            "Castle - Corner Corridor": {},
+            "Castle - Wheel Crawlers": {},
+            "Library - Sun Greaves": {},
+            "Library - Locked Door Left": {},
+            "Library - Locked Door Across": {},
+            "Library - Upper Back": {},
+            "Keep - Strikebreak": {},
+            "Keep - Sunsetter": {},
+            "Keep - Near Theatre": {},
+            "Keep - Levers Room": {},
+            "Keep - Alcove Near Locked Door": {},
+            "Keep - Major Key": {},
+            "Bailey - Solar Wind": {},
+            "Bailey - Cheese Bell": {},
+            "Bailey - Inside Building": {},
+            "Bailey - Center Steeple": {},
+            "Bailey - Major Key": {},
+            "Tower - Cling Gem": {},
+            "Tower - Major Key": {},
+            "Theatre - Soul Cutter": {},
+            "Theatre - Corner Beam": {},
+            "Theatre - Locked Door": {},
+            "Theatre - Back Of Auditorium": {},
+            "Theatre - Murderous Goat": {},
+            "Theatre - Major Key": {},
+            "Underbelly - Ascendant Light": {},
+            "Underbelly - Locked Door": {},
+            "Underbelly - Strikebreak Wall": {},
+            "Underbelly - Main Room": {},
+            "Underbelly - Alcove Near Light": {},
+            "Underbelly - Building Near Little Guy": {},
+            "Underbelly - Rafters Near Keep": {},
+            "Underbelly - Major Key": {},
         }
 
     def set_pseudoregalia_rules(self, multiworld, difficulty):
