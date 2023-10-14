@@ -35,7 +35,7 @@ class PseudoregaliaRules:
     player: int
     # TODO: Consider breaking these down a bit more
 
-    region_rules: Dict[str, Dict[str, Set[Callable[[CollectionState], bool]]]]
+    region_rules: Dict[str, Dict[str, Dict[int, Set[Callable[[CollectionState], bool]]]]]
     location_rules: Dict[str, Dict[str, Set[Callable[[CollectionState], bool]]]]
 
     def __init__(self, player) -> None:
