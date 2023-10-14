@@ -249,9 +249,8 @@ class PseudoregaliaRules:
                 for rule in rulesets[difficulty]:
                     add_rule(multiworld.get_location(location_name, self.player), rule, "or")
 
-    # Placed for better legibility since dream breaker is an exclusive requirement for breakable walls
-
     def has_breaker(self, state) -> bool:
+        # Placed for better legibility since dream breaker is an exclusive requirement for breakable walls
         return state.has("Dream Breaker", self.player)
 
     def can_bounce(self, state) -> bool:
