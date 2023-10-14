@@ -152,7 +152,7 @@ class PseudoregaliaRules:
             "Underbelly Main": {
                 "Empty Bailey": {
                     UNIVERSAL: [
-                        lambda state: state.has("Sunsetter"),
+                        lambda state: state.has("Sunsetter", self.player),
                         lambda state: self.has_breaker(state),
                     ],
                 },
@@ -160,14 +160,14 @@ class PseudoregaliaRules:
             "Underbelly Hole": {
                 "Underbelly Main": {
                     UNIVERSAL: [
-                        lambda state: state.has("Sunsetter"),
+                        lambda state: state.has("Sunsetter", self.player),
                     ],
                 },
             },
             "Theatre Main": {
                 "Keep Main": {
                     UNIVERSAL: [
-                        lambda state: state.has("Cling Gem"),
+                        lambda state: state.has("Cling Gem", self.player),
                     ],
                 },
             },
