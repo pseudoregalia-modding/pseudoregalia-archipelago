@@ -57,6 +57,18 @@ class PseudoregaliaWorld(World):
         difficulty = NORMAL
         PseudoregaliaRules(self.player).set_pseudoregalia_rules(self.multiworld, difficulty)
 
+        set_rule(self.multiworld.get_location("D S T RT ED M M O   Y", self.player), lambda state:
+                 state.has_all([
+                     "Major Key - Empty Bailey",
+                     "Major Key - The Underbelly",
+                     "Major Key - Tower Remains",
+                     "Major Key - Sansa Keep",
+                     "Major Key - Twilight Theatre",
+                 ], self.player))
+
+        self.multiworld.completion_condition[self.player] = lambda state: state.has(
+            "Something Worth Being Awake For", self.player)
+
         return
         # Putting all the access rules here is pretty ugly
         # but I can't be fucked to get it to work properly from another module right now
@@ -228,15 +240,3 @@ class PseudoregaliaWorld(World):
         set_rule(self.multiworld.get_location("Theatre - Back Of Auditorium", self.player), lambda state:
                  get_kicks(state, self.player) >= 3
                  or state.has("Cling Gem", self.player))
-
-        set_rule(self.multiworld.get_location("D S T RT ED M M O   Y", self.player), lambda state:
-                 state.has_all([
-                     "Major Key - Empty Bailey",
-                     "Major Key - The Underbelly",
-                     "Major Key - Tower Remains",
-                     "Major Key - Sansa Keep",
-                     "Major Key - Twilight Theatre",
-                 ], self.player))
-
-        self.multiworld.completion_condition[self.player] = lambda state: state.has(
-            "Something Worth Being Awake For", self.player)
