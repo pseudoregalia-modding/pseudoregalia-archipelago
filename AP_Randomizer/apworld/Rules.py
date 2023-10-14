@@ -498,22 +498,24 @@ class PseudoregaliaRules:
         # TODO: this method kind of just sucks honestly
         for region_name, exit_list in self.region_rules.items():
             for exit_name, rulesets in exit_list.items():
+                entrance = multiworld.get_entrance(f"{region_name} -> {exit_name}", self.player)
                 if UNIVERSAL in rulesets:
-                    set_rule(multiworld.get_entrance(f"{region_name} -> {exit_name}", self.player), lambda state: False)
+                    set_rule(entrance, lambda state: False)
                     for rule in rulesets[UNIVERSAL]:
-                        add_rule(multiworld.get_entrance(f"{region_name} -> {exit_name}", self.player), rule, "or")
+                        add_rule(entrance, rule, "or")
                 if difficulty in rulesets:
                     for rule in rulesets[difficulty]:
-                        add_rule(multiworld.get_entrance(f"{region_name} -> {exit_name}", self.player), rule, "or")
+                        add_rule(entrance, rule, "or")
 
         for location_name, rulesets in self.location_rules.items():
+            location = multiworld.get_location(location_name, self.player)
             if UNIVERSAL in rulesets:
-                set_rule(multiworld.get_location(location_name, self.player), lambda state: False)
+                set_rule(location, lambda state: False)
                 for rule in rulesets[UNIVERSAL]:
-                    add_rule(multiworld.get_location(location_name, self.player), rule, "or")
+                    add_rule(location, rule, "or")
             if difficulty in rulesets:
                 for rule in rulesets[difficulty]:
-                    add_rule(multiworld.get_location(location_name, self.player), rule, "or")
+                    add_rule(location, rule, "or")
 
     def has_breaker(self, state) -> bool:
         # Placed for better legibility since dream breaker is an exclusive requirement for breakable walls
