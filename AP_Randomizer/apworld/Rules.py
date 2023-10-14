@@ -1,6 +1,6 @@
 from BaseClasses import CollectionState, MultiWorld
 from typing import Dict, Callable, Set
-from worlds.generic.Rules import add_rule
+from worlds.generic.Rules import add_rule, set_rule
 from .constants.DIFFICULTIES import UNIVERSAL, NORMAL, HARD, EXPERT, LUNATIC
 
 BREAKER = 101
@@ -358,7 +358,7 @@ class PseudoregaliaRules:
             "Keep - Major Key": {
                 UNIVERSAL: [
                     lambda state: self.can_bounce(state) and state.has_all(["Cling Gem, Sunsetter"], self.player),
-                    lambda state: state.has("Cling Gem", self.player) and self.can_bounce(state) and self.get_kicks(3),
+                    lambda state: state.has("Cling Gem", self.player) and self.can_bounce(state) and self.get_kicks(state, 3),
                 ],
             },
             "Bailey - Solar Wind": {
@@ -442,7 +442,7 @@ class PseudoregaliaRules:
             },
             "Underbelly - Strikebreak Wall": {
                 UNIVERSAL: [
-                    lambda state: self.can_strikebreak and self.can_bounce(state, self.player)
+                    lambda state: self.can_strikebreak and self.can_bounce(state)
                     and (
                         self.can_slidejump(state)
                         or self.get_kicks(state, 1)
@@ -495,9 +495,11 @@ class PseudoregaliaRules:
     def set_pseudoregalia_rules(self, multiworld, difficulty):
         # TODO: test performance of just iterating through region_rules as sets
         # TODO: consider experimenting with assigning rules on region/location creation
+        # TODO: this method kind of just sucks honestly
         for region_name, exit_list in self.region_rules.items():
             for exit_name, rulesets in exit_list.items():
                 if UNIVERSAL in rulesets:
+                    set_rule(multiworld.get_entrance(f"{region_name} -> {exit_name}", self.player), lambda state: False)
                     for rule in rulesets[UNIVERSAL]:
                         add_rule(multiworld.get_entrance(f"{region_name} -> {exit_name}", self.player), rule, "or")
                 if difficulty in rulesets:
@@ -506,6 +508,7 @@ class PseudoregaliaRules:
 
         for location_name, rulesets in self.location_rules.items():
             if UNIVERSAL in rulesets:
+                set_rule(multiworld.get_location(location_name, self.player), lambda state: False)
                 for rule in rulesets[UNIVERSAL]:
                     add_rule(multiworld.get_location(location_name, self.player), rule, "or")
             if difficulty in rulesets:
