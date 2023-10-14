@@ -45,58 +45,58 @@ class PseudoregaliaRules:
             "Dungeon Mirror": {
                 "Dungeon Strong Eyes": {
                     UNIVERSAL: [
-                        [lambda state: state.has("Slide", self.player)
-                         and self.has_breaker(state)],
+                        lambda state: state.has("Slide", self.player)
+                        and self.has_breaker(state),
                     ],
                 },
                 "Underbelly Main": {
                     UNIVERSAL: [
-                        [lambda state: self.has_breaker(state)],
+                        lambda state: self.has_breaker(state),
                     ],
                 },
                 "Theatre Main": {
                     UNIVERSAL: [
-                        [lambda state: state.has("Cling Gem", player)
-                         and self.get_kicks(state, 3)],
-                        [lambda state: state.has("Cling Gem", player)
-                         and self.can_slidejump(state)],
+                        lambda state: state.has("Cling Gem", player)
+                        and self.get_kicks(state, 3),
+                        lambda state: state.has("Cling Gem", player)
+                        and self.can_slidejump(state),
                     ],
                 },
             },
             "Dungeon Strong Eyes": {
                 "Castle Sansa": {
                     UNIVERSAL: [
-                        [lambda state: self.has_small_keys(state)],
+                        lambda state: self.has_small_keys(state),
                     ],
                 },
             },
             "Castle Sansa": {
                 "Library Main": {
                     UNIVERSAL: [
-                        [lambda state: self.has_breaker(state)],
+                        lambda state: self.has_breaker(state),
                     ],
                 },
                 "Keep Main": {},
                 "Empty Bailey": {},
                 "Theatre Pillar": {
                     UNIVERSAL: [
-                        [lambda state: self.get_kicks(state, 1)],
-                        [lambda state: state.has("Cling Gem", self.player)],
-                        [lambda state: state.has("Sunsetter", self.player)],
+                        lambda state: self.get_kicks(state, 1),
+                        lambda state: state.has("Cling Gem", self.player),
+                        lambda state: state.has("Sunsetter", self.player),
                     ],
                 },
                 "Theatre Main": {
                     UNIVERSAL: [
-                        [lambda state: state.has("Cling Gem", self.player)],
-                        [lambda state: self.can_slidejump(state)
-                         and self.get_kicks(state, 4)],
+                        lambda state: state.has("Cling Gem", self.player),
+                        lambda state: self.can_slidejump(state)
+                        and self.get_kicks(state, 4),
                     ],
                 },
             },
             "Library Main": {
                 "Library Locked": {
                     UNIVERSAL: [
-                        [lambda state: self.has_small_keys(state)],
+                        lambda state: self.has_small_keys(state),
                     ],
                 },
             },
@@ -104,23 +104,23 @@ class PseudoregaliaRules:
             "Keep Main": {
                 "Keep Sunsetter": {
                     UNIVERSAL: [
-                        [lambda state: state.has("Cling Gem", self.player)],
-                        [lambda state: self.has_small_keys(state)],
-                        [lambda state: self.get_kicks(state, 3)],
+                        lambda state: state.has("Cling Gem", self.player),
+                        lambda state: self.has_small_keys(state),
+                        lambda state: self.get_kicks(state, 3),
                     ],
                 },
                 "Underbelly Hole": {
                     UNIVERSAL: [
-                        [lambda state: state.has("Sunsetter", self.player)],
-                        [lambda state: self.get_kicks(state, 1)],
+                        lambda state: state.has("Sunsetter", self.player),
+                        lambda state: self.get_kicks(state, 1),
                     ],
                 },
                 "Theatre Main": {
                     UNIVERSAL: [
-                        [lambda state: state.has("Cling Gem", self.player)
-                         and self.get_kicks(state, 3)],
-                        [lambda state: state.has("Cling Gem", self.player)
-                         and self.can_slidejump(state)],
+                        lambda state: state.has("Cling Gem", self.player)
+                        and self.get_kicks(state, 3),
+                        lambda state: state.has("Cling Gem", self.player)
+                        and self.can_slidejump(state),
                     ],
                 },
             },
@@ -130,53 +130,53 @@ class PseudoregaliaRules:
                 "Theatre Pillar": {},
                 "Tower Remains": {
                     UNIVERSAL: [
-                        [lambda state: state.has("Cling Gem", self.player)],
-                        [lambda state: state.has_all(["Slide", "Sunsetter"], self.player)],
-                        [lambda state: self.get_kicks(state, 1)],
+                        lambda state: state.has("Cling Gem", self.player),
+                        lambda state: state.has_all(["Slide", "Sunsetter"], self.player),
+                        lambda state: self.get_kicks(state, 1),
                     ],
                 },
             },
             "Tower Remains": {
                 "Underbelly Main": {
                     UNIVERSAL: [
-                        [lambda state: state.has("Sunsetter", self.player)],
+                        lambda state: state.has("Sunsetter", self.player),
                     ],
                 },
                 "The Great Door": {
                     UNIVERSAL: [
-                        [lambda state: state.has("Cling Gem", self.player)
-                         and self.get_kicks(state, 3)],
+                        lambda state: state.has("Cling Gem", self.player)
+                        and self.get_kicks(state, 3),
                     ],
                 },
             },
             "Underbelly Main": {
                 "Empty Bailey": {
                     UNIVERSAL: [
-                        [lambda state: state.has("Sunsetter")],
-                        [lambda state: self.has_breaker(state)],
+                        lambda state: state.has("Sunsetter"),
+                        lambda state: self.has_breaker(state),
                     ],
                 },
             },
             "Underbelly Hole": {
                 "Underbelly Main": {
                     UNIVERSAL: [
-                        [lambda state: state.has("Sunsetter")],
+                        lambda state: state.has("Sunsetter"),
                     ],
                 },
             },
             "Theatre Main": {
                 "Keep Main": {
                     UNIVERSAL: [
-                        [lambda state: state.has("Cling Gem")],
+                        lambda state: state.has("Cling Gem"),
                     ],
                 },
             },
             "Theatre Pillar": {
                 "Theatre Main": {
                     UNIVERSAL: [
-                        [lambda state: state.has_all(["Sunsetter", "Cling Gem"], self.player)],
-                        [lambda state: state.has("Sunsetter", self.player)
-                         and self.get_kicks(state, 4)],
+                        lambda state: state.has_all(["Sunsetter", "Cling Gem"], self.player),
+                        lambda state: state.has("Sunsetter", self.player)
+                        and self.get_kicks(state, 4),
                     ],
                 },
             },
@@ -187,42 +187,42 @@ class PseudoregaliaRules:
             # Care must be taken to ensure that relevant rules are not excluded from harder difficulties.
             "Castle - Platform In Main Halls": {
                 UNIVERSAL: [
-                    [lambda state: state.has("Sunsetter", self.player)],
-                    [lambda state: state.has("Cling Gem", self.player)],
+                    lambda state: state.has("Sunsetter", self.player),
+                    lambda state: state.has("Cling Gem", self.player),
                 ],
                 NORMAL: [
-                    [lambda state: self.get_kicks(state, 2)],
+                    lambda state: self.get_kicks(state, 2),
                 ],
                 HARD: [
-                    [lambda state: self.get_kicks(state, 1)],
+                    lambda state: self.get_kicks(state, 1),
                 ],
                 EXPERT: [
-                    [lambda state: self.get_kicks(state, 1)],
-                    [lambda state: state.has("Slide", self.player)],
+                    lambda state: self.get_kicks(state, 1),
+                    lambda state: state.has("Slide", self.player),
                 ],
                 LUNATIC: [
-                    [lambda state: self.get_kicks(state, 1)],
-                    [lambda state: state.has("Slide", self.player)],
-                    [lambda state: self.can_bounce(state, self.player)],
+                    lambda state: self.get_kicks(state, 1),
+                    lambda state: state.has("Slide", self.player),
+                    lambda state: self.can_bounce(state, self.player),
                 ]
             },
             "Castle - Corner Corridor": {
                 UNIVERSAL: [
-                    [lambda state: state.has("Cling Gem", self.player)],
+                    lambda state: state.has("Cling Gem", self.player),
                 ],
                 NORMAL: [
-                    [lambda state: self.get_kicks(state, 4)],
+                    lambda state: self.get_kicks(state, 4),
                 ],
                 HARD: [
-                    [lambda state: self.get_kicks(state, 3)],
+                    lambda state: self.get_kicks(state, 3),
                 ],
                 EXPERT: [
-                    [lambda state: self.get_kicks(state, 3)],
-                    [lambda state: state.has("Slide", self.player) and self.get_kicks(state, 2)],
+                    lambda state: self.get_kicks(state, 3),
+                    lambda state: state.has("Slide", self.player) and self.get_kicks(state, 2),
                 ],
                 LUNATIC: [
-                    [lambda state: self.get_kicks(state, 3)],
-                    [lambda state: state.has("Slide", self.player) and self.get_kicks(state, 1)],
+                    lambda state: self.get_kicks(state, 3),
+                    lambda state: state.has("Slide", self.player) and self.get_kicks(state, 1),
                 ],
             }
         }
