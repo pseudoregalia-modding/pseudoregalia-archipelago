@@ -55,9 +55,29 @@ class PseudoregaliaRules:
                 "Empty Bailey": {},
                 "Theatre Pillar": {
                     UNIVERSAL: [
-                        lambda state: self.get_kicks(state, 1),
+                    ],
+                    NORMAL: [
+                        lambda state: state.has("Cling Gem", self.player) and state.has("Sunsetter", self.player),
+                        lambda state: state.has("Sunsetter", self.player) and self.get_kicks(state, 1),
+                        lambda state: state.has("Cling Gem", self.player) and self.get_kicks(state, 1),
+                        lambda state: self.get_kicks(state, 2),
+                    ],
+                    HARD: [
                         lambda state: state.has("Cling Gem", self.player),
                         lambda state: state.has("Sunsetter", self.player),
+                        lambda state: self.get_kicks(state, 1),
+                    ],
+                    EXPERT: [
+                        lambda state: state.has("Cling Gem", self.player),
+                        lambda state: state.has("Sunsetter", self.player),
+                        lambda state: self.get_kicks(state, 1),
+                        lambda state: state.has("Slide", self.player),
+                    ],
+                    LUNATIC: [
+                        lambda state: state.has("Cling Gem", self.player),
+                        lambda state: state.has("Sunsetter", self.player),
+                        lambda state: self.get_kicks(state, 1),
+                        lambda state: state.has("Slide", self.player),
                     ],
                 },
                 "Theatre Main": {
@@ -250,9 +270,30 @@ class PseudoregaliaRules:
             },
             "Castle - Alcove Near Dungeon": {
                 UNIVERSAL: [
-                    lambda state: self.get_kicks(state, 1),
+                ],
+                NORMAL: [
+                    lambda state: state.has("Cling Gem", self.player) and state.has("Sunsetter", self.player),
+                    lambda state: state.has("Sunsetter", self.player) and self.get_kicks(state, 1),
+                    lambda state: state.has("Cling Gem", self.player) and self.get_kicks(state, 1),
+                    lambda state: self.get_kicks(state, 2),
+                ],
+                HARD: [
                     lambda state: state.has("Cling Gem", self.player),
-                ]
+                    lambda state: state.has("Sunsetter", self.player),
+                    lambda state: self.get_kicks(state, 1),
+                ],
+                EXPERT: [
+                    lambda state: state.has("Cling Gem", self.player),
+                    lambda state: state.has("Sunsetter", self.player),
+                    lambda state: self.get_kicks(state, 1),
+                    lambda state: state.has("Slide", self.player),
+                ],
+                LUNATIC: [
+                    lambda state: state.has("Cling Gem", self.player),
+                    lambda state: state.has("Sunsetter", self.player),
+                    lambda state: self.get_kicks(state, 1),
+                    lambda state: state.has("Slide", self.player),
+                ],
             },
             "Castle - Alcove Near Scythe Corridor": {
                 UNIVERSAL: [
