@@ -57,17 +57,17 @@ class PseudoregaliaRules:
                     [lambda state: state.has("Cling Gem", self.player)],
                 ],
                 NORMAL: [
-                    [lambda state: self.get_kicks(state) >= 2],
+                    [lambda state: self.get_kicks(state, 2)],
                 ],
                 HARD: [
-                    [lambda state: self.get_kicks(state) >= 1],
+                    [lambda state: self.get_kicks(state, 1)],
                 ],
                 EXPERT: [
-                    [lambda state: self.get_kicks(state) >= 1],
+                    [lambda state: self.get_kicks(state, 1)],
                     [lambda state: state.has("Slide", self.player)],
                 ],
                 LUNATIC: [
-                    [lambda state: self.get_kicks(state) >= 1],
+                    [lambda state: self.get_kicks(state, 1)],
                     [lambda state: state.has("Slide", self.player)],
                     [lambda state: self.can_bounce(state, self.player)],
                 ]
@@ -77,18 +77,18 @@ class PseudoregaliaRules:
                     [lambda state: state.has("Cling Gem", self.player)],
                 ],
                 NORMAL: [
-                    [lambda state: self.get_kicks(state) >= 4],
+                    [lambda state: self.get_kicks(state, 4)],
                 ],
                 HARD: [
-                    [lambda state: self.get_kicks(state) >= 3],
+                    [lambda state: self.get_kicks(state, 3)],
                 ],
                 EXPERT: [
-                    [lambda state: self.get_kicks(state) >= 3],
-                    [lambda state: state.has("Slide", self.player) and self.get_kicks(state) >= 2],
+                    [lambda state: self.get_kicks(state, 3)],
+                    [lambda state: state.has("Slide", self.player) and self.get_kicks(state, 2)],
                 ],
                 LUNATIC: [
-                    [lambda state: self.get_kicks(state) >= 3],
-                    [lambda state: state.has("Slide", self.player) and self.get_kicks(state) >= 1],
+                    [lambda state: self.get_kicks(state, 3)],
+                    [lambda state: state.has("Slide", self.player) and self.get_kicks(state, 1)],
                 ],
             }
         }
@@ -115,12 +115,12 @@ class PseudoregaliaRules:
     def can_bounce(self, state) -> bool:
         return state.has_all({"Dream Breaker", "Ascendant Light"}, self.player)
 
-    def get_kicks(self, state) -> int:
+    def get_kicks(self, state, count: int) -> bool:
         kicks: int = 0
         if (state.has("Sun Greaves", self.player)):
             kicks += 3
         kicks += state.count("Heliacal Power", self.player)
-        return kicks
+        return kicks >= count
 
     def has_small_keys(self, state) -> bool:
         return (state.count("Small Key", self.player) >= 6)
