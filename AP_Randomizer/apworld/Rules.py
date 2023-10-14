@@ -187,67 +187,309 @@ class PseudoregaliaRules:
         self.location_rules = {
             # Only Universal rules are always included, e.g. Normal rules are NOT added if the difficulty is set to Hard.
             # Care must be taken to ensure that relevant rules are not excluded from harder difficulties.
-            "Dungeon - Dream Breaker": {
+            # TODO: look into adding a 'REQUIRED' block, e.g. for an item behind a strikebreak wall that requires items to get to
+            # TODO: look into turning each rule into a set which i can construct combined rules out of
+            # TODO: honestly consider trying raw sets of items rather than lambdas with helper functions
+            "Dungeon - Dream Breaker": {},
+            "Dungeon - Slide": {
                 UNIVERSAL: [
+                    self.has_breaker
                 ],
-                NORMAL: [
+            },
+            "Dungeon - Dark Orbs": {
+                UNIVERSAL: [
+                    lambda state: state.has("Cling Gem", self.player),
+                    lambda state: self.can_bounce(state) and self.get_kicks(state, 3),
                 ],
-                HARD: [
+            },
+            "Dungeon - Rafters": {
+                UNIVERSAL: [
+                    lambda state: state.has("Cling Gem", self.player),
+                    lambda state: self.get_kicks(state, 3) and self.can_slidejump(state),
+                    lambda state: self.get_kicks(state, 3) and state.has("Sunsetter", self.player),
                 ],
-                EXPERT: [
+            },
+            "Dungeon - Strong Eyes": {
+                UNIVERSAL: [
+                    self.has_breaker
                 ],
-                LUNATIC: [
+            },
+            "Dungeon - Alcove Near Mirror": {},
+            "Dungeon - Past Poles": {
+                UNIVERSAL: [
+                    lambda state: state.has("Cling Gem", self.player),
+                    lambda state: self.get_kicks(state, 3),
+                ],
+            },
+            "Castle - Indignation": {},
+            "Castle - Floater In Courtyard": {
+                UNIVERSAL: [
+                    lambda state: self.get_kicks(state, 4),
+                    lambda state: state.has_all(["Cling Gem", "Sunsetter"], self.player),
+                    lambda state: state.has("Cling Gem", self.player) and self.get_kicks(state, 1),
+                    lambda state: state.has("Cling Gem", self.player) and self.can_slidejump(state),
+                    lambda state: self.can_bounce(state) and self.get_kicks(state, 1),
+                    lambda state: self.can_bounce(state) and state.has("Sunsetter", self.player),
+                ],
+            },
+            "Castle - High Climb From Courtyard": {
+                UNIVERSAL: [
+                    lambda state: state.has("Cling Gem", self.player),
+                    lambda state: self.can_slidejump(state) and self.get_kicks(state, 1)
+                ],
+            },
+            "Castle - Locked Door": {
+                UNIVERSAL: [
+                    self.has_small_keys
+                ],
+            },
+            "Castle - Near Theatre Front": {
+                UNIVERSAL: [
+                    lambda state: state.has("Cling Gem", self.player) and self.get_kicks(state, 3),
+                ],
+            },
+            "Castle - Platform In Main Halls": {
+                UNIVERSAL: [
+                    self.can_slidejump,
+                    lambda state: self.get_kicks(state, 1),
+                    lambda state: state.has("Sunsetter", self.player),
+                    lambda state: state.has("Cling Gem", self.player),
+                ],
+            },
+            "Castle - Tall Room Near Wheel Crawlers": {
+                UNIVERSAL: [
+                    lambda state: state.has("Cling Gem", self.player),
+                    lambda state: self.get_kicks(state, 3),
+                ],
+            },
+            "Castle - Alcove Near Dungeon": {
+                UNIVERSAL: [
+                    lambda state: self.get_kicks(state, 1),
+                    lambda state: state.has("Cling Gem", self.player),
                 ]
             },
-            "Dungeon - Slide": {},
-            "Dungeon - Dark Orbs": {},
-            "Dungeon - Rafters": {},
-            "Dungeon - Strong Eyes": {},
-            "Dungeon - Alcove Near Mirror": {},
-            "Dungeon - Past Poles": {},
-            "Castle - Indignation": {},
-            "Castle - Floater In Courtyard": {},
-            "Castle - High Climb From Courtyard": {},
-            "Castle - Locked Door": {},
-            "Castle - Near Theatre Front": {},
-            "Castle - Platform In Main Halls": {},
-            "Castle - Tall Room Near Wheel Crawlers": {},
-            "Castle - Alcove Near Dungeon": {},
-            "Castle - Alcove Near Scythe Corridor": {},
-            "Castle - Balcony": {},
-            "Castle - Corner Corridor": {},
-            "Castle - Wheel Crawlers": {},
-            "Library - Sun Greaves": {},
-            "Library - Locked Door Left": {},
-            "Library - Locked Door Across": {},
-            "Library - Upper Back": {},
-            "Keep - Strikebreak": {},
-            "Keep - Sunsetter": {},
-            "Keep - Near Theatre": {},
-            "Keep - Levers Room": {},
-            "Keep - Alcove Near Locked Door": {},
-            "Keep - Major Key": {},
-            "Bailey - Solar Wind": {},
-            "Bailey - Cheese Bell": {},
-            "Bailey - Inside Building": {},
-            "Bailey - Center Steeple": {},
-            "Bailey - Major Key": {},
-            "Tower - Cling Gem": {},
-            "Tower - Major Key": {},
-            "Theatre - Soul Cutter": {},
-            "Theatre - Corner Beam": {},
-            "Theatre - Locked Door": {},
-            "Theatre - Back Of Auditorium": {},
+            "Castle - Alcove Near Scythe Corridor": {
+                UNIVERSAL: [
+                    lambda state: self.can_slidejump(state) and self.get_kicks(state, 4),
+                    lambda state: state.has("Cling Gem", self.player),
+                ]
+            },
+            "Castle - Balcony": {
+                UNIVERSAL: [
+                    lambda state: self.get_kicks(state, 4),
+                    lambda state: state.has("Cling Gem", self.player),
+                    lambda state: self.can_slidejump(state) and self.get_kicks(state, 1),
+                ]
+            },
+            "Castle - Corner Corridor": {
+                UNIVERSAL: [
+                    lambda state: state.has("Cling Gem", self.player),
+                    lambda state: self.get_kicks(state, 4),
+                ]
+            },
+            "Castle - Wheel Crawlers": {
+                UNIVERSAL: [
+                    self.can_bounce,
+                    lambda state: self.get_kicks(state, 3),
+                    lambda state: state.has("Cling Gem", self.player),
+                ]
+            },
+            "Library - Sun Greaves": {
+                UNIVERSAL: [
+                    self.can_slidejump,
+                    lambda state: state.has("Slide", self.player) and self.has_breaker(state),
+                    lambda state: state.has("Cling Gem", self.player) and self.has_breaker(state),
+                    lambda state: self.get_kicks(state, 4),
+                ],
+            },
+            "Library - Locked Door Left": {
+                UNIVERSAL: [
+                    lambda state: self.get_kicks(state, 3),
+                    lambda state: state.has("Cling Gem", self.player),
+                ]
+            },
+            "Library - Locked Door Across": {
+                UNIVERSAL: [
+                    self.can_slidejump,
+                    lambda state: self.get_kicks(state, 1),
+                    lambda state: state.has("Cling Gem", self.player),
+                ],
+            },
+            "Library - Upper Back": {
+                UNIVERSAL: [
+                    lambda state: self.get_kicks(state, 3),
+                    lambda state: state.has("Cling Gem", self.player),
+                ]
+            },
+            "Keep - Strikebreak": {
+                UNIVERSAL: [
+                    lambda state: state.has("Slide", self.player) or self.can_strikebreak(state)
+                    and (
+                        self.can_slidejump(state)
+                        or self.get_kicks(state, 1)
+                        or state.has("Cling Gem", self.player)
+                    )
+                ],
+            },
+            "Keep - Sunsetter": {
+                UNIVERSAL: [
+                    self.has_breaker
+                ],
+            },
+            "Keep - Near Theatre": {
+                UNIVERSAL: [
+                    lambda state: state.has("Sunsetter", self.player),
+                    lambda state: state.has("Cling Gem", self.player),
+                    lambda state: self.get_kicks(state, 1),
+                ],
+            },
+            "Keep - Levers Room": {
+                UNIVERSAL: [
+                    self.has_breaker
+                ],
+            },
+            "Keep - Alcove Near Locked Door": {
+                UNIVERSAL: [
+                    self.can_slidejump,
+                    lambda state: self.get_kicks(state, 3),
+                    lambda state: state.has("Sunsetter", self.player),
+                ]
+            },
+            "Keep - Major Key": {
+                UNIVERSAL: [
+                    lambda state: self.can_bounce(state) and state.has_all(["Cling Gem, Sunsetter"], self.player),
+                    lambda state: state.has("Cling Gem", self.player) and self.can_bounce(state) and self.get_kicks(3),
+                ],
+            },
+            "Bailey - Solar Wind": {
+                UNIVERSAL: [
+                    lambda state: state.has("Slide", self.player)
+                ],
+            },
+            "Bailey - Cheese Bell": {
+                UNIVERSAL: [
+                    lambda state: self.can_slidejump(state)
+                    and self.get_kicks(state, 1)
+                    and state.has("Sunsetter", self.player),
+                    lambda state: self.can_slidejump(state)
+                    and state.has("Cling Gem", self.player),
+                    lambda state: self.get_kicks(state, 3)
+                    and state.has("Sunsetter", self.player)
+                ],
+            },
+            "Bailey - Inside Building": {
+                UNIVERSAL: [
+                    lambda state: state.has("Slide", self.player)
+                ],
+            },
+            "Bailey - Center Steeple": {
+                UNIVERSAL: [
+                    lambda state: self.get_kicks(state, 3),
+                    lambda state: state.has_all(["Sunsetter", "Slide"], self.player),
+                ]
+            },
+            "Bailey - Major Key": {
+                UNIVERSAL: [
+                    lambda state: state.has("Sunsetter", self.player),
+                    lambda state: state.has("Cling Gem", self.player),
+                    lambda state: self.get_kicks(state, 3),
+                ],
+            },
+            "Theatre - Soul Cutter": {
+                UNIVERSAL: [
+                    self.can_strikebreak
+                ],
+            },
+            "Theatre - Corner Beam": {
+                UNIVERSAL: [
+                    lambda state: state.has("Cling Gem", self.player) and self.get_kicks(state, 3),
+                    lambda state: state.has("Cling Gem", self.player) and self.can_slidejump(state),
+                    lambda state: self.get_kicks(state, 3) and self.can_slidejump(state),
+                ],
+            },
+            "Theatre - Locked Door": {
+                UNIVERSAL: [
+                    self.has_small_keys,
+                    lambda state: self.get_kicks(state, 3),
+                    lambda state: state.has("Cling Gem", self.player),
+                ],
+            },
+            "Theatre - Back Of Auditorium": {
+                UNIVERSAL: [
+                    lambda state: self.get_kicks(state, 3),
+                    lambda state: state.has("Cling Gem", self.player),
+                ]
+            },
             "Theatre - Murderous Goat": {},
-            "Theatre - Major Key": {},
+            "Theatre - Major Key": {
+                UNIVERSAL: [
+                    lambda state: self.can_soulcutter(state) and state.has("Cling Gem", self.player)
+                    and (
+                        self.can_slidejump(state)
+                        or self.get_kicks(state, 1)
+                    )
+                ],
+            },
             "Underbelly - Ascendant Light": {},
-            "Underbelly - Locked Door": {},
-            "Underbelly - Strikebreak Wall": {},
-            "Underbelly - Main Room": {},
+            "Underbelly - Locked Door": {
+                UNIVERSAL: [
+                    lambda state: self.has_small_keys(state) and state.has("Slide", self.player)
+                    and (
+                        self.get_kicks(state, 3)
+                        or state.has("Sunsetter", self.player)
+                    )
+                ],
+            },
+            "Underbelly - Strikebreak Wall": {
+                UNIVERSAL: [
+                    lambda state: self.can_strikebreak and self.can_bounce(state, self.player)
+                    and (
+                        self.can_slidejump(state)
+                        or self.get_kicks(state, 1)
+                        or state.has("Sunsetter", self.player)
+                    )
+                ],
+            },
+            "Underbelly - Main Room": {
+                UNIVERSAL: [
+                    self.can_slidejump,
+                    lambda state: state.has("Sunsetter", self.player),
+                ],
+            },
             "Underbelly - Alcove Near Light": {},
-            "Underbelly - Building Near Little Guy": {},
-            "Underbelly - Rafters Near Keep": {},
-            "Underbelly - Major Key": {},
+            "Underbelly - Building Near Little Guy": {
+                UNIVERSAL: [
+                    lambda state: self.get_kicks(state, 3),
+                    lambda state: state.has("Sunsetter", self.player),
+                ]
+            },
+            "Underbelly - Rafters Near Keep": {
+                UNIVERSAL: [
+                    lambda state: self.get_kicks(state, 3),
+                    lambda state: self.get_kicks(state, 1) and state.has("Sunsetter", self.player),
+                ]
+            },
+            "Underbelly - Major Key": {
+                UNIVERSAL: [
+                    lambda state: state.has("Sunsetter", self.player)
+                    and (
+                        self.can_soulcutter(state) and self.can_bounce(state)
+                        or self.can_soulcutter(state) and state.has("Cling Gem", self.player)
+                        or self.can_slidejump(state) and self.get_kicks(state, 3)
+                    )
+                ],
+            },
+            "Tower - Cling Gem": {
+                UNIVERSAL: [
+                    lambda state: self.get_kicks(state, 3)
+                ],
+            },
+            "Tower - Major Key": {
+                # TODO: just move this into the great door region
+                UNIVERSAL: [
+                    lambda state: state.has("Cling Gem", self.player) and self.get_kicks(state, 3)
+                ],
+            },
         }
 
     def set_pseudoregalia_rules(self, multiworld, difficulty):
