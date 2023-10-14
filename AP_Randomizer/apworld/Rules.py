@@ -250,10 +250,23 @@ class PseudoregaliaRules:
             },
             "Castle - Platform In Main Halls": {
                 UNIVERSAL: [
-                    self.can_slidejump,
-                    lambda state: self.get_kicks(state, 1),
                     lambda state: state.has("Sunsetter", self.player),
                     lambda state: state.has("Cling Gem", self.player),
+                ],
+                NORMAL: [
+                    lambda state: self.get_kicks(state, 2),
+                ],
+                HARD: [
+                    lambda state: self.get_kicks(state, 1),
+                ],
+                EXPERT: [
+                    lambda state: self.get_kicks(state, 1),
+                    lambda state: state.has("Slide"),
+                ],
+                LUNATIC: [
+                    lambda state: self.get_kicks(state, 1),
+                    lambda state: state.has("Slide"),
+                    self.can_bounce,
                 ],
             },
             "Castle - Tall Room Near Wheel Crawlers": {
