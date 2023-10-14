@@ -43,8 +43,7 @@ class PseudoregaliaWorld(World):
 
         for region_name, exit_list in region_table.items():
             region = self.multiworld.get_region(region_name, self.player)
-            exits = [region_exit.region for region_exit in exit_list]
-            region.add_exits(exits)
+            region.add_exits(exit_list)
 
         # Place locked locations.
         for location_name, location_data in self.locked_locations.items():
