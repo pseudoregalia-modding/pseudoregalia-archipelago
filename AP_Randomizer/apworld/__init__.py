@@ -57,6 +57,7 @@ class PseudoregaliaWorld(World):
         difficulty = NORMAL
         PseudoregaliaRules(self.player).set_pseudoregalia_rules(self.multiworld, difficulty)
 
+        return
         # Putting all the access rules here is pretty ugly
         # but I can't be fucked to get it to work properly from another module right now
         set_rule(self.multiworld.get_location("Dungeon - Slide", self.player), lambda state:
