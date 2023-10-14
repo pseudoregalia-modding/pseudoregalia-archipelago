@@ -58,7 +58,7 @@ class PseudoregaliaWorld(World):
         return {"slot_number": self.player}
 
     def set_rules(self):
-        difficulty = 0
+        difficulty = 1
         PseudoregaliaRules(self.player).set_pseudoregalia_rules(self.multiworld, difficulty)
 
         # Putting all the access rules here is pretty ugly
