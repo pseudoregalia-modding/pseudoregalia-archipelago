@@ -484,12 +484,7 @@ class PseudoregaliaRules:
                     lambda state: self.get_kicks(state, 3)
                 ],
             },
-            "Tower - Major Key": {
-                # TODO: just move this into the great door region
-                UNIVERSAL: [
-                    lambda state: state.has("Cling Gem", self.player) and self.get_kicks(state, 3)
-                ],
-            },
+            "Tower - Major Key": {},
         }
 
     def set_pseudoregalia_rules(self, multiworld, difficulty):

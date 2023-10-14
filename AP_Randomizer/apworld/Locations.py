@@ -158,7 +158,7 @@ location_table = {
         region="Underbelly Hole",),
     "Tower - Major Key": PseudoregaliaLocationData(
         code=2365810048,
-        region="Tower Remains",),
+        region="The Great Door",),
     "Keep - Major Key": PseudoregaliaLocationData(
         code=2365810049,
         region="Keep Main",),
