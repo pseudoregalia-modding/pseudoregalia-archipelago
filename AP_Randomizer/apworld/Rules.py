@@ -228,18 +228,24 @@ class PseudoregaliaRules:
         }
 
     def set_pseudoregalia_rules(self, multiworld, difficulty):
-        for region in self.region_rules:
-            for exit in region:
-                for rule in exit[UNIVERSAL]:
-                    add_rule(multiworld.get_entrance(exit, self.player), rule, "or")
-                for rule in exit[difficulty]:
-                    add_rule(multiworld.get_entrance(exit, self.player), rule, "or")
+        # TODO: test performance of just iterating through region_rules as sets
+        # TODO: consider experimenting with assigning rules on region/location creation
+        for region_name, exit_list in self.region_rules.items():
+            for exit_name, rulesets in exit_list.items():
+                if UNIVERSAL in rulesets:
+                    for rule in rulesets[UNIVERSAL]:
+                        add_rule(multiworld.get_entrance(f"{region_name} -> {exit_name}", self.player), rule, "or")
+                if difficulty in rulesets:
+                    for rule in rulesets[difficulty]:
+                        add_rule(multiworld.get_entrance(f"{region_name} -> {exit_name}", self.player), rule, "or")
 
-        for location in self.location_rules:
-            for rule in location[UNIVERSAL]:
-                add_rule(multiworld.get_location(location, self.player), rule, "or")
-            for rule in exit[difficulty]:
-                add_rule(multiworld.get_location(location, self.player), rule, "or")
+        for location_name, rulesets in self.location_rules.items():
+            if UNIVERSAL in rulesets:
+                for rule in rulesets[UNIVERSAL]:
+                    add_rule(multiworld.get_location(location_name, self.player), rule, "or")
+            if difficulty in rulesets:
+                for rule in rulesets[difficulty]:
+                    add_rule(multiworld.get_location(location_name, self.player), rule, "or")
 
     # Placed for better legibility since dream breaker is an exclusive requirement for breakable walls
 
