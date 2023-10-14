@@ -42,6 +42,8 @@ class PseudoregaliaRules:
         self.player = player
 
         self.region_rules = {
+            # TODO: Consider drawing the inner exits out to remove a level of nesting,
+            # e.g. "Dungeon Mirror -> Dungeon Strong Eyes"
             "Dungeon Mirror": {
                 "Dungeon Strong Eyes": {
                     UNIVERSAL: [
