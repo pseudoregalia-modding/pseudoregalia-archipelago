@@ -578,6 +578,9 @@ class PseudoregaliaRules:
     def can_bounce(self, state) -> bool:
         return state.has_all({"Dream Breaker", "Ascendant Light"}, self.player)
 
+    def can_attack(self, state) -> bool:
+        return state.has_any(["Dream Breaker", "Sunsetter"], self.player)
+
     def get_kicks(self, state, count: int) -> bool:
         kicks: int = 0
         if (state.has("Sun Greaves", self.player)):
