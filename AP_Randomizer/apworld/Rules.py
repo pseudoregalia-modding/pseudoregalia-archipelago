@@ -209,12 +209,33 @@ class PseudoregaliaRules:
             "Castle - Indignation": {},
             "Castle - Floater In Courtyard": {
                 UNIVERSAL: [
+                    lambda state: self.can_bounce(state) and self.has_plunge(state),
+                ],
+                NORMAL: [
+                    lambda state: self.can_bounce(state) and self.get_kicks(state, 2),
+                    lambda state: self.has_gem(state) and self.get_kicks(state, 2),
+                    lambda state: self.has_gem(state) and self.has_plunge(state),
                     lambda state: self.get_kicks(state, 4),
-                    lambda state: state.has_all(["Cling Gem", "Sunsetter"], self.player),
-                    lambda state: state.has("Cling Gem", self.player) and self.get_kicks(state, 1),
-                    lambda state: state.has("Cling Gem", self.player) and self.can_slidejump(state),
+                ],
+                HARD: [
                     lambda state: self.can_bounce(state) and self.get_kicks(state, 1),
-                    lambda state: self.can_bounce(state) and state.has("Sunsetter", self.player),
+                    lambda state: self.get_kicks(state, 4),
+                    lambda state: self.get_kicks(state, 3) and self.has_plunge(state),
+                    self.has_gem,
+                ],
+                EXPERT: [
+                    lambda state: self.can_bounce(state) and self.get_kicks(state, 1),
+                    lambda state: self.can_bounce(state) and self.has_slide(state),
+                    lambda state: self.get_kicks(state, 3),
+                    self.has_gem,
+                    lambda state: self.has_slide(state) and self.get_kicks(state, 1),
+                ],
+                LUNATIC: [
+                    lambda state: self.can_bounce(state) and self.get_kicks(state, 1),
+                    lambda state: self.can_bounce(state) and self.has_slide(state),
+                    lambda state: self.get_kicks(state, 3),
+                    self.has_gem,
+                    lambda state: self.has_slide(state) and self.get_kicks(state, 1),
                 ],
             },
             "Castle - High Climb From Courtyard": {
