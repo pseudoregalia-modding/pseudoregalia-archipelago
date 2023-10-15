@@ -266,7 +266,14 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
         self.player = player
 
         self.region_rules.update({
-
+            "Castle Sansa -> Library Main": lambda state:
+                self.has_breaker(state)
+                or self.knows_obscure(state) and self.can_attack(state),
+            "Castle Sansa -> Theatre Pillar": lambda state:
+                self.has_gem(state) and self.has_plunge(state)
+                or self.has_gem(state) and self.get_kicks(state, 1)
+                or self.has_plunge(state) and self.get_kicks(state, 1)
+                or self.get_kicks(state, 2),
         })
 
         self.location_rules.update({
@@ -282,7 +289,13 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
         self.player = player
 
         self.region_rules.update({
-
+            "Castle Sansa -> Library Main": lambda state:
+                self.has_breaker(state)
+                or self.knows_obscure(state) and self.can_attack(state),
+            "Castle Sansa -> Theatre Pillar": lambda state:
+                self.has_gem(state)
+                or self.has_plunge(state)
+                or self.get_kicks(state, 1),
         })
 
         self.location_rules.update({
@@ -298,7 +311,13 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
         self.player = player
 
         self.region_rules.update({
-
+            "Castle Sansa -> Library Main": lambda state:
+                self.can_attack(state),
+            "Castle Sansa -> Theatre Pillar": lambda state:
+                self.has_gem(state)
+                or self.has_plunge(state)
+                or self.has_slide(state)
+                or self.get_kicks(state, 1),
         })
 
         self.location_rules.update({
@@ -314,7 +333,13 @@ class PseudoregaliaLunaticRules(PseudoregaliaRules):
         self.player = player
 
         self.region_rules.update({
-
+            "Castle Sansa -> Library Main": lambda state:
+                self.can_attack(state),
+            "Castle Sansa -> Theatre Pillar": lambda state:
+                self.has_gem(state)
+                or self.has_plunge(state)
+                or self.has_slide(state)
+                or self.get_kicks(state, 1),
         })
 
         self.location_rules.update({
