@@ -566,7 +566,7 @@ class PseudoregaliaRules:
             },
             "Underbelly - Strikebreak Wall": {
                 UNIVERSAL: [
-                    lambda state: (self.can_strikebreak and self.can_bounce(state))
+                    lambda state: (self.can_strikebreak(state) and self.can_bounce(state))
                     and (
                         self.can_slidejump(state)
                         or self.get_kicks(state, 1)
