@@ -1,640 +1,211 @@
-from BaseClasses import CollectionState, MultiWorld
-from typing import Dict, Callable, Set
-from worlds.generic.Rules import add_rule, set_rule
-from .constants.DIFFICULTIES import UNIVERSAL, NORMAL, HARD, EXPERT, LUNATIC
+from BaseClasses import CollectionState
+from typing import Dict, Set, Callable
+from worlds.generic.Rules import set_rule
 
 
-class PseudoregaliaRules:
+class PseudoregaliaUniversalRules:
     player: int
-    # TODO: Consider breaking these down a bit more
 
-    region_rules: Dict[str, Dict[str, Dict[int, Set[Callable[[CollectionState], bool]]]]]
-    location_rules: Dict[str, Dict[str, Set[Callable[[CollectionState], bool]]]]
+    region_rules: Dict[str, Callable[[CollectionState], bool]]
+    location_rules: Dict[str, Callable[[CollectionState], bool]]
 
     def __init__(self, player) -> None:
         self.player = player
-
         self.region_rules = {
-            # TODO: Consider drawing the inner exits out to remove a level of nesting,
-            # e.g. "Dungeon Mirror -> Dungeon Strong Eyes"
-            "Dungeon Mirror": {
-                "Dungeon Strong Eyes": {
-                    UNIVERSAL: [
-                        lambda state: self.has_slide(state) and self.has_breaker(state),
-                    ],
-                },
-                "Underbelly Main": {
-                    UNIVERSAL: [
-                        lambda state: self.has_breaker(state),
-                    ],
-                },
-                "Theatre Main": {
-                    UNIVERSAL: [
-                        lambda state: self.has_gem(state) and self.get_kicks(state, 3),
-                        lambda state: self.has_gem(state) and self.can_slidejump(state),
-                    ],
-                },
-            },
-            "Dungeon Strong Eyes": {
-                "Castle Sansa": {
-                    UNIVERSAL: [
-                        lambda state: self.has_small_keys(state),
-                    ],
-                },
-            },
-            "Castle Sansa": {
-                "Library Main": {
-                    UNIVERSAL: [
-                    ],
-                    NORMAL: [
-                        self.has_breaker,
-                    ],
-                    HARD: [
-                        self.has_breaker,
-                    ],
-                    EXPERT: [
-                        self.can_attack,  # Obscure
-                    ],
-                    LUNATIC: [
-                        self.can_attack,  # Obscure
-                    ],
-                },
-                "Keep Main": {},
-                "Empty Bailey": {},
-                "Theatre Pillar": {
-                    UNIVERSAL: [
-                    ],
-                    NORMAL: [
-                        lambda state: self.has_gem(state) and self.has_plunge(state),
-                        lambda state: self.has_plunge(state) and self.get_kicks(state, 1),
-                        lambda state: self.has_gem(state) and self.get_kicks(state, 1),
-                        lambda state: self.get_kicks(state, 2),
-                    ],
-                    HARD: [
-                        self.has_gem,
-                        self.has_plunge,
-                        lambda state: self.get_kicks(state, 1),
-                    ],
-                    EXPERT: [
-                        self.has_gem,
-                        self.has_plunge,
-                        self.has_slide,
-                        lambda state: self.get_kicks(state, 1),
-                    ],
-                    LUNATIC: [
-                        self.has_gem,
-                        self.has_plunge,
-                        self.has_slide,
-                        lambda state: self.get_kicks(state, 1),
-                    ],
-                },
-                "Theatre Main": {
-                    UNIVERSAL: [
-                        self.has_gem,
-                        lambda state: self.can_slidejump(state) and self.get_kicks(state, 4),
-                    ],
-                },
-            },
-            "Library Main": {
-                "Library Locked": {
-                    UNIVERSAL: [
-                        lambda state: self.has_small_keys(state),
-                    ],
-                },
-            },
-            "Library Locked": {},
-            "Keep Main": {
-                "Keep Sunsetter": {
-                    UNIVERSAL: [
-                        self.has_gem,
-                        lambda state: self.has_small_keys(state),
-                        lambda state: self.get_kicks(state, 3),
-                    ],
-                },
-                "Underbelly Hole": {
-                    UNIVERSAL: [
-                        self.has_plunge,
-                        lambda state: self.get_kicks(state, 1),
-                    ],
-                },
-                "Theatre Main": {
-                    UNIVERSAL: [
-                        lambda state: self.has_gem(state) and self.get_kicks(state, 3),
-                        lambda state: self.has_gem(state) and self.can_slidejump(state),
-                    ],
-                },
-            },
-            "Keep Sunsetter": {},
-            "Empty Bailey": {
-                "Castle Sansa": {},
-                "Theatre Pillar": {},
-                "Tower Remains": {
-                    UNIVERSAL: [
-                        self.has_gem,
-                        lambda state: state.has_all(["Slide", "Sunsetter"], self.player),
-                        lambda state: self.get_kicks(state, 1),
-                    ],
-                },
-            },
-            "Tower Remains": {
-                "Underbelly Main": {
-                    UNIVERSAL: [
-                        self.has_plunge,
-                    ],
-                },
-                "The Great Door": {
-                    UNIVERSAL: [
-                        lambda state: self.has_gem(state) and self.get_kicks(state, 3),
-                    ],
-                },
-            },
-            "Underbelly Main": {
-                "Empty Bailey": {
-                    UNIVERSAL: [
-                        self.has_plunge,
-                        self.has_breaker,
-                    ],
-                },
-            },
-            "Underbelly Hole": {
-                "Underbelly Main": {
-                    UNIVERSAL: [
-                        self.has_plunge,
-                    ],
-                },
-            },
-            "Theatre Main": {
-                "Keep Main": {
-                    UNIVERSAL: [
-                        self.has_gem,
-                    ],
-                },
-            },
-            "Theatre Pillar": {
-                "Theatre Main": {
-                    UNIVERSAL: [
-                        lambda state: state.has_all(["Sunsetter", "Cling Gem"], self.player),
-                        lambda state: self.has_plunge(state) and self.get_kicks(state, 4),
-                    ],
-                },
-            },
+            "Dungeon Mirror -> Dungeon Strong Eyes": lambda state:
+                self.has_slide(state) and self.has_breaker(state),
+            "Dungeon Mirror -> Underbelly Main": lambda state:
+                self.has_breaker(state),
+            "Dungeon Mirror -> Theatre Main": lambda state:
+                self.has_gem(state) and self.get_kicks(state, 3)
+                or self.has_gem(state) and self.can_slidejump(state),
+            "Dungeon Strong Eyes -> Castle Sansa": lambda state:
+                self.has_small_keys(state),
+            "Castle Sansa -> Library Main": lambda state: False,
+            "Castle Sansa -> Keep Main": lambda state: True,
+            "Castle Sansa -> Empty Bailey": lambda state: True,
+            "Castle Sansa -> Theatre Pillar": lambda state: False,
+            "Castle Sansa -> Theatre Main": lambda state:
+                self.has_gem(state)
+                or self.can_slidejump(state) and self.get_kicks(state, 4),
+            "Library Main -> Library Locked": lambda state:
+                self.has_small_keys(state),
+            "Keep Main -> Keep Sunsetter": lambda state:
+                self.has_gem(state)
+                or self.has_small_keys(state)
+                or self.get_kicks(state, 3),
+            "Keep Main -> Underbelly Hole": lambda state:
+                self.has_plunge(state)
+                or self.get_kicks(state, 1),
+            "Keep Main -> Theatre Main": lambda state:
+                self.has_gem(state) and self.get_kicks(state, 3)
+                or self.has_gem(state) and self.can_slidejump(state),
+            "Empty Bailey -> Castle Sansa": lambda state: True,
+            "Empty Bailey -> Theatre Pillar": lambda state: True,
+            "Empty Bailey -> Tower Remains": lambda state:
+                self.has_gem(state)
+                or self.has_all(["Slide", "Sunsetter"], self.player)
+                or self.get_kicks(state, 1),
+            "Tower Remains -> Underbelly Main": lambda state:
+                self.has_plunge(state),
+            "Tower Remains -> The Great Door": lambda state:
+                self.has_gem(state) and self.get_kicks(state, 3),
+            "Underbelly Main -> Empty Bailey": lambda state:
+                self.has_plunge(state)
+                or self.has_breaker(state),
+            "Underbelly Hole -> Underbelly Main": lambda state:
+                self.has_plunge(state),
+            "Theatre Main -> Keep Main": lambda state:
+                self.has_gem(state),
+            "Theatre Pillar -> Theatre Main": lambda state:
+                state.has_all(["Sunsetter", "Cling Gem"], self.player)
+                or self.has_plunge(state) and self.get_kicks(state, 4),
         }
 
         self.location_rules = {
-            # Only Universal rules are always included, e.g. Normal rules are NOT added if the difficulty is set to Hard.
-            # Care must be taken to ensure that relevant rules are not excluded from harder difficulties.
-            # TODO: look into adding a 'REQUIRED' block, e.g. for an item behind a strikebreak wall that requires items to get to
-            # TODO: look into turning each rule into a set which i can construct combined rules out of
-            # TODO: honestly consider trying raw sets of items rather than lambdas with helper functions
-            "Dungeon - Dream Breaker": {},
-            "Dungeon - Slide": {
-                UNIVERSAL: [
-                    self.has_breaker
-                ],
-            },
-            "Dungeon - Dark Orbs": {
-                UNIVERSAL: [
-                    self.has_gem,
-                    lambda state: self.can_bounce(state) and self.get_kicks(state, 3),
-                ],
-            },
-            "Dungeon - Rafters": {
-                UNIVERSAL: [
-                    self.has_gem,
-                    lambda state: self.get_kicks(state, 3) and self.can_slidejump(state),
-                    lambda state: self.get_kicks(state, 3) and self.has_plunge(state),
-                ],
-            },
-            "Dungeon - Strong Eyes": {
-                UNIVERSAL: [
-                    self.has_breaker,
-                ],
-            },
-            "Dungeon - Alcove Near Mirror": {},
-            "Dungeon - Past Poles": {
-                UNIVERSAL: [
-                    self.has_gem,
-                    lambda state: self.get_kicks(state, 3),
-                ],
-            },
-            "Castle - Indignation": {},
-            "Castle - Floater In Courtyard": {
-                UNIVERSAL: [
-                    lambda state: self.can_bounce(state) and self.has_plunge(state),
-                ],
-                NORMAL: [
-                    lambda state: self.can_bounce(state) and self.get_kicks(state, 2),
-                    lambda state: self.has_gem(state) and self.get_kicks(state, 2),
-                    lambda state: self.has_gem(state) and self.has_plunge(state),
-                    lambda state: self.get_kicks(state, 4),
-                ],
-                HARD: [
-                    lambda state: self.can_bounce(state) and self.get_kicks(state, 1),
-                    lambda state: self.get_kicks(state, 4),
-                    lambda state: self.get_kicks(state, 3) and self.has_plunge(state),
-                    self.has_gem,
-                ],
-                EXPERT: [
-                    lambda state: self.can_bounce(state) and self.get_kicks(state, 1),
-                    lambda state: self.can_bounce(state) and self.has_slide(state),
-                    lambda state: self.get_kicks(state, 3),
-                    self.has_gem,
-                    lambda state: self.has_slide(state) and self.get_kicks(state, 1),
-                ],
-                LUNATIC: [
-                    lambda state: self.can_bounce(state) and self.get_kicks(state, 1),
-                    lambda state: self.can_bounce(state) and self.has_slide(state),
-                    lambda state: self.get_kicks(state, 3),
-                    self.has_gem,
-                    lambda state: self.has_slide(state) and self.get_kicks(state, 1),
-                ],
-            },
-            "Castle - High Climb From Courtyard": {
-                UNIVERSAL: [
-                    self.has_gem,
-                    lambda state: self.can_slidejump(state) and self.get_kicks(state, 1)
-                ],
-            },
-            "Castle - Locked Door": {
-                UNIVERSAL: [
-                ],
-                NORMAL: [
-                    lambda state: self.has_small_keys(state) and self.has_breaker(state)
-                ],
-                HARD: [
-                    lambda state: self.has_small_keys(state) and self.has_breaker(state)
-                ],
-                EXPERT: [
-                    lambda state: self.has_small_keys(state) and self.can_attack(state)  # Obscure
-                ],
-                LUNATIC: [
-                    lambda state: self.has_small_keys(state) and self.can_attack(state)  # Obscure
-                ],
-            },
-            "Castle - Near Theatre Front": {
-                UNIVERSAL: [
-                    lambda state: self.has_gem(state) and self.get_kicks(state, 3),
-                ],
-            },
-            "Castle - Platform In Main Halls": {
-                UNIVERSAL: [
-                    self.has_plunge,
-                    self.has_gem,
-                ],
-                NORMAL: [
-                    lambda state: self.get_kicks(state, 2),
-                ],
-                HARD: [
-                    lambda state: self.get_kicks(state, 1),
-                ],
-                EXPERT: [
-                    lambda state: self.get_kicks(state, 1),
-                    self.has_slide,
-                ],
-                LUNATIC: [
-                    lambda state: self.get_kicks(state, 1),
-                    self.has_slide,
-                    self.can_bounce,
-                ],
-            },
-            "Castle - Tall Room Near Wheel Crawlers": {
-                UNIVERSAL: [
-                ],
-                NORMAL: [
-                    lambda state: self.has_gem(state) and self.has_plunge(state),
-                    lambda state: self.has_gem(state) and self.get_kicks(state, 1),
-                    lambda state: self.get_kicks(state, 2),
-                ],
-                HARD: [
-                    self.has_gem,
-                    lambda state: self.get_kicks(state, 1),
-                    lambda state: self.can_slidejump(state) and self.has_plunge(state),  # Obscure
-                ],
-                EXPERT: [
-                    self.has_gem,
-                    lambda state: self.get_kicks(state, 1),
-                    self.has_slide,
-                ],
-                LUNATIC: [
-                    self.has_gem,
-                    lambda state: self.get_kicks(state, 1),
-                    self.has_slide,
-                ],
-            },
-            "Castle - Alcove Near Dungeon": {
-                UNIVERSAL: [
-                ],
-                NORMAL: [
-                    lambda state: self.has_gem(state) and self.has_plunge(state),
-                    lambda state: self.has_plunge(state) and self.get_kicks(state, 1),
-                    lambda state: self.has_gem(state) and self.get_kicks(state, 1),
-                    lambda state: self.get_kicks(state, 2),
-                ],
-                HARD: [
-                    self.has_gem,
-                    self.has_plunge,
-                    lambda state: self.get_kicks(state, 1),
-                ],
-                EXPERT: [
-                    self.has_gem,
-                    self.has_plunge,
-                    lambda state: self.get_kicks(state, 1),
-                    self.has_slide,
-                ],
-                LUNATIC: [
-                    self.has_gem,
-                    self.has_plunge,
-                    lambda state: self.get_kicks(state, 1),
-                    self.has_slide,
-                ],
-            },
-            "Castle - Alcove Near Scythe Corridor": {
-                UNIVERSAL: [
-                    lambda state: self.can_slidejump(state) and self.get_kicks(state, 4),
-                    self.has_gem,
-                ]
-            },
-            "Castle - Balcony": {
-                UNIVERSAL: [
-                    self.has_gem,
-                    lambda state: self.get_kicks(state, 3),
-                ],
-                NORMAL: [
-                    lambda state: self.has_plunge(state) and self.get_kicks(state, 2),
-                    lambda state: self.can_slidejump(state) and self.get_kicks(state, 1) and self.has_plunge(state),
-                    lambda state: self.can_slidejump(state) and self.get_kicks(state, 2),
-                ],
-                HARD: [
-                    lambda state: self.has_plunge(state) and self.get_kicks(state, 2),
-                    lambda state: self.has_slide(state) and self.has_plunge(state),
-                    lambda state: self.has_slide(state) and self.get_kicks(state, 1) and self.has_breaker(state),
-                ],
-                EXPERT: [
-                    lambda state: self.has_plunge(state) and self.get_kicks(state, 1),
-                    self.has_slide,
-                ],
-                LUNATIC: [
-                    lambda state: self.has_plunge(state) and self.get_kicks(state, 1),
-                    self.has_slide,
-                ],
-            },
-            "Castle - Corner Corridor": {
-                UNIVERSAL: [
-                    self.has_gem,
-                ],
-                NORMAL: [
-                    lambda state: self.get_kicks(state, 4),
-                ],
-                HARD: [
-                    lambda state: self.get_kicks(state, 3),
-                ],
-                EXPERT: [
-                    lambda state: self.get_kicks(state, 3),
-                    lambda state: self.get_kicks(state, 2) and self.can_slide(state),
-                ],
-                LUNATIC: [
-                    lambda state: self.get_kicks(state, 3),
-                    lambda state: self.get_kicks(state, 1) and self.can_slide(state),
-                ],
-            },
-            "Castle - Wheel Crawlers": {
-                UNIVERSAL: [
-                    self.can_bounce,
-                    self.has_gem,
-                ],
-                NORMAL: [
-                    lambda state: self.get_kicks(state, 2),
-                    lambda state: self.get_kicks(state, 1)
-                    and (self.has_gem(state) or self.can_slidejump(state)),
-                ],
-                HARD: [
-                    lambda state: self.get_kicks(state, 1),
-                    lambda state: self.can_slidejump(state) and self.has_plunge(state),
-                ],
-                EXPERT: [
-                    lambda state: self.get_kicks(state, 1),
-                    self.has_slide,
-                    self.has_plunge,  # Obscure
-                ],
-                LUNATIC: [
-                    lambda state: self.get_kicks(state, 1),
-                    self.has_slide,
-                    self.has_plunge,  # Obscure
-                ],
-            },
-            "Library - Sun Greaves": {
-                UNIVERSAL: [
-                    self.can_slidejump,
-                    lambda state: self.has_slide(state) and self.has_breaker(state),
-                    lambda state: self.has_gem(state) and self.has_breaker(state),
-                    lambda state: self.get_kicks(state, 4),
-                ],
-            },
-            "Library - Locked Door Left": {
-                UNIVERSAL: [
-                    lambda state: self.get_kicks(state, 3),
-                    self.has_gem,
-                ]
-            },
-            "Library - Locked Door Across": {
-                UNIVERSAL: [
-                    self.can_slidejump,
-                    lambda state: self.get_kicks(state, 1),
-                    self.has_gem,
-                ],
-            },
-            "Library - Upper Back": {
-                UNIVERSAL: [
-                    lambda state: self.get_kicks(state, 3),
-                    self.has_gem,
-                ]
-            },
-            "Keep - Strikebreak": {
-                UNIVERSAL: [
-                    lambda state: (self.has_slide(state) or self.can_strikebreak(state))
-                    and (
-                        self.can_slidejump(state)
-                        or self.get_kicks(state, 1)
-                        or self.has_gem(state),
-                    )
-                ],
-            },
-            "Keep - Sunsetter": {
-                UNIVERSAL: [
-                    self.has_breaker
-                ],
-            },
-            "Keep - Near Theatre": {
-                UNIVERSAL: [
-                    self.has_plunge,
-                    self.has_gem,
-                    lambda state: self.get_kicks(state, 1),
-                ],
-            },
-            "Keep - Levers Room": {
-                UNIVERSAL: [
-                    self.has_breaker
-                ],
-            },
-            "Keep - Alcove Near Locked Door": {
-                UNIVERSAL: [
-                    self.can_slidejump,
-                    lambda state: self.get_kicks(state, 3),
-                    self.has_plunge,
-                ]
-            },
-            "Keep - Major Key": {
-                UNIVERSAL: [
-                    lambda state: self.can_bounce(state) and state.has_all(["Cling Gem, Sunsetter"], self.player),
-                    lambda state: self.has_gem(state) and self.can_bounce(state) and self.get_kicks(state, 3),
-                ],
-            },
-            "Bailey - Solar Wind": {
-                UNIVERSAL: [
-                    self.has_slide,
-                ],
-            },
-            "Bailey - Cheese Bell": {
-                UNIVERSAL: [
-                    lambda state: self.can_slidejump(state) and self.get_kicks(state, 1) and self.has_plunge(state),
-                    lambda state: self.can_slidejump(state) and self.has_gem(state),
-                    lambda state: self.get_kicks(state, 3) and self.has_plunge(state),
-                ],
-            },
-            "Bailey - Inside Building": {
-                UNIVERSAL: [
-                    self.has_slide,
-                ],
-            },
-            "Bailey - Center Steeple": {
-                UNIVERSAL: [
-                    lambda state: self.get_kicks(state, 3),
-                    lambda state: state.has_all(["Sunsetter", "Slide"], self.player),
-                ]
-            },
-            "Bailey - Major Key": {
-                UNIVERSAL: [
-                    self.has_plunge,
-                    self.has_gem,
-                    lambda state: self.get_kicks(state, 3),
-                ],
-            },
-            "Theatre - Soul Cutter": {
-                UNIVERSAL: [
-                    self.can_strikebreak
-                ],
-            },
-            "Theatre - Corner Beam": {
-                UNIVERSAL: [
-                    lambda state: self.has_gem(state) and self.get_kicks(state, 3),
-                    lambda state: self.has_gem(state) and self.can_slidejump(state),
-                    lambda state: self.get_kicks(state, 3) and self.can_slidejump(state),
-                ],
-            },
-            "Theatre - Locked Door": {
-                UNIVERSAL: [
-                    self.has_small_keys,
-                    lambda state: self.get_kicks(state, 3),
-                    self.has_gem,
-                ],
-            },
-            "Theatre - Back Of Auditorium": {
-                UNIVERSAL: [
-                    lambda state: self.get_kicks(state, 3),
-                    self.has_gem,
-                ]
-            },
-            "Theatre - Murderous Goat": {},
-            "Theatre - Major Key": {
-                UNIVERSAL: [
-                    lambda state: (self.can_soulcutter(state) and self.has_gem(state))
-                    and (
-                        self.can_slidejump(state)
-                        or self.get_kicks(state, 1)
-                    )
-                ],
-            },
-            "Underbelly - Ascendant Light": {},
-            "Underbelly - Locked Door": {
-                UNIVERSAL: [
-                    lambda state: (self.has_small_keys(state) and self.has_slide(state))
-                    and (
-                        self.get_kicks(state, 3)
-                        or self.has_plunge(state)
-                    )
-                ],
-            },
-            "Underbelly - Strikebreak Wall": {
-                UNIVERSAL: [
-                    lambda state: (self.can_strikebreak(state) and self.can_bounce(state))
-                    and (
-                        self.can_slidejump(state)
-                        or self.get_kicks(state, 1)
-                        or self.has_plunge(state)
-                    )
-                ],
-            },
-            "Underbelly - Main Room": {
-                UNIVERSAL: [
-                    self.can_slidejump,
-                    self.has_plunge,
-                ],
-            },
-            "Underbelly - Alcove Near Light": {},
-            "Underbelly - Building Near Little Guy": {
-                UNIVERSAL: [
-                    lambda state: self.get_kicks(state, 3),
-                    self.has_plunge,
-                ]
-            },
-            "Underbelly - Rafters Near Keep": {
-                UNIVERSAL: [
-                    lambda state: self.get_kicks(state, 3),
-                    lambda state: self.get_kicks(state, 1) and self.has_plunge(state),
-                ]
-            },
-            "Underbelly - Major Key": {
-                UNIVERSAL: [
-                    lambda state: self.has_plunge(state)
-                    and (
-                        self.can_soulcutter(state) and self.can_bounce(state)
-                        or self.can_soulcutter(state) and self.has_gem(state)
-                        or self.can_slidejump(state) and self.get_kicks(state, 3)
-                    )
-                ],
-            },
-            "Tower - Cling Gem": {
-                UNIVERSAL: [
-                    lambda state: self.get_kicks(state, 3)
-                ],
-            },
-            "Tower - Major Key": {},
+            # TODO: figure out a proper difference between placeholder "free" rules
+            # and rules with no universal access(?)
+            "Dungeon - Dream Breaker": lambda state: True,
+            "Dungeon - Slide": lambda state:
+                self.has_breaker(state),
+            "Dungeon - Dark Orbs": lambda state:
+                self.has_gem(state)
+                or self.can_bounce(state) and self.get_kicks(state, 3),
+            "Dungeon - Rafters": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 3) and self.can_slidejump(state)
+                or self.get_kicks(state, 3) and self.has_plunge(state),
+            "Dungeon - Strong Eyes": lambda state:
+                self.has_breaker(state),
+            "Dungeon - Alcove Near Mirror": lambda state: True,
+            "Dungeon - Past Poles": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 3),
+            "Castle - Indignation": lambda state: True,
+            "Castle - Floater In Courtyard": lambda state:
+                self.can_bounce(state) and self.has_plunge(state),
+            "Castle - High Climb From Courtyard": lambda state:
+                self.has_gem(state)
+                or self.can_slidejump(state) and self.get_kicks(state, 1),
+            "Castle - Locked Door": lambda state: False,
+            "Castle - Near Theatre Front": lambda state:
+                self.has_gem(state) and self.get_kicks(state, 3),
+            "Castle - Platform In Main Halls": lambda state:
+                self.has_plunge(state) and self.has_gem(state),
+            "Castle - Tall Room Near Wheel Crawlers": lambda state: False,
+            "Castle - Alcove Near Dungeon": lambda state: False,
+            "Castle - Alcove Near Scythe Corridor": lambda state:
+                self.can_slidejump(state) and self.get_kicks(state, 4)
+                or self.has_gem(state),
+            "Castle - Balcony": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 3),
+            "Castle - Corner Corridor": lambda state:
+                self.has_gem(state),
+            "Castle - Wheel Crawlers": lambda state:
+                self.can_bounce(state)
+                or self.has_gem(state),
+            "Library - Sun Greaves": lambda state:
+                self.can_slidejump(state)
+                or self.has_slide(state) and self.has_breaker(state)
+                or self.has_gem(state) and self.has_breaker(state)
+                or self.get_kicks(state, 4),
+            "Library - Locked Door Left": lambda state:
+                self.get_kicks(state, 3)
+                or self.has_gem(state),
+            "Library - Locked Door Across": lambda state:
+                self.can_slidejump(state)
+                or self.get_kicks(state, 1)
+                or self.has_gem(state),
+            "Library - Upper Back": lambda state:
+                self.get_kicks(state, 3)
+                or self.has_gem(state),
+            "Keep - Strikebreak": lambda state:
+                (self.has_slide(state) or self.can_strikebreak(state))
+                and (
+                    self.can_slidejump(state)
+                    or self.get_kicks(state, 1)
+                    or self.has_gem(state),
+                ),
+            "Keep - Sunsetter": lambda state:
+                self.has_breaker(state),
+            "Keep - Near Theatre": lambda state:
+                self.has_plunge(state)
+                or self.has_gem(state)
+                or self.get_kicks(state, 1),
+            "Keep - Levers Room": lambda state:
+                self.has_breaker(state),
+            "Keep - Alcove Near Locked Door": lambda state:
+                self.can_slidejump(state)
+                or self.get_kicks(state, 3)
+                or self.has_plunge(state),
+            "Keep - Major Key": lambda state:
+                self.can_bounce(state) and state.has_all(["Cling Gem, Sunsetter"], self.player)
+                or self.has_gem(state) and self.can_bounce(state) and self.get_kicks(state, 3),
+            "Bailey - Solar Wind": lambda state:
+                self.has_slide(state),
+            "Bailey - Cheese Bell": lambda state:
+                self.can_slidejump(state) and self.get_kicks(state, 1) and self.has_plunge(state)
+                or self.can_slidejump(state) and self.has_gem(state)
+                or self.get_kicks(state, 3) and self.has_plunge(state),
+            "Bailey - Inside Building": lambda state:
+                self.has_slide(state),
+            "Bailey - Center Steeple": lambda state:
+                self.get_kicks(state, 3)
+                or state.has_all(["Sunsetter", "Slide"], self.player),
+            "Bailey - Major Key": lambda state:
+                self.has_plunge
+                or self.has_gem
+                or self.get_kicks(state, 3),
+            "Theatre - Soul Cutter": lambda state:
+                self.can_strikebreak(state),
+            "Theatre - Corner Beam": lambda state:
+                self.has_gem(state) and self.get_kicks(state, 3)
+                or self.has_gem(state) and self.can_slidejump(state)
+                or self.get_kicks(state, 3) and self.can_slidejump(state),
+            "Theatre - Locked Door": lambda state:
+                self.has_small_keys(state)
+                or self.get_kicks(state, 3)
+                or self.has_gem(state),
+            "Theatre - Back Of Auditorium": lambda state:
+                self.get_kicks(state, 3)
+                or self.has_gem(state),
+            "Theatre - Murderous Goat": lambda state: True,
+            "Theatre - Major Key": lambda state:
+                self.can_soulcutter(state) and self.has_gem(state) and self.can_slidejump(state)
+                or self.can_soulcutter(state) and self.has_gem(state) and self.get_kicks(state, 1),
+            "Underbelly - Ascendant Light": lambda state: True,
+            "Underbelly - Locked Door": lambda state:
+                self.has_small_keys(state) and self.has_slide(state) and self.get_kicks(state, 3)
+                or self.has_small_keys(state) and self.has_slide(state) and self.has_plunge(state),
+            "Underbelly - Strikebreak Wall": lambda state:
+                (self.can_strikebreak(state) and self.can_bounce(state))
+                and (
+                    self.can_slidejump(state)
+                    or self.get_kicks(state, 1)
+                    or self.has_plunge(state)
+                ),
+            "Underbelly - Main Room": lambda state:
+                self.can_slidejump(state)
+                or self.has_plunge(state),
+            "Underbelly - Alcove Near Light": lambda state: True,
+            "Underbelly - Building Near Little Guy": lambda state:
+                self.get_kicks(state, 3)
+                or self.has_plunge,
+            "Underbelly - Rafters Near Keep": lambda state:
+                self.get_kicks(state, 3)
+                or self.get_kicks(state, 1) and self.has_plunge(state),
+            "Underbelly - Major Key": lambda state:
+                self.has_plunge(state)
+                and (
+                    self.can_soulcutter(state) and self.can_bounce(state)
+                    or self.can_soulcutter(state) and self.has_gem(state)
+                    or self.can_slidejump(state) and self.get_kicks(state, 3)
+                ),
+            "Tower - Cling Gem": lambda state:
+                self.get_kicks(state, 3),
+            "Tower - Major Key": lambda state: True,
         }
-
-    def set_pseudoregalia_rules(self, multiworld, difficulty):
-        # TODO: test performance of just iterating through region_rules as sets
-        # TODO: consider experimenting with assigning rules on region/location creation
-        # TODO: this method kind of just sucks honestly
-        for region_name, exit_list in self.region_rules.items():
-            for exit_name, rulesets in exit_list.items():
-                entrance = multiworld.get_entrance(f"{region_name} -> {exit_name}", self.player)
-                if UNIVERSAL in rulesets:
-                    set_rule(entrance, lambda state: False)
-                    for rule in rulesets[UNIVERSAL]:
-                        add_rule(entrance, rule, "or")
-                if difficulty in rulesets:
-                    for rule in rulesets[difficulty]:
-                        add_rule(entrance, rule, "or")
-
-        for location_name, rulesets in self.location_rules.items():
-            location = multiworld.get_location(location_name, self.player)
-            if UNIVERSAL in rulesets:
-                set_rule(location, lambda state: False)
-                for rule in rulesets[UNIVERSAL]:
-                    add_rule(location, rule, "or")
-            if difficulty in rulesets:
-                for rule in rulesets[difficulty]:
-                    add_rule(location, rule, "or")
 
     def has_breaker(self, state) -> bool:
         return state.has("Dream Breaker", self.player)
@@ -675,3 +246,24 @@ class PseudoregaliaRules:
 
     def can_soulcutter(self, state) -> bool:
         return (state.has_all(["Dream Breaker", "Strikebreak", "Soul Cutter"], self.player))
+
+    def set_pseudoregalia_rules(self, multiworld) -> None:
+        for region in multiworld.get_regions(self.player):
+            for entrance in region.entrances:
+                if entrance.name in self.region_rules:
+                    set_rule(entrance, self.region_rules[entrance.name])
+            for location in region.locations:
+                if location.name in self.location_rules:
+                    set_rule(location, self.location_rules[location.name])
+
+
+class PseudoregaliaNormalRules(PseudoregaliaUniversalRules):
+    def __init__(self, player) -> None:
+        self.player = player
+
+        self.location_rules.update({
+
+        })
+
+    def set_pseudoregalia_rules(self) -> None:
+        super().set_pseudoregalia_rules()
