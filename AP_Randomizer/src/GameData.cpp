@@ -259,6 +259,12 @@ namespace GameData {
         }
 
         slidejump_disabled = !slidejump_disabled;
+        if (slidejump_disabled) {
+            Logger::Log(L"Solar wind is now OFF.", Logger::LogType::System);
+        }
+        else {
+            Logger::Log(L"Solar wind is now ON.", Logger::LogType::System);
+        }
         return true;
     }
 
