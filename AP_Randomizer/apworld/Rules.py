@@ -257,7 +257,18 @@ class PseudoregaliaRules:
             },
             "Castle - Locked Door": {
                 UNIVERSAL: [
-                    self.has_small_keys
+                ],
+                NORMAL: [
+                    lambda state: self.has_small_keys(state) and self.has_breaker(state)
+                ],
+                HARD: [
+                    lambda state: self.has_small_keys(state) and self.has_breaker(state)
+                ],
+                EXPERT: [
+                    lambda state: self.has_small_keys(state) and self.can_attack(state)  # Obscure
+                ],
+                LUNATIC: [
+                    lambda state: self.has_small_keys(state) and self.can_attack(state)  # Obscure
                 ],
             },
             "Castle - Near Theatre Front": {
