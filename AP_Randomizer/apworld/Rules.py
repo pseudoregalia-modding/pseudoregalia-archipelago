@@ -359,8 +359,21 @@ class PseudoregaliaRules:
             "Castle - Corner Corridor": {
                 UNIVERSAL: [
                     self.has_gem,
+                ],
+                NORMAL: [
                     lambda state: self.get_kicks(state, 4),
-                ]
+                ],
+                HARD: [
+                    lambda state: self.get_kicks(state, 3),
+                ],
+                EXPERT: [
+                    lambda state: self.get_kicks(state, 3),
+                    lambda state: self.get_kicks(state, 2) and self.can_slide(state),
+                ],
+                LUNATIC: [
+                    lambda state: self.get_kicks(state, 3),
+                    lambda state: self.get_kicks(state, 1) and self.can_slide(state),
+                ],
             },
             "Castle - Wheel Crawlers": {
                 UNIVERSAL: [
