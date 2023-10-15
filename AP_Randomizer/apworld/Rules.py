@@ -45,7 +45,18 @@ class PseudoregaliaRules:
             "Castle Sansa": {
                 "Library Main": {
                     UNIVERSAL: [
-                        lambda state: self.has_breaker(state),
+                    ],
+                    NORMAL: [
+                        self.has_breaker,
+                    ],
+                    HARD: [
+                        self.has_breaker,
+                    ],
+                    EXPERT: [
+                        self.can_attack,  # Obscure
+                    ],
+                    LUNATIC: [
+                        self.can_attack,  # Obscure
                     ],
                 },
                 "Keep Main": {},
