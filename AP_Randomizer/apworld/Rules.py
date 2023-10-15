@@ -247,6 +247,10 @@ class PseudoregaliaRules:
     def can_soulcutter(self, state) -> bool:
         return (state.has_all(["Dream Breaker", "Strikebreak", "Soul Cutter"], self.player))
 
+    def knows_obscure(self, state) -> bool:
+        # Will check the obscure setting and return that
+        return False
+
     def set_pseudoregalia_rules(self, multiworld) -> None:
         for region in multiworld.get_regions(self.player):
             for entrance in region.entrances:
