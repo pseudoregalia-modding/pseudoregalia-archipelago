@@ -3,7 +3,7 @@ from typing import Dict, Set, Callable
 from worlds.generic.Rules import set_rule
 
 
-class PseudoregaliaUniversalRules:
+class PseudoregaliaRules:
     player: int
 
     region_rules: Dict[str, Callable[[CollectionState], bool]]
@@ -257,9 +257,61 @@ class PseudoregaliaUniversalRules:
                     set_rule(location, self.location_rules[location.name])
 
 
-class PseudoregaliaNormalRules(PseudoregaliaUniversalRules):
+class PseudoregaliaNormalRules(PseudoregaliaRules):
     def __init__(self, player) -> None:
         self.player = player
+
+        self.region_rules.update({
+
+        })
+
+        self.location_rules.update({
+
+        })
+
+    def set_pseudoregalia_rules(self) -> None:
+        super().set_pseudoregalia_rules()
+
+
+class PseudoregaliaHardRules(PseudoregaliaRules):
+    def __init__(self, player) -> None:
+        self.player = player
+
+        self.region_rules.update({
+
+        })
+
+        self.location_rules.update({
+
+        })
+
+    def set_pseudoregalia_rules(self) -> None:
+        super().set_pseudoregalia_rules()
+
+
+class PseudoregaliaExpertRules(PseudoregaliaRules):
+    def __init__(self, player) -> None:
+        self.player = player
+
+        self.region_rules.update({
+
+        })
+
+        self.location_rules.update({
+
+        })
+
+    def set_pseudoregalia_rules(self) -> None:
+        super().set_pseudoregalia_rules()
+
+
+class PseudoregaliaLunaticRules(PseudoregaliaRules):
+    def __init__(self, player) -> None:
+        self.player = player
+
+        self.region_rules.update({
+
+        })
 
         self.location_rules.update({
 
