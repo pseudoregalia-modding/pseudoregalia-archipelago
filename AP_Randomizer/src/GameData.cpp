@@ -10,6 +10,8 @@ namespace GameData {
     bool major_keys[5];
     std::map<std::wstring, int> upgrade_table;
     std::unordered_map<std::wstring, std::unordered_map<int64_t, Collectible>> collectible_table;
+    bool slidejump_owned;
+    bool slidejump_disabled;
 
     const std::map<int64_t, std::wstring> lookup_id_to_upgrade = {
         {2365810001, L"attack"},
@@ -216,6 +218,9 @@ namespace GameData {
         switch (type) {
         case ItemType::Ability:
             upgrade_table[lookup_id_to_upgrade.at(id)]++;
+            if (!slidejump_owned && lookup_id_to_upgrade.at(id) == L"SlideJump") {
+                slidejump_owned = true;
+            }
             break;
         case ItemType::HealthPiece:
             health_pieces++;
@@ -245,5 +250,19 @@ namespace GameData {
         }
 
         Logger::Log(L"No location with id " + std::to_wstring(id) + L" was found. The developer probably made a mistake in the internal data.", Logger::LogType::Error);
+    }
+
+    bool GameData::ToggleSlideJump() {
+        if (!slidejump_owned) {
+            Logger::Log(L"Slidejump is not obtained");
+            return false;
+        }
+
+        slidejump_disabled = !slidejump_disabled;
+        return true;
+    }
+
+    bool GameData::SlideJumpDisabled() {
+        return slidejump_disabled;
     }
 }

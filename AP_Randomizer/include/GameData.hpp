@@ -20,4 +20,6 @@ namespace GameData {
 	std::unordered_map<int64_t, Collectible> GetCollectiblesOfZone(std::wstring);
 	void CheckLocation(int64_t);
 	ItemType ReceiveItem(int64_t);
+	bool ToggleSlideJump();
+	bool SlideJumpDisabled();
 }

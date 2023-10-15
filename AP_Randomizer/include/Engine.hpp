@@ -10,4 +10,5 @@ namespace Engine {
 	void SyncItems();
 	void SpawnCollectibles();
 	std::wstring GetWorldName();
+	void ToggleSlideJump();
 }
