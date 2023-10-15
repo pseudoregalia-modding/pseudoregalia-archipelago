@@ -334,10 +334,27 @@ class PseudoregaliaRules:
             },
             "Castle - Balcony": {
                 UNIVERSAL: [
-                    lambda state: self.get_kicks(state, 4),
                     self.has_gem,
-                    lambda state: self.can_slidejump(state) and self.get_kicks(state, 1),
-                ]
+                    lambda state: self.get_kicks(state, 3),
+                ],
+                NORMAL: [
+                    lambda state: self.has_plunge(state) and self.get_kicks(state, 2),
+                    lambda state: self.can_slidejump(state) and self.get_kicks(state, 1) and self.has_plunge(state),
+                    lambda state: self.can_slidejump(state) and self.get_kicks(state, 2),
+                ],
+                HARD: [
+                    lambda state: self.has_plunge(state) and self.get_kicks(state, 2),
+                    lambda state: self.has_slide(state) and self.has_plunge(state),
+                    lambda state: self.has_slide(state) and self.get_kicks(state, 1) and self.has_breaker(state),
+                ],
+                EXPERT: [
+                    lambda state: self.has_plunge(state) and self.get_kicks(state, 1),
+                    self.has_slide,
+                ],
+                LUNATIC: [
+                    lambda state: self.has_plunge(state) and self.get_kicks(state, 1),
+                    self.has_slide,
+                ],
             },
             "Castle - Corner Corridor": {
                 UNIVERSAL: [
