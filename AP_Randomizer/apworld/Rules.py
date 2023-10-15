@@ -317,9 +317,27 @@ class PseudoregaliaRules:
             "Castle - Wheel Crawlers": {
                 UNIVERSAL: [
                     self.can_bounce,
-                    lambda state: self.get_kicks(state, 3),
                     lambda state: state.has("Cling Gem", self.player),
-                ]
+                ],
+                NORMAL: [
+                    lambda state: self.get_kicks(state, 2),
+                    lambda state: self.get_kicks(state, 1)
+                    and (state.has("Sunsetter", self.player) or self.can_slidejump(state)),
+                ],
+                HARD: [
+                    lambda state: self.get_kicks(state, 1),
+                    lambda state: self.can_slidejump(state) and state.has("Sunsetter", self.player),
+                ],
+                EXPERT: [
+                    lambda state: self.get_kicks(state, 1),
+                    lambda state: state.has("Slide", self.player),
+                    lambda state: state.has("Sunsetter", self.player),  # Obscure
+                ],
+                LUNATIC: [
+                    lambda state: self.get_kicks(state, 1),
+                    lambda state: state.has("Slide", self.player),
+                    lambda state: state.has("Sunsetter", self.player),  # Obscure
+                ],
             },
             "Library - Sun Greaves": {
                 UNIVERSAL: [
