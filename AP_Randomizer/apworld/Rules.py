@@ -264,8 +264,26 @@ class PseudoregaliaRules:
             },
             "Castle - Tall Room Near Wheel Crawlers": {
                 UNIVERSAL: [
+                ],
+                NORMAL: [
+                    lambda state: state.has("Cling Gem", self.player)
+                    and (state.has("Sunsetter", self.player) or self.get_kicks(state, 1)),
+                    lambda state: self.get_kicks(state, 2),
+                ],
+                HARD: [
                     lambda state: state.has("Cling Gem", self.player),
-                    lambda state: self.get_kicks(state, 3),
+                    lambda state: self.get_kicks(state, 1),
+                    lambda state: self.can_slidejump(state) and state.has("Sunsetter", self.player),  # Obscure
+                ],
+                EXPERT: [
+                    lambda state: state.has("Cling Gem", self.player),
+                    lambda state: self.get_kicks(state, 1),
+                    lambda state: state.has("Slide", self.player),
+                ],
+                LUNATIC: [
+                    lambda state: state.has("Cling Gem", self.player),
+                    lambda state: self.get_kicks(state, 1),
+                    lambda state: state.has("Slide", self.player),
                 ],
             },
             "Castle - Alcove Near Dungeon": {
