@@ -20,6 +20,7 @@ public:
         bool isPressed = false;
     };
     bool returncheck_hooked = false;
+    bool toggleslidejump_hooked = false;
 
     AP_Randomizer() : CppUserModBase() {
         ModName = STR("AP_Randomizer");
@@ -60,6 +61,9 @@ public:
             auto returncheck = [](UnrealScriptFunctionCallableContext& context, void* customdata) {
                 Client::SendCheck(context.GetParams<int64_t>(), Engine::GetWorldName());
                 };
+            auto toggleslidejump = [](UnrealScriptFunctionCallableContext& context, void* customdata) {
+                Engine::ToggleSlideJump();
+                };
 
             if (!returncheck_hooked
                 && actor->GetName().starts_with(STR("BP_APCollectible"))) {
@@ -74,6 +78,15 @@ public:
             }
 
             if (actor->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
+                if (!toggleslidejump_hooked) {
+                    UFunction* toggle_function = actor->GetFunctionByName(L"AP_ToggleSlideJump");
+                    if (!toggle_function) {
+                        Logger::Log(L"Could not find function \"AP_ToggleSlideJump\" in BP_APRandomizerInstance.", Logger::LogType::Error);
+                        return;
+                    }
+                    Unreal::UObjectGlobals::RegisterHook(toggle_function, EmptyFunction, toggleslidejump, nullptr);
+                    toggleslidejump_hooked = true;
+                }
                 Logger::Log(L"Loaded scene " + Engine::GetWorldName());
                 if (Engine::GetWorldName() == STR("EndScreen")) {
                     Client::CompleteGame();
