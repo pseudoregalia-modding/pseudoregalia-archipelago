@@ -240,7 +240,7 @@ class PseudoregaliaRules:
         return kicks >= count
 
     def has_small_keys(self, state) -> bool:
-        return (state.count("Small Key", self.player) >= 6)
+        return (state.count("Small Key", self.player) >= 7)
 
     def navigate_darkrooms(self, state) -> bool:
         return (state.has("Dream Breaker", self.player) or state.has("Ascendant Light", self.player))
