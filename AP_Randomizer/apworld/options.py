@@ -16,7 +16,7 @@ class LogicLevel(Choice):
     option_hard = 1
     option_expert = 2
     option_lunatic = 3
-    default = 1  # default to normal
+    default = 0
 
 
 class ObscureTricks(Toggle):
