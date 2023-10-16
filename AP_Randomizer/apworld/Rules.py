@@ -44,7 +44,7 @@ class PseudoregaliaRules:
             "Empty Bailey -> Theatre Pillar": lambda state: True,
             "Empty Bailey -> Tower Remains": lambda state:
                 self.has_gem(state)
-                or self.has_all(["Slide", "Sunsetter"], self.player)
+                or state.has_all(["Slide", "Sunsetter"], self.player)
                 or self.get_kicks(state, 1),
             "Tower Remains -> Underbelly Main": lambda state:
                 self.has_plunge(state),
