@@ -36,6 +36,7 @@ namespace Engine {
 	}
 
 	void Engine::ExecuteBlueprintFunction(std::wstring new_parent, std::wstring new_name, void* params) {
+		std::lock_guard<std::mutex> guard(blueprint_function_mutex);
 		blueprint_function_queue.push_back(BlueprintFunctionInfo(new_parent, new_name, params));
 	}
 
