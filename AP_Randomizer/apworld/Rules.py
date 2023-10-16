@@ -263,6 +263,7 @@ class PseudoregaliaRules:
 
 class PseudoregaliaNormalRules(PseudoregaliaRules):
     def __init__(self, player) -> None:
+        super().__init__(player)
         self.player = player
 
         self.region_rules.update({
@@ -325,6 +326,7 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
 
 class PseudoregaliaHardRules(PseudoregaliaRules):
     def __init__(self, player) -> None:
+        super().__init__(player)
         self.player = player
 
         self.region_rules.update({
@@ -385,6 +387,7 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
 
 class PseudoregaliaExpertRules(PseudoregaliaRules):
     def __init__(self, player) -> None:
+        super().__init__(player)
         self.player = player
 
         self.region_rules.update({
@@ -446,6 +449,7 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
 
 class PseudoregaliaLunaticRules(PseudoregaliaRules):
     def __init__(self, player) -> None:
+        super().__init__(player)
         self.player = player
 
         self.region_rules.update({
