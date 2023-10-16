@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from Options import Toggle, Range, Choice, PerGameCommonOptions
+from .constants.difficulties import NORMAL, HARD, EXPERT, LUNATIC
 
 
 class LogicLevel(Choice):
@@ -12,11 +13,11 @@ class LogicLevel(Choice):
     Lunatic: Can require extremely difficult jumps. No holds barred.
     """
     display_name = "Logic Level"
-    option_normal = 0
-    option_hard = 1
-    option_expert = 2
-    option_lunatic = 3
-    default = 0
+    option_normal = NORMAL
+    option_hard = HARD
+    option_expert = EXPERT
+    option_lunatic = LUNATIC
+    default = NORMAL
 
 
 class ObscureTricks(Toggle):
