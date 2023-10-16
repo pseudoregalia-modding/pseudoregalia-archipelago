@@ -1,4 +1,5 @@
 #pragma once
+#include <mutex>
 #include "Unreal/TArray.hpp"
 #include "Unreal/World.hpp"
 #include "Engine.hpp"
@@ -10,6 +11,9 @@ namespace Engine {
 	void SyncHealthPieces();
 	void SyncSmallKeys();
 	void SyncAbilities();
+
+	std::mutex blueprint_function_mutex;
+
 
 	struct BlueprintFunctionInfo {
 		std::wstring parent_name;
@@ -44,6 +48,7 @@ namespace Engine {
 			awaiting_item_sync = false;
 		}
 
+		std::lock_guard<std::mutex> guard(blueprint_function_mutex);
 		for (BlueprintFunctionInfo& info : blueprint_function_queue) {
 			// Since I only call functions in BP_APRandomizerInstance right now there's no need to run FindFirstof to find a parent blueprint.
 			// If I decide to pull back from using blueprint functions as much (maybe after TMap is implemented in UE4SS)
