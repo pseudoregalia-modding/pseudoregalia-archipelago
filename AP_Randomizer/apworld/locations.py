@@ -6,6 +6,7 @@ class PseudoregaliaLocationData(NamedTuple):
     region: str
     code: int = None
     locked_item: Optional[str] = None
+    show_in_spoiler: bool = True
 
 
 location_table = {

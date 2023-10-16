@@ -43,7 +43,10 @@ class PseudoregaliaWorld(World):
 
         for loc_name, loc_data in location_table.items():
             region = self.multiworld.get_region(loc_data.region, self.player)
-            region.locations.append(Location(self.player, loc_name, loc_data.code, region))
+            new_loc = Location(self.player, loc_name, loc_data.code, region)
+            if (not loc_data.show_in_spoiler):
+                new_loc.show_in_spoiler = False
+            region.locations.append(new_loc)
 
         for region_name, exit_list in region_table.items():
             region = self.multiworld.get_region(region_name, self.player)
