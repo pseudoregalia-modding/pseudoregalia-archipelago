@@ -19,6 +19,11 @@ class LogicLevel(Choice):
     default = 1  # default to normal
 
 
+class ObscureTricks(Toggle):
+    display_name = "Obscure Tricks"
+
+
 @dataclass
 class PseudoregaliaOptions(PerGameCommonOptions):
     logic_level: LogicLevel
+    obscure_tricks: ObscureTricks
