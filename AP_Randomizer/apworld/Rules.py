@@ -154,8 +154,8 @@ class PseudoregaliaRules:
                 self.get_kicks(state, 3)
                 or state.has_all(["Sunsetter", "Slide"], self.player),
             "Bailey - Major Key": lambda state:
-                self.has_plunge
-                or self.has_gem
+                self.has_plunge(state)
+                or self.has_gem(state)
                 or self.get_kicks(state, 3),
             "Theatre - Soul Cutter": lambda state:
                 self.can_strikebreak(state),
@@ -191,7 +191,7 @@ class PseudoregaliaRules:
             "Underbelly - Alcove Near Light": lambda state: True,
             "Underbelly - Building Near Little Guy": lambda state:
                 self.get_kicks(state, 3)
-                or self.has_plunge,
+                or self.has_plunge(state),
             "Underbelly - Rafters Near Keep": lambda state:
                 self.get_kicks(state, 3)
                 or self.get_kicks(state, 1) and self.has_plunge(state),
