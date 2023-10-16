@@ -110,9 +110,11 @@ namespace Engine {
 		struct AddUpgradeInfo {
 			TArray<FName> names;
 			TArray<int> counts;
+			bool slidejump_disabled;
 		};
 		TArray<FName> ue_names;
 		TArray<int> ue_counts;
+		bool toggle = GameData::SlideJumpDisabled();
 
 		for (const auto& pair : GameData::GetUpgradeTable()) {
 			std::unique_ptr<FName> new_name(new FName(pair.first));
@@ -120,7 +122,7 @@ namespace Engine {
 			ue_counts.Add(pair.second);
 		}
 
-		void* upgrade_params = new AddUpgradeInfo{ ue_names, ue_counts };
+		void* upgrade_params = new AddUpgradeInfo{ ue_names, ue_counts, toggle };
 		ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetUpgrades", upgrade_params);
 	}
 
@@ -147,5 +149,11 @@ namespace Engine {
 
 		void* major_key_params = new MajorKeyInfo{ ue_keys };
 		ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetMajorKeys", major_key_params);
+	}
+
+	void Engine::ToggleSlideJump() {
+		if (GameData::ToggleSlideJump()) {
+			SyncAbilities();
+		}
 	}
 }
