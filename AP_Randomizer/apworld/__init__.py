@@ -3,6 +3,7 @@ from BaseClasses import Region, Location, Item
 from .items import PseudoregaliaItem, PseudoregaliaItemData, item_table, item_frequencies
 from .locations import location_table
 from .regions import region_table
+from .options import PseudoregaliaOptions
 from worlds.generic.Rules import add_rule, set_rule, forbid_item
 from .rules import PseudoregaliaRules, PseudoregaliaNormalRules, PseudoregaliaHardRules, PseudoregaliaExpertRules, PseudoregaliaLunaticRules
 from typing import Dict, Any
@@ -15,6 +16,9 @@ class PseudoregaliaWorld(World):
     item_name_to_id = {name: data.code for name, data in item_table.items() if data.code is not None}
     location_name_to_id = {name: data.code for name, data in location_table.items() if data.code is not None}
     locked_locations = {name: data for name, data in location_table.items() if data.locked_item}
+
+    options_dataclass = PseudoregaliaOptions
+    options: PseudoregaliaOptions
 
     def create_item(self, name: str) -> PseudoregaliaItem:
         data = item_table[name]
