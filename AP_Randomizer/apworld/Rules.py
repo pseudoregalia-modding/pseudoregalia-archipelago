@@ -320,8 +320,8 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
 
         })
 
-    def set_pseudoregalia_rules(self) -> None:
-        super().set_pseudoregalia_rules()
+    def set_pseudoregalia_rules(self, multiworld) -> None:
+        super().set_pseudoregalia_rules(multiworld)
 
 
 class PseudoregaliaHardRules(PseudoregaliaRules):
@@ -381,8 +381,8 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
                 or self.knows_obscure(state) and self.has_plunge(state),
         })
 
-    def set_pseudoregalia_rules(self) -> None:
-        super().set_pseudoregalia_rules()
+    def set_pseudoregalia_rules(self, multiworld) -> None:
+        super().set_pseudoregalia_rules(multiworld)
 
 
 class PseudoregaliaExpertRules(PseudoregaliaRules):
@@ -443,8 +443,8 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
                 or self.has_plunge(state),
         })
 
-    def set_pseudoregalia_rules(self) -> None:
-        super().set_pseudoregalia_rules()
+    def set_pseudoregalia_rules(self, multiworld) -> None:
+        super().set_pseudoregalia_rules(multiworld)
 
 
 class PseudoregaliaLunaticRules(PseudoregaliaRules):
@@ -506,5 +506,5 @@ class PseudoregaliaLunaticRules(PseudoregaliaRules):
                 or self.has_plunge(state),
         })
 
-    def set_pseudoregalia_rules(self) -> None:
-        super().set_pseudoregalia_rules()
+    def set_pseudoregalia_rules(self, multiworld) -> None:
+        super().set_pseudoregalia_rules(multiworld)
