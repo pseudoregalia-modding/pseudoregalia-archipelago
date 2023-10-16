@@ -4,7 +4,7 @@ from .Items import PseudoregaliaItem, PseudoregaliaItemData, item_table, item_fr
 from .Locations import location_table
 from .Regions import region_table
 from worlds.generic.Rules import add_rule, set_rule, forbid_item
-from .Rules import PseudoregaliaRules
+from .Rules import PseudoregaliaRules, PseudoregaliaNormalRules, PseudoregaliaHardRules, PseudoregaliaExpertRules, PseudoregaliaLunaticRules
 from typing import Dict, Any
 from .constants.DIFFICULTIES import UNIVERSAL, NORMAL, HARD, EXPERT, LUNATIC
 
@@ -55,7 +55,7 @@ class PseudoregaliaWorld(World):
 
     def set_rules(self):
         difficulty = NORMAL
-        PseudoregaliaRules(self.player).set_pseudoregalia_rules(self.multiworld, difficulty)
+        PseudoregaliaNormalRules(self.player).set_pseudoregalia_rules(self.multiworld)
 
         set_rule(self.multiworld.get_location("D S T RT ED M M O   Y", self.player), lambda state:
                  state.has_all([
