@@ -12,12 +12,12 @@ namespace GameData {
 		}
 
 		bool Check() {
-			this->checked = true;
+			checked = true;
 			return checked;
 		}
 
 		bool IsChecked() {
-			return this->checked;}
+			return checked;}
 
 		FVector GetPosition() {
 			return position;}
