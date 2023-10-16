@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from Options import Toggle, Range, Choice, PerGameCommonOptions
+from Options import Toggle, Range, Choice, PerGameCommonOptions, DefaultOnToggle
 from .constants.difficulties import NORMAL, HARD, EXPERT, LUNATIC
 
 
@@ -28,7 +28,18 @@ class ObscureTricks(Toggle):
     display_name = "Obscure Tricks"
 
 
+class SafeSmallKeys(DefaultOnToggle):
+    """
+    No locked doors are in logic until all small keys are obtainable.
+    Prevents potential softlocks when spending small keys out of logic.
+
+    Currently unused.
+    """
+    display_name = "Safe Small Keys"
+
+
 @dataclass
 class PseudoregaliaOptions(PerGameCommonOptions):
     logic_level: LogicLevel
     obscure_tricks: ObscureTricks
+    safe_small_keys: SafeSmallKeys
