@@ -58,8 +58,15 @@ class PseudoregaliaWorld(World):
         return {"slot_number": self.player}
 
     def set_rules(self):
-        difficulty = NORMAL
-        PseudoregaliaNormalRules(self.player).set_pseudoregalia_rules(self.multiworld)
+        difficulty = self.options.logic_level
+        if difficulty == NORMAL:
+            PseudoregaliaNormalRules(self.player).set_pseudoregalia_rules(self.multiworld)
+        elif difficulty == HARD:
+            PseudoregaliaHardRules(self.player).set_pseudoregalia_rules(self.multiworld)
+        elif difficulty == EXPERT:
+            PseudoregaliaExpertRules(self.player).set_pseudoregalia_rules(self.multiworld)
+        elif difficulty == LUNATIC:
+            PseudoregaliaLunaticRules(self.player).set_pseudoregalia_rules(self.multiworld)
 
         set_rule(self.multiworld.get_location("D S T RT ED M M O   Y", self.player), lambda state:
                  state.has_all([
