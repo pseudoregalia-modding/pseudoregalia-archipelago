@@ -316,7 +316,7 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
                 or self.get_kicks(state, 3)
                 or self.has_plunge(state) and self.get_kicks(state, 2)
                 or self.can_slidejump(state) and self.get_kicks(state, 2)
-                or self.can_slidejump(state) and self.get_kicks(state, 1) and self.has_plunge(state, 1),
+                or self.can_slidejump(state) and self.get_kicks(state, 1) and self.has_plunge(state),
             "Castle - Corner Corridor": lambda state:
                 self.has_gem(state)
                 or self.get_kicks(state, 4),
