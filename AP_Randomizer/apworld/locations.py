@@ -167,6 +167,35 @@ location_table = {
         code=2365810050,
         region="Theatre Main",),
 
+    "Dungeon - Unlock Door": PseudoregaliaLocationData(
+        region="Dungeon Strong Eyes",
+        locked_item="Unlocked Door",
+        show_in_spoiler=False),
+    "Castle - Unlock Door (Professionalism)": PseudoregaliaLocationData(
+        region="Castle Sansa",
+        locked_item="Unlocked Door",
+        show_in_spoiler=False),
+    "Castle - Unlock Door (Sansa Keep)": PseudoregaliaLocationData(
+        region="Castle Sansa",
+        locked_item="Unlocked Door",
+        show_in_spoiler=False),
+    "Keep - Unlock Door": PseudoregaliaLocationData(
+        region="Keep Main",
+        locked_item="Unlocked Door",
+        show_in_spoiler=False),
+    "Library - Unlock Door": PseudoregaliaLocationData(
+        region="Library Main",
+        locked_item="Unlocked Door",
+        show_in_spoiler=False),
+    "Theatre - Unlock Door": PseudoregaliaLocationData(
+        region="Theatre Main",
+        locked_item="Unlocked Door",
+        show_in_spoiler=False),
+    "Underbelly - Unlock Door": PseudoregaliaLocationData(
+        region="Underbelly Main",
+        locked_item="Unlocked Door",
+        show_in_spoiler=False),
+
     "D S T RT ED M M O   Y": PseudoregaliaLocationData(
         region="The Great Door",
         locked_item="Something Worth Being Awake For"),
