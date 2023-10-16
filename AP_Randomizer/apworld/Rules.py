@@ -277,6 +277,45 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
         })
 
         self.location_rules.update({
+            "Castle - Floater in Courtyard": lambda state:
+                self.can_bounce(state) and self.has_plunge(state)
+                or self.can_bounce(state) and self.get_kicks(state, 2)
+                or self.has_gem(state) and self.get_kicks(state, 2)
+                or self.has_gem(state) and self.has_plunge(state)
+                or self.get_kicks(state, 4),
+            "Castle - Locked Door": lambda state:
+                self.has_small_keys(state)
+                and (
+                    self.has_breaker(state)
+                    or self.knows_obscure(state) and self.can_attack(state)
+                ),
+            "Castle - Platform In Main Halls": lambda state:
+                self.has_plunge(state)
+                or self.has_gem(state)
+                or self.get_kicks(state, 2),
+            "Castle - Tall Room Near Wheel Crawlers": lambda state:
+                self.has_gem(state) and self.has_plunge(state)
+                or self.has_gem(state) and self.get_kicks(state, 1)
+                or self.get_kicks(state, 2),
+            "Castle - Alcove Near Dungeon": lambda state:
+                self.has_gem(state) and self.has_plunge(state)
+                or self.has_gem(state) and self.get_kicks(state, 1)
+                or self.has_plunge(state) and self.get_kicks(state, 1)
+                or self.get_kicks(state, 2),
+            "Castle - Balcony": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 3)
+                or self.has_plunge(state) and self.get_kicks(state, 2)
+                or self.can_slidejump(state) and self.get_kicks(state, 2)
+                or self.can_slidejump(state) and self.get_kicks(state, 1) and self.has_plunge(state, 1),
+            "Castle - Corner Corridor": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 4),
+            "Castle - Wheel Crawlers": lambda state:
+                self.can_bounce(state)
+                or self.has_gem(state)
+                or self.get_kicks(state, 2)
+                or self.get_kicks(state, 1) and self.can_slidejump(state),
 
         })
 
@@ -299,7 +338,45 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
         })
 
         self.location_rules.update({
-
+            "Castle - Floater in Courtyard": lambda state:
+                self.can_bounce(state) and self.has_plunge(state)
+                or self.can_bounce(state) and self.get_kicks(state, 1)
+                or self.get_kicks(state, 4)
+                or self.get_kicks(state, 3) and self.has_plunge(state)
+                or self.has_gem(state),
+            "Castle - Locked Door": lambda state:
+                self.has_small_keys(state)
+                and (
+                    self.has_breaker(state)
+                    or self.knows_obscure(state) and self.can_attack(state)
+                ),
+            "Castle - Platform In Main Halls": lambda state:
+                self.has_plunge(state)
+                or self.has_gem(state)
+                or self.get_kicks(state, 1),
+            "Castle - Tall Room Near Wheel Crawlers": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 1)
+                or self.knows_obscure(state) and self.can_slidejump(state) and self.has_plunge(state),
+            "Castle - Alcove Near Dungeon": lambda state:
+                self.has_gem(state)
+                or self.has_plunge(state)
+                or self.get_kicks(state, 1),
+            "Castle - Balcony": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 3)
+                or self.has_plunge(state) and self.get_kicks(state, 2)
+                or self.has_slide(state) and self.has_plunge(state)
+                or self.has_slide(state) and self.get_kicks(state, 1) and self.has_breaker(state),
+            "Castle - Corner Corridor": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 3),
+            "Castle - Wheel Crawlers": lambda state:
+                self.can_bounce(state)
+                or self.has_gem(state)
+                or self.get_kicks(state, 1)
+                or self.can_slidejump(state) and self.has_plunge(state)
+                or self.knows_obscure(state) and self.has_plunge(state),
         })
 
     def set_pseudoregalia_rules(self) -> None:
@@ -321,7 +398,46 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
         })
 
         self.location_rules.update({
-
+            "Castle - Floater in Courtyard": lambda state:
+                self.can_bounce(state)
+                and (
+                    self.has_plunge(state)
+                    or self.get_kicks(state, 1)
+                    or self.has_slide(state))
+                or self.has_slide(state) and self.get_kicks(state, 1)
+                or self.get_kicks(state, 3)
+                or self.has_gem(state),
+            "Castle - Locked Door": lambda state:
+                self.has_small_keys(state) and self.can_attack(state),
+            "Castle - Platform In Main Halls": lambda state:
+                self.has_plunge(state)
+                or self.has_gem(state)
+                or self.get_kicks(state, 1)
+                or self.has_slide(state),
+            "Castle - Tall Room Near Wheel Crawlers": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 1)
+                or self.has_slide(state),
+            "Castle - Alcove Near Dungeon": lambda state:
+                self.has_gem(state)
+                or self.has_plunge(state)
+                or self.get_kicks(state, 1)
+                or self.has_slide(state),
+            "Castle - Balcony": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 3)
+                or self.has_plunge(state) and self.get_kicks(state, 1)
+                or self.has_slide(state),
+            "Castle - Corner Corridor": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 3)
+                or self.get_kicks(state, 2) and self.has_slide(state),
+            "Castle - Wheel Crawlers": lambda state:
+                self.can_bounce(state)
+                or self.has_gem(state)
+                or self.get_kicks(state, 1)
+                or self.has_slide(state)
+                or self.has_plunge(state),
         })
 
     def set_pseudoregalia_rules(self) -> None:
@@ -343,7 +459,47 @@ class PseudoregaliaLunaticRules(PseudoregaliaRules):
         })
 
         self.location_rules.update({
-
+            "Castle - Floater in Courtyard": lambda state:
+                self.can_bounce(state)
+                and (
+                    self.has_plunge(state)
+                    or self.get_kicks(state, 1)
+                    or self.has_slide(state))
+                or self.has_slide(state) and self.get_kicks(state, 1)
+                or self.get_kicks(state, 3)
+                or self.has_gem(state),
+            "Castle - Locked Door": lambda state:
+                self.has_small_keys(state) and self.can_attack(state),
+            "Castle - Platform In Main Halls": lambda state:
+                self.has_plunge(state)
+                or self.has_gem(state)
+                or self.get_kicks(state, 1)
+                or self.has_slide(state)
+                or self.can_bounce(state),
+            "Castle - Tall Room Near Wheel Crawlers": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 1)
+                or self.has_slide(state),
+            "Castle - Alcove Near Dungeon": lambda state:
+                self.has_gem(state)
+                or self.has_plunge(state)
+                or self.get_kicks(state, 1)
+                or self.has_slide(state),
+            "Castle - Balcony": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 3)
+                or self.has_plunge(state) and self.get_kicks(state, 1)
+                or self.has_slide(state),
+            "Castle - Corner Corridor": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 3)
+                or self.get_kicks(state, 1) and self.has_slide(state),
+            "Castle - Wheel Crawlers": lambda state:
+                self.can_bounce(state)
+                or self.has_gem(state)
+                or self.get_kicks(state, 1)
+                or self.has_slide(state)
+                or self.has_plunge(state),
         })
 
     def set_pseudoregalia_rules(self) -> None:
