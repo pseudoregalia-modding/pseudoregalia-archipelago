@@ -26,13 +26,13 @@ class PseudoregaliaRules:
             "Dungeon Mirror -> Theatre Main": lambda state:
                 self.has_gem(state) and self.get_kicks(state, 3)
                 or self.has_gem(state) and self.can_slidejump(state),
-            "Dungeon Strong Eyes -> Castle Sansa": lambda state:
+            "Dungeon Strong Eyes -> Castle Main": lambda state:
                 self.has_small_keys(state),
-            "Castle Sansa -> Library Main": lambda state: False,
-            "Castle Sansa -> Keep Main": lambda state: True,
-            "Castle Sansa -> Empty Bailey": lambda state: True,
-            "Castle Sansa -> Theatre Pillar": lambda state: False,
-            "Castle Sansa -> Theatre Main": lambda state:
+            "Castle Main -> Library Main": lambda state: False,
+            "Castle Main -> Keep Main": lambda state: True,
+            "Castle Main -> Empty Bailey": lambda state: True,
+            "Castle Main -> Theatre Pillar": lambda state: False,
+            "Castle Main -> Theatre Main": lambda state:
                 self.has_gem(state)
                 or self.can_slidejump(state) and self.get_kicks(state, 4),
             "Library Main -> Library Locked": lambda state:
@@ -47,7 +47,7 @@ class PseudoregaliaRules:
             "Keep Main -> Theatre Main": lambda state:
                 self.has_gem(state) and self.get_kicks(state, 3)
                 or self.has_gem(state) and self.can_slidejump(state),
-            "Empty Bailey -> Castle Sansa": lambda state: True,
+            "Empty Bailey -> Castle Main": lambda state: True,
             "Empty Bailey -> Theatre Pillar": lambda state: True,
             "Empty Bailey -> Tower Remains": lambda state:
                 self.has_gem(state)
@@ -275,10 +275,10 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
         super().__init__(world)
 
         self.region_rules.update({
-            "Castle Sansa -> Library Main": lambda state:
+            "Castle Main -> Library Main": lambda state:
                 self.has_breaker(state)
                 or self.knows_obscure(state) and self.can_attack(state),
-            "Castle Sansa -> Theatre Pillar": lambda state:
+            "Castle Main -> Theatre Pillar": lambda state:
                 self.has_gem(state) and self.has_plunge(state)
                 or self.has_gem(state) and self.get_kicks(state, 1)
                 or self.has_plunge(state) and self.get_kicks(state, 1)
@@ -337,10 +337,10 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
         super().__init__(world)
 
         self.region_rules.update({
-            "Castle Sansa -> Library Main": lambda state:
+            "Castle Main -> Library Main": lambda state:
                 self.has_breaker(state)
                 or self.knows_obscure(state) and self.can_attack(state),
-            "Castle Sansa -> Theatre Pillar": lambda state:
+            "Castle Main -> Theatre Pillar": lambda state:
                 self.has_gem(state)
                 or self.has_plunge(state)
                 or self.get_kicks(state, 1),
@@ -397,9 +397,9 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
         super().__init__(world)
 
         self.region_rules.update({
-            "Castle Sansa -> Library Main": lambda state:
+            "Castle Main -> Library Main": lambda state:
                 self.can_attack(state),
-            "Castle Sansa -> Theatre Pillar": lambda state:
+            "Castle Main -> Theatre Pillar": lambda state:
                 self.has_gem(state)
                 or self.has_plunge(state)
                 or self.has_slide(state)
@@ -458,9 +458,9 @@ class PseudoregaliaLunaticRules(PseudoregaliaRules):
         super().__init__(world)
 
         self.region_rules.update({
-            "Castle Sansa -> Library Main": lambda state:
+            "Castle Main -> Library Main": lambda state:
                 self.can_attack(state),
-            "Castle Sansa -> Theatre Pillar": lambda state:
+            "Castle Main -> Theatre Pillar": lambda state:
                 self.has_gem(state)
                 or self.has_plunge(state)
                 or self.has_slide(state)

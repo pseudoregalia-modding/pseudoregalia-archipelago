@@ -20,7 +20,7 @@ location_table = {
         region="Dungeon Mirror"),
     "Castle - Indignation": PseudoregaliaLocationData(
         code=2365810003,
-        region="Castle Sansa"),
+        region="Castle Main"),
     "Keep - Sunsetter": PseudoregaliaLocationData(
         code=2365810004,
         region="Keep Sunsetter"),
@@ -51,7 +51,7 @@ location_table = {
         region="Theatre Pillar",),
     "Castle - Floater In Courtyard": PseudoregaliaLocationData(
         code=2365810013,
-        region="Castle Sansa",),
+        region="Castle Main",),
     "Bailey - Cheese Bell": PseudoregaliaLocationData(
         code=2365810014,
         region="Empty Bailey",),
@@ -63,13 +63,13 @@ location_table = {
         region="Dungeon Mirror",),
     "Castle - Near Theatre Front": PseudoregaliaLocationData(
         code=2365810017,
-        region="Castle Sansa",),
+        region="Castle Main",),
     "Underbelly - Strikebreak Wall": PseudoregaliaLocationData(
         code=2365810018,
         region="Underbelly Main",),
     "Castle - High Climb From Courtyard": PseudoregaliaLocationData(
         code=2365810019,
-        region="Castle Sansa",),
+        region="Castle Main",),
     "Library - Locked Door Across": PseudoregaliaLocationData(
         code=2365810020,
         region="Library Locked",),
@@ -78,7 +78,7 @@ location_table = {
         region="Keep Main",),
     "Castle - Locked Door": PseudoregaliaLocationData(
         code=2365810022,
-        region="Castle Sansa",),
+        region="Castle Main",),
 
     "Dungeon - Rafters": PseudoregaliaLocationData(
         code=2365810023,
@@ -88,10 +88,10 @@ location_table = {
         region="Dungeon Strong Eyes",),
     "Castle - Platform In Main Halls": PseudoregaliaLocationData(
         code=2365810025,
-        region="Castle Sansa",),
+        region="Castle Main",),
     "Castle - Tall Room Near Wheel Crawlers": PseudoregaliaLocationData(
         code=2365810026,
-        region="Castle Sansa",),
+        region="Castle Main",),
     "Keep - Levers Room": PseudoregaliaLocationData(
         code=2365810027,
         region="Keep Main",),
@@ -110,19 +110,19 @@ location_table = {
         region="Dungeon Strong Eyes",),
     "Castle - Alcove Near Dungeon": PseudoregaliaLocationData(
         code=2365810032,
-        region="Castle Sansa",),
+        region="Castle Main",),
     "Castle - Corner Corridor": PseudoregaliaLocationData(
         code=2365810033,
-        region="Castle Sansa",),
+        region="Castle Main",),
     "Castle - Wheel Crawlers": PseudoregaliaLocationData(
         code=2365810034,
-        region="Castle Sansa",),
+        region="Castle Main",),
     "Castle - Alcove Near Scythe Corridor": PseudoregaliaLocationData(
         code=2365810035,
-        region="Castle Sansa",),
+        region="Castle Main",),
     "Castle - Balcony": PseudoregaliaLocationData(
         code=2365810036,
-        region="Castle Sansa",),
+        region="Castle Main",),
     "Library - Upper Back": PseudoregaliaLocationData(
         code=2365810037,
         region="Library Main",),
@@ -172,11 +172,11 @@ location_table = {
         locked_item="Unlocked Door",
         show_in_spoiler=False),
     "Castle - Unlock Door (Professionalism)": PseudoregaliaLocationData(
-        region="Castle Sansa",
+        region="Castle Main",
         locked_item="Unlocked Door",
         show_in_spoiler=False),
     "Castle - Unlock Door (Sansa Keep)": PseudoregaliaLocationData(
-        region="Castle Sansa",
+        region="Castle Main",
         locked_item="Unlocked Door",
         show_in_spoiler=False),
     "Keep - Unlock Door": PseudoregaliaLocationData(
