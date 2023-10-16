@@ -60,13 +60,13 @@ class PseudoregaliaWorld(World):
     def set_rules(self):
         difficulty = self.options.logic_level
         if difficulty == NORMAL:
-            PseudoregaliaNormalRules(self.player).set_pseudoregalia_rules(self.multiworld)
+            PseudoregaliaNormalRules(self).set_pseudoregalia_rules()
         elif difficulty == HARD:
-            PseudoregaliaHardRules(self.player).set_pseudoregalia_rules(self.multiworld)
+            PseudoregaliaHardRules(self).set_pseudoregalia_rules()
         elif difficulty == EXPERT:
-            PseudoregaliaExpertRules(self.player).set_pseudoregalia_rules(self.multiworld)
+            PseudoregaliaExpertRules(self).set_pseudoregalia_rules()
         elif difficulty == LUNATIC:
-            PseudoregaliaLunaticRules(self.player).set_pseudoregalia_rules(self.multiworld)
+            PseudoregaliaLunaticRules(self).set_pseudoregalia_rules()
 
         set_rule(self.multiworld.get_location("D S T RT ED M M O   Y", self.player), lambda state:
                  state.has_all([

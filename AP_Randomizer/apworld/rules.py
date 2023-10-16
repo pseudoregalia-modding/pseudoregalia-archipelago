@@ -1,16 +1,23 @@
 from BaseClasses import CollectionState
-from typing import Dict, Set, Callable
+from typing import Dict, Set, Callable, TYPE_CHECKING
 from worlds.generic.Rules import set_rule
+
+if TYPE_CHECKING:
+    from . import PseudoregaliaWorld
+else:
+    PseudoregaliaWorld = object
 
 
 class PseudoregaliaRules:
+    world: PseudoregaliaWorld
     player: int
-
     region_rules: Dict[str, Callable[[CollectionState], bool]]
     location_rules: Dict[str, Callable[[CollectionState], bool]]
 
-    def __init__(self, player) -> None:
-        self.player = player
+    def __init__(self, world: PseudoregaliaWorld) -> None:
+        self.world = world
+        self.player = world.player
+
         self.region_rules = {
             "Dungeon Mirror -> Dungeon Strong Eyes": lambda state:
                 self.has_slide(state) and self.has_breaker(state),
@@ -251,7 +258,9 @@ class PseudoregaliaRules:
         # Will check the obscure setting and return that
         return False
 
-    def set_pseudoregalia_rules(self, multiworld) -> None:
+    def set_pseudoregalia_rules(self) -> None:
+        multiworld = self.world.multiworld
+
         for region in multiworld.get_regions(self.player):
             for entrance in region.entrances:
                 if entrance.name in self.region_rules:
@@ -262,9 +271,8 @@ class PseudoregaliaRules:
 
 
 class PseudoregaliaNormalRules(PseudoregaliaRules):
-    def __init__(self, player) -> None:
-        super().__init__(player)
-        self.player = player
+    def __init__(self, world) -> None:
+        super().__init__(world)
 
         self.region_rules.update({
             "Castle Sansa -> Library Main": lambda state:
@@ -320,14 +328,13 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
 
         })
 
-    def set_pseudoregalia_rules(self, multiworld) -> None:
-        super().set_pseudoregalia_rules(multiworld)
+    def set_pseudoregalia_rules(self) -> None:
+        super().set_pseudoregalia_rules()
 
 
 class PseudoregaliaHardRules(PseudoregaliaRules):
-    def __init__(self, player) -> None:
-        super().__init__(player)
-        self.player = player
+    def __init__(self, world) -> None:
+        super().__init__(world)
 
         self.region_rules.update({
             "Castle Sansa -> Library Main": lambda state:
@@ -381,14 +388,13 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
                 or self.knows_obscure(state) and self.has_plunge(state),
         })
 
-    def set_pseudoregalia_rules(self, multiworld) -> None:
-        super().set_pseudoregalia_rules(multiworld)
+    def set_pseudoregalia_rules(self) -> None:
+        super().set_pseudoregalia_rules()
 
 
 class PseudoregaliaExpertRules(PseudoregaliaRules):
-    def __init__(self, player) -> None:
-        super().__init__(player)
-        self.player = player
+    def __init__(self, world) -> None:
+        super().__init__(world)
 
         self.region_rules.update({
             "Castle Sansa -> Library Main": lambda state:
@@ -443,14 +449,13 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
                 or self.has_plunge(state),
         })
 
-    def set_pseudoregalia_rules(self, multiworld) -> None:
-        super().set_pseudoregalia_rules(multiworld)
+    def set_pseudoregalia_rules(self) -> None:
+        super().set_pseudoregalia_rules()
 
 
 class PseudoregaliaLunaticRules(PseudoregaliaRules):
-    def __init__(self, player) -> None:
-        super().__init__(player)
-        self.player = player
+    def __init__(self, world) -> None:
+        super().__init__(world)
 
         self.region_rules.update({
             "Castle Sansa -> Library Main": lambda state:
@@ -506,5 +511,5 @@ class PseudoregaliaLunaticRules(PseudoregaliaRules):
                 or self.has_plunge(state),
         })
 
-    def set_pseudoregalia_rules(self, multiworld) -> None:
-        super().set_pseudoregalia_rules(multiworld)
+    def set_pseudoregalia_rules(self) -> None:
+        super().set_pseudoregalia_rules()
