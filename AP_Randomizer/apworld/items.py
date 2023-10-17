@@ -1,5 +1,5 @@
 from BaseClasses import Item, ItemClassification
-from typing import NamedTuple, Dict
+from typing import NamedTuple, Dict, Set
 
 
 class PseudoregaliaItem(Item):
@@ -104,4 +104,12 @@ item_frequencies = {
     "Clear Mind": 3,
     "Small Key": 7,
     "Health Piece": 16
+}
+
+item_groups: Dict[str, Set[str]] = {
+    "major keys": {"Major Key - Empty Bailey",
+                   "Major Key - The Underbelly",
+                   "Major Key - Tower Remains",
+                   "Major Key - Sansa Keep",
+                   "Major Key - Twilight Theatre"}
 }

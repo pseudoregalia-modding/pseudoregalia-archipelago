@@ -1,6 +1,6 @@
 from worlds.AutoWorld import World
 from BaseClasses import Region, Location, Item
-from .items import PseudoregaliaItem, PseudoregaliaItemData, item_table, item_frequencies
+from .items import PseudoregaliaItem, PseudoregaliaItemData, item_table, item_frequencies, item_groups
 from .locations import location_table
 from .regions import region_table
 from .options import PseudoregaliaOptions
@@ -17,6 +17,7 @@ class PseudoregaliaWorld(World):
     item_name_to_id = {name: data.code for name, data in item_table.items() if data.code is not None}
     location_name_to_id = {name: data.code for name, data in location_table.items() if data.code is not None}
     locked_locations = {name: data for name, data in location_table.items() if data.locked_item}
+    item_name_groups = item_groups
 
     options_dataclass = PseudoregaliaOptions
     options: PseudoregaliaOptions
