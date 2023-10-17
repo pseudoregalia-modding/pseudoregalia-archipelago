@@ -332,6 +332,9 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
                 or self.has_gem(state)
                 or self.get_kicks(state, 2)
                 or self.get_kicks(state, 1) and self.can_slidejump(state),
+            "Castle - Alcove Near Scythe Corridor": lambda state:
+                self.has_gem(state) and self.get_kicks(state, 1) and self.has_plunge(state)
+                or self.kick_or_plunge(state, 4),
 
         })
 
@@ -418,6 +421,9 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
                 or self.get_kicks(state, 1)
                 or self.can_slidejump(state) and self.has_plunge(state)
                 or self.knows_obscure(state) and self.has_plunge(state),
+            "Castle - Alcove Near Scythe Corridor": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 2) and self.has_plunge(state),
         })
 
     def set_pseudoregalia_rules(self) -> None:
@@ -502,6 +508,10 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
                 or self.has_gem(state)
                 or self.kick_or_plunge(state, 1)
                 or self.has_slide(state),
+            "Castle - Alcove Near Scythe Corridor": lambda state:
+                self.has_gem(state)
+                or self.kick_or_plunge(state, 3)
+                or self.has_slide(state) and self.kick_or_plunge(state, 1),
         })
 
     def set_pseudoregalia_rules(self) -> None:
@@ -585,7 +595,10 @@ class PseudoregaliaLunaticRules(PseudoregaliaRules):
                 self.can_bounce(state)
                 or self.has_gem(state)
                 or self.kick_or_plunge(state, 1)
-                or self.has_slide(state)
+                or self.has_slide(state),
+            "Castle - Alcove Near Scythe Corridor": lambda state:
+                self.has_gem(state)
+                or self.kick_or_plunge(state, 1),  # This never really matters and that makes me sad
         })
 
     def set_pseudoregalia_rules(self) -> None:
