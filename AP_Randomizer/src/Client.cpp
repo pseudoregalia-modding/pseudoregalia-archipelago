@@ -93,12 +93,12 @@ namespace Client {
         if (current_death_link_timer > 0) {
             current_death_link_timer--;
             if (current_death_link_timer <= 0) {
-                Logger::Log(L"DL timer expired");
                 AP_DeathLinkClear();
             }
         }
         if (AP_DeathLinkPending()) {
             if (SetDeathLinkTimer(death_link_timer_max)) {
+                Logger::Log(L"Receiving death link");
                 Engine::VaporizeGoat();
             }
         }
@@ -126,13 +126,13 @@ namespace Client {
         if (current_death_link_timer > 0) {
             return false;
         }
-        Logger::Log(L"Setting DL timer");
         current_death_link_timer = new_time;
         return true;
     }
 
     void Client::SendDeathLink() {
         if (SetDeathLinkTimer(death_link_timer_max)) {
+            Logger::Log(L"Sending death link");
             AP_DeathLinkSend();
         }
     }
