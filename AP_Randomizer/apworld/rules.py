@@ -378,7 +378,8 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
                 or self.get_kicks(state, 4),
             "Castle => Theatre (Front) -> Castle Moon Room": lambda state:
                 self.has_gem(state)
-                or self.can_slidejump(state) and self.kick_or_plunge(state, 2),
+                or self.can_slidejump(state) and self.kick_or_plunge(state, 2)
+                or self.kick_or_plunge(state, 4),
         })
 
         self.location_rules.update({
