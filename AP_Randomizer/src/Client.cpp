@@ -11,9 +11,12 @@ namespace Client {
     void CheckLocation(int64_t);
     bool ConnectionStatusChanged();
     void SetSlotNumber(int);
+    bool SetDeathLinkTimer(int);
     int connection_timer;
     AP_ConnectionStatus connection_status;
     int slot_number;
+    int current_death_link_timer;
+    const int death_link_timer_max = 400;
 
     void Client::Connect(const char* new_ip, const char* new_slot_name, const char* new_password) {
         GameData::Initialize();
@@ -23,6 +26,7 @@ namespace Client {
         AP_SetItemClearCallback(&GameData::Initialize); // Yes, this calls Initialize twice. I'll fix it when I add save files.
         AP_SetLocationCheckedCallback(&GameData::CheckLocation);
         AP_SetItemRecvCallback(&ReceiveItem);
+        AP_SetDeathLinkSupported(true);
         AP_RegisterSlotDataIntCallback("slot_number", &SetSlotNumber);
         AP_Start();
 
@@ -86,6 +90,19 @@ namespace Client {
             // APCpp releases the memory of message
         }
 
+        if (current_death_link_timer > 0) {
+            current_death_link_timer--;
+            if (current_death_link_timer <= 0) {
+                Logger::Log(L"DL timer expired");
+                AP_DeathLinkClear();
+            }
+        }
+        if (AP_DeathLinkPending()) {
+            if (SetDeathLinkTimer(death_link_timer_max)) {
+                Engine::VaporizeGoat();
+            }
+        }
+
         if (ConnectionStatusChanged()) {
             if (connection_status == AP_ConnectionStatus::Authenticated) {
                 connection_timer = 0;
@@ -102,6 +119,21 @@ namespace Client {
             if (connection_timer <= 0) {
                 Logger::Log(L"Could not find the address entered. Please double-check your connection info and restart the game.", Logger::LogType::System);
             }
+        }
+    }
+
+    bool SetDeathLinkTimer(int new_time) {
+        if (current_death_link_timer > 0) {
+            return false;
+        }
+        Logger::Log(L"Setting DL timer");
+        current_death_link_timer = new_time;
+        return true;
+    }
+
+    void Client::SendDeathLink() {
+        if (SetDeathLinkTimer(death_link_timer_max)) {
+            AP_DeathLinkSend();
         }
     }
 }

@@ -5,4 +5,5 @@ namespace Client {
 	void SendCheck(int64_t, std::wstring);
 	void PollServer();
 	void CompleteGame();
+	void SendDeathLink();
 }

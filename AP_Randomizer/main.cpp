@@ -21,6 +21,7 @@ public:
     };
     bool returncheck_hooked = false;
     bool toggleslidejump_hooked = false;
+    bool deathlink_hooked = false;
 
     AP_Randomizer() : CppUserModBase() {
         ModName = STR("AP_Randomizer");
@@ -64,6 +65,9 @@ public:
             auto toggleslidejump = [](UnrealScriptFunctionCallableContext& context, void* customdata) {
                 Engine::ToggleSlideJump();
                 };
+            auto deathlink = [](UnrealScriptFunctionCallableContext& context, void* customdata) {
+                Client::SendDeathLink();
+                };
 
             if (!returncheck_hooked
                 && actor->GetName().starts_with(STR("BP_APCollectible"))) {
@@ -93,6 +97,17 @@ public:
                 }
                 Engine::SpawnCollectibles();
                 Engine::SyncItems();
+            }
+
+            if (actor->GetName().starts_with(L"BP_PlayerGoatMain")) {
+                if (!deathlink_hooked) {
+                    UFunction* death_function = actor->GetFunctionByName(L"BPI_CombatDeath");
+                    if (!death_function) {
+                        Logger::Log(L"Could not find function \"BPI_CombatDeath\" in BP_PlayerGoatMain.", Logger::LogType::Error);
+                        return;
+                    }
+                    Unreal::UObjectGlobals::RegisterHook(death_function, EmptyFunction, deathlink, nullptr);
+                }
             }
             });
 

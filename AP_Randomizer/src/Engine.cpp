@@ -51,19 +51,15 @@ namespace Engine {
 
 		std::lock_guard<std::mutex> guard(blueprint_function_mutex);
 		for (BlueprintFunctionInfo& info : blueprint_function_queue) {
-			// Since I only call functions in BP_APRandomizerInstance right now there's no need to run FindFirstof to find a parent blueprint.
-			// If I decide to pull back from using blueprint functions as much (maybe after TMap is implemented in UE4SS)
-			// this functionality may become useful again.
-
-			/*UObject* parent = UObjectGlobals::FindFirstOf(info.parent_name);
+			UObject* parent = UObjectGlobals::FindFirstOf(info.parent_name);
 			if (!parent) {
 				Logger::Log(L"Could not find blueprint with name " + info.parent_name, Logger::LogType::Error);
 				delete info.params;
 				blueprint_function_queue.pop_front();
 				continue;
-			}*/
+			}
 
-			UFunction* function = blueprint->GetFunctionByName(info.function_name.c_str());
+			UFunction* function = parent->GetFunctionByName(info.function_name.c_str());
 			if (!function) {
 				Logger::Log(L"Could not find function " + info.function_name, Logger::LogType::Error);
 				delete info.params;
@@ -71,7 +67,7 @@ namespace Engine {
 				continue;
 			}
 			Logger::Log(L"Executing " + info.function_name);
-			blueprint->ProcessEvent(function, info.params);
+			parent->ProcessEvent(function, info.params);
 			delete info.params;
 			blueprint_function_queue.pop_front();
 		}
@@ -161,5 +157,10 @@ namespace Engine {
 		if (GameData::ToggleSlideJump()) {
 			SyncAbilities();
 		}
+	}
+
+	void Engine::VaporizeGoat() {
+		void* dissolve_delay = new double(0);
+		ExecuteBlueprintFunction(L"BP_PlayerGoatMain_C", L"BPI_CombatDeath", dissolve_delay);
 	}
 }

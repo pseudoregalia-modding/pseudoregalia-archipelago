@@ -11,4 +11,5 @@ namespace Engine {
 	void SpawnCollectibles();
 	std::wstring GetWorldName();
 	void ToggleSlideJump();
+	void VaporizeGoat();
 }
