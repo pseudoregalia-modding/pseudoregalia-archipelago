@@ -60,7 +60,10 @@ class PseudoregaliaWorld(World):
             self.multiworld.get_location(location_name, self.player).place_locked_item(locked_item)
 
     def fill_slot_data(self) -> Dict[str, Any]:
-        return {"slot_number": self.player, "death_link": self.options.death_link.value}
+        return {"slot_number": self.player,
+                "death_link": self.options.death_link.value,
+                "difficulty": self.options.logic_level.current_key,
+                "obscure": self.options.obscure_tricks.value, }
 
     def set_rules(self):
         difficulty = self.options.logic_level
