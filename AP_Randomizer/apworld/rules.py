@@ -43,7 +43,7 @@ class PseudoregaliaRules:
             "Empty Bailey -> Theatre Pillar": lambda state: True,
             "Empty Bailey -> Tower Remains": lambda state:
                 self.has_gem(state)
-                or state.has_all(["Slide", "Sunsetter"], self.player)
+                or state.has_all({"Slide", "Sunsetter"}, self.player)
                 or self.get_kicks(state, 1),
             "Tower Remains -> Underbelly Main": lambda state:
                 self.has_plunge(state),
@@ -57,7 +57,7 @@ class PseudoregaliaRules:
             "Theatre Main -> Keep Main": lambda state:
                 self.has_gem(state),
             "Theatre Pillar -> Theatre Main": lambda state:
-                state.has_all(["Sunsetter", "Cling Gem"], self.player)
+                state.has_all({"Sunsetter", "Cling Gem"}, self.player)
                 or self.has_plunge(state) and self.get_kicks(state, 4),
         }
 
@@ -114,7 +114,7 @@ class PseudoregaliaRules:
                 or self.get_kicks(state, 3)
                 or self.has_plunge(state),
             "Keep - Major Key": lambda state:
-                self.can_bounce(state) and state.has_all(["Cling Gem, Sunsetter"], self.player)
+                self.can_bounce(state) and state.has_all({"Cling Gem, Sunsetter"}, self.player)
                 or self.has_gem(state) and self.can_bounce(state) and self.get_kicks(state, 3),
             "Bailey - Solar Wind": lambda state:
                 self.has_slide(state),
@@ -126,7 +126,7 @@ class PseudoregaliaRules:
                 self.has_slide(state),
             "Bailey - Center Steeple": lambda state:
                 self.get_kicks(state, 3)
-                or state.has_all(["Sunsetter", "Slide"], self.player),
+                or state.has_all({"Sunsetter", "Slide"}, self.player),
             "Bailey - Major Key": lambda state:
                 self.has_plunge(state)
                 or self.has_gem(state)
@@ -195,7 +195,7 @@ class PseudoregaliaRules:
         return state.has_all({"Dream Breaker", "Ascendant Light"}, self.player)
 
     def can_attack(self, state) -> bool:
-        return state.has_any(["Dream Breaker", "Sunsetter"], self.player)
+        return state.has_any({"Dream Breaker", "Sunsetter"}, self.player)
 
     def get_kicks(self, state, count: int) -> bool:
         kicks: int = 0
@@ -221,13 +221,13 @@ class PseudoregaliaRules:
         return (state.has("Dream Breaker", self.player) or state.has("Ascendant Light", self.player))
 
     def can_slidejump(self, state) -> bool:
-        return (state.has_all(["Slide", "Solar Wind"], self.player))
+        return (state.has_all({"Slide", "Solar Wind"}, self.player))
 
     def can_strikebreak(self, state) -> bool:
-        return (state.has_all(["Dream Breaker", "Strikebreak"], self.player))
+        return (state.has_all({"Dream Breaker", "Strikebreak"}, self.player))
 
     def can_soulcutter(self, state) -> bool:
-        return (state.has_all(["Dream Breaker", "Strikebreak", "Soul Cutter"], self.player))
+        return (state.has_all({"Dream Breaker", "Strikebreak", "Soul Cutter"}, self.player))
 
     def knows_obscure(self, state) -> bool:
         # TODO: rules that use this and functions like it should go in a separate extra_rules dictionary
