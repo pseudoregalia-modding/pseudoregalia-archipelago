@@ -275,7 +275,7 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
                 self.has_gem(state)
                 or self.get_kicks(state, 3) and self.has_plunge(state)
                 or self.has_breaker(state) and self.get_kicks(state, 1)
-                or self.knows_obscure(state) and self.can_attack(state) and self.get_kicks(state, 1),
+                or self.knows_obscure(state) and self.has_plunge(state) and self.get_kicks(state, 1),
             "Castle Spiral Climb -> Castle By Scythe Corridor": lambda state:
                 self.has_gem(state),
             "Castle By Scythe Corridor -> Castle Spiral Climb": lambda state:
