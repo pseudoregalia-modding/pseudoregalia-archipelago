@@ -92,7 +92,7 @@ namespace Client {
                 Engine::SpawnCollectibles();
             }
             if (connection_status == AP_ConnectionStatus::ConnectionRefused) {
-                Logger::Log(L"The server refused the connection. Please double-check your connection info and restart the game.", Logger::LogType::System);
+                Logger::Log(L"The server refused the connection. Please double-check your connection info and client version, and restart the game.", Logger::LogType::System);
                 connection_timer = 0;
             }
         }
