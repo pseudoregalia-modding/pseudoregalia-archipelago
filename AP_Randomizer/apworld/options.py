@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from Options import Toggle, Range, Choice, PerGameCommonOptions, DefaultOnToggle
+from Options import Toggle, Range, Choice, PerGameCommonOptions, DefaultOnToggle, DeathLink
 from .constants.difficulties import NORMAL, HARD, EXPERT, LUNATIC
 
 
@@ -45,3 +45,4 @@ class PseudoregaliaOptions(PerGameCommonOptions):
     logic_level: LogicLevel
     obscure_tricks: ObscureTricks
     safe_small_keys: SafeSmallKeys
+    death_link: DeathLink
