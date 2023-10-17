@@ -3,7 +3,7 @@ This is a mod for Pseudoregalia that works with the [multi-game multi-world rand
 
 You can get the latest release from [the releases page](https://github.com/pseudoregalia-modding/pseudoregalia-archipelago/releases).
 
-Currently the logic is copied from [spuds' standalone randomizer](https://github.com/pseudoregalia-modding/rando), and may require [movement tricks such as solar ultrahops and cling climbing](https://www.youtube.com/watch?v=kZJjYdh6huk).
+Currently the logic is mostly copied from [spuds' standalone randomizer](https://github.com/pseudoregalia-modding/rando), and may require [movement tricks such as solar ultrahops and cling climbing](https://www.youtube.com/watch?v=kZJjYdh6huk).
 
 You'll spawn in Dungeon with Dream Breaker at its vanilla location, and you'll have to leave through the breakable wall to Underbelly by backflipping up to the first ledge. If you toss the breaker and bounce it off a wall, then pick it up, it'll continue to light your path.
 
@@ -37,7 +37,6 @@ You'll spawn in Dungeon with Dream Breaker at its vanilla location, and you'll h
 
 # Known Issues
 - If you enter your connection info incorrectly, you have to restart the game to try again.
-- Consumed small keys will be restored on scene transition.
 - A crash can occur when entering incorrect connection info under certain conditions.
 - If you're on top of an item when you first connect, it won't spawn until you reload the scene.
 
