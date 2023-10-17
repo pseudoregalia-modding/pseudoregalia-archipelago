@@ -232,7 +232,7 @@ class PseudoregaliaRules:
 
     def knows_obscure(self, state) -> bool:
         # TODO: rules that use this and functions like it should go in a separate extra_rules dictionary
-        return self.world.options.obscure_tricks
+        return self.world.options.obscure_tricks.value
 
     def set_pseudoregalia_rules(self) -> None:
         multiworld = self.world.multiworld
