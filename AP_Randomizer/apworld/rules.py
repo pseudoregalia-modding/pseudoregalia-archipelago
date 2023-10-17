@@ -269,7 +269,7 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
                 self.has_gem(state) and self.kick_or_plunge(state, 1)
                 or self.kick_or_plunge(state, 2),
             "Castle Main -> Castle Spiral Climb": lambda state:
-                self.kick_or_plunge(state, 2)
+                self.get_kicks(state, 2)
                 or self.has_gem(state) and self.has_plunge(state),
             "Castle Spiral Climb -> Castle High Climb": lambda state:
                 self.has_gem(state)
