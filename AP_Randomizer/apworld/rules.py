@@ -32,9 +32,7 @@ class PseudoregaliaRules:
             "Castle Main -> Keep Main": lambda state: True,
             "Castle Main -> Empty Bailey": lambda state: True,
             "Castle Main -> Theatre Pillar": lambda state: False,
-            "Castle Main -> Theatre Main": lambda state:
-                self.has_gem(state)
-                or self.can_slidejump(state) and self.get_kicks(state, 4),
+            "Castle Main -> Theatre Main": lambda state: False,
             "Library Main -> Library Locked": lambda state:
                 self.has_small_keys(state),
             "Keep Main -> Keep Sunsetter": lambda state:
@@ -285,10 +283,35 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
                 self.has_breaker(state)
                 or self.knows_obscure(state) and self.can_attack(state),
             "Castle Main -> Theatre Pillar": lambda state:
-                self.has_gem(state) and self.has_plunge(state)
-                or self.has_gem(state) and self.get_kicks(state, 1)
-                or self.has_plunge(state) and self.get_kicks(state, 1)
-                or self.get_kicks(state, 2),
+                self.has_gem(state) and self.kick_or_plunge(state, 1)
+                or self.kick_or_plunge(state, 2),
+            "Castle Main -> Castle Spiral Climb": lambda state:
+                self.kick_or_plunge(state, 2)
+                or self.has_gem(state) and self.has_plunge(state),
+            "Castle Spiral Climb -> Castle High Climb": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 3) and self.has_plunge(state)
+                or self.has_breaker(state) and self.get_kicks(state, 1)
+                or self.knows_obscure(state) and self.can_attack(state) and self.get_kicks(state, 1),
+            "Castle Spiral Climb -> Castle By Scythe Corridor": lambda state:
+                self.has_gem(state),
+            "Castle By Scythe Corridor -> Castle Spiral Climb": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 4) and self.has_plunge(state),
+            "Castle By Scythe Corridor -> Castle By Theatre Main": lambda state:
+                self.has_gem(state) and self.kick_or_plunge(state, 2),
+            "Castle By Scythe Corridor -> Castle High Climb": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 4)
+                or self.get_kicks(state, 2) and self.has_plunge(state)
+                or self.get_kicks(state, 1) and self.has_plunge(state) and self.can_slidejump(state),
+            "Castle By Theatre Main -> Castle By Scythe Corridor": lambda state:
+                self.has_gem(state)
+                or self.can_slidejump(state) and self.get_kicks(state, 1)
+                or self.get_kicks(state, 4),
+            "Castle By Theatre Main -> Castle Moon Room": lambda state:
+                self.has_gem(state)
+                or self.can_slidejump(state) and self.kick_or_plunge(state, 2),
         })
 
         self.location_rules.update({
