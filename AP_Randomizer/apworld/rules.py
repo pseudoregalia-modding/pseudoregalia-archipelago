@@ -439,11 +439,8 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
                 self.has_gem(state)
                 or self.has_slide(state)
                 or self.kick_or_plunge(state, 2),
-            "Castle Spiral Climb -> Castle High Climb": lambda state:
-                self.has_gem(state)
-                or self.has_slide(state)
-                or self.get_kicks(state, 2)
-                or self.can_attack(state) and self.get_kicks(state, 1),
+            "Castle Spiral Climb -> Castle High Climb": lambda state: True,
+                # Anything that gets you into spiral climb can get from there to high climb
             "Castle Spiral Climb -> Castle By Scythe Corridor": lambda state:
                 self.has_gem(state)
                 or self.kick_or_plunge(state, 4),
