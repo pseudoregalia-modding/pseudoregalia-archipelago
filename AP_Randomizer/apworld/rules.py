@@ -195,6 +195,7 @@ class PseudoregaliaRules:
         return state.has_all({"Dream Breaker", "Ascendant Light"}, self.player)
 
     def can_attack(self, state) -> bool:
+        """Used where either breaker or sunsetter will work."""
         return state.has_any({"Dream Breaker", "Sunsetter"}, self.player)
 
     def get_kicks(self, state, count: int) -> bool:
