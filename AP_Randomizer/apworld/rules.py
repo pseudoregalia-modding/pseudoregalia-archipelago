@@ -335,6 +335,10 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
             "Castle - Alcove Near Scythe Corridor": lambda state:
                 self.has_gem(state) and self.get_kicks(state, 1) and self.has_plunge(state)
                 or self.kick_or_plunge(state, 4),
+            "Castle - Near Theatre Front": lambda state:
+                self.get_kicks(state, 4)
+                or self.get_kicks(state, 2) and self.has_plunge(state),
+
 
         })
 
@@ -424,6 +428,10 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
             "Castle - Alcove Near Scythe Corridor": lambda state:
                 self.has_gem(state)
                 or self.get_kicks(state, 2) and self.has_plunge(state),
+            "Castle - Near Theatre Front": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 4)
+                or self.get_kicks(state, 2) and self.has_plunge(state),
         })
 
     def set_pseudoregalia_rules(self) -> None:
@@ -512,6 +520,11 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
                 self.has_gem(state)
                 or self.kick_or_plunge(state, 3)
                 or self.has_slide(state) and self.kick_or_plunge(state, 1),
+            "Castle - Near Theatre Front": lambda state:
+                self.has_gem(state)
+                or self.has_slide(state)
+                or self.get_kicks(state, 4)
+                or self.get_kicks(state, 2) and self.has_plunge(state),
         })
 
     def set_pseudoregalia_rules(self) -> None:
@@ -599,6 +612,11 @@ class PseudoregaliaLunaticRules(PseudoregaliaRules):
             "Castle - Alcove Near Scythe Corridor": lambda state:
                 self.has_gem(state)
                 or self.kick_or_plunge(state, 1),  # This never really matters and that makes me sad
+            "Castle - Near Theatre Front": lambda state:
+                self.has_gem(state)
+                or self.has_slide(state)
+                or self.get_kicks(state, 4)
+                or self.get_kicks(state, 2) and self.has_plunge(state),
         })
 
     def set_pseudoregalia_rules(self) -> None:
