@@ -517,8 +517,35 @@ class PseudoregaliaLunaticRules(PseudoregaliaRules):
                 self.can_attack(state),
             "Castle Main -> Theatre Pillar": lambda state:
                 self.has_gem(state)
-                or self.kick_or_plunge(state, 1)
-                or self.has_slide(state),
+                or self.has_slide(state)
+                or self.kick_or_plunge(state, 1),
+            "Castle Main -> Castle Spiral Climb": lambda state:
+                self.has_gem(state)
+                or self.has_slide(state)
+                or self.kick_or_plunge(state, 2),
+            "Castle Spiral Climb -> Castle High Climb": lambda state: True,
+                # Anything that gets you into spiral climb can get from there to high climb
+            "Castle Spiral Climb -> Castle By Scythe Corridor": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 3),
+            "Castle By Scythe Corridor -> Castle Spiral Climb": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 3),
+            "Castle By Scythe Corridor -> Castle => Theatre (Front)": lambda state:
+                self.has_gem(state)
+                or self.has_slide(state) and self.kick_or_plunge(state, 2),
+            "Castle By Scythe Corridor -> Castle High Climb": lambda state:
+                self.has_gem(state)
+                or self.has_slide(state)
+                or self.kick_or_plunge(state, 2),
+            "Castle => Theatre (Front) -> Castle By Scythe Corridor": lambda state:
+                self.has_gem(state)
+                or self.has_slide(state)
+                or self.get_kicks(state, 3),
+            "Castle => Theatre (Front) -> Castle Moon Room": lambda state:
+                self.has_gem(state)
+                or self.has_slide(state)
+                or self.get_kicks(state, 4),
         })
 
         self.location_rules.update({
