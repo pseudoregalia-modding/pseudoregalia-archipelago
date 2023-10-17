@@ -8,9 +8,11 @@ class LogicLevel(Choice):
     The overall difficulty of the logic, used to determine the requirements to access locations and regions.
 
     Normal: Suitable for anyone who has beaten the game. Requires backflips and knowing where everything is.
-    Hard: Can require some easier movement tricks such as cling climbing, and more nuanced movement like turning during an air kick.
-    Expert: Can require more difficult movement tricks such as ultrahops and reverse wallkicks, and obscure knowledge.
-    Lunatic: Can require extremely difficult jumps. No holds barred.
+    Hard: Requires some easier movement tricks such as cling climbing, and more nuanced movement like turning during an air kick.
+    Expert: Requires more difficult movement tricks such as ultrahops and reverse wallkicks, and obscure knowledge.
+    Lunatic: Requires extremely difficult jumps and creative thinking. No holds barred. You have been warned.
+
+    Currently only applies to Castle Sansa.
     """
     display_name = "Logic Level"
     option_normal = NORMAL
