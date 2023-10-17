@@ -70,15 +70,3 @@ class PseudoregaliaWorld(World):
             PseudoregaliaExpertRules(self).set_pseudoregalia_rules()
         elif difficulty == LUNATIC:
             PseudoregaliaLunaticRules(self).set_pseudoregalia_rules()
-
-        set_rule(self.multiworld.get_location("D S T RT ED M M O   Y", self.player), lambda state:
-                 state.has_all([
-                     "Major Key - Empty Bailey",
-                     "Major Key - The Underbelly",
-                     "Major Key - Tower Remains",
-                     "Major Key - Sansa Keep",
-                     "Major Key - Twilight Theatre",
-                 ], self.player))
-
-        self.multiworld.completion_condition[self.player] = lambda state: state.has(
-            "Something Worth Being Awake For", self.player)

@@ -244,6 +244,17 @@ class PseudoregaliaRules:
                 if location.name in self.location_rules:
                     set_rule(location, self.location_rules[location.name])
 
+        set_rule(multiworld.get_location("D S T RT ED M M O   Y", self.player), lambda state:
+                 state.has_all({
+                     "Major Key - Empty Bailey",
+                     "Major Key - The Underbelly",
+                     "Major Key - Tower Remains",
+                     "Major Key - Sansa Keep",
+                     "Major Key - Twilight Theatre",
+                 }, self.player))
+        multiworld.completion_condition[self.player] = lambda state: state.has(
+            "Something Worth Being Awake For", self.player)
+
 
 class PseudoregaliaNormalRules(PseudoregaliaRules):
     def __init__(self, world) -> None:
