@@ -28,11 +28,6 @@ class PseudoregaliaRules:
                 or self.has_gem(state) and self.can_slidejump(state),
             "Dungeon Strong Eyes -> Castle Main": lambda state:
                 self.has_small_keys(state),
-            "Castle Main -> Library Main": lambda state: False,
-            "Castle Main -> Keep Main": lambda state: True,
-            "Castle Main -> Empty Bailey": lambda state: True,
-            "Castle Main -> Theatre Pillar": lambda state: False,
-            "Castle Main -> Theatre Main": lambda state: False,
             "Library Main -> Library Locked": lambda state:
                 self.has_small_keys(state),
             "Keep Main -> Keep Sunsetter": lambda state:
@@ -85,30 +80,6 @@ class PseudoregaliaRules:
             "Dungeon - Past Poles": lambda state:
                 self.has_gem(state)
                 or self.get_kicks(state, 3),
-            "Castle - Indignation": lambda state: True,
-            "Castle - Floater In Courtyard": lambda state:
-                self.can_bounce(state) and self.has_plunge(state),
-            "Castle - High Climb From Courtyard": lambda state:
-                self.has_gem(state)
-                or self.can_slidejump(state) and self.get_kicks(state, 1),
-            "Castle - Locked Door": lambda state: False,
-            "Castle - Near Theatre Front": lambda state:
-                self.has_gem(state) and self.get_kicks(state, 3),
-            "Castle - Platform In Main Halls": lambda state:
-                self.has_plunge(state) and self.has_gem(state),
-            "Castle - Tall Room Near Wheel Crawlers": lambda state: False,
-            "Castle - Alcove Near Dungeon": lambda state: False,
-            "Castle - Alcove Near Scythe Corridor": lambda state:
-                self.can_slidejump(state) and self.get_kicks(state, 4)
-                or self.has_gem(state),
-            "Castle - Balcony": lambda state:
-                self.has_gem(state)
-                or self.get_kicks(state, 3),
-            "Castle - Corner Corridor": lambda state:
-                self.has_gem(state),
-            "Castle - Wheel Crawlers": lambda state:
-                self.can_bounce(state)
-                or self.has_gem(state),
             "Library - Sun Greaves": lambda state:
                 self.can_slidejump(state)
                 or self.has_slide(state) and self.has_breaker(state)
@@ -298,18 +269,18 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
             "Castle By Scythe Corridor -> Castle Spiral Climb": lambda state:
                 self.has_gem(state)
                 or self.get_kicks(state, 4) and self.has_plunge(state),
-            "Castle By Scythe Corridor -> Castle By Theatre Main": lambda state:
+            "Castle By Scythe Corridor -> Castle => Theatre (Front)": lambda state:
                 self.has_gem(state) and self.kick_or_plunge(state, 2),
             "Castle By Scythe Corridor -> Castle High Climb": lambda state:
                 self.has_gem(state)
                 or self.get_kicks(state, 4)
                 or self.get_kicks(state, 2) and self.has_plunge(state)
                 or self.get_kicks(state, 1) and self.has_plunge(state) and self.can_slidejump(state),
-            "Castle By Theatre Main -> Castle By Scythe Corridor": lambda state:
+            "Castle => Theatre (Front) -> Castle By Scythe Corridor": lambda state:
                 self.has_gem(state)
                 or self.can_slidejump(state) and self.get_kicks(state, 1)
                 or self.get_kicks(state, 4),
-            "Castle By Theatre Main -> Castle Moon Room": lambda state:
+            "Castle => Theatre (Front) -> Castle Moon Room": lambda state:
                 self.has_gem(state)
                 or self.can_slidejump(state) and self.kick_or_plunge(state, 2),
         })
