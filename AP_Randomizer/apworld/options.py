@@ -26,6 +26,8 @@ class ObscureTricks(Toggle):
     """
     Enables logic for tricks and paths that aren't difficult to execute but may not be obvious or commonly known.
     This option is forced on if logic level is set to Expert or Lunatic.
+
+    Currently only applies to Castle Sansa.
     """
     display_name = "Obscure Tricks"
 
