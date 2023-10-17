@@ -350,6 +350,35 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
             "Castle Main -> Theatre Pillar": lambda state:
                 self.has_gem(state)
                 or self.kick_or_plunge(state, 1),
+            "Castle Main -> Castle Spiral Climb": lambda state:
+                self.has_gem(state)
+                or self.kick_or_plunge(state, 2)
+                or self.can_slidejump(state) and self.has_plunge(state),
+            "Castle Spiral Climb -> Castle High Climb": lambda state:
+                self.has_gem(state)
+                or self.kick_or_plunge(state, 3)
+                or self.has_breaker(state) and self.get_kicks(state, 1)
+                or self.knows_obscure(state) and self.has_plunge(state) and self.get_kicks(state, 1)
+                or self.knows_obscure(state) and self.can_attack(state) and self.can_slidejump(state),
+            "Castle Spiral Climb -> Castle By Scythe Corridor": lambda state:
+                self.has_gem(state),
+            "Castle By Scythe Corridor -> Castle Spiral Climb": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 3),
+            "Castle By Scythe Corridor -> Castle => Theatre (Front)": lambda state:
+                self.has_gem(state),
+            "Castle By Scythe Corridor -> Castle High Climb": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 4)
+                or self.get_kicks(state, 3) and self.has_breaker(state)
+                or self.get_kicks(state, 1) and self.has_plunge(state),
+            "Castle => Theatre (Front) -> Castle By Scythe Corridor": lambda state:
+                self.has_gem(state)
+                or self.can_slidejump(state) and self.get_kicks(state, 1)
+                or self.get_kicks(state, 4),
+            "Castle => Theatre (Front) -> Castle Moon Room": lambda state:
+                self.has_gem(state)
+                or self.can_slidejump(state) and self.kick_or_plunge(state, 2),
         })
 
         self.location_rules.update({
