@@ -338,8 +338,11 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
             "Castle - Near Theatre Front": lambda state:
                 self.get_kicks(state, 4)
                 or self.get_kicks(state, 2) and self.has_plunge(state),
-
-
+            "Castle - High Climb From Courtyard": lambda state:
+                self.get_kicks(state, 2)
+                or self.has_gem(state) and self.has_plunge(state)
+                or self.has_breaker(state) and self.get_kicks(state, 1)
+                or self.knows_obscure(state) and self.has_plunge(state) and self.get_kicks(state, 1),
         })
 
     def set_pseudoregalia_rules(self) -> None:
@@ -432,6 +435,12 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
                 self.has_gem(state)
                 or self.get_kicks(state, 4)
                 or self.get_kicks(state, 2) and self.has_plunge(state),
+            "Castle - High Climb From Courtyard": lambda state:
+                self.get_kicks(state, 2)
+                or self.has_gem(state)
+                or self.has_plunge(state) and self.can_slidejump(state)
+                or self.has_breaker(state) and self.get_kicks(state, 1)
+                or self.knows_obscure(state) and self.has_plunge(state) and self.get_kicks(state, 1),
         })
 
     def set_pseudoregalia_rules(self) -> None:
@@ -525,6 +534,11 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
                 or self.has_slide(state)
                 or self.get_kicks(state, 4)
                 or self.get_kicks(state, 2) and self.has_plunge(state),
+            "Castle - High Climb From Courtyard": lambda state:
+                self.get_kicks(state, 2)
+                or self.has_gem(state)
+                or self.can_attack(state) and self.get_kicks(state, 1)
+                or self.has_slide(state),
         })
 
     def set_pseudoregalia_rules(self) -> None:
@@ -617,6 +631,11 @@ class PseudoregaliaLunaticRules(PseudoregaliaRules):
                 or self.has_slide(state)
                 or self.get_kicks(state, 4)
                 or self.get_kicks(state, 2) and self.has_plunge(state),
+            "Castle - High Climb From Courtyard": lambda state:
+                self.get_kicks(state, 2)
+                or self.has_gem(state)
+                or self.can_attack(state) and self.get_kicks(state, 1)
+                or self.has_slide(state),
         })
 
     def set_pseudoregalia_rules(self) -> None:
