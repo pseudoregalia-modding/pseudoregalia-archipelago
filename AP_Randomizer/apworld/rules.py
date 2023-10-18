@@ -301,7 +301,7 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
         })
 
         self.location_rules.update({
-            "Castle Sansa - Floater in Courtyard": lambda state:
+            "Castle Sansa - Floater In Courtyard": lambda state:
                 self.can_bounce(state) and self.has_plunge(state)
                 or self.can_bounce(state) and self.get_kicks(state, 2)
                 or self.has_gem(state) and self.get_kicks(state, 2)
@@ -396,7 +396,7 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
         })
 
         self.location_rules.update({
-            "Castle Sansa - Floater in Courtyard": lambda state:
+            "Castle Sansa - Floater In Courtyard": lambda state:
                 self.can_bounce(state) and self.has_plunge(state)
                 or self.can_bounce(state) and self.get_kicks(state, 1)
                 or self.kick_or_plunge(state, 4)
@@ -492,7 +492,7 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
         })
 
         self.location_rules.update({
-            "Castle Sansa - Floater in Courtyard": lambda state:
+            "Castle Sansa - Floater In Courtyard": lambda state:
                 self.can_bounce(state)
                 and (
                     self.kick_or_plunge(state, 1)
@@ -589,7 +589,7 @@ class PseudoregaliaLunaticRules(PseudoregaliaRules):
         })
 
         self.location_rules.update({
-            "Castle Sansa - Floater in Courtyard": lambda state:
+            "Castle Sansa - Floater In Courtyard": lambda state:
                 self.can_bounce(state)
                 and (
                     self.kick_or_plunge(state, 1)
