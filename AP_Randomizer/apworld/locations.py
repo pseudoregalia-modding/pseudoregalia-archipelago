@@ -128,7 +128,10 @@ location_table = {
 
     "Bailey - Solar Wind": PseudoregaliaLocationData(
         code=2365810008,
-        region="Empty Bailey"),
+        region="Empty Bailey",),
+    "Bailey - Major Key": PseudoregaliaLocationData(
+        code=2365810046,
+        region="Empty Bailey",),
     "Bailey - Center Steeple": PseudoregaliaLocationData(
         code=2365810040,
         region="Empty Bailey",),
