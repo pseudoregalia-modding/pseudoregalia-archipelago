@@ -127,7 +127,7 @@ class PseudoregaliaRules:
             "Empty Bailey - Center Steeple": lambda state:
                 self.get_kicks(state, 3)
                 or state.has_all({"Sunsetter", "Slide"}, self.player),
-            "Empty Bailey - Guarded Platform": lambda state:
+            "Empty Bailey - Guarded Hand": lambda state:
                 self.has_plunge(state)
                 or self.has_gem(state)
                 or self.get_kicks(state, 3),

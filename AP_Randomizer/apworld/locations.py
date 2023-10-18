@@ -135,7 +135,7 @@ location_table = {
     "Empty Bailey - Cheese Bell": PseudoregaliaLocationData(
         code=2365810014,
         region="Empty Bailey",),
-    "Empty Bailey - Guarded Platform": PseudoregaliaLocationData(
+    "Empty Bailey - Guarded Hand": PseudoregaliaLocationData(
         code=2365810046,
         region="Empty Bailey",),
     "Empty Bailey - Inside Building": PseudoregaliaLocationData(
