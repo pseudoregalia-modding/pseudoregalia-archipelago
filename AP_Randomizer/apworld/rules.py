@@ -138,8 +138,10 @@ class PseudoregaliaRules:
                 or self.has_gem(state) and self.can_slidejump(state)
                 or self.get_kicks(state, 3) and self.can_slidejump(state),
             "Theatre - Locked Door": lambda state:
-                self.has_small_keys(state) and self.get_kicks(state, 3)
-                or self.has_small_keys(state) and self.has_gem(state),
+                self.has_small_keys(state)
+                and (
+                    self.has_gem(state)
+                    or self.get_kicks(state, 3)),
             "Theatre - Back Of Auditorium": lambda state:
                 self.get_kicks(state, 3)
                 or self.has_gem(state),
@@ -149,8 +151,10 @@ class PseudoregaliaRules:
                 or self.can_soulcutter(state) and self.has_gem(state) and self.get_kicks(state, 1),
             "Underbelly - Ascendant Light": lambda state: True,
             "Underbelly - Locked Door": lambda state:
-                self.has_small_keys(state) and self.has_slide(state) and self.get_kicks(state, 3)
-                or self.has_small_keys(state) and self.has_slide(state) and self.has_plunge(state),
+                (self.has_small_keys(state) and self.has_slide(state))
+                and (
+                    self.get_kicks(state, 3)
+                    or self.has_plunge(state)),
             "Underbelly - Strikebreak Wall": lambda state:
                 (self.can_strikebreak(state) and self.can_bounce(state))
                 and (
