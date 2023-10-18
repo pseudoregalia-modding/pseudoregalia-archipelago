@@ -111,5 +111,13 @@ item_groups: Dict[str, Set[str]] = {
                    "Major Key - The Underbelly",
                    "Major Key - Tower Remains",
                    "Major Key - Sansa Keep",
-                   "Major Key - Twilight Theatre"}
+                   "Major Key - Twilight Theatre"},
+    "plunge": {"Sunsetter"},
+    "air kicks": {"Sun Greaves"},
+    "charge": {"Strikebreak"},
+    "projectile": {"Soul Cutter"},
+    "slidejump": {"Solar Wind"},
+    "wallride": {"Cling Gem"},
+    "pogo": {"Ascendant Light"},
+    "floof": {"Professionalism"},
 }
