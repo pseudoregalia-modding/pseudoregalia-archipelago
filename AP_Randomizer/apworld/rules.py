@@ -138,9 +138,8 @@ class PseudoregaliaRules:
                 or self.has_gem(state) and self.can_slidejump(state)
                 or self.get_kicks(state, 3) and self.can_slidejump(state),
             "Theatre - Locked Door": lambda state:
-                self.has_small_keys(state)
-                or self.get_kicks(state, 3)
-                or self.has_gem(state),
+                self.has_small_keys(state) and self.get_kicks(state, 3)
+                or self.has_small_keys(state) and self.has_gem(state),
             "Theatre - Back Of Auditorium": lambda state:
                 self.get_kicks(state, 3)
                 or self.has_gem(state),
