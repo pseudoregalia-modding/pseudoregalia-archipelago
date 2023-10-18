@@ -3,7 +3,7 @@ from BaseClasses import Region, Location, Item
 from .items import PseudoregaliaItem, PseudoregaliaItemData, item_table, item_frequencies, item_groups
 from .locations import location_table
 from .regions import region_table
-from .options import PseudoregaliaOptions
+from .options import pseudoregalia_options
 from worlds.generic.Rules import add_rule, set_rule, forbid_item
 from .rules import PseudoregaliaRules, PseudoregaliaNormalRules, PseudoregaliaHardRules, PseudoregaliaExpertRules, PseudoregaliaLunaticRules
 from typing import Dict, Any
@@ -19,8 +19,7 @@ class PseudoregaliaWorld(World):
     locked_locations = {name: data for name, data in location_table.items() if data.locked_item}
     item_name_groups = item_groups
 
-    options_dataclass = PseudoregaliaOptions
-    options: PseudoregaliaOptions
+    option_definitions = pseudoregalia_options
 
     def create_item(self, name: str) -> PseudoregaliaItem:
         data = item_table[name]
@@ -61,12 +60,12 @@ class PseudoregaliaWorld(World):
 
     def fill_slot_data(self) -> Dict[str, Any]:
         return {"slot_number": self.player,
-                "death_link": self.options.death_link.value,
-                "difficulty": self.options.logic_level.current_key,
-                "obscure": self.options.obscure_tricks.value, }
+                "death_link": bool(self.multiworld.death_link[self.player]),
+                "logic_level": self.multiworld.logic_level[self.player].value,
+                "obscure_tricks": bool(self.multiworld.obscure_tricks[self.player])}
 
     def set_rules(self):
-        difficulty = self.options.logic_level
+        difficulty = self.multiworld.logic_level[self.player]
         if difficulty == NORMAL:
             PseudoregaliaNormalRules(self).set_pseudoregalia_rules()
         elif difficulty == HARD:
