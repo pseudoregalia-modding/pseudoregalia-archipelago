@@ -63,13 +63,13 @@ location_table = {
         region="Dungeon Mirror",),
     "Castle - Near Theatre Front": PseudoregaliaLocationData(
         code=2365810017,
-        region="Castle Main",),
+        region="Castle Moon Room",),
     "Underbelly - Strikebreak Wall": PseudoregaliaLocationData(
         code=2365810018,
         region="Underbelly Main",),
     "Castle - High Climb From Courtyard": PseudoregaliaLocationData(
         code=2365810019,
-        region="Castle Main",),
+        region="Castle High Climb",),
     "Library - Locked Door Across": PseudoregaliaLocationData(
         code=2365810020,
         region="Library Locked",),
@@ -119,7 +119,7 @@ location_table = {
         region="Castle Main",),
     "Castle - Alcove Near Scythe Corridor": PseudoregaliaLocationData(
         code=2365810035,
-        region="Castle Main",),
+        region="Castle By Scythe Corridor",),
     "Castle - Balcony": PseudoregaliaLocationData(
         code=2365810036,
         region="Castle Main",),
