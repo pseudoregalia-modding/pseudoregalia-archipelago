@@ -113,7 +113,7 @@ class PseudoregaliaRules:
                 self.can_slidejump(state)
                 or self.get_kicks(state, 3)
                 or self.has_plunge(state),
-            "Sansa Keep - Major Key": lambda state:
+            "Sansa Keep - Lonely Throne": lambda state:
                 self.can_bounce(state) and state.has_all({"Cling Gem, Sunsetter"}, self.player)
                 or self.has_gem(state) and self.can_bounce(state) and self.get_kicks(state, 3),
             "Empty Bailey - Solar Wind": lambda state:
@@ -127,7 +127,7 @@ class PseudoregaliaRules:
             "Empty Bailey - Center Steeple": lambda state:
                 self.get_kicks(state, 3)
                 or state.has_all({"Sunsetter", "Slide"}, self.player),
-            "Empty Bailey - Major Key": lambda state:
+            "Empty Bailey - Guarded Platform": lambda state:
                 self.has_plunge(state)
                 or self.has_gem(state)
                 or self.get_kicks(state, 3),
@@ -146,7 +146,7 @@ class PseudoregaliaRules:
                 self.get_kicks(state, 3)
                 or self.has_gem(state),
             "Twilight Theatre - Murderous Goat": lambda state: True,
-            "Twilight Theatre - Major Key": lambda state:
+            "Twilight Theatre - Center Stage": lambda state:
                 self.can_soulcutter(state) and self.has_gem(state) and self.can_slidejump(state)
                 or self.can_soulcutter(state) and self.has_gem(state) and self.get_kicks(state, 1),
             "The Underbelly - Ascendant Light": lambda state: True,
@@ -170,7 +170,7 @@ class PseudoregaliaRules:
             "The Underbelly - Rafters Near Keep": lambda state:
                 self.get_kicks(state, 3)
                 or self.get_kicks(state, 1) and self.has_plunge(state),
-            "The Underbelly - Major Key": lambda state:
+            "The Underbelly - Surrounded By Holes": lambda state:
                 self.has_plunge(state)
                 and (
                     self.can_soulcutter(state) and self.can_bounce(state)
@@ -179,7 +179,7 @@ class PseudoregaliaRules:
                 ),
             "Tower Remains - Cling Gem": lambda state:
                 self.get_kicks(state, 3),
-            "Tower Remains - Major Key": lambda state: True,
+            "Tower Remains - Atop The Tower": lambda state: True,
         }
 
     def has_breaker(self, state) -> bool:
