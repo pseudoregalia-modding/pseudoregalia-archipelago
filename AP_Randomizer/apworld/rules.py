@@ -64,122 +64,122 @@ class PseudoregaliaRules:
         self.location_rules = {
             # TODO: figure out a proper difference between placeholder "free" rules
             # and rules with no universal access(?)
-            "Dungeon - Dream Breaker": lambda state: True,
-            "Dungeon - Slide": lambda state:
+            "Dilapidated Dungeon - Dream Breaker": lambda state: True,
+            "Dilapidated Dungeon - Slide": lambda state:
                 self.has_breaker(state),
-            "Dungeon - Dark Orbs": lambda state:
+            "Dilapidated Dungeon - Dark Orbs": lambda state:
                 self.has_gem(state)
                 or self.can_bounce(state) and self.get_kicks(state, 3),
-            "Dungeon - Rafters": lambda state:
+            "Dilapidated Dungeon - Rafters": lambda state:
                 self.has_gem(state)
                 or self.get_kicks(state, 3) and self.can_slidejump(state)
                 or self.get_kicks(state, 3) and self.has_plunge(state),
-            "Dungeon - Strong Eyes": lambda state:
+            "Dilapidated Dungeon - Strong Eyes": lambda state:
                 self.has_breaker(state),
-            "Dungeon - Alcove Near Mirror": lambda state: True,
-            "Dungeon - Past Poles": lambda state:
+            "Dilapidated Dungeon - Alcove Near Mirror": lambda state: True,
+            "Dilapidated Dungeon - Past Poles": lambda state:
                 self.has_gem(state)
                 or self.get_kicks(state, 3),
-            "Library - Sun Greaves": lambda state:
+            "Listless Library - Sun Greaves": lambda state:
                 self.can_slidejump(state)
                 or self.has_slide(state) and self.has_breaker(state)
                 or self.has_gem(state) and self.has_breaker(state)
                 or self.get_kicks(state, 4),
-            "Library - Locked Door Left": lambda state:
+            "Listless Library - Locked Door Left": lambda state:
                 self.get_kicks(state, 3)
                 or self.has_gem(state),
-            "Library - Locked Door Across": lambda state:
+            "Listless Library - Locked Door Across": lambda state:
                 self.can_slidejump(state)
                 or self.get_kicks(state, 1)
                 or self.has_gem(state),
-            "Library - Upper Back": lambda state:
+            "Listless Library - Upper Back": lambda state:
                 self.get_kicks(state, 3)
                 or self.has_gem(state),
-            "Keep - Strikebreak": lambda state:
+            "Sansa Keep - Strikebreak": lambda state:
                 (self.has_slide(state) or self.can_strikebreak(state))
                 and (
                     self.can_slidejump(state)
                     or self.get_kicks(state, 1)
                     or self.has_gem(state),
                 ),
-            "Keep - Sunsetter": lambda state:
+            "Sansa Keep - Sunsetter": lambda state:
                 self.has_breaker(state),
-            "Keep - Near Theatre": lambda state:
+            "Sansa Keep - Near Theatre": lambda state:
                 self.kick_or_plunge(state, 1)
                 or self.has_gem(state),
-            "Keep - Levers Room": lambda state:
+            "Sansa Keep - Levers Room": lambda state:
                 self.has_breaker(state),
-            "Keep - Alcove Near Locked Door": lambda state:
+            "Sansa Keep - Alcove Near Locked Door": lambda state:
                 self.can_slidejump(state)
                 or self.get_kicks(state, 3)
                 or self.has_plunge(state),
-            "Keep - Major Key": lambda state:
+            "Sansa Keep - Major Key": lambda state:
                 self.can_bounce(state) and state.has_all({"Cling Gem, Sunsetter"}, self.player)
                 or self.has_gem(state) and self.can_bounce(state) and self.get_kicks(state, 3),
-            "Bailey - Solar Wind": lambda state:
+            "Empty Bailey - Solar Wind": lambda state:
                 self.has_slide(state),
-            "Bailey - Cheese Bell": lambda state:
+            "Empty Bailey - Cheese Bell": lambda state:
                 self.can_slidejump(state) and self.get_kicks(state, 1) and self.has_plunge(state)
                 or self.can_slidejump(state) and self.has_gem(state)
                 or self.get_kicks(state, 3) and self.has_plunge(state),
-            "Bailey - Inside Building": lambda state:
+            "Empty Bailey - Inside Building": lambda state:
                 self.has_slide(state),
-            "Bailey - Center Steeple": lambda state:
+            "Empty Bailey - Center Steeple": lambda state:
                 self.get_kicks(state, 3)
                 or state.has_all({"Sunsetter", "Slide"}, self.player),
-            "Bailey - Major Key": lambda state:
+            "Empty Bailey - Major Key": lambda state:
                 self.has_plunge(state)
                 or self.has_gem(state)
                 or self.get_kicks(state, 3),
-            "Theatre - Soul Cutter": lambda state:
+            "Twilight Theatre - Soul Cutter": lambda state:
                 self.can_strikebreak(state),
-            "Theatre - Corner Beam": lambda state:
+            "Twilight Theatre - Corner Beam": lambda state:
                 self.has_gem(state) and self.get_kicks(state, 3)
                 or self.has_gem(state) and self.can_slidejump(state)
                 or self.get_kicks(state, 3) and self.can_slidejump(state),
-            "Theatre - Locked Door": lambda state:
+            "Twilight Theatre - Locked Door": lambda state:
                 self.has_small_keys(state)
                 and (
                     self.has_gem(state)
                     or self.get_kicks(state, 3)),
-            "Theatre - Back Of Auditorium": lambda state:
+            "Twilight Theatre - Back Of Auditorium": lambda state:
                 self.get_kicks(state, 3)
                 or self.has_gem(state),
-            "Theatre - Murderous Goat": lambda state: True,
-            "Theatre - Major Key": lambda state:
+            "Twilight Theatre - Murderous Goat": lambda state: True,
+            "Twilight Theatre - Major Key": lambda state:
                 self.can_soulcutter(state) and self.has_gem(state) and self.can_slidejump(state)
                 or self.can_soulcutter(state) and self.has_gem(state) and self.get_kicks(state, 1),
-            "Underbelly - Ascendant Light": lambda state: True,
-            "Underbelly - Locked Door": lambda state:
+            "The Underbelly - Ascendant Light": lambda state: True,
+            "The Underbelly - Locked Door": lambda state:
                 (self.has_small_keys(state) and self.has_slide(state))
                 and (
                     self.get_kicks(state, 3)
                     or self.has_plunge(state)),
-            "Underbelly - Strikebreak Wall": lambda state:
+            "The Underbelly - Strikebreak Wall": lambda state:
                 (self.can_strikebreak(state) and self.can_bounce(state))
                 and (
                     self.can_slidejump(state)
                     or self.kick_or_plunge(state, 1)),
-            "Underbelly - Main Room": lambda state:
+            "The Underbelly - Main Room": lambda state:
                 self.can_slidejump(state)
                 or self.has_plunge(state),
-            "Underbelly - Alcove Near Light": lambda state: True,
-            "Underbelly - Building Near Little Guy": lambda state:
+            "The Underbelly - Alcove Near Light": lambda state: True,
+            "The Underbelly - Building Near Little Guy": lambda state:
                 self.get_kicks(state, 3)
                 or self.has_plunge(state),
-            "Underbelly - Rafters Near Keep": lambda state:
+            "The Underbelly - Rafters Near Keep": lambda state:
                 self.get_kicks(state, 3)
                 or self.get_kicks(state, 1) and self.has_plunge(state),
-            "Underbelly - Major Key": lambda state:
+            "The Underbelly - Major Key": lambda state:
                 self.has_plunge(state)
                 and (
                     self.can_soulcutter(state) and self.can_bounce(state)
                     or self.can_soulcutter(state) and self.has_gem(state)
                     or self.can_slidejump(state) and self.get_kicks(state, 3)
                 ),
-            "Tower - Cling Gem": lambda state:
+            "Tower Remains - Cling Gem": lambda state:
                 self.get_kicks(state, 3),
-            "Tower - Major Key": lambda state: True,
+            "Tower Remains - Major Key": lambda state: True,
         }
 
     def has_breaker(self, state) -> bool:
@@ -301,47 +301,47 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
         })
 
         self.location_rules.update({
-            "Castle - Floater in Courtyard": lambda state:
+            "Castle Sansa - Floater in Courtyard": lambda state:
                 self.can_bounce(state) and self.has_plunge(state)
                 or self.can_bounce(state) and self.get_kicks(state, 2)
                 or self.has_gem(state) and self.get_kicks(state, 2)
                 or self.has_gem(state) and self.has_plunge(state)
                 or self.get_kicks(state, 4),
-            "Castle - Locked Door": lambda state:
+            "Castle Sansa - Locked Door": lambda state:
                 self.has_small_keys(state)
                 and (
                     self.has_breaker(state)
                     or self.knows_obscure(state) and self.can_attack(state)
                 ),
-            "Castle - Platform In Main Halls": lambda state:
+            "Castle Sansa - Platform In Main Halls": lambda state:
                 self.has_plunge(state)
                 or self.has_gem(state)
                 or self.get_kicks(state, 2),
-            "Castle - Tall Room Near Wheel Crawlers": lambda state:
+            "Castle Sansa - Tall Room Near Wheel Crawlers": lambda state:
                 self.has_gem(state) and self.kick_or_plunge(state, 1)
                 or self.get_kicks(state, 2),
-            "Castle - Alcove Near Dungeon": lambda state:
+            "Castle Sansa - Alcove Near Dungeon": lambda state:
                 self.has_gem(state) and self.kick_or_plunge(state, 1)
                 or self.kick_or_plunge(state, 2),
-            "Castle - Balcony": lambda state:
+            "Castle Sansa - Balcony": lambda state:
                 self.has_gem(state)
                 or self.kick_or_plunge(state, 3)
                 or self.can_slidejump(state) and self.kick_or_plunge(state, 2),
-            "Castle - Corner Corridor": lambda state:
+            "Castle Sansa - Corner Corridor": lambda state:
                 self.has_gem(state)
                 or self.get_kicks(state, 4),
-            "Castle - Wheel Crawlers": lambda state:
+            "Castle Sansa - Wheel Crawlers": lambda state:
                 self.can_bounce(state)
                 or self.has_gem(state)
                 or self.get_kicks(state, 2)
                 or self.get_kicks(state, 1) and self.can_slidejump(state),
-            "Castle - Alcove Near Scythe Corridor": lambda state:
+            "Castle Sansa - Alcove Near Scythe Corridor": lambda state:
                 self.has_gem(state) and self.get_kicks(state, 1) and self.has_plunge(state)
                 or self.kick_or_plunge(state, 4),
-            "Castle - Near Theatre Front": lambda state:
+            "Castle Sansa - Near Theatre Front": lambda state:
                 self.get_kicks(state, 4)
                 or self.get_kicks(state, 2) and self.has_plunge(state),
-            "Castle - High Climb From Courtyard": lambda state:
+            "Castle Sansa - High Climb From Courtyard": lambda state:
                 self.get_kicks(state, 2)
                 or self.has_gem(state) and self.has_plunge(state)
                 or self.has_breaker(state) and self.get_kicks(state, 1)
@@ -396,49 +396,49 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
         })
 
         self.location_rules.update({
-            "Castle - Floater in Courtyard": lambda state:
+            "Castle Sansa - Floater in Courtyard": lambda state:
                 self.can_bounce(state) and self.has_plunge(state)
                 or self.can_bounce(state) and self.get_kicks(state, 1)
                 or self.kick_or_plunge(state, 4)
                 or self.has_gem(state),
-            "Castle - Locked Door": lambda state:
+            "Castle Sansa - Locked Door": lambda state:
                 self.has_small_keys(state)
                 and (
                     self.has_breaker(state)
                     or self.knows_obscure(state) and self.can_attack(state)
                 ),
-            "Castle - Platform In Main Halls": lambda state:
+            "Castle Sansa - Platform In Main Halls": lambda state:
                 self.kick_or_plunge(state, 1)
                 or self.has_gem(state),
-            "Castle - Tall Room Near Wheel Crawlers": lambda state:
+            "Castle Sansa - Tall Room Near Wheel Crawlers": lambda state:
                 self.has_gem(state)
                 or self.get_kicks(state, 1)
                 or self.knows_obscure(state) and self.can_slidejump(state) and self.has_plunge(state),
-            "Castle - Alcove Near Dungeon": lambda state:
+            "Castle Sansa - Alcove Near Dungeon": lambda state:
                 self.has_gem(state)
                 or self.kick_or_plunge(state, 1),
-            "Castle - Balcony": lambda state:
+            "Castle Sansa - Balcony": lambda state:
                 self.has_gem(state)
                 or self.kick_or_plunge(state, 3)
                 or self.has_slide(state) and self.has_plunge(state)
                 or self.has_slide(state) and self.get_kicks(state, 1) and self.has_breaker(state),
-            "Castle - Corner Corridor": lambda state:
+            "Castle Sansa - Corner Corridor": lambda state:
                 self.has_gem(state)
                 or self.get_kicks(state, 3),
-            "Castle - Wheel Crawlers": lambda state:
+            "Castle Sansa - Wheel Crawlers": lambda state:
                 self.can_bounce(state)
                 or self.has_gem(state)
                 or self.get_kicks(state, 1)
                 or self.can_slidejump(state) and self.has_plunge(state)
                 or self.knows_obscure(state) and self.has_plunge(state),
-            "Castle - Alcove Near Scythe Corridor": lambda state:
+            "Castle Sansa - Alcove Near Scythe Corridor": lambda state:
                 self.has_gem(state)
                 or self.get_kicks(state, 2) and self.has_plunge(state),
-            "Castle - Near Theatre Front": lambda state:
+            "Castle Sansa - Near Theatre Front": lambda state:
                 self.has_gem(state)
                 or self.get_kicks(state, 4)
                 or self.get_kicks(state, 2) and self.has_plunge(state),
-            "Castle - High Climb From Courtyard": lambda state:
+            "Castle Sansa - High Climb From Courtyard": lambda state:
                 self.get_kicks(state, 2)
                 or self.has_gem(state)
                 or self.has_plunge(state) and self.can_slidejump(state)
@@ -492,7 +492,7 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
         })
 
         self.location_rules.update({
-            "Castle - Floater in Courtyard": lambda state:
+            "Castle Sansa - Floater in Courtyard": lambda state:
                 self.can_bounce(state)
                 and (
                     self.kick_or_plunge(state, 1)
@@ -500,44 +500,44 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
                 or self.has_slide(state) and self.get_kicks(state, 1)
                 or self.get_kicks(state, 3)
                 or self.has_gem(state),
-            "Castle - Locked Door": lambda state:
+            "Castle Sansa - Locked Door": lambda state:
                 self.has_small_keys(state) and self.can_attack(state),
-            "Castle - Platform In Main Halls": lambda state:
+            "Castle Sansa - Platform In Main Halls": lambda state:
                 self.kick_or_plunge(state, 1)
                 or self.has_gem(state)
                 or self.has_slide(state),
-            "Castle - Tall Room Near Wheel Crawlers": lambda state:
+            "Castle Sansa - Tall Room Near Wheel Crawlers": lambda state:
                 self.has_gem(state)
                 or self.get_kicks(state, 1)
                 or self.has_slide(state),
-            "Castle - Alcove Near Dungeon": lambda state:
+            "Castle Sansa - Alcove Near Dungeon": lambda state:
                 self.has_gem(state)
                 or self.kick_or_plunge(state, 1)
                 or self.has_slide(state),
-            "Castle - Balcony": lambda state:
+            "Castle Sansa - Balcony": lambda state:
                 self.has_gem(state)
                 or self.get_kicks(state, 3)
                 or self.has_plunge(state) and self.get_kicks(state, 1)
                 or self.has_slide(state),
-            "Castle - Corner Corridor": lambda state:
+            "Castle Sansa - Corner Corridor": lambda state:
                 self.has_gem(state)
                 or self.get_kicks(state, 3)
                 or self.get_kicks(state, 2) and self.has_slide(state),
-            "Castle - Wheel Crawlers": lambda state:
+            "Castle Sansa - Wheel Crawlers": lambda state:
                 self.can_bounce(state)
                 or self.has_gem(state)
                 or self.kick_or_plunge(state, 1)
                 or self.has_slide(state),
-            "Castle - Alcove Near Scythe Corridor": lambda state:
+            "Castle Sansa - Alcove Near Scythe Corridor": lambda state:
                 self.has_gem(state)
                 or self.kick_or_plunge(state, 3)
                 or self.has_slide(state) and self.kick_or_plunge(state, 1),
-            "Castle - Near Theatre Front": lambda state:
+            "Castle Sansa - Near Theatre Front": lambda state:
                 self.has_gem(state)
                 or self.has_slide(state)
                 or self.get_kicks(state, 4)
                 or self.get_kicks(state, 2) and self.has_plunge(state),
-            "Castle - High Climb From Courtyard": lambda state:
+            "Castle Sansa - High Climb From Courtyard": lambda state:
                 self.get_kicks(state, 2)
                 or self.has_gem(state)
                 or self.can_attack(state) and self.get_kicks(state, 1)
@@ -589,7 +589,7 @@ class PseudoregaliaLunaticRules(PseudoregaliaRules):
         })
 
         self.location_rules.update({
-            "Castle - Floater in Courtyard": lambda state:
+            "Castle Sansa - Floater in Courtyard": lambda state:
                 self.can_bounce(state)
                 and (
                     self.kick_or_plunge(state, 1)
@@ -597,44 +597,44 @@ class PseudoregaliaLunaticRules(PseudoregaliaRules):
                 or self.has_slide(state) and self.get_kicks(state, 1)
                 or self.get_kicks(state, 3)
                 or self.has_gem(state),
-            "Castle - Locked Door": lambda state:
+            "Castle Sansa - Locked Door": lambda state:
                 self.has_small_keys(state) and self.can_attack(state),
-            "Castle - Platform In Main Halls": lambda state:
+            "Castle Sansa - Platform In Main Halls": lambda state:
                 self.has_gem(state)
                 or self.kick_or_plunge(state, 1)
                 or self.has_slide(state)
                 or self.can_bounce(state),
-            "Castle - Tall Room Near Wheel Crawlers": lambda state:
+            "Castle Sansa - Tall Room Near Wheel Crawlers": lambda state:
                 self.has_gem(state)
                 or self.get_kicks(state, 1)
                 or self.has_slide(state),
-            "Castle - Alcove Near Dungeon": lambda state:
+            "Castle Sansa - Alcove Near Dungeon": lambda state:
                 self.has_gem(state)
                 or self.kick_or_plunge(state, 1)
                 or self.has_slide(state),
-            "Castle - Balcony": lambda state:
+            "Castle Sansa - Balcony": lambda state:
                 self.has_gem(state)
                 or self.get_kicks(state, 3)
                 or self.has_plunge(state) and self.get_kicks(state, 1)
                 or self.has_slide(state),
-            "Castle - Corner Corridor": lambda state:
+            "Castle Sansa - Corner Corridor": lambda state:
                 self.has_gem(state)
                 or self.get_kicks(state, 3)
                 or self.get_kicks(state, 1) and self.has_slide(state),
-            "Castle - Wheel Crawlers": lambda state:
+            "Castle Sansa - Wheel Crawlers": lambda state:
                 self.can_bounce(state)
                 or self.has_gem(state)
                 or self.kick_or_plunge(state, 1)
                 or self.has_slide(state),
-            "Castle - Alcove Near Scythe Corridor": lambda state:
+            "Castle Sansa - Alcove Near Scythe Corridor": lambda state:
                 self.has_gem(state)
                 or self.kick_or_plunge(state, 1),  # This never really matters and that makes me sad
-            "Castle - Near Theatre Front": lambda state:
+            "Castle Sansa - Near Theatre Front": lambda state:
                 self.has_gem(state)
                 or self.has_slide(state)
                 or self.get_kicks(state, 4)
                 or self.get_kicks(state, 2) and self.has_plunge(state),
-            "Castle - High Climb From Courtyard": lambda state:
+            "Castle Sansa - High Climb From Courtyard": lambda state:
                 self.get_kicks(state, 2)
                 or self.has_gem(state)
                 or self.can_attack(state) and self.get_kicks(state, 1)
