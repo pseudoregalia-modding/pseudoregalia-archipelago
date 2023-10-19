@@ -90,7 +90,7 @@ item_table: Dict[str, PseudoregaliaItemData] = {
     "Major Key - Twilight Theatre": PseudoregaliaItemData(
         code=2365810025,
         classification=ItemClassification.progression),
-    
+
     "Unlocked Door": PseudoregaliaItemData(
         classification=ItemClassification.useful),
 
@@ -114,6 +114,7 @@ item_groups: Dict[str, Set[str]] = {
                    "Major Key - Twilight Theatre"},
     "plunge": {"Sunsetter"},
     "air kicks": {"Sun Greaves"},
+    "nike kicks": {"Sun Greaves"},
     "charge": {"Strikebreak"},
     "projectile": {"Soul Cutter"},
     "slidejump": {"Solar Wind"},
