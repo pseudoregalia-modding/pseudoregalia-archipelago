@@ -12,7 +12,7 @@ region_table: Dict[str, List[str]] = {
     "Menu": ["Dungeon Mirror"],
     "Dungeon Mirror": ["Dungeon Strong Eyes", "Underbelly Main", "Theatre Main",],
     "Dungeon Strong Eyes": ["Castle Main"],
-    "Castle Main": ["Library Main", "Keep Main", "Empty Bailey", "Theatre Pillar", "Castle Spiral Climb",],
+    "Castle Main": ["Dungeon Strong Eyes", "Library Main", "Keep Main", "Empty Bailey", "Theatre Pillar", "Castle Spiral Climb",],
     "Castle Spiral Climb": ["Castle Main", "Castle High Climb", "Castle By Scythe Corridor",],
     "Castle High Climb": [],
     "Castle By Scythe Corridor": ["Castle Spiral Climb", "Castle High Climb", "Castle => Theatre (Front)",],
