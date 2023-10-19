@@ -114,6 +114,7 @@ item_groups: Dict[str, Set[str]] = {
                    "Major Key - Twilight Theatre"},
     "plunge": {"Sunsetter"},
     "air kicks": {"Sun Greaves"},
+    "nike kicks": {"Sun Greaves"},
     "charge": {"Strikebreak"},
     "projectile": {"Soul Cutter"},
     "slidejump": {"Solar Wind"},
