@@ -1,5 +1,6 @@
 #pragma once
 #include <mutex>
+#include <queue>
 #include "Unreal/TArray.hpp"
 #include "Unreal/World.hpp"
 #include "Engine.hpp"
@@ -22,7 +23,7 @@ namespace Engine {
 	};
 
 	bool awaiting_item_sync;
-	std::list<BlueprintFunctionInfo> blueprint_function_queue;
+	std::queue<BlueprintFunctionInfo> blueprint_function_queue;
 	std::list<std::function<void (UObject*)>> function_queue;
 
 	std::wstring Engine::GetWorldName() {
@@ -37,7 +38,7 @@ namespace Engine {
 
 	void Engine::ExecuteBlueprintFunction(std::wstring new_parent, std::wstring new_name, std::shared_ptr<void> params) {
 		std::lock_guard<std::mutex> guard(blueprint_function_mutex);
-		blueprint_function_queue.push_back(BlueprintFunctionInfo(new_parent, new_name, params));
+		blueprint_function_queue.push(BlueprintFunctionInfo(new_parent, new_name, params));
 	}
 
 	void Engine::OnTick(UObject* blueprint) {
@@ -50,25 +51,26 @@ namespace Engine {
 		}
 
 		std::lock_guard<std::mutex> guard(blueprint_function_mutex);
-		for (BlueprintFunctionInfo& info : blueprint_function_queue) {
+		while (!blueprint_function_queue.empty()) {
+			BlueprintFunctionInfo info = blueprint_function_queue.front();
 			UObject* parent = UObjectGlobals::FindFirstOf(info.parent_name);
 			if (!parent) {
 				Logger::Log(L"Could not find blueprint with name " + info.parent_name, Logger::LogType::Error);
-				blueprint_function_queue.pop_front();
+				blueprint_function_queue.pop();
 				continue;
 			}
 
 			UFunction* function = parent->GetFunctionByName(info.function_name.c_str());
 			if (!function) {
 				Logger::Log(L"Could not find function " + info.function_name, Logger::LogType::Error);
-				blueprint_function_queue.pop_front();
+				blueprint_function_queue.pop();
 				continue;
 			}
 			Logger::Log(L"Executing " + info.function_name);
 			// Need to cast to raw pointer to feed to ProcessEvent, but the memory will still be freed automatically
 			void* ptr(info.params.get());
 			parent->ProcessEvent(function, ptr);
-			blueprint_function_queue.pop_front();
+			blueprint_function_queue.pop();
 		}
 
 		return;
