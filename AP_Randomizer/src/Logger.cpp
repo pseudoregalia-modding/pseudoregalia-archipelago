@@ -77,7 +77,7 @@ namespace Logger {
 			};
 			std::unique_ptr<FText> new_text(new FText(system_message_queue.front()));
 			system_message_queue.pop_front();
-			void* params = new PrintToPlayerInfo{ *new_text, messages_muted };
+			std::shared_ptr<void> params(new PrintToPlayerInfo{ *new_text, messages_muted });
 			Engine::ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_PrintMiniMessage", params);
 		}
 
@@ -93,7 +93,7 @@ namespace Logger {
 			};
 			std::unique_ptr<FText> new_text(new FText(message_queue.front()));
 			message_queue.pop_front();
-			void* params = new PrintToPlayerInfo{ *new_text, messages_muted };
+			std::shared_ptr<void> params(new PrintToPlayerInfo{ *new_text, messages_muted });
 			Engine::ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_PrintMessage", params);
 			message_timer = 600;
 		}

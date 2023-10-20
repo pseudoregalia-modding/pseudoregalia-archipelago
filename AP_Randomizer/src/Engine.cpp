@@ -18,7 +18,7 @@ namespace Engine {
 	struct BlueprintFunctionInfo {
 		std::wstring parent_name;
 		std::wstring function_name;
-		void* params;
+		std::shared_ptr<void> params;
 	};
 
 	bool awaiting_item_sync;
@@ -35,7 +35,7 @@ namespace Engine {
 		function_queue.push_back(function);
 	}
 
-	void Engine::ExecuteBlueprintFunction(std::wstring new_parent, std::wstring new_name, void* params) {
+	void Engine::ExecuteBlueprintFunction(std::wstring new_parent, std::wstring new_name, std::shared_ptr<void> params) {
 		std::lock_guard<std::mutex> guard(blueprint_function_mutex);
 		blueprint_function_queue.push_back(BlueprintFunctionInfo(new_parent, new_name, params));
 	}
@@ -54,7 +54,6 @@ namespace Engine {
 			UObject* parent = UObjectGlobals::FindFirstOf(info.parent_name);
 			if (!parent) {
 				Logger::Log(L"Could not find blueprint with name " + info.parent_name, Logger::LogType::Error);
-				delete info.params;
 				blueprint_function_queue.pop_front();
 				continue;
 			}
@@ -62,13 +61,13 @@ namespace Engine {
 			UFunction* function = parent->GetFunctionByName(info.function_name.c_str());
 			if (!function) {
 				Logger::Log(L"Could not find function " + info.function_name, Logger::LogType::Error);
-				delete info.params;
 				blueprint_function_queue.pop_front();
 				continue;
 			}
 			Logger::Log(L"Executing " + info.function_name);
-			parent->ProcessEvent(function, info.params);
-			delete info.params;
+			// Need to cast to raw pointer to feed to ProcessEvent, but the memory will still be freed automatically
+			void* ptr(info.params.get());
+			parent->ProcessEvent(function, ptr);
 			blueprint_function_queue.pop_front();
 		}
 
@@ -95,7 +94,7 @@ namespace Engine {
 
 			if (!collectible.IsChecked()) {
 				Logger::Log(L"Spawning collectible with id " + std::to_wstring(id));
-				void* collectible_info = new CollectibleSpawnInfo{ id, collectible.GetPosition() };
+				std::shared_ptr<void> collectible_info(new CollectibleSpawnInfo{ id, collectible.GetPosition() });
 				ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SpawnCollectible", collectible_info);
 			}
 			else {
@@ -124,17 +123,17 @@ namespace Engine {
 			ue_counts.Add(pair.second);
 		}
 
-		void* upgrade_params = new AddUpgradeInfo{ ue_names, ue_counts, toggle };
+		std::shared_ptr<void> upgrade_params(new AddUpgradeInfo{ ue_names, ue_counts, toggle });
 		ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetUpgrades", upgrade_params);
 	}
 
 	void Engine::SyncHealthPieces() {
-		void* hp_params = new int(GameData::GetHealthPieces());
+		std::shared_ptr<void> hp_params(new int(GameData::GetHealthPieces()));
 		ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetHealthPieces", hp_params);
 	}
 
 	void Engine::SyncSmallKeys() {
-		void* small_key_params = new int(GameData::GetSmallKeys());
+		std::shared_ptr<void> small_key_params(new int(GameData::GetSmallKeys()));
 		ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetSmallKeys", small_key_params);
 	}
 
@@ -149,7 +148,7 @@ namespace Engine {
 			ue_keys.Add(major_keys[i]);
 		}
 
-		void* major_key_params = new MajorKeyInfo{ ue_keys };
+		std::shared_ptr<void> major_key_params(new MajorKeyInfo{ ue_keys });
 		ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetMajorKeys", major_key_params);
 	}
 
@@ -160,7 +159,7 @@ namespace Engine {
 	}
 
 	void Engine::VaporizeGoat() {
-		void* dissolve_delay = new double(0);
+		std::shared_ptr<void> dissolve_delay(new double(0));
 		ExecuteBlueprintFunction(L"BP_PlayerGoatMain_C", L"BPI_CombatDeath", dissolve_delay);
 	}
 }
