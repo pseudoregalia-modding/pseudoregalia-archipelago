@@ -24,16 +24,10 @@ namespace Engine {
 
 	bool awaiting_item_sync;
 	std::queue<BlueprintFunctionInfo> blueprint_function_queue;
-	std::list<std::function<void (UObject*)>> function_queue;
 
 	std::wstring Engine::GetWorldName() {
 		UObject* player_controller = UObjectGlobals::FindFirstOf(STR("PlayerController"));
 		return player_controller->GetWorld()->GetName();
-	}
-
-	void Engine::ExecuteInGameThread(std::function<void(UObject*)> function) {
-		Logger::Log(L"ExecuteInGameThread was called. This function is not currently fully implemented.", Logger::LogType::Warning);
-		function_queue.push_back(function);
 	}
 
 	void Engine::ExecuteBlueprintFunction(std::wstring new_parent, std::wstring new_name, std::shared_ptr<void> params) {
@@ -71,12 +65,6 @@ namespace Engine {
 			void* ptr(info.params.get());
 			parent->ProcessEvent(function, ptr);
 			blueprint_function_queue.pop();
-		}
-
-		return;
-		for (auto& function : function_queue) {
-			function(blueprint);
-			function_queue.pop_front();
 		}
 	}
 
