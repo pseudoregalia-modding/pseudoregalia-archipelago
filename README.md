@@ -38,6 +38,7 @@ You'll spawn in Dungeon with Dream Breaker at its vanilla location, and you'll h
 - Entering `/messages hide` will stop Archipelago messages from appearing in-game completely.
 
 # Known Issues
+- The mod will not always fully load before starting the game, especially the first time. If it doesn't seem to respond, try restarting the game.
 - If you enter your connection info incorrectly, you have to restart the game to try again.
 - A crash can occur when entering incorrect connection info under certain conditions.
 - If you're on top of an item when you first connect, it won't spawn until you reload the scene.
