@@ -21,7 +21,8 @@ item_table: Dict[str, PseudoregaliaItemData] = {
         classification=ItemClassification.useful),
     "Sun Greaves": PseudoregaliaItemData(
         code=2365810003,
-        classification=ItemClassification.progression),
+        classification=ItemClassification.progression,
+        can_create=lambda multiworld, player: not bool(multiworld.split_sun_greaves[player])),
     "Slide": PseudoregaliaItemData(
         code=2365810004,
         classification=ItemClassification.progression,
@@ -48,7 +49,8 @@ item_table: Dict[str, PseudoregaliaItemData] = {
 
     "Heliacal Power": PseudoregaliaItemData(
         code=2365810011,
-        classification=ItemClassification.progression),
+        classification=ItemClassification.progression,
+        can_create=lambda multiworld, player: not bool(multiworld.split_sun_greaves[player])),
     "Aerial Finesse": PseudoregaliaItemData(
         code=2365810012,
         classification=ItemClassification.filler),
@@ -98,6 +100,10 @@ item_table: Dict[str, PseudoregaliaItemData] = {
         code=2365810026,
         classification=ItemClassification.progression,
         can_create=lambda multiworld, player: bool(multiworld.progressive_slide[player])),
+    "Air Kick": PseudoregaliaItemData(
+        code=2365810027,
+        classification=ItemClassification.progression,
+        can_create=lambda multiworld, player: bool(multiworld.split_sun_greaves[player])),
 
     "Unlocked Door": PseudoregaliaItemData(
         classification=ItemClassification.useful),
@@ -113,6 +119,7 @@ item_frequencies = {
     "Small Key": 7,
     "Health Piece": 16,
     "Progressive Slide": 2,
+    "Air Kick": 4,
 }
 
 item_groups: Dict[str, Set[str]] = {
@@ -130,4 +137,5 @@ item_groups: Dict[str, Set[str]] = {
     "wallride": {"Cling Gem"},
     "pogo": {"Ascendant Light"},
     "floof": {"Professionalism"},
+    "heliacal power": {"Air Kick"},
 }

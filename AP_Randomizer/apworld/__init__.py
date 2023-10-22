@@ -48,6 +48,8 @@ class PseudoregaliaWorld(World):
             self.multiworld.regions.append(Region(region_name, self.player, self.multiworld))
 
         for loc_name, loc_data in location_table.items():
+            if not loc_data.can_create(self.multiworld, self.player):
+                continue
             region = self.multiworld.get_region(loc_data.region, self.player)
             new_loc = Location(self.player, loc_name, loc_data.code, region)
             if (not loc_data.show_in_spoiler):
@@ -60,6 +62,8 @@ class PseudoregaliaWorld(World):
 
         # Place locked locations.
         for location_name, location_data in self.locked_locations.items():
+            if not location_data.can_create(self.multiworld, self.player):
+                continue
             locked_item = self.create_item(location_table[location_name].locked_item)
             self.multiworld.get_location(location_name, self.player).place_locked_item(locked_item)
 
@@ -68,7 +72,8 @@ class PseudoregaliaWorld(World):
                 "death_link": bool(self.multiworld.death_link[self.player]),
                 "logic_level": self.multiworld.logic_level[self.player].value,
                 "obscure_tricks": bool(self.multiworld.obscure_tricks[self.player]),
-                "progressive_slide": bool(self.multiworld.progressive_slide[self.player]), }
+                "progressive_slide": bool(self.multiworld.progressive_slide[self.player]),
+                "split_sun_greaves": bool(self.multiworld.split_sun_greaves[self.player]), }
 
     def set_rules(self):
         difficulty = self.multiworld.logic_level[self.player]

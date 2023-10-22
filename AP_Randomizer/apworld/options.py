@@ -50,9 +50,17 @@ class ProgressiveSlide(DefaultOnToggle):
     display_name = "Progressive Slide"
 
 
+class SplitSunGreaves(Toggle):
+    """
+    Replaces Sun Greaves and Heliacal Power with four individual Air Kicks.
+    """
+    display_name = "Split Sun Greaves"
+
+
 pseudoregalia_options = {
     "logic_level": LogicLevel,
     "obscure_tricks": ObscureTricks,
     "progressive_slide": ProgressiveSlide,
+    "split_sun_greaves": SplitSunGreaves,
     "death_link": DeathLink,
 }

@@ -1,10 +1,11 @@
-from BaseClasses import Location
-from typing import NamedTuple, Dict, Optional
+from BaseClasses import Location, MultiWorld
+from typing import NamedTuple, Dict, Optional, Callable
 
 
 class PseudoregaliaLocationData(NamedTuple):
     region: str
     code: int = None
+    can_create: Callable[[MultiWorld, int], bool] = lambda multiworld, player: True
     locked_item: Optional[str] = None
     show_in_spoiler: bool = True
 
@@ -96,7 +97,20 @@ location_table = {
 
     "Listless Library - Sun Greaves": PseudoregaliaLocationData(
         code=2365810006,
-        region="Library Main"),
+        region="Library Main",
+        can_create=lambda multiworld, player: not bool(multiworld.split_sun_greaves[player])),
+    "Listless Library - Sun Greaves 1": PseudoregaliaLocationData(
+        code=2365810051,
+        region="Library Main",
+        can_create=lambda multiworld, player: bool(multiworld.split_sun_greaves[player])),
+    "Listless Library - Sun Greaves 2": PseudoregaliaLocationData(
+        code=2365810052,
+        region="Library Main",
+        can_create=lambda multiworld, player: bool(multiworld.split_sun_greaves[player])),
+    "Listless Library - Sun Greaves 3": PseudoregaliaLocationData(
+        code=2365810053,
+        region="Library Main",
+        can_create=lambda multiworld, player: bool(multiworld.split_sun_greaves[player])),
     "Listless Library - Upper Back": PseudoregaliaLocationData(
         code=2365810037,
         region="Library Main",),

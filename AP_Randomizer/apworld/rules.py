@@ -208,6 +208,7 @@ class PseudoregaliaRules:
         if (state.has("Sun Greaves", self.player)):
             kicks += 3
         kicks += state.count("Heliacal Power", self.player)
+        kicks += state.count("Air Kick", self.player)
         return kicks >= count
 
     def kick_or_plunge(self, state, count: int) -> bool:
@@ -218,6 +219,7 @@ class PseudoregaliaRules:
         if (state.has("Sunsetter", self.player)):
             total += 1
         total += state.count("Heliacal Power", self.player)
+        total += state.count("Air Kick", self.player)
         return total >= count
 
     def has_small_keys(self, state) -> bool:
