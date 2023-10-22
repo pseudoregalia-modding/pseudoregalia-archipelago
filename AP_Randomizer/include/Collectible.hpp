@@ -28,7 +28,7 @@ namespace GameData {
 		FVector GetPosition() {
 			return position;}
 
-		std::string RequiredOption(std::string input) {
+		std::string RequiredOption() {
 			return required_option;
 		}
 
