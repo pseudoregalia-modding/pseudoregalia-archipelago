@@ -47,7 +47,7 @@ namespace Client {
         slot_number = num;
     }
 
-    void SetSunGreaves(bool is_true) {
+    void SetSunGreaves(int is_true) {
         GameData::SetOption("split_sun_greaves", is_true);
         GameData::SetOption("normal_greaves", !is_true);
     }
