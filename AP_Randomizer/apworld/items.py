@@ -91,6 +91,10 @@ item_table: Dict[str, PseudoregaliaItemData] = {
         code=2365810025,
         classification=ItemClassification.progression),
 
+    "Progressive Slide": PseudoregaliaItemData(
+        code=2365810026,
+        classification=ItemClassification.progression),
+
     "Unlocked Door": PseudoregaliaItemData(
         classification=ItemClassification.useful),
 
