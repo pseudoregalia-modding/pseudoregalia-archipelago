@@ -202,6 +202,9 @@ namespace GameData {
         if (1 <= id && id <= 18) {
             return ItemType::Ability;
         }
+        if (id == 26) { // Progressive Slide
+            return ItemType::Ability;
+        }
         if (id == 19) {
             return ItemType::HealthPiece;
         }
