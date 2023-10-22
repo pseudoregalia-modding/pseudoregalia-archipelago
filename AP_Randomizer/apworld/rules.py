@@ -96,12 +96,11 @@ class PseudoregaliaRules:
                 self.get_kicks(state, 3)
                 or self.has_gem(state),
             "Sansa Keep - Strikebreak": lambda state:
-                (self.has_slide(state) or self.can_strikebreak(state))
-                and (
-                    self.can_slidejump(state)
-                    or self.get_kicks(state, 1)
-                    or self.has_gem(state),
-                ),
+                self.can_slidejump(state)
+                or self.has_slide(state) and self.get_kicks(state, 1)
+                or self.has_slide(state) and self.has_gem(state)
+                or self.can_strikebreak(state) and self.get_kicks(state, 1)
+                or self.can_strikebreak(state) and self.has_gem(state),
             "Sansa Keep - Sunsetter": lambda state:
                 self.has_breaker(state),
             "Sansa Keep - Near Theatre": lambda state:
