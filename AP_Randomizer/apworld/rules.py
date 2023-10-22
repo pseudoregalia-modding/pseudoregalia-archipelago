@@ -301,6 +301,10 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
             "Library Greaves -> Library Top": lambda state:
                 self.has_gem(state)
                 or self.get_kicks(state, 2),
+            "Library Top -> Library Greaves": lambda state:
+                self.has_gem(state) and self.kick_or_plunge(state, 1)
+                or self.get_kicks(state, 3) and self.has_plunge(state)
+                or self.get_kicks(state, 3) and self.can_bounce(state),
         })
 
         self.location_rules.update({
@@ -421,6 +425,10 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
             "Library Greaves -> Library Top": lambda state:
                 self.has_gem(state)
                 or self.get_kicks(state, 1),
+            "Library Top -> Library Greaves": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 3)
+                or self.get_kicks(state, 2) and self.has_plunge(state) and self.can_bounce(state),
         })
 
         self.location_rules.update({
@@ -542,6 +550,9 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
                 self.has_gem(state)
                 or self.get_kicks(state, 1)
                 or self.has_slide(state),
+            "Library Top -> Library Greaves": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 2),
         })
 
         self.location_rules.update({
@@ -661,6 +672,10 @@ class PseudoregaliaLunaticRules(PseudoregaliaRules):
                 self.has_gem(state)
                 or self.get_kicks(state, 1)
                 or self.has_slide(state),
+            "Library Top -> Library Greaves": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 2)
+                or self.can_bounce(state) and self.get_kicks(state, 1) and self.has_plunge(state)
         })
 
         self.location_rules.update({
