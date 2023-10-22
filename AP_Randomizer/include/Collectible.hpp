@@ -11,6 +11,12 @@ namespace GameData {
 			checked = false;
 		}
 
+		Collectible(FVector new_position, std::string new_option) {
+			position = new_position;
+			required_option = new_option;
+			checked = false;
+		}
+
 		bool Check() {
 			checked = true;
 			return checked;
