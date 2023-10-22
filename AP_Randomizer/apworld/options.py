@@ -50,6 +50,13 @@ class ProgressiveSlide(DefaultOnToggle):
     display_name = "Progressive Slide"
 
 
+class ProgressiveBreaker(DefaultOnToggle):
+    """
+    Replaces Dream Breaker, Strikebreak, and Soul Cutter with three Progressive Dream Breaker items.
+    """
+    display_name = "Progressive Dream Breaker"
+
+
 class SplitSunGreaves(Toggle):
     """
     Replaces Sun Greaves and Heliacal Power with four individual Air Kicks.
@@ -61,6 +68,7 @@ pseudoregalia_options = {
     "logic_level": LogicLevel,
     "obscure_tricks": ObscureTricks,
     "progressive_slide": ProgressiveSlide,
+    "progressive_breaker": ProgressiveBreaker,
     "split_sun_greaves": SplitSunGreaves,
     "death_link": DeathLink,
 }

@@ -73,6 +73,7 @@ class PseudoregaliaWorld(World):
                 "logic_level": self.multiworld.logic_level[self.player].value,
                 "obscure_tricks": bool(self.multiworld.obscure_tricks[self.player]),
                 "progressive_slide": bool(self.multiworld.progressive_slide[self.player]),
+                "progressive_breaker": bool(self.multiworld.progressive_breaker[self.player]),
                 "split_sun_greaves": bool(self.multiworld.split_sun_greaves[self.player]), }
 
     def set_rules(self):
