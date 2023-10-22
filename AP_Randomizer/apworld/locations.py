@@ -100,15 +100,15 @@ location_table = {
         region="Library Main",
         can_create=lambda multiworld, player: not bool(multiworld.split_sun_greaves[player])),
     "Listless Library - Sun Greaves 1": PseudoregaliaLocationData(
-        code=2365810006,
+        code=2365810051,
         region="Library Main",
         can_create=lambda multiworld, player: bool(multiworld.split_sun_greaves[player])),
     "Listless Library - Sun Greaves 2": PseudoregaliaLocationData(
-        code=2365810006,
+        code=2365810052,
         region="Library Main",
         can_create=lambda multiworld, player: bool(multiworld.split_sun_greaves[player])),
     "Listless Library - Sun Greaves 3": PseudoregaliaLocationData(
-        code=2365810006,
+        code=2365810053,
         region="Library Main",
         can_create=lambda multiworld, player: bool(multiworld.split_sun_greaves[player])),
     "Listless Library - Upper Back": PseudoregaliaLocationData(
