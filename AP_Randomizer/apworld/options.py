@@ -42,7 +42,7 @@ class SafeSmallKeys(DefaultOnToggle):
     display_name = "Safe Small Keys"
 
 
-class ProgressiveSlide(Toggle):
+class ProgressiveSlide(DefaultOnToggle):
     """
     Replaces Slide and Solar Wind with two Progressive Slide items.
     The first will give you Slide, and the second will give you Solar Wind.
