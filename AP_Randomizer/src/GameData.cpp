@@ -33,6 +33,7 @@ namespace GameData {
         {2365810017, L"magicPiece"},
         {2365810018, L"outfitPro"},
         {2365810026, L"progressiveSlide"},
+        {2365810027, L"extraKick"}, // Used for split kicks, just treats them like heliacal
     };
 
     int GameData::GetHealthPieces() {
