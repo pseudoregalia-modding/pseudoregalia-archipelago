@@ -111,7 +111,8 @@ item_frequencies = {
     "Good Graces": 2,
     "Clear Mind": 3,
     "Small Key": 7,
-    "Health Piece": 16
+    "Health Piece": 16,
+    "Progressive Slide": 2,
 }
 
 item_groups: Dict[str, Set[str]] = {
