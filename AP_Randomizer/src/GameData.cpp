@@ -65,6 +65,10 @@ namespace GameData {
         }
     }
 
+    void GameData::SetOption(std::string option_name, bool is_true) {
+        options[option_name] = is_true;
+    }
+
     std::unordered_map<int64_t, Collectible> GameData::GetCollectiblesOfZone(std::wstring world_name) {
         return collectible_table[world_name];
     }

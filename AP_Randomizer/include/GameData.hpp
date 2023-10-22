@@ -16,6 +16,7 @@ namespace GameData {
 	int GetHealthPieces();
 	int GetSmallKeys();
 	bool* GetMajorKeys();
+	void SetOption(std::string, bool);
 	bool GetOption(std::string);
 	std::map<std::wstring, int> GetUpgradeTable();
 	std::unordered_map<int64_t, Collectible> GetCollectiblesOfZone(std::wstring);
