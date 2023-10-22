@@ -222,8 +222,10 @@ namespace GameData {
         switch (type) {
         case ItemType::Ability:
             upgrade_table[lookup_id_to_upgrade.at(id)]++;
-            if (!slidejump_owned && lookup_id_to_upgrade.at(id) == L"SlideJump") {
-                slidejump_owned = true;
+            if (!slidejump_owned) {
+                if (lookup_id_to_upgrade.at(id) == L"SlideJump" || lookup_id_to_upgrade.at(id) == L"progressiveSlide") {
+                    slidejump_owned = true;
+                }
             }
             break;
         case ItemType::HealthPiece:
