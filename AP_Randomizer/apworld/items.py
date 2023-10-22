@@ -24,10 +24,12 @@ item_table: Dict[str, PseudoregaliaItemData] = {
         classification=ItemClassification.progression),
     "Slide": PseudoregaliaItemData(
         code=2365810004,
-        classification=ItemClassification.progression),
+        classification=ItemClassification.progression,
+        can_create=lambda multiworld, player: not bool(multiworld.progressive_slide[player])),
     "Solar Wind": PseudoregaliaItemData(
         code=2365810005,
-        classification=ItemClassification.progression),
+        classification=ItemClassification.progression,
+        can_create=lambda multiworld, player: not bool(multiworld.progressive_slide[player])),
     "Sunsetter": PseudoregaliaItemData(
         code=2365810006,
         classification=ItemClassification.progression),
