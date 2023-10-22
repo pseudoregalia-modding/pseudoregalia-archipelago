@@ -11,6 +11,7 @@ namespace Client {
     void CheckLocation(int64_t);
     bool ConnectionStatusChanged();
     void SetSlotNumber(int);
+    void SetSunGreaves(int);
     bool SetDeathLinkTimer(int);
     int connection_timer;
     AP_ConnectionStatus connection_status;
@@ -28,6 +29,8 @@ namespace Client {
         AP_SetItemRecvCallback(&ReceiveItem);
         AP_SetDeathLinkSupported(true);
         AP_RegisterSlotDataIntCallback("slot_number", &SetSlotNumber);
+        // TODO: Figure out a way to generalize this; might require lambdas?
+        AP_RegisterSlotDataIntCallback("split_sun_greaves", &SetSunGreaves);
         AP_Start();
 
         connection_timer = 4000;
@@ -42,6 +45,10 @@ namespace Client {
 
     void Client::SetSlotNumber(int num) {
         slot_number = num;
+    }
+
+    void SetSunGreaves(bool is_true) {
+        GameData::SetOption("split_sun_greaves", is_true);
     }
 
     void Client::SendCheck(int64_t id, std::wstring current_world) {
