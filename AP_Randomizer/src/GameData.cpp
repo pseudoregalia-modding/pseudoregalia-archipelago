@@ -10,6 +10,7 @@ namespace GameData {
     bool major_keys[5];
     std::map<std::wstring, int> upgrade_table;
     std::unordered_map<std::wstring, std::unordered_map<int64_t, Collectible>> collectible_table;
+    std::unordered_map<std::string, bool> options;
     bool slidejump_owned;
     bool slidejump_disabled;
 
@@ -50,6 +51,17 @@ namespace GameData {
 
     std::map<std::wstring, int> GameData::GetUpgradeTable() {
         return upgrade_table;
+    }
+
+    bool GameData::GetOption(std::string option_name) {
+        try
+        {
+            return options.at(option_name);
+        }
+        catch (const std::exception&)
+        {
+            Logger::Log(option_name + " was not found in options.", Logger::LogType::Error);
+        }
     }
 
     std::unordered_map<int64_t, Collectible> GameData::GetCollectiblesOfZone(std::wstring world_name) {
