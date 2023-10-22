@@ -49,6 +49,7 @@ namespace Client {
 
     void SetSunGreaves(bool is_true) {
         GameData::SetOption("split_sun_greaves", is_true);
+        GameData::SetOption("normal_greaves", !is_true);
     }
 
     void Client::SendCheck(int64_t id, std::wstring current_world) {

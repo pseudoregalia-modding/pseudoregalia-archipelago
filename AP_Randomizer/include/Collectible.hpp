@@ -35,6 +35,7 @@ namespace GameData {
 	private:
 		FVector position;
 		bool checked;
+		// TODO: Change this to a map or something so both true and false options can be checked
 		std::string required_option;
 	};
 }
