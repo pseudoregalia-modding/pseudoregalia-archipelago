@@ -82,6 +82,13 @@ namespace Engine {
 			int64_t id = pair.first;
 			GameData::Collectible collectible = pair.second;
 
+			// Return if the collectible shouldn't be spawned based on options
+			if (!pair.second.RequiredOption().empty()
+				&& !GameData::GetOption(pair.second.RequiredOption())) {
+				Logger::Log("Collectible with id " + std::to_string(id) + " was not spawned since option " + pair.second.RequiredOption() + " was not enabled.");
+				continue;
+			}
+
 			if (!collectible.IsChecked()) {
 				Logger::Log(L"Spawning collectible with id " + std::to_wstring(id));
 				std::shared_ptr<void> collectible_info(new CollectibleSpawnInfo{ id, collectible.GetPosition() });
