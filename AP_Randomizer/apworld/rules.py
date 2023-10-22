@@ -28,8 +28,6 @@ class PseudoregaliaRules:
                 or self.has_gem(state) and self.can_slidejump(state),
             "Dungeon Strong Eyes -> Castle Main": lambda state:
                 self.has_small_keys(state),
-            "Library Main -> Library Locked": lambda state:
-                self.has_small_keys(state),
             "Keep Main -> Keep Sunsetter": lambda state:
                 self.has_gem(state)
                 or self.has_small_keys(state)
@@ -293,6 +291,8 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
             "Castle => Theatre (Front) -> Castle Moon Room": lambda state:
                 self.has_gem(state)
                 or self.can_slidejump(state) and self.kick_or_plunge(state, 2),
+            "Library Main -> Library Greaves": lambda state:
+                self.has_slide(state),
         })
 
         self.location_rules.update({
@@ -402,6 +402,8 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
                 self.has_gem(state)
                 or self.can_slidejump(state) and self.kick_or_plunge(state, 2)
                 or self.get_kicks(state, 4),
+            "Library Main -> Library Greaves": lambda state:
+                self.has_slide(state),
         })
 
         self.location_rules.update({
@@ -511,6 +513,8 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
                 self.has_gem(state)
                 or self.has_slide(state)
                 or self.get_kicks(state, 4),
+            "Library Main -> Library Greaves": lambda state:
+                self.has_slide(state),
 
         })
 
@@ -619,6 +623,8 @@ class PseudoregaliaLunaticRules(PseudoregaliaRules):
                 self.has_gem(state)
                 or self.has_slide(state)
                 or self.get_kicks(state, 4),
+            "Library Main -> Library Greaves": lambda state:
+                self.has_slide(state),
         })
 
         self.location_rules.update({
