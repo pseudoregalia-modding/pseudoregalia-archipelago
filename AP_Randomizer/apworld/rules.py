@@ -96,12 +96,11 @@ class PseudoregaliaRules:
                 self.get_kicks(state, 3)
                 or self.has_gem(state),
             "Sansa Keep - Strikebreak": lambda state:
-                (self.has_slide(state) or self.can_strikebreak(state))
-                and (
-                    self.can_slidejump(state)
-                    or self.get_kicks(state, 1)
-                    or self.has_gem(state),
-                ),
+                self.can_slidejump(state)
+                or self.has_slide(state) and self.get_kicks(state, 1)
+                or self.has_slide(state) and self.has_gem(state)
+                or self.can_strikebreak(state) and self.get_kicks(state, 1)
+                or self.can_strikebreak(state) and self.has_gem(state),
             "Sansa Keep - Sunsetter": lambda state:
                 self.has_breaker(state),
             "Sansa Keep - Near Theatre": lambda state:
@@ -186,7 +185,10 @@ class PseudoregaliaRules:
         return state.has("Dream Breaker", self.player)
 
     def has_slide(self, state) -> bool:
-        return state.has("Slide", self.player)
+        if state.has_any({"Slide", "Progressive Slide"}, self.player):
+            return True
+        else:
+            return False
 
     def has_plunge(self, state) -> bool:
         return state.has("Sunsetter", self.player)
@@ -225,7 +227,11 @@ class PseudoregaliaRules:
         return (state.has("Dream Breaker", self.player) or state.has("Ascendant Light", self.player))
 
     def can_slidejump(self, state) -> bool:
-        return (state.has_all({"Slide", "Solar Wind"}, self.player))
+        if state.has_all({"Slide", "Solar Wind"}, self.player):
+            return True
+        if state.count("Progressive Slide", self.player) >= 2:
+            return True
+        return False
 
     def can_strikebreak(self, state) -> bool:
         return (state.has_all({"Dream Breaker", "Strikebreak"}, self.player))

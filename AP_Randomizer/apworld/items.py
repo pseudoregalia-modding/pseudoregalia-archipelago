@@ -1,5 +1,5 @@
-from BaseClasses import Item, ItemClassification
-from typing import NamedTuple, Dict, Set
+from BaseClasses import Item, ItemClassification, MultiWorld
+from typing import NamedTuple, Dict, Set, Callable
 
 
 class PseudoregaliaItem(Item):
@@ -9,6 +9,7 @@ class PseudoregaliaItem(Item):
 class PseudoregaliaItemData(NamedTuple):
     code: int = None
     classification: ItemClassification = ItemClassification.filler
+    can_create: Callable[[MultiWorld, int], bool] = lambda multiworld, player: True
 
 
 item_table: Dict[str, PseudoregaliaItemData] = {
@@ -23,10 +24,12 @@ item_table: Dict[str, PseudoregaliaItemData] = {
         classification=ItemClassification.progression),
     "Slide": PseudoregaliaItemData(
         code=2365810004,
-        classification=ItemClassification.progression),
+        classification=ItemClassification.progression,
+        can_create=lambda multiworld, player: not bool(multiworld.progressive_slide[player])),
     "Solar Wind": PseudoregaliaItemData(
         code=2365810005,
-        classification=ItemClassification.progression),
+        classification=ItemClassification.progression,
+        can_create=lambda multiworld, player: not bool(multiworld.progressive_slide[player])),
     "Sunsetter": PseudoregaliaItemData(
         code=2365810006,
         classification=ItemClassification.progression),
@@ -91,6 +94,11 @@ item_table: Dict[str, PseudoregaliaItemData] = {
         code=2365810025,
         classification=ItemClassification.progression),
 
+    "Progressive Slide": PseudoregaliaItemData(
+        code=2365810026,
+        classification=ItemClassification.progression,
+        can_create=lambda multiworld, player: bool(multiworld.progressive_slide[player])),
+
     "Unlocked Door": PseudoregaliaItemData(
         classification=ItemClassification.useful),
 
@@ -103,7 +111,8 @@ item_frequencies = {
     "Good Graces": 2,
     "Clear Mind": 3,
     "Small Key": 7,
-    "Health Piece": 16
+    "Health Piece": 16,
+    "Progressive Slide": 2,
 }
 
 item_groups: Dict[str, Set[str]] = {

@@ -32,6 +32,7 @@ namespace GameData {
         {2365810016, L"damageBoost"},
         {2365810017, L"magicPiece"},
         {2365810018, L"outfitPro"},
+        {2365810026, L"progressiveSlide"},
     };
 
     int GameData::GetHealthPieces() {
@@ -201,6 +202,9 @@ namespace GameData {
         if (1 <= id && id <= 18) {
             return ItemType::Ability;
         }
+        if (id == 26) { // Progressive Slide
+            return ItemType::Ability;
+        }
         if (id == 19) {
             return ItemType::HealthPiece;
         }
@@ -218,8 +222,10 @@ namespace GameData {
         switch (type) {
         case ItemType::Ability:
             upgrade_table[lookup_id_to_upgrade.at(id)]++;
-            if (!slidejump_owned && lookup_id_to_upgrade.at(id) == L"SlideJump") {
-                slidejump_owned = true;
+            if (!slidejump_owned) {
+                if (lookup_id_to_upgrade.at(id) == L"SlideJump" || lookup_id_to_upgrade.at(id) == L"progressiveSlide") {
+                    slidejump_owned = true;
+                }
             }
             break;
         case ItemType::HealthPiece:

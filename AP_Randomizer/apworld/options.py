@@ -42,8 +42,17 @@ class SafeSmallKeys(DefaultOnToggle):
     display_name = "Safe Small Keys"
 
 
+class ProgressiveSlide(Toggle):
+    """
+    Replaces Slide and Solar Wind with two Progressive Slide items.
+    The first will give you Slide, and the second will give you Solar Wind.
+    """
+    display_name = "Progressive Slide"
+
+
 pseudoregalia_options = {
     "logic_level": LogicLevel,
     "obscure_tricks": ObscureTricks,
+    "progressive_slide": ProgressiveSlide,
     "death_link": DeathLink,
 }

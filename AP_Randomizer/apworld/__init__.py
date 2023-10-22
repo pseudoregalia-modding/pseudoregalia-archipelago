@@ -26,17 +26,22 @@ class PseudoregaliaWorld(World):
         return PseudoregaliaItem(name, data.classification, data.code, self.player)
 
     def create_items(self):
+        # TODO: clean this up
         for item_name, item_data in item_table.items():
             if (item_name == "Dream Breaker"):
                 continue  # Really skrunkled way of just adding the one locked breaker to the pool for now.
-            if (item_data.code is None):
-                continue
-            if (item_name in item_frequencies):
-                for count in range(item_frequencies[item_name]):
-                    self.multiworld.itempool.append(
-                        Item(item_name, item_data.classification, item_data.code, self.player))
-            else:
-                self.multiworld.itempool.append(Item(item_name, item_data.classification, item_data.code, self.player))
+            if (item_data.code and item_data.can_create(self.multiworld, self.player)):
+                if (item_name in item_frequencies):
+                    for count in range(item_frequencies[item_name]):
+                        self.multiworld.itempool.append(Item(item_name,
+                                                             item_data.classification,
+                                                             item_data.code,
+                                                             self.player))
+                else:
+                    self.multiworld.itempool.append(Item(item_name,
+                                                         item_data.classification,
+                                                         item_data.code,
+                                                         self.player))
 
     def create_regions(self):
         for region_name in region_table.keys():
@@ -62,7 +67,8 @@ class PseudoregaliaWorld(World):
         return {"slot_number": self.player,
                 "death_link": bool(self.multiworld.death_link[self.player]),
                 "logic_level": self.multiworld.logic_level[self.player].value,
-                "obscure_tricks": bool(self.multiworld.obscure_tricks[self.player])}
+                "obscure_tricks": bool(self.multiworld.obscure_tricks[self.player]),
+                "progressive_slide": bool(self.multiworld.progressive_slide[self.player]), }
 
     def set_rules(self):
         difficulty = self.multiworld.logic_level[self.player]
