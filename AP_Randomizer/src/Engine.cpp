@@ -89,14 +89,14 @@ namespace Engine {
 				continue;
 			}
 
-			if (!collectible.IsChecked()) {
-				Logger::Log(L"Spawning collectible with id " + std::to_wstring(id));
-				std::shared_ptr<void> collectible_info(new CollectibleSpawnInfo{ id, collectible.GetPosition() });
-				ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SpawnCollectible", collectible_info);
-			}
-			else {
+			if (collectible.IsChecked()) {
 				Logger::Log(L"Collectible with id " + std::to_wstring(id) + L" has already been checked");
+				continue;
 			}
+
+			Logger::Log(L"Spawning collectible with id " + std::to_wstring(id));
+			std::shared_ptr<void> collectible_info(new CollectibleSpawnInfo{ id, collectible.GetPosition() });
+			ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SpawnCollectible", collectible_info);
 		}
 	}
 
