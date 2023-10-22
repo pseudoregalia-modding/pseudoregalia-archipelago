@@ -61,6 +61,7 @@ namespace GameData {
         catch (const std::exception&)
         {
             Logger::Log(option_name + " was not found in options.", Logger::LogType::Error);
+            return false;
         }
     }
 
