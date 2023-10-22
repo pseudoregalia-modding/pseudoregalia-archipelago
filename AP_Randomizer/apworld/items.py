@@ -1,5 +1,5 @@
-from BaseClasses import Item, ItemClassification
-from typing import NamedTuple, Dict, Set
+from BaseClasses import Item, ItemClassification, MultiWorld
+from typing import NamedTuple, Dict, Set, Callable
 
 
 class PseudoregaliaItem(Item):
@@ -9,6 +9,7 @@ class PseudoregaliaItem(Item):
 class PseudoregaliaItemData(NamedTuple):
     code: int = None
     classification: ItemClassification = ItemClassification.filler
+    can_create: Callable[[MultiWorld, int], bool] = lambda multiworld, player: True
 
 
 item_table: Dict[str, PseudoregaliaItemData] = {
@@ -93,7 +94,8 @@ item_table: Dict[str, PseudoregaliaItemData] = {
 
     "Progressive Slide": PseudoregaliaItemData(
         code=2365810026,
-        classification=ItemClassification.progression),
+        classification=ItemClassification.progression,
+        can_create=lambda multiworld, player: bool(multiworld.progressive_slide[player])),
 
     "Unlocked Door": PseudoregaliaItemData(
         classification=ItemClassification.useful),
