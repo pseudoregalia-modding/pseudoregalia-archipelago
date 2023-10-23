@@ -332,6 +332,12 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
             "Dungeon - Rafters": lambda state:
                 self.kick_or_plunge(state, 3)
                 or self.knows_obscure(state) and self.can_bounce(state) and self.has_gem(state),
+            "Dungeon - Strong Eyes": lambda state:
+                self.has_breaker(state)
+                or self.knows_obscure(state)
+                and (
+                    self.has_gem(state) and self.get_kicks(state, 1) and self.has_plunge(state)
+                    or self.has_gem(state) and self.get_kicks(state, 3)),
             "Castle Sansa - Floater In Courtyard": lambda state:
                 self.can_bounce(state) and self.has_plunge(state)
                 or self.can_bounce(state) and self.get_kicks(state, 2)
@@ -502,6 +508,9 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
                 or self.get_kicks(state, 3)
                 or self.get_kicks(state, 1) and self.has_plunge(state)
                 or self.get_kicks(state, 1) and self.can_bounce(state),
+            "Dungeon - Strong Eyes": lambda state:
+                self.has_breaker(state)
+                or self.knows_obscure(state) and self.has_gem(state) and self.kick_or_plunge(state, 2),
             "Castle Sansa - Floater In Courtyard": lambda state:
                 self.can_bounce(state) and self.has_plunge(state)
                 or self.can_bounce(state) and self.get_kicks(state, 1)
@@ -683,6 +692,10 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
                 or self.kick_or_plunge(state, 2)
                 or self.can_bounce(state) and self.get_kicks(state, 1)
                 or self.has_slide(state) and self.kick_or_plunge(state, 1),
+            "Dungeon - Strong Eyes": lambda state:
+                self.has_breaker(state)
+                or self.has_gem(state)
+                or self.has_slide(state) and self.get_kicks(state, 1),
             "Castle Sansa - Floater In Courtyard": lambda state:
                 self.can_bounce(state)
                 and (
@@ -853,6 +866,10 @@ class PseudoregaliaLunaticRules(PseudoregaliaRules):
                 or self.kick_or_plunge(state, 2)
                 or self.can_bounce(state) and self.kick_or_plunge(state, 1)
                 or self.has_slide(state),
+            "Dungeon - Strong Eyes": lambda state:
+                self.has_breaker(state)
+                or self.has_gem(state)
+                or self.has_slide(state) and self.kick_or_plunge(state, 1),
             "Castle Sansa - Floater In Courtyard": lambda state:
                 self.can_bounce(state)
                 and (
