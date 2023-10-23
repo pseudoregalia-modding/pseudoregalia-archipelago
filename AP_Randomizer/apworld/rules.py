@@ -237,11 +237,11 @@ class PseudoregaliaRules:
 
     def can_strikebreak(self, state) -> bool:
         return (state.has_all({"Dream Breaker", "Strikebreak"}, self.player)
-                or state.count("Progressive Dream Breaker") >= 2)
+                or state.count("Progressive Dream Breaker", self.player) >= 2)
 
     def can_soulcutter(self, state) -> bool:
         return (state.has_all({"Dream Breaker", "Strikebreak", "Soul Cutter"}, self.player)
-                or state.count("Progressive Dream Breaker") >= 3)
+                or state.count("Progressive Dream Breaker", self.player) >= 3)
 
     def knows_obscure(self, state) -> bool:
         # TODO: rules that use this and functions like it should go in a separate extra_rules dictionary
