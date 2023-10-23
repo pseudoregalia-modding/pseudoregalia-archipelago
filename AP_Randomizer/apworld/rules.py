@@ -374,6 +374,10 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
                 self.has_gem(state)
                 or self.get_kicks(state, 1)
                 or self.can_slidejump(state),
+            "Listless Library - Locked Door Left": lambda state:
+                self.has_gem(state)
+                or self.can_slidejump(state) and self.get_kicks(state, 1)
+                or self.kick_or_plunge(state, 3)
         })
 
     def set_pseudoregalia_rules(self) -> None:
@@ -510,6 +514,10 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
                 self.has_gem(state)
                 or self.kick_or_plunge(state, 1)
                 or self.can_slidejump(state),
+            "Listless Library - Locked Door Left": lambda state:
+                self.has_gem(state)
+                or self.can_slidejump(state) and self.get_kicks(state, 1)
+                or self.get_kicks(state, 2),
         })
 
     def set_pseudoregalia_rules(self) -> None:
@@ -575,6 +583,10 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
                 self.has_gem(state)
                 or self.kick_or_plunge(state, 1)
                 or self.has_slide(state),
+            "Listless Library - Locked Door Left": lambda state:
+                self.has_gem(state)
+                or self.kick_or_plunge(state, 2)
+                or self.has_slide(state) and self.kick_or_plunge(state, 1),
         })
 
         self.location_rules.update({
@@ -775,6 +787,10 @@ class PseudoregaliaLunaticRules(PseudoregaliaRules):
                 self.has_gem(state)
                 or self.kick_or_plunge(state, 1)
                 or self.has_slide(state),
+            "Listless Library - Locked Door Left": lambda state:
+                self.has_gem(state)
+                or self.kick_or_plunge(state, 2)
+                or self.has_slide(state) and self.kick_or_plunge(state, 1),
         })
 
     def set_pseudoregalia_rules(self) -> None:
