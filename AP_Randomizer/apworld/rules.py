@@ -261,8 +261,14 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
                 self.has_small_keys(state),
             "Dungeon Escape Lower -> Dungeon Slide": lambda state:
                 self.can_attack(state),
-            "Dungeon Escape Lower -> Dungeon Escape Upper": lambda state: False,  # Placeholder
-            "Dungeon Escape Upper -> Theatre Pillar": lambda state: False,  # Placeholder
+            "Dungeon Escape Lower -> Dungeon Escape Upper": lambda state:
+                self.can_bounce(state)
+                or self.get_kicks(state, 1) and self.has_plunge(state)
+                or self.get_kicks(state, 3),
+            "Dungeon Escape Upper -> Theatre Pillar": lambda state:
+                self.can_bounce(state)
+                or self.kick_or_plunge(state, 1)
+                or self.has_gem(state),
             "Castle Main -> Dungeon Strong Eyes": lambda state:
                 self.has_small_keys(state),
             "Castle Main -> Library Main": lambda state:
@@ -408,8 +414,14 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
                 self.has_small_keys(state),
             "Dungeon Escape Lower -> Dungeon Slide": lambda state:
                 self.can_attack(state),
-            "Dungeon Escape Lower -> Dungeon Escape Upper": lambda state: False,  # Placeholder
-            "Dungeon Escape Upper -> Theatre Pillar": lambda state: False,  # Placeholder
+            "Dungeon Escape Lower -> Dungeon Escape Upper": lambda state:
+                self.can_bounce(state)
+                or self.has_gem(state)
+                or self.kick_or_plunge(state, 2),
+            "Dungeon Escape Upper -> Theatre Pillar": lambda state:
+                self.can_bounce(state)
+                or self.kick_or_plunge(state, 1)
+                or self.has_gem(state),
             "Castle Main -> Dungeon Strong Eyes": lambda state:
                 self.has_small_keys(state),
             "Castle Main -> Library Main": lambda state:
@@ -562,8 +574,16 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
                 self.has_small_keys(state),
             "Dungeon Escape Lower -> Dungeon Slide": lambda state:
                 self.can_attack(state),
-            "Dungeon Escape Lower -> Dungeon Escape Upper": lambda state: False,  # Placeholder
-            "Dungeon Escape Upper -> Theatre Pillar": lambda state: False,  # Placeholder
+            "Dungeon Escape Lower -> Dungeon Escape Upper": lambda state:
+                self.can_bounce(state)
+                or self.has_gem(state)
+                or self.kick_or_plunge(state, 2)
+                or self.has_slide(state) and self.get_kicks(state, 1),
+            "Dungeon Escape Upper -> Theatre Pillar": lambda state:
+                self.can_bounce(state)
+                or self.kick_or_plunge(state, 1)
+                or self.has_gem(state)
+                or self.has_slide(state),
             "Castle Main -> Dungeon Strong Eyes": lambda state:
                 self.has_small_keys(state),
             "Castle Main -> Library Main": lambda state:
@@ -716,8 +736,16 @@ class PseudoregaliaLunaticRules(PseudoregaliaRules):
                 self.has_small_keys(state),
             "Dungeon Escape Lower -> Dungeon Slide": lambda state:
                 self.can_attack(state),
-            "Dungeon Escape Lower -> Dungeon Escape Upper": lambda state: False,  # Placeholder
-            "Dungeon Escape Upper -> Theatre Pillar": lambda state: False,  # Placeholder
+            "Dungeon Escape Lower -> Dungeon Escape Upper": lambda state:
+                self.can_bounce(state)
+                or self.has_gem(state)
+                or self.kick_or_plunge(state, 2)
+                or self.has_slide(state) and self.kick_or_plunge(state, 1),
+            "Dungeon Escape Upper -> Theatre Pillar": lambda state:
+                self.can_bounce(state)
+                or self.kick_or_plunge(state, 1)
+                or self.has_gem(state)
+                or self.has_slide(state),
             "Castle Main -> Dungeon Strong Eyes": lambda state:
                 self.has_small_keys(state),
             "Castle Main -> Library Main": lambda state:
