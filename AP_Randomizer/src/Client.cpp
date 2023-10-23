@@ -6,7 +6,6 @@
 #include "Logger.hpp"
 
 namespace Client {
-    void ClearItems();
     void ReceiveItem(int64_t, bool);
     void CheckLocation(int64_t);
     bool ConnectionStatusChanged();
