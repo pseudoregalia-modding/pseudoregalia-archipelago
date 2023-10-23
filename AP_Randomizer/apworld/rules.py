@@ -206,6 +206,7 @@ class PseudoregaliaRules:
         return (state.count("Small Key", self.player) >= 7)
 
     def navigate_darkrooms(self, state) -> bool:
+        """Currently unused."""
         return (state.has("Dream Breaker", self.player) or state.has("Ascendant Light", self.player))
 
     def can_slidejump(self, state) -> bool:
@@ -219,7 +220,6 @@ class PseudoregaliaRules:
         return (state.has_all({"Dream Breaker", "Strikebreak", "Soul Cutter"}, self.player))
 
     def knows_obscure(self, state) -> bool:
-        # TODO: rules that use this and functions like it should go in a separate extra_rules dictionary
         return bool(self.world.multiworld.obscure_tricks[self.player])
 
     def set_pseudoregalia_rules(self) -> None:
