@@ -670,14 +670,6 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
             "Library Top -> Library Greaves": lambda state:
                 self.has_gem(state)
                 or self.get_kicks(state, 2),
-            "Listless Library - Locked Door Across": lambda state:
-                self.has_gem(state)
-                or self.kick_or_plunge(state, 1)
-                or self.has_slide(state),
-            "Listless Library - Locked Door Left": lambda state:
-                self.has_gem(state)
-                or self.kick_or_plunge(state, 2)
-                or self.has_slide(state) and self.kick_or_plunge(state, 1),
         })
 
         self.location_rules.update({
@@ -763,6 +755,14 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
                     self.has_gem(state)
                     or self.kick_or_plunge(state, 2)
                     or self.has_slide(state)),
+            "Listless Library - Locked Door Across": lambda state:
+                self.has_gem(state)
+                or self.kick_or_plunge(state, 1)
+                or self.has_slide(state),
+            "Listless Library - Locked Door Left": lambda state:
+                self.has_gem(state)
+                or self.kick_or_plunge(state, 2)
+                or self.has_slide(state) and self.kick_or_plunge(state, 1),
         })
 
     def set_pseudoregalia_rules(self) -> None:
