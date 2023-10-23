@@ -8,6 +8,8 @@
 #include "Logger.hpp"
 
 namespace Engine {
+	using namespace RC::Unreal; // Give Engine easy access to Unreal objects
+
 	// Private members
 	namespace {
 		void SyncMajorKeys();
