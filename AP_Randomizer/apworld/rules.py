@@ -48,7 +48,7 @@ class PseudoregaliaRules:
             "Theatre Pillar -> Theatre Main": lambda state:
                 state.has_all({"Sunsetter", "Cling Gem"}, self.player)
                 or self.has_plunge(state) and self.get_kicks(state, 4),
-            "Theatre Outside Scythe Corridor": lambda state:
+            "Theatre Outside Scythe Corridor -> Theatre Main": lambda state:
                 self.has_gem(state) and self.get_kicks(state, 3)
                 or self.has_gem(state) and self.can_slidejump(state),
         }
