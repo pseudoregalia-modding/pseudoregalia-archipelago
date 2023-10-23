@@ -203,6 +203,7 @@ class PseudoregaliaRules:
         return total >= count
 
     def has_small_keys(self, state) -> bool:
+        # TODO: This needs to check for can_attack once breaker can be shuffled
         return (state.count("Small Key", self.player) >= 7)
 
     def navigate_darkrooms(self, state) -> bool:
@@ -311,11 +312,7 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
                 or self.has_gem(state) and self.has_plunge(state)
                 or self.get_kicks(state, 4),
             "Castle Sansa - Locked Door": lambda state:
-                self.has_small_keys(state)
-                and (
-                    self.has_breaker(state)
-                    or self.knows_obscure(state) and self.can_attack(state)
-                ),
+                self.has_small_keys(state),
             "Castle Sansa - Platform In Main Halls": lambda state:
                 self.has_plunge(state)
                 or self.has_gem(state)
@@ -447,11 +444,7 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
                 or self.kick_or_plunge(state, 4)
                 or self.has_gem(state),
             "Castle Sansa - Locked Door": lambda state:
-                self.has_small_keys(state)
-                and (
-                    self.has_breaker(state)
-                    or self.knows_obscure(state) and self.can_attack(state)
-                ),
+                self.has_small_keys(state),
             "Castle Sansa - Platform In Main Halls": lambda state:
                 self.kick_or_plunge(state, 1)
                 or self.has_gem(state),
@@ -595,7 +588,7 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
                 or self.get_kicks(state, 3)
                 or self.has_gem(state),
             "Castle Sansa - Locked Door": lambda state:
-                self.has_small_keys(state) and self.can_attack(state),
+                self.has_small_keys(state),
             "Castle Sansa - Platform In Main Halls": lambda state:
                 self.kick_or_plunge(state, 1)
                 or self.has_gem(state)
@@ -724,7 +717,7 @@ class PseudoregaliaLunaticRules(PseudoregaliaRules):
                 or self.get_kicks(state, 3)
                 or self.has_gem(state),
             "Castle Sansa - Locked Door": lambda state:
-                self.has_small_keys(state) and self.can_attack(state),
+                self.has_small_keys(state),
             "Castle Sansa - Platform In Main Halls": lambda state:
                 self.has_gem(state)
                 or self.kick_or_plunge(state, 1)
