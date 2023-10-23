@@ -4,6 +4,7 @@
 #include "DynamicOutput/DynamicOutput.hpp"
 #include "Logger.hpp"
 #include "Engine.hpp"
+#include "Timer.hpp"
 
 namespace Logger {
 	using namespace RC::Output;
@@ -17,7 +18,9 @@ namespace Logger {
 
 		std::list<std::wstring> message_queue;
 		std::list<std::wstring> system_message_queue;
-		int message_timer;
+		bool popups_locked;
+		// Just over 3 seconds is long enough to ensure only 2 popups can be on screen at once
+		std::chrono::milliseconds popup_delay = std::chrono::milliseconds(3200);
 		bool messages_hidden;
 		bool messages_muted;
 	} // End private members
@@ -72,12 +75,11 @@ namespace Logger {
 			Engine::ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_PrintMiniMessage", params);
 		}
 
-		if (message_timer > 0) {
-			message_timer--;
+		if (popups_locked) {
 			return;
 		}
 
-		if (!message_queue.empty() and message_timer <= 0) {
+		if (!message_queue.empty()) {
 			struct PrintToPlayerInfo {
 				FText text;
 				bool mute_sound;
@@ -86,7 +88,7 @@ namespace Logger {
 			message_queue.pop_front();
 			std::shared_ptr<void> params(new PrintToPlayerInfo{ *new_text, messages_muted });
 			Engine::ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_PrintMessage", params);
-			message_timer = 600;
+			Timer::SetBooleanAfterTimer(popup_delay, &popups_locked);
 		}
 	}
 
