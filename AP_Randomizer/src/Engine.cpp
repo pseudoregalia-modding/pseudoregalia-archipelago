@@ -8,22 +8,24 @@
 #include "Logger.hpp"
 
 namespace Engine {
-	void SyncMajorKeys();
-	void SyncHealthPieces();
-	void SyncSmallKeys();
-	void SyncAbilities();
+	// Private members
+	namespace {
+		void SyncMajorKeys();
+		void SyncHealthPieces();
+		void SyncSmallKeys();
+		void SyncAbilities();
 
-	std::mutex blueprint_function_mutex;
+		struct BlueprintFunctionInfo {
+			std::wstring parent_name;
+			std::wstring function_name;
+			std::shared_ptr<void> params;
+		};
 
+		std::mutex blueprint_function_mutex;
+		bool awaiting_item_sync;
+		std::queue<BlueprintFunctionInfo> blueprint_function_queue;
+	} // End private members
 
-	struct BlueprintFunctionInfo {
-		std::wstring parent_name;
-		std::wstring function_name;
-		std::shared_ptr<void> params;
-	};
-
-	bool awaiting_item_sync;
-	std::queue<BlueprintFunctionInfo> blueprint_function_queue;
 
 	// Returns the name of the current map.
 	std::wstring Engine::GetWorldName() {
@@ -108,59 +110,64 @@ namespace Engine {
 		awaiting_item_sync = true;
 	}
 
-	void Engine::SyncAbilities() {
-		struct AddUpgradeInfo {
-			TArray<FName> names;
-			TArray<int> counts;
-			bool slidejump_disabled;
-		};
-		TArray<FName> ue_names;
-		TArray<int> ue_counts;
-		bool toggle = GameData::SlideJumpDisabled();
-
-		for (const auto& [upgrade_name, upgrade_count] : GameData::GetUpgradeTable()) {
-			std::unique_ptr<FName> new_name(new FName(upgrade_name));
-			ue_names.Add(*new_name);
-			ue_counts.Add(upgrade_count);
-		}
-
-		std::shared_ptr<void> upgrade_params(new AddUpgradeInfo{ ue_names, ue_counts, toggle });
-		ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetUpgrades", upgrade_params);
-	}
-
-	void Engine::SyncHealthPieces() {
-		std::shared_ptr<void> hp_params(new int(GameData::GetHealthPieces()));
-		ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetHealthPieces", hp_params);
-	}
-
-	void Engine::SyncSmallKeys() {
-		std::shared_ptr<void> small_key_params(new int(GameData::GetSmallKeys()));
-		ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetSmallKeys", small_key_params);
-	}
-
-	void Engine::SyncMajorKeys() {
-		struct MajorKeyInfo {
-			TArray<bool> keys;
-		};
-		TArray<bool> ue_keys;
-		bool* major_keys = GameData::GetMajorKeys();
-		for (int i = 0; i < 5; i++)
-		{
-			ue_keys.Add(major_keys[i]);
-		}
-
-		std::shared_ptr<void> major_key_params(new MajorKeyInfo{ ue_keys });
-		ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetMajorKeys", major_key_params);
-	}
-
 	void Engine::ToggleSlideJump() {
 		if (GameData::ToggleSlideJump()) {
 			SyncAbilities();
 		}
 	}
 
+	// Kills Sybil.
 	void Engine::VaporizeGoat() {
 		std::shared_ptr<void> dissolve_delay(new double(0));
 		ExecuteBlueprintFunction(L"BP_PlayerGoatMain_C", L"BPI_CombatDeath", dissolve_delay);
 	}
+
+
+	// Private functions
+	namespace {
+		void SyncAbilities() {
+			struct AddUpgradeInfo {
+				TArray<FName> names;
+				TArray<int> counts;
+				bool slidejump_disabled;
+			};
+			TArray<FName> ue_names;
+			TArray<int> ue_counts;
+			bool toggle = GameData::SlideJumpDisabled();
+
+			for (const auto& [upgrade_name, upgrade_count] : GameData::GetUpgradeTable()) {
+				std::unique_ptr<FName> new_name(new FName(upgrade_name));
+				ue_names.Add(*new_name);
+				ue_counts.Add(upgrade_count);
+			}
+
+			std::shared_ptr<void> upgrade_params(new AddUpgradeInfo{ ue_names, ue_counts, toggle });
+			ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetUpgrades", upgrade_params);
+		}
+
+		void SyncHealthPieces() {
+			std::shared_ptr<void> hp_params(new int(GameData::GetHealthPieces()));
+			ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetHealthPieces", hp_params);
+		}
+
+		void SyncSmallKeys() {
+			std::shared_ptr<void> small_key_params(new int(GameData::GetSmallKeys()));
+			ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetSmallKeys", small_key_params);
+		}
+
+		void SyncMajorKeys() {
+			struct MajorKeyInfo {
+				TArray<bool> keys;
+			};
+			TArray<bool> ue_keys;
+			bool* major_keys = GameData::GetMajorKeys();
+			for (int i = 0; i < 5; i++)
+			{
+				ue_keys.Add(major_keys[i]);
+			}
+
+			std::shared_ptr<void> major_key_params(new MajorKeyInfo{ ue_keys });
+			ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetMajorKeys", major_key_params);
+		}
+	} // End private functions
 }
