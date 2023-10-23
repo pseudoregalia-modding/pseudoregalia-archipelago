@@ -78,14 +78,11 @@ namespace Engine {
 			FVector position;
 		};
 		std::unordered_map<int64_t, GameData::Collectible> collectible_map = GameData::GetCollectiblesOfZone(GetWorldName());
-		for (auto& pair : collectible_map) {
-			int64_t id = pair.first;
-			GameData::Collectible collectible = pair.second;
-
+		for (const auto& [id, collectible] : collectible_map) {
 			// Return if the collectible shouldn't be spawned based on options
-			if (!pair.second.RequiredOption().empty()
-				&& !GameData::GetOption(pair.second.RequiredOption())) {
-				Logger::Log("Collectible with id " + std::to_string(id) + " was not spawned since option " + pair.second.RequiredOption() + " was not enabled.");
+			if (!collectible.RequiredOption().empty()
+				&& !GameData::GetOption(collectible.RequiredOption())) {
+				Logger::Log("Collectible with id " + std::to_string(id) + " was not spawned since option " + collectible.RequiredOption() + " was not enabled.");
 				continue;
 			}
 
@@ -114,10 +111,10 @@ namespace Engine {
 		TArray<int> ue_counts;
 		bool toggle = GameData::SlideJumpDisabled();
 
-		for (const auto& pair : GameData::GetUpgradeTable()) {
-			std::unique_ptr<FName> new_name(new FName(pair.first));
+		for (const auto& [upgrade_name, upgrade_count] : GameData::GetUpgradeTable()) {
+			std::unique_ptr<FName> new_name(new FName(upgrade_name));
 			ue_names.Add(*new_name);
-			ue_counts.Add(pair.second);
+			ue_counts.Add(upgrade_count);
 		}
 
 		std::shared_ptr<void> upgrade_params(new AddUpgradeInfo{ ue_names, ue_counts, toggle });
