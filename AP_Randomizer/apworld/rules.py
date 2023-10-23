@@ -321,6 +321,11 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
         })
 
         self.location_rules.update({
+            "Dungeon - Dark Orbs": lambda state:
+                self.has_gem(state) and self.can_bounce(state)
+                or self.has_gem(state) and self.kick_or_plunge(state, 3)
+                or self.get_kicks(state, 2) and self.can_bounce(state)
+                or self.can_slidejump(state) and self.get_kicks(state, 1) and self.can_bounce(state),
             "Castle Sansa - Floater In Courtyard": lambda state:
                 self.can_bounce(state) and self.has_plunge(state)
                 or self.can_bounce(state) and self.get_kicks(state, 2)
@@ -478,6 +483,11 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
         })
 
         self.location_rules.update({
+            "Dungeon - Dark Orbs": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 1) and self.can_bounce(state)
+                or self.can_slidejump(state) and self.has_plunge(state) and self.can_bounce(state)
+                or self.get_kicks(state, 3) and self.has_plunge(state),
             "Castle Sansa - Floater In Courtyard": lambda state:
                 self.can_bounce(state) and self.has_plunge(state)
                 or self.can_bounce(state) and self.get_kicks(state, 1)
@@ -645,6 +655,12 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
         })
 
         self.location_rules.update({
+            "Dungeon - Dark Orbs": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 1) and self.can_bounce(state)
+                or self.get_kicks(state, 3) and self.has_plunge(state)
+                or self.has_slide(state) and self.get_kicks(state, 1)
+                or self.has_slide(state) and self.can_bounce(state),
             "Castle Sansa - Floater In Courtyard": lambda state:
                 self.can_bounce(state)
                 and (
@@ -800,6 +816,12 @@ class PseudoregaliaLunaticRules(PseudoregaliaRules):
         })
 
         self.location_rules.update({
+            "Dungeon - Dark Orbs": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 1) and self.can_bounce(state)
+                or self.get_kicks(state, 3) and self.has_plunge(state)
+                or self.has_slide(state) and self.get_kicks(state, 1)
+                or self.has_slide(state) and self.can_bounce(state),
             "Castle Sansa - Floater In Courtyard": lambda state:
                 self.can_bounce(state)
                 and (
