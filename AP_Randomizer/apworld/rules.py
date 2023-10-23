@@ -182,7 +182,7 @@ class PseudoregaliaRules:
         }
 
     def has_breaker(self, state) -> bool:
-        return state.has("Dream Breaker", self.player)
+        return state.has_any({"Dream Breaker", "Progressive Dream Breaker"}, self.player)
 
     def has_slide(self, state) -> bool:
         if state.has_any({"Slide", "Progressive Slide"}, self.player):
