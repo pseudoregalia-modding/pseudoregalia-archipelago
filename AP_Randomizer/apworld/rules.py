@@ -365,6 +365,11 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
             "Listless Library - Sun Greaves 3": lambda state:
                 self.has_breaker(state)
                 or self.knows_obscure(state) and self.has_plunge(state),
+            "Listless Library - Upper Back": lambda state:
+                (self.has_breaker(state) or self.knows_obscure(state) and self.has_plunge(state))
+                and (
+                    self.has_gem(state) and self.kick_or_plunge(state, 1)
+                    or self.kick_or_plunge(state, 2)),
         })
 
     def set_pseudoregalia_rules(self) -> None:
@@ -492,6 +497,11 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
             "Listless Library - Sun Greaves 3": lambda state:
                 self.has_breaker(state)
                 or self.knows_obscure(state) and self.has_plunge(state),
+            "Listless Library - Upper Back": lambda state:
+                (self.has_breaker(state) or self.knows_obscure(state) and self.has_plunge(state))
+                and (
+                    self.has_gem(state)
+                    or self.kick_or_plunge(state, 2)),
         })
 
     def set_pseudoregalia_rules(self) -> None:
@@ -614,6 +624,12 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
                 self.can_attack(state),
             "Listless Library - Sun Greaves 3": lambda state:
                 self.can_attack(state),
+            "Listless Library - Upper Back": lambda state:
+                (self.has_breaker(state) or self.knows_obscure(state) and self.has_plunge(state))
+                and (
+                    self.has_gem(state)
+                    or self.kick_or_plunge(state, 2)
+                    or self.has_slide(state)),
         })
 
     def set_pseudoregalia_rules(self) -> None:
@@ -737,6 +753,12 @@ class PseudoregaliaLunaticRules(PseudoregaliaRules):
                 self.can_attack(state),
             "Listless Library - Sun Greaves 3": lambda state:
                 self.can_attack(state),
+            "Listless Library - Upper Back": lambda state:
+                (self.has_breaker(state) or self.knows_obscure(state) and self.has_plunge(state))
+                and (
+                    self.has_gem(state)
+                    or self.kick_or_plunge(state, 2)
+                    or self.has_slide(state)),
         })
 
     def set_pseudoregalia_rules(self) -> None:
