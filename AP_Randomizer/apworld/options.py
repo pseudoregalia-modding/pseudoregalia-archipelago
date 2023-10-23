@@ -45,7 +45,6 @@ class SafeSmallKeys(DefaultOnToggle):
 class ProgressiveSlide(DefaultOnToggle):
     """
     Replaces Slide and Solar Wind with two Progressive Slide items.
-    The first will give you Slide, and the second will give you Solar Wind.
     """
     display_name = "Progressive Slide"
 
