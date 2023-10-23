@@ -56,22 +56,6 @@ class PseudoregaliaRules:
         self.location_rules = {
             # TODO: figure out a proper difference between placeholder "free" rules
             # and rules with no universal access(?)
-            "Dilapidated Dungeon - Dream Breaker": lambda state: True,
-            "Dilapidated Dungeon - Slide": lambda state:
-                self.has_breaker(state),
-            "Dilapidated Dungeon - Dark Orbs": lambda state:
-                self.has_gem(state)
-                or self.can_bounce(state) and self.get_kicks(state, 3),
-            "Dilapidated Dungeon - Rafters": lambda state:
-                self.has_gem(state)
-                or self.get_kicks(state, 3) and self.can_slidejump(state)
-                or self.get_kicks(state, 3) and self.has_plunge(state),
-            "Dilapidated Dungeon - Strong Eyes": lambda state:
-                self.has_breaker(state),
-            "Dilapidated Dungeon - Alcove Near Mirror": lambda state: True,
-            "Dilapidated Dungeon - Past Poles": lambda state:
-                self.has_gem(state)
-                or self.get_kicks(state, 3),
             "Sansa Keep - Strikebreak": lambda state:
                 self.can_slidejump(state)
                 or self.has_slide(state) and self.get_kicks(state, 1)
