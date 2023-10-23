@@ -20,7 +20,7 @@ namespace Logger {
 		std::list<std::wstring> system_message_queue;
 		bool popups_locked;
 		// Just over 3 seconds is long enough to ensure only 2 popups can be on screen at once
-		std::chrono::milliseconds popup_delay = std::chrono::milliseconds(3200);
+		const std::chrono::milliseconds popup_delay(3200);
 		bool messages_hidden;
 		bool messages_muted;
 	} // End private members

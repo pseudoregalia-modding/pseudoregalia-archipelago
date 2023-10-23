@@ -18,10 +18,10 @@ namespace Client {
         void ConnectionTimerExpired();
 
         AP_ConnectionStatus connection_status;
-        std::chrono::seconds connection_timer = std::chrono::seconds(15);
+        const std::chrono::seconds connection_timer(15);
         int slot_number;
         bool death_link_locked;
-        std::chrono::seconds death_link_timer = std::chrono::seconds(4);
+        const std::chrono::seconds death_link_timer(4);
     } // End private members
 
 
