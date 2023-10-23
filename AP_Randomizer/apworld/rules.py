@@ -329,6 +329,9 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
             "Dungeon - Past Poles": lambda state:
                 self.has_gem(state) and self.kick_or_plunge(state, 1)
                 or self.get_kicks(state, 3),
+            "Dungeon - Rafters": lambda state:
+                self.kick_or_plunge(state, 3)
+                or self.knows_obscure(state) and self.can_bounce(state) and self.has_gem(state),
             "Castle Sansa - Floater In Courtyard": lambda state:
                 self.can_bounce(state) and self.has_plunge(state)
                 or self.can_bounce(state) and self.get_kicks(state, 2)
@@ -494,6 +497,11 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
             "Dungeon - Past Poles": lambda state:
                 self.has_gem(state)
                 or self.get_kicks(state, 2),
+            "Dungeon - Rafters": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 3)
+                or self.get_kicks(state, 1) and self.has_plunge(state)
+                or self.get_kicks(state, 1) and self.can_bounce(state),
             "Castle Sansa - Floater In Courtyard": lambda state:
                 self.can_bounce(state) and self.has_plunge(state)
                 or self.can_bounce(state) and self.get_kicks(state, 1)
@@ -670,6 +678,11 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
             "Dungeon - Past Poles": lambda state:
                 self.has_gem(state)
                 or self.get_kicks(state, 2),
+            "Dungeon - Rafters": lambda state:
+                self.has_gem(state)
+                or self.kick_or_plunge(state, 2)
+                or self.can_bounce(state) and self.get_kicks(state, 1)
+                or self.has_slide(state) and self.kick_or_plunge(state, 1),
             "Castle Sansa - Floater In Courtyard": lambda state:
                 self.can_bounce(state)
                 and (
@@ -835,6 +848,11 @@ class PseudoregaliaLunaticRules(PseudoregaliaRules):
                 self.has_gem(state)
                 or self.get_kicks(state, 2)
                 or self.has_slide(state) and self.get_kicks(state, 1) and self.has_plunge(state),
+            "Dungeon - Rafters": lambda state:
+                self.has_gem(state)
+                or self.kick_or_plunge(state, 2)
+                or self.can_bounce(state) and self.kick_or_plunge(state, 1)
+                or self.has_slide(state),
             "Castle Sansa - Floater In Courtyard": lambda state:
                 self.can_bounce(state)
                 and (
