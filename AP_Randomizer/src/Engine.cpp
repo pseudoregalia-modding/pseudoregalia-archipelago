@@ -25,17 +25,21 @@ namespace Engine {
 	bool awaiting_item_sync;
 	std::queue<BlueprintFunctionInfo> blueprint_function_queue;
 
+	// Returns the name of the current map.
 	std::wstring Engine::GetWorldName() {
 		UObject* player_controller = UObjectGlobals::FindFirstOf(STR("PlayerController"));
 		return player_controller->GetWorld()->GetName();
 	}
 
+	// Queues up a blueprint function to be executed.
 	void Engine::ExecuteBlueprintFunction(std::wstring new_parent, std::wstring new_name, std::shared_ptr<void> params) {
 		std::lock_guard<std::mutex> guard(blueprint_function_mutex);
 		blueprint_function_queue.push(BlueprintFunctionInfo(new_parent, new_name, params));
 	}
 
+	// Runs once every engine tick.
 	void Engine::OnTick(UObject* blueprint) {
+		// Queue up item syncs together to avoid queueing a bajillion functions on connection or world release.
 		if (awaiting_item_sync) {
 			SyncHealthPieces();
 			SyncSmallKeys();
@@ -44,6 +48,7 @@ namespace Engine {
 			awaiting_item_sync = false;
 		}
 
+		// Engine tick runs in a separate thread from the client so it needs to be locked.
 		std::lock_guard<std::mutex> guard(blueprint_function_mutex);
 		while (!blueprint_function_queue.empty()) {
 			BlueprintFunctionInfo info = blueprint_function_queue.front();
@@ -68,6 +73,7 @@ namespace Engine {
 		}
 	}
 
+	// Calls blueprint's AP_SpawnCollectible function for each unchecked collectible in a map.
 	void Engine::SpawnCollectibles() {
 		// This function must loop through instead of calling once with an array;
 		// as of 10/11/23 the params struct method I use can't easily represent FVectors or FTransforms in C++.
@@ -97,6 +103,7 @@ namespace Engine {
 		}
 	}
 
+	// Queues all item sync functions.
 	void Engine::SyncItems() {
 		awaiting_item_sync = true;
 	}

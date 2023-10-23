@@ -63,6 +63,7 @@ namespace Client {
         Engine::SyncItems();
     }
     
+    // Sends game completion flag to Archipelago.
     void Client::CompleteGame() {
         AP_StoryComplete();
 
