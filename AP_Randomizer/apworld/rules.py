@@ -308,18 +308,18 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
         })
 
         self.location_rules.update({
-            "Dungeon - Dark Orbs": lambda state:
+            "Dilapidated Dungeon - Dark Orbs": lambda state:
                 self.has_gem(state) and self.can_bounce(state)
                 or self.has_gem(state) and self.kick_or_plunge(state, 3)
                 or self.get_kicks(state, 2) and self.can_bounce(state)
                 or self.can_slidejump(state) and self.get_kicks(state, 1) and self.can_bounce(state),
-            "Dungeon - Past Poles": lambda state:
+            "Dilapidated Dungeon - Past Poles": lambda state:
                 self.has_gem(state) and self.kick_or_plunge(state, 1)
                 or self.get_kicks(state, 3),
-            "Dungeon - Rafters": lambda state:
+            "Dilapidated Dungeon - Rafters": lambda state:
                 self.kick_or_plunge(state, 3)
                 or self.knows_obscure(state) and self.can_bounce(state) and self.has_gem(state),
-            "Dungeon - Strong Eyes": lambda state:
+            "Dilapidated Dungeon - Strong Eyes": lambda state:
                 self.has_breaker(state)
                 or self.knows_obscure(state)
                 and (
@@ -482,20 +482,20 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
         })
 
         self.location_rules.update({
-            "Dungeon - Dark Orbs": lambda state:
+            "Dilapidated Dungeon - Dark Orbs": lambda state:
                 self.has_gem(state)
                 or self.get_kicks(state, 1) and self.can_bounce(state)
                 or self.can_slidejump(state) and self.has_plunge(state) and self.can_bounce(state)
                 or self.get_kicks(state, 3) and self.has_plunge(state),
-            "Dungeon - Past Poles": lambda state:
+            "Dilapidated Dungeon - Past Poles": lambda state:
                 self.has_gem(state)
                 or self.get_kicks(state, 2),
-            "Dungeon - Rafters": lambda state:
+            "Dilapidated Dungeon - Rafters": lambda state:
                 self.has_gem(state)
                 or self.get_kicks(state, 3)
                 or self.get_kicks(state, 1) and self.has_plunge(state)
                 or self.get_kicks(state, 1) and self.can_bounce(state),
-            "Dungeon - Strong Eyes": lambda state:
+            "Dilapidated Dungeon - Strong Eyes": lambda state:
                 self.has_breaker(state)
                 or self.knows_obscure(state) and self.has_gem(state) and self.kick_or_plunge(state, 2),
             "Castle Sansa - Floater In Courtyard": lambda state:
@@ -657,21 +657,21 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
         })
 
         self.location_rules.update({
-            "Dungeon - Dark Orbs": lambda state:
+            "Dilapidated Dungeon - Dark Orbs": lambda state:
                 self.has_gem(state)
                 or self.get_kicks(state, 1) and self.can_bounce(state)
                 or self.get_kicks(state, 3) and self.has_plunge(state)
                 or self.has_slide(state) and self.get_kicks(state, 1)
                 or self.has_slide(state) and self.can_bounce(state),
-            "Dungeon - Past Poles": lambda state:
+            "Dilapidated Dungeon - Past Poles": lambda state:
                 self.has_gem(state)
                 or self.get_kicks(state, 2),
-            "Dungeon - Rafters": lambda state:
+            "Dilapidated Dungeon - Rafters": lambda state:
                 self.has_gem(state)
                 or self.kick_or_plunge(state, 2)
                 or self.can_bounce(state) and self.get_kicks(state, 1)
                 or self.has_slide(state) and self.kick_or_plunge(state, 1),
-            "Dungeon - Strong Eyes": lambda state:
+            "Dilapidated Dungeon - Strong Eyes": lambda state:
                 self.has_breaker(state)
                 or self.has_gem(state)
                 or self.has_slide(state) and self.get_kicks(state, 1),
@@ -838,22 +838,22 @@ class PseudoregaliaLunaticRules(PseudoregaliaRules):
         })
 
         self.location_rules.update({
-            "Dungeon - Dark Orbs": lambda state:
+            "Dilapidated Dungeon - Dark Orbs": lambda state:
                 self.has_gem(state)
                 or self.get_kicks(state, 1) and self.can_bounce(state)
                 or self.get_kicks(state, 3) and self.has_plunge(state)
                 or self.has_slide(state) and self.get_kicks(state, 1)
                 or self.has_slide(state) and self.can_bounce(state),
-            "Dungeon - Past Poles": lambda state:
+            "Dilapidated Dungeon - Past Poles": lambda state:
                 self.has_gem(state)
                 or self.get_kicks(state, 2)
                 or self.has_slide(state) and self.get_kicks(state, 1) and self.has_plunge(state),
-            "Dungeon - Rafters": lambda state:
+            "Dilapidated Dungeon - Rafters": lambda state:
                 self.has_gem(state)
                 or self.kick_or_plunge(state, 2)
                 or self.can_bounce(state) and self.kick_or_plunge(state, 1)
                 or self.has_slide(state),
-            "Dungeon - Strong Eyes": lambda state:
+            "Dilapidated Dungeon - Strong Eyes": lambda state:
                 self.has_breaker(state)
                 or self.has_gem(state)
                 or self.has_slide(state) and self.kick_or_plunge(state, 1),
