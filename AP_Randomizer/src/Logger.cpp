@@ -17,7 +17,6 @@ namespace Logger {
 		void PrintToPlayer(std::string);
 
 		std::list<std::wstring> message_queue;
-		std::list<std::wstring> system_message_queue;
 		bool popups_locked;
 		// Just over 3 seconds is long enough to ensure only 2 popups can be on screen at once
 		const std::chrono::milliseconds popup_delay(3200);
@@ -35,46 +34,43 @@ namespace Logger {
 
 	void Logger::Log(std::wstring text, LogType type) {
 		switch (type) {
-		case LogType::Popup:
+		case LogType::Popup: {
 			send<LogLevel::Verbose>(L"[APRandomizer] Message: " + text + L"\n");
 			PrintToPlayer(text);
 			break;
-
-		case LogType::System:
-			send<LogLevel::Verbose>(L"[APRandomizer] System: " + text + L"\n");
-			// There's not really any point in having a system message queue if it doesn't use delays.
-			// This should probably just call ExecuteBlueprintFunction directly.
-			system_message_queue.push_back(text);
-			break;
-
-		case LogType::Warning:
-			send<LogLevel::Warning>(L"[APRandomizer] WARNING: " + text + L"\n");
-			break;
-
-		case LogType::Error:
-			send<LogLevel::Error>(L"[APRandomizer] ERROR: " + text + L"\n");
-			// TODO: functionality to display errors to player
-			break;
-
-		default:
-			send<LogLevel::Default>(L"[APRandomizer] : " + text + L"\n");
-			break;
 		}
-	}
 
-	void Logger::OnTick() {
-		// TODO: make a struct or class with a MessageType enum and switch on that to determine how to handle each message
-		if (!system_message_queue.empty()) {
+		case LogType::System: {
+			send<LogLevel::Verbose>(L"[APRandomizer] System: " + text + L"\n");
 			struct PrintToPlayerInfo {
 				FText text;
 				bool mute_sound;
 			};
-			std::unique_ptr<FText> new_text(new FText(system_message_queue.front()));
-			system_message_queue.pop_front();
+			std::unique_ptr<FText> new_text(new FText(text));
 			std::shared_ptr<void> params(new PrintToPlayerInfo{ *new_text, messages_muted });
 			Engine::ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_PrintMiniMessage", params);
+			break;
 		}
 
+		case LogType::Warning: {
+			send<LogLevel::Warning>(L"[APRandomizer] WARNING: " + text + L"\n");
+			break;
+		}
+
+		case LogType::Error: {
+			send<LogLevel::Error>(L"[APRandomizer] ERROR: " + text + L"\n");
+			// TODO: functionality to display errors to player
+			break;
+		}
+
+		default: {
+			send<LogLevel::Default>(L"[APRandomizer] : " + text + L"\n");
+			break;
+		}
+		} // End switch
+	}
+
+	void Logger::OnTick() {
 		if (popups_locked) {
 			return;
 		}
