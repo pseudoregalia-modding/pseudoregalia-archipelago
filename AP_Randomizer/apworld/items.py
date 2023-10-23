@@ -127,6 +127,7 @@ item_frequencies = {
     "Health Piece": 16,
     "Progressive Slide": 2,
     "Air Kick": 4,
+    "Progressive Dream Breaker": 2,  # Will need to change this later when dream breaker stops being locked to vanilla
 }
 
 item_groups: Dict[str, Set[str]] = {
