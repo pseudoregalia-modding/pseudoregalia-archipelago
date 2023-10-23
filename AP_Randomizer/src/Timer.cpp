@@ -4,7 +4,7 @@
 #include "Timer.hpp"
 
 namespace Timer {
-	// Sets a timer (in milliseconds) and executes the function passed in when it expires.
+	// Sets a timer and executes the function passed in when it expires.
 	void Timer::CallbackAfterTimer(milliseconds delay, std::function<void()> callback) {
 		auto run_timer = [delay, callback]() {
 			std::this_thread::sleep_for(milliseconds(delay));
