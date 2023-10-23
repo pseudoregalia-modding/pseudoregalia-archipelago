@@ -13,7 +13,7 @@ namespace Client {
         void CheckLocation(int64_t);
         bool ConnectionStatusChanged();
         void SetSlotNumber(int);
-        void SetSunGreaves(int);
+        void SetSplitKicks(int);
         void ReceiveDeathLink();
         void ConnectionTimerExpired();
 
@@ -37,7 +37,7 @@ namespace Client {
         AP_SetDeathLinkRecvCallback(&ReceiveDeathLink);
         AP_RegisterSlotDataIntCallback("slot_number", &SetSlotNumber);
         // TODO: Figure out a way to generalize this; might require lambdas?
-        AP_RegisterSlotDataIntCallback("split_sun_greaves", &SetSunGreaves);
+        AP_RegisterSlotDataIntCallback("split_sun_greaves", &SetSplitKicks);
         AP_Start();
 
         Timer::CallbackAfterTimer(connection_timer, &ConnectionTimerExpired);
@@ -109,7 +109,7 @@ namespace Client {
             slot_number = num;
         }
 
-        void SetSunGreaves(int is_true) {
+        void SetSplitKicks(int is_true) {
             GameData::SetOption("split_sun_greaves", is_true);
             GameData::SetOption("normal_greaves", !is_true);
         }
