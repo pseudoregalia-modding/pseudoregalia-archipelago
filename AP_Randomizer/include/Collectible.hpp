@@ -22,13 +22,13 @@ namespace GameData {
 			return checked;
 		}
 
-		bool IsChecked() {
+		bool IsChecked() const {
 			return checked;}
 
-		FVector GetPosition() {
+		FVector GetPosition() const {
 			return position;}
 
-		std::string RequiredOption() {
+		std::string RequiredOption() const {
 			return required_option;
 		}
 
