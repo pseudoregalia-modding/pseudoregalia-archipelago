@@ -197,11 +197,11 @@ class PseudoregaliaRules:
         return state.has("Cling Gem", self.player)
 
     def can_bounce(self, state) -> bool:
-        return state.has_all({"Dream Breaker", "Ascendant Light"}, self.player)
+        return self.has_breaker(state) and state.has("Ascendant Light", self.player)
 
     def can_attack(self, state) -> bool:
         """Used where either breaker or sunsetter will work."""
-        return state.has_any({"Dream Breaker", "Sunsetter"}, self.player)
+        return self.has_breaker(state) or state.has("Sunsetter", self.player)
 
     def get_kicks(self, state, count: int) -> bool:
         kicks: int = 0
@@ -226,7 +226,7 @@ class PseudoregaliaRules:
         return (state.count("Small Key", self.player) >= 7)
 
     def navigate_darkrooms(self, state) -> bool:
-        return (state.has("Dream Breaker", self.player) or state.has("Ascendant Light", self.player))
+        return self.has_breaker(state) or state.has("Ascendant Light", self.player)
 
     def can_slidejump(self, state) -> bool:
         if state.has_all({"Slide", "Solar Wind"}, self.player):
@@ -236,10 +236,12 @@ class PseudoregaliaRules:
         return False
 
     def can_strikebreak(self, state) -> bool:
-        return (state.has_all({"Dream Breaker", "Strikebreak"}, self.player))
+        return (state.has_all({"Dream Breaker", "Strikebreak"}, self.player)
+                or state.count("Progressive Dream Breaker") >= 2)
 
     def can_soulcutter(self, state) -> bool:
-        return (state.has_all({"Dream Breaker", "Strikebreak", "Soul Cutter"}, self.player))
+        return (state.has_all({"Dream Breaker", "Strikebreak", "Soul Cutter"}, self.player)
+                or state.count("Progressive Dream Breaker") >= 3)
 
     def knows_obscure(self, state) -> bool:
         # TODO: rules that use this and functions like it should go in a separate extra_rules dictionary
