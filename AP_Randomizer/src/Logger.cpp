@@ -71,6 +71,7 @@ namespace Logger {
 	}
 
 	void Logger::OnTick() {
+		// This implementation is slightly awkward but the whole UI is gonna get refactored eventually anyway so whatever.
 		if (popups_locked) {
 			return;
 		}
