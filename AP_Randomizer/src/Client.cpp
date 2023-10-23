@@ -14,14 +14,14 @@ namespace Client {
         bool ConnectionStatusChanged();
         void SetSlotNumber(int);
         void SetSunGreaves(int);
-        bool SetDeathLinkTimer(int);
+        void ReceiveDeathLink();
         void ConnectionTimerExpired();
 
         AP_ConnectionStatus connection_status;
         std::chrono::seconds connection_timer = std::chrono::seconds(15);
         int slot_number;
-        int current_death_link_timer;
-        const int death_link_timer_max = 400;
+        bool death_link_locked;
+        std::chrono::seconds death_link_timer = std::chrono::seconds(4);
     } // End private members
 
 
@@ -34,6 +34,7 @@ namespace Client {
         AP_SetLocationCheckedCallback(&GameData::CheckLocation);
         AP_SetItemRecvCallback(&ReceiveItem);
         AP_SetDeathLinkSupported(true);
+        AP_SetDeathLinkRecvCallback(&ReceiveDeathLink);
         AP_RegisterSlotDataIntCallback("slot_number", &SetSlotNumber);
         // TODO: Figure out a way to generalize this; might require lambdas?
         AP_RegisterSlotDataIntCallback("split_sun_greaves", &SetSunGreaves);
@@ -82,19 +83,6 @@ namespace Client {
             // APCpp releases the memory of message
         }
 
-        if (current_death_link_timer > 0) {
-            current_death_link_timer--;
-            if (current_death_link_timer <= 0) {
-                AP_DeathLinkClear();
-            }
-        }
-        if (AP_DeathLinkPending()) {
-            if (SetDeathLinkTimer(death_link_timer_max)) {
-                Logger::Log(L"Receiving death link");
-                Engine::VaporizeGoat();
-            }
-        }
-
         if (ConnectionStatusChanged()) {
             if (connection_status == AP_ConnectionStatus::Authenticated) {
                 Engine::SpawnCollectibles();
@@ -106,10 +94,12 @@ namespace Client {
     }
 
     void Client::SendDeathLink() {
-        if (SetDeathLinkTimer(death_link_timer_max)) {
-            Logger::Log(L"Sending death link");
-            AP_DeathLinkSend();
+        if (death_link_locked) {
+            return;
         }
+        Logger::Log(L"Sending death link");
+        AP_DeathLinkSend();
+        Timer::SetBooleanAfterTimer(death_link_timer, &death_link_locked);
     }
 
 
@@ -131,12 +121,13 @@ namespace Client {
             Engine::SyncItems();
         }
 
-        bool SetDeathLinkTimer(int new_time) {
-            if (current_death_link_timer > 0) {
-                return false;
+        void ReceiveDeathLink() {
+            if (death_link_locked) {
+                return;
             }
-            current_death_link_timer = new_time;
-            return true;
+            Logger::Log(L"Receiving death link");
+            Engine::VaporizeGoat();
+            Timer::SetBooleanAfterTimer(death_link_timer, &death_link_locked);
         }
 
         bool ConnectionStatusChanged() {
