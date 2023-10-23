@@ -4,6 +4,7 @@
 #include "Engine.hpp"
 #include "Client.hpp"
 #include "Logger.hpp"
+#include "Timer.hpp"
 
 namespace Client {
     // Private members
@@ -13,13 +14,14 @@ namespace Client {
         bool ConnectionStatusChanged();
         void SetSlotNumber(int);
         void SetSunGreaves(int);
-        bool SetDeathLinkTimer(int);
+        void ReceiveDeathLink();
+        void ConnectionTimerExpired();
 
         AP_ConnectionStatus connection_status;
-        int connection_timer;
+        const std::chrono::seconds connection_timer(15);
         int slot_number;
-        int current_death_link_timer;
-        const int death_link_timer_max = 400;
+        bool death_link_locked;
+        const std::chrono::seconds death_link_timer(4);
     } // End private members
 
 
@@ -32,12 +34,13 @@ namespace Client {
         AP_SetLocationCheckedCallback(&GameData::CheckLocation);
         AP_SetItemRecvCallback(&ReceiveItem);
         AP_SetDeathLinkSupported(true);
+        AP_SetDeathLinkRecvCallback(&ReceiveDeathLink);
         AP_RegisterSlotDataIntCallback("slot_number", &SetSlotNumber);
         // TODO: Figure out a way to generalize this; might require lambdas?
         AP_RegisterSlotDataIntCallback("split_sun_greaves", &SetSunGreaves);
         AP_Start();
 
-        connection_timer = 4000;
+        Timer::CallbackAfterTimer(connection_timer, &ConnectionTimerExpired);
         connection_status = AP_GetConnectionStatus();
         std::string connect_message = "Attempting to connect to ";
         connect_message.append(new_ip);
@@ -80,43 +83,23 @@ namespace Client {
             // APCpp releases the memory of message
         }
 
-        if (current_death_link_timer > 0) {
-            current_death_link_timer--;
-            if (current_death_link_timer <= 0) {
-                AP_DeathLinkClear();
-            }
-        }
-        if (AP_DeathLinkPending()) {
-            if (SetDeathLinkTimer(death_link_timer_max)) {
-                Logger::Log(L"Receiving death link");
-                Engine::VaporizeGoat();
-            }
-        }
-
         if (ConnectionStatusChanged()) {
             if (connection_status == AP_ConnectionStatus::Authenticated) {
-                connection_timer = 0;
                 Engine::SpawnCollectibles();
             }
             if (connection_status == AP_ConnectionStatus::ConnectionRefused) {
                 Logger::Log(L"The server refused the connection. Please double-check your connection info and client version, and restart the game.", Logger::LogType::System);
-                connection_timer = 0;
-            }
-        }
-
-        if (connection_timer > 0) {
-            connection_timer--;
-            if (connection_timer <= 0) {
-                Logger::Log(L"Could not find the address entered. Please double-check your connection info and restart the game.", Logger::LogType::System);
             }
         }
     }
 
     void Client::SendDeathLink() {
-        if (SetDeathLinkTimer(death_link_timer_max)) {
-            Logger::Log(L"Sending death link");
-            AP_DeathLinkSend();
+        if (death_link_locked) {
+            return;
         }
+        Logger::Log(L"Sending death link");
+        AP_DeathLinkSend();
+        Timer::SetBooleanAfterTimer(death_link_timer, &death_link_locked);
     }
 
 
@@ -138,12 +121,13 @@ namespace Client {
             Engine::SyncItems();
         }
 
-        bool SetDeathLinkTimer(int new_time) {
-            if (current_death_link_timer > 0) {
-                return false;
+        void ReceiveDeathLink() {
+            if (death_link_locked) {
+                return;
             }
-            current_death_link_timer = new_time;
-            return true;
+            Logger::Log(L"Receiving death link");
+            Engine::VaporizeGoat();
+            Timer::SetBooleanAfterTimer(death_link_timer, &death_link_locked);
         }
 
         bool ConnectionStatusChanged() {
@@ -152,6 +136,13 @@ namespace Client {
                 return true;
             }
             return false;
+        }
+
+        // Prints an error if the connection timer expires with no connection having been established.
+        void ConnectionTimerExpired() {
+            if (AP_GetConnectionStatus() == AP_ConnectionStatus::Disconnected) {
+                Logger::Log(L"Could not find the address entered. Please double-check your connection info and restart the game.", Logger::LogType::System);
+            }
         }
     } // End private functions
 }
