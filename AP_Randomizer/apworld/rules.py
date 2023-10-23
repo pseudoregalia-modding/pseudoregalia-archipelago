@@ -168,10 +168,7 @@ class PseudoregaliaRules:
         return state.has("Dream Breaker", self.player)
 
     def has_slide(self, state) -> bool:
-        if state.has_any({"Slide", "Progressive Slide"}, self.player):
-            return True
-        else:
-            return False
+        return state.has_any({"Slide", "Progressive Slide"}, self.player)
 
     def has_plunge(self, state) -> bool:
         return state.has("Sunsetter", self.player)
@@ -212,11 +209,8 @@ class PseudoregaliaRules:
         return (state.has("Dream Breaker", self.player) or state.has("Ascendant Light", self.player))
 
     def can_slidejump(self, state) -> bool:
-        if state.has_all({"Slide", "Solar Wind"}, self.player):
-            return True
-        if state.count("Progressive Slide", self.player) >= 2:
-            return True
-        return False
+        return (state.has_all({"Slide", "Solar Wind"}, self.player)
+                or state.count("Progressive Slide", self.player) >= 2)
 
     def can_strikebreak(self, state) -> bool:
         return (state.has_all({"Dream Breaker", "Strikebreak"}, self.player))
