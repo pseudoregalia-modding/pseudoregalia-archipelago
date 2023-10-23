@@ -19,15 +19,6 @@ class PseudoregaliaRules:
         self.player = world.player
 
         self.region_rules = {
-            "Dungeon Mirror -> Dungeon Strong Eyes": lambda state:
-                self.has_slide(state) and self.has_breaker(state),
-            "Dungeon Mirror -> Underbelly Main": lambda state:
-                self.has_breaker(state),
-            "Dungeon Mirror -> Theatre Main": lambda state:
-                self.has_gem(state) and self.get_kicks(state, 3)
-                or self.has_gem(state) and self.can_slidejump(state),
-            "Dungeon Strong Eyes -> Castle Main": lambda state:
-                self.has_small_keys(state),
             "Keep Main -> Keep Sunsetter": lambda state:
                 self.has_gem(state)
                 or self.has_small_keys(state)
@@ -181,6 +172,7 @@ class PseudoregaliaRules:
 
     def can_attack(self, state) -> bool:
         """Used where either breaker or sunsetter will work."""
+        # TODO: Update this to check obscure tricks when logic rework nears completion
         return self.has_breaker(state) or state.has("Sunsetter", self.player)
 
     def get_kicks(self, state, count: int) -> bool:
@@ -207,7 +199,7 @@ class PseudoregaliaRules:
         return (state.count("Small Key", self.player) >= 7)
 
     def navigate_darkrooms(self, state) -> bool:
-        """Currently unused."""
+        # TODO: Update this to check obscure tricks for breaker only when logic rework nears completion
         return self.has_breaker(state) or state.has("Ascendant Light", self.player)
 
     def can_slidejump(self, state) -> bool:
@@ -253,6 +245,30 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
         super().__init__(world)
 
         self.region_rules.update({
+            "Dungeon Mirror -> Dungeon Slide": lambda state:
+                self.can_attack(state),
+            "Dungeon Slide -> Dungeon Mirror": lambda state:
+                self.can_attack(state),
+            "Dungeon Slide -> Dungeon Strong Eyes": lambda state:
+                self.has_slide(state),
+            "Dungeon Slide -> Dungeon Escape Lower": lambda state:
+                self.can_attack(state) and self.navigate_darkrooms(state),
+            "Dungeon Strong Eyes -> Dungeon Slide": lambda state:
+                self.has_slide(state),
+            "Dungeon Strong Eyes -> Dungeon => Castle": lambda state:
+                self.has_small_keys(state),
+            "Dungeon => Castle -> Dungeon Strong Eyes": lambda state:
+                self.has_small_keys(state),
+            "Dungeon Escape Lower -> Dungeon Slide": lambda state:
+                self.can_attack(state),
+            "Dungeon Escape Lower -> Dungeon Escape Upper": lambda state:
+                self.can_bounce(state)
+                or self.get_kicks(state, 1) and self.has_plunge(state)
+                or self.get_kicks(state, 3),
+            "Dungeon Escape Upper -> Theatre Pillar": lambda state:
+                self.can_bounce(state)
+                or self.kick_or_plunge(state, 1)
+                or self.has_gem(state),
             "Castle Main -> Dungeon Strong Eyes": lambda state:
                 self.has_small_keys(state),
             "Castle Main -> Library Main": lambda state:
@@ -305,6 +321,23 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
         })
 
         self.location_rules.update({
+            "Dungeon - Dark Orbs": lambda state:
+                self.has_gem(state) and self.can_bounce(state)
+                or self.has_gem(state) and self.kick_or_plunge(state, 3)
+                or self.get_kicks(state, 2) and self.can_bounce(state)
+                or self.can_slidejump(state) and self.get_kicks(state, 1) and self.can_bounce(state),
+            "Dungeon - Past Poles": lambda state:
+                self.has_gem(state) and self.kick_or_plunge(state, 1)
+                or self.get_kicks(state, 3),
+            "Dungeon - Rafters": lambda state:
+                self.kick_or_plunge(state, 3)
+                or self.knows_obscure(state) and self.can_bounce(state) and self.has_gem(state),
+            "Dungeon - Strong Eyes": lambda state:
+                self.has_breaker(state)
+                or self.knows_obscure(state)
+                and (
+                    self.has_gem(state) and self.get_kicks(state, 1) and self.has_plunge(state)
+                    or self.has_gem(state) and self.get_kicks(state, 3)),
             "Castle Sansa - Floater In Courtyard": lambda state:
                 self.can_bounce(state) and self.has_plunge(state)
                 or self.can_bounce(state) and self.get_kicks(state, 2)
@@ -382,6 +415,30 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
         super().__init__(world)
 
         self.region_rules.update({
+            "Dungeon Mirror -> Dungeon Slide": lambda state:
+                self.can_attack(state),
+            "Dungeon Slide -> Dungeon Mirror": lambda state:
+                self.can_attack(state),
+            "Dungeon Slide -> Dungeon Strong Eyes": lambda state:
+                self.has_slide(state),
+            "Dungeon Slide -> Dungeon Escape Lower": lambda state:
+                self.can_attack(state) and self.navigate_darkrooms(state),
+            "Dungeon Strong Eyes -> Dungeon Slide": lambda state:
+                self.has_slide(state),
+            "Dungeon Strong Eyes -> Dungeon => Castle": lambda state:
+                self.has_small_keys(state),
+            "Dungeon => Castle -> Dungeon Strong Eyes": lambda state:
+                self.has_small_keys(state),
+            "Dungeon Escape Lower -> Dungeon Slide": lambda state:
+                self.can_attack(state),
+            "Dungeon Escape Lower -> Dungeon Escape Upper": lambda state:
+                self.can_bounce(state)
+                or self.has_gem(state)
+                or self.kick_or_plunge(state, 2),
+            "Dungeon Escape Upper -> Theatre Pillar": lambda state:
+                self.can_bounce(state)
+                or self.kick_or_plunge(state, 1)
+                or self.has_gem(state),
             "Castle Main -> Dungeon Strong Eyes": lambda state:
                 self.has_small_keys(state),
             "Castle Main -> Library Main": lambda state:
@@ -438,6 +495,22 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
         })
 
         self.location_rules.update({
+            "Dungeon - Dark Orbs": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 1) and self.can_bounce(state)
+                or self.can_slidejump(state) and self.has_plunge(state) and self.can_bounce(state)
+                or self.get_kicks(state, 3) and self.has_plunge(state),
+            "Dungeon - Past Poles": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 2),
+            "Dungeon - Rafters": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 3)
+                or self.get_kicks(state, 1) and self.has_plunge(state)
+                or self.get_kicks(state, 1) and self.can_bounce(state),
+            "Dungeon - Strong Eyes": lambda state:
+                self.has_breaker(state)
+                or self.knows_obscure(state) and self.has_gem(state) and self.kick_or_plunge(state, 2),
             "Castle Sansa - Floater In Courtyard": lambda state:
                 self.can_bounce(state) and self.has_plunge(state)
                 or self.can_bounce(state) and self.get_kicks(state, 1)
@@ -518,6 +591,32 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
         super().__init__(world)
 
         self.region_rules.update({
+            "Dungeon Mirror -> Dungeon Slide": lambda state:
+                self.can_attack(state),
+            "Dungeon Slide -> Dungeon Mirror": lambda state:
+                self.can_attack(state),
+            "Dungeon Slide -> Dungeon Strong Eyes": lambda state:
+                self.has_slide(state),
+            "Dungeon Slide -> Dungeon Escape Lower": lambda state:
+                self.can_attack(state) and self.navigate_darkrooms(state),
+            "Dungeon Strong Eyes -> Dungeon Slide": lambda state:
+                self.has_slide(state),
+            "Dungeon Strong Eyes -> Dungeon => Castle": lambda state:
+                self.has_small_keys(state),
+            "Dungeon => Castle -> Dungeon Strong Eyes": lambda state:
+                self.has_small_keys(state),
+            "Dungeon Escape Lower -> Dungeon Slide": lambda state:
+                self.can_attack(state),
+            "Dungeon Escape Lower -> Dungeon Escape Upper": lambda state:
+                self.can_bounce(state)
+                or self.has_gem(state)
+                or self.kick_or_plunge(state, 2)
+                or self.has_slide(state) and self.get_kicks(state, 1),
+            "Dungeon Escape Upper -> Theatre Pillar": lambda state:
+                self.can_bounce(state)
+                or self.kick_or_plunge(state, 1)
+                or self.has_gem(state)
+                or self.has_slide(state),
             "Castle Main -> Dungeon Strong Eyes": lambda state:
                 self.has_small_keys(state),
             "Castle Main -> Library Main": lambda state:
@@ -579,6 +678,24 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
         })
 
         self.location_rules.update({
+            "Dungeon - Dark Orbs": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 1) and self.can_bounce(state)
+                or self.get_kicks(state, 3) and self.has_plunge(state)
+                or self.has_slide(state) and self.get_kicks(state, 1)
+                or self.has_slide(state) and self.can_bounce(state),
+            "Dungeon - Past Poles": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 2),
+            "Dungeon - Rafters": lambda state:
+                self.has_gem(state)
+                or self.kick_or_plunge(state, 2)
+                or self.can_bounce(state) and self.get_kicks(state, 1)
+                or self.has_slide(state) and self.kick_or_plunge(state, 1),
+            "Dungeon - Strong Eyes": lambda state:
+                self.has_breaker(state)
+                or self.has_gem(state)
+                or self.has_slide(state) and self.get_kicks(state, 1),
             "Castle Sansa - Floater In Courtyard": lambda state:
                 self.can_bounce(state)
                 and (
@@ -654,6 +771,32 @@ class PseudoregaliaLunaticRules(PseudoregaliaRules):
         super().__init__(world)
 
         self.region_rules.update({
+            "Dungeon Mirror -> Dungeon Slide": lambda state:
+                self.can_attack(state),
+            "Dungeon Slide -> Dungeon Mirror": lambda state:
+                self.can_attack(state),
+            "Dungeon Slide -> Dungeon Strong Eyes": lambda state:
+                self.has_slide(state),
+            "Dungeon Slide -> Dungeon Escape Lower": lambda state:
+                self.can_attack(state) and self.navigate_darkrooms(state),
+            "Dungeon Strong Eyes -> Dungeon Slide": lambda state:
+                self.has_slide(state),
+            "Dungeon Strong Eyes -> Dungeon => Castle": lambda state:
+                self.has_small_keys(state),
+            "Dungeon => Castle -> Dungeon Strong Eyes": lambda state:
+                self.has_small_keys(state),
+            "Dungeon Escape Lower -> Dungeon Slide": lambda state:
+                self.can_attack(state),
+            "Dungeon Escape Lower -> Dungeon Escape Upper": lambda state:
+                self.can_bounce(state)
+                or self.has_gem(state)
+                or self.kick_or_plunge(state, 2)
+                or self.has_slide(state) and self.kick_or_plunge(state, 1),
+            "Dungeon Escape Upper -> Theatre Pillar": lambda state:
+                self.can_bounce(state)
+                or self.kick_or_plunge(state, 1)
+                or self.has_gem(state)
+                or self.has_slide(state),
             "Castle Main -> Dungeon Strong Eyes": lambda state:
                 self.has_small_keys(state),
             "Castle Main -> Library Main": lambda state:
@@ -708,6 +851,25 @@ class PseudoregaliaLunaticRules(PseudoregaliaRules):
         })
 
         self.location_rules.update({
+            "Dungeon - Dark Orbs": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 1) and self.can_bounce(state)
+                or self.get_kicks(state, 3) and self.has_plunge(state)
+                or self.has_slide(state) and self.get_kicks(state, 1)
+                or self.has_slide(state) and self.can_bounce(state),
+            "Dungeon - Past Poles": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 2)
+                or self.has_slide(state) and self.get_kicks(state, 1) and self.has_plunge(state),
+            "Dungeon - Rafters": lambda state:
+                self.has_gem(state)
+                or self.kick_or_plunge(state, 2)
+                or self.can_bounce(state) and self.kick_or_plunge(state, 1)
+                or self.has_slide(state),
+            "Dungeon - Strong Eyes": lambda state:
+                self.has_breaker(state)
+                or self.has_gem(state)
+                or self.has_slide(state) and self.kick_or_plunge(state, 1),
             "Castle Sansa - Floater In Courtyard": lambda state:
                 self.can_bounce(state)
                 and (

@@ -22,13 +22,13 @@ location_table = {
         locked_item="Dream Breaker"),
     "Dilapidated Dungeon - Slide": PseudoregaliaLocationData(
         code=2365810002,
-        region="Dungeon Mirror"),
+        region="Dungeon Slide"),
     "Dilapidated Dungeon - Alcove Near Mirror": PseudoregaliaLocationData(
         code=2365810030,
-        region="Dungeon Mirror",),
+        region="Dungeon => Castle",),
     "Dilapidated Dungeon - Dark Orbs": PseudoregaliaLocationData(
         code=2365810016,
-        region="Dungeon Mirror",),
+        region="Dungeon Escape Upper",),
     "Dilapidated Dungeon - Past Poles": PseudoregaliaLocationData(
         code=2365810031,
         region="Dungeon Strong Eyes",),
