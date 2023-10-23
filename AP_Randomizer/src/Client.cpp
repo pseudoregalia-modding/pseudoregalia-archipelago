@@ -28,7 +28,7 @@ namespace Client {
     void Client::Connect(const char* new_ip, const char* new_slot_name, const char* new_password) {
         GameData::Initialize();
         AP_Init(new_ip, "Pseudoregalia", new_slot_name, new_password);
-        AP_NetworkVersion version{ 0, 5, 0 };
+        AP_NetworkVersion version{ 0, 6, 0 };
         AP_SetClientVersion(&version);
         AP_SetItemClearCallback(&GameData::Initialize); // Yes, this calls Initialize twice. I'll fix it when I add save files.
         AP_SetLocationCheckedCallback(&GameData::CheckLocation);
