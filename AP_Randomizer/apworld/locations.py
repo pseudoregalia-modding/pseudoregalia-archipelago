@@ -20,7 +20,6 @@ location_table = {
         code=2365810001,
         region="Dungeon Mirror",
         locked_item="Dream Breaker"),
-    # TODO: need to change which item is put here based on whether progressive breaker is on or not
     "Dilapidated Dungeon - Slide": PseudoregaliaLocationData(
         code=2365810002,
         region="Dungeon Mirror"),
