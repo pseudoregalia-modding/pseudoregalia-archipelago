@@ -165,7 +165,7 @@ class PseudoregaliaRules:
         }
 
     def has_breaker(self, state) -> bool:
-        return state.has("Dream Breaker", self.player)
+        return state.has_any({"Dream Breaker", "Progressive Dream Breaker"}, self.player)
 
     def has_slide(self, state) -> bool:
         return state.has_any({"Slide", "Progressive Slide"}, self.player)
@@ -177,11 +177,11 @@ class PseudoregaliaRules:
         return state.has("Cling Gem", self.player)
 
     def can_bounce(self, state) -> bool:
-        return state.has_all({"Dream Breaker", "Ascendant Light"}, self.player)
+        return self.has_breaker(state) and state.has("Ascendant Light", self.player)
 
     def can_attack(self, state) -> bool:
         """Used where either breaker or sunsetter will work."""
-        return state.has_any({"Dream Breaker", "Sunsetter"}, self.player)
+        return self.has_breaker(state) or state.has("Sunsetter", self.player)
 
     def get_kicks(self, state, count: int) -> bool:
         kicks: int = 0
@@ -207,17 +207,19 @@ class PseudoregaliaRules:
 
     def navigate_darkrooms(self, state) -> bool:
         """Currently unused."""
-        return (state.has("Dream Breaker", self.player) or state.has("Ascendant Light", self.player))
+        return self.has_breaker(state) or state.has("Ascendant Light", self.player)
 
     def can_slidejump(self, state) -> bool:
         return (state.has_all({"Slide", "Solar Wind"}, self.player)
                 or state.count("Progressive Slide", self.player) >= 2)
 
     def can_strikebreak(self, state) -> bool:
-        return (state.has_all({"Dream Breaker", "Strikebreak"}, self.player))
+        return (state.has_all({"Dream Breaker", "Strikebreak"}, self.player)
+                or state.count("Progressive Dream Breaker", self.player) >= 2)
 
     def can_soulcutter(self, state) -> bool:
-        return (state.has_all({"Dream Breaker", "Strikebreak", "Soul Cutter"}, self.player))
+        return (state.has_all({"Dream Breaker", "Strikebreak", "Soul Cutter"}, self.player)
+                or state.count("Progressive Dream Breaker", self.player) >= 3)
 
     def knows_obscure(self, state) -> bool:
         return bool(self.world.multiworld.obscure_tricks[self.player])

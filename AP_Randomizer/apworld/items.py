@@ -15,7 +15,8 @@ class PseudoregaliaItemData(NamedTuple):
 item_table: Dict[str, PseudoregaliaItemData] = {
     "Dream Breaker": PseudoregaliaItemData(
         code=2365810001,
-        classification=ItemClassification.progression),
+        classification=ItemClassification.progression,
+        can_create=lambda multiworld, player: not bool(multiworld.progressive_breaker[player])),
     "Indignation": PseudoregaliaItemData(
         code=2365810002,
         classification=ItemClassification.useful),
@@ -36,7 +37,8 @@ item_table: Dict[str, PseudoregaliaItemData] = {
         classification=ItemClassification.progression),
     "Strikebreak": PseudoregaliaItemData(
         code=2365810007,
-        classification=ItemClassification.progression),
+        classification=ItemClassification.progression,
+        can_create=lambda multiworld, player: not bool(multiworld.progressive_breaker[player])),
     "Cling Gem": PseudoregaliaItemData(
         code=2365810008,
         classification=ItemClassification.progression),
@@ -45,7 +47,8 @@ item_table: Dict[str, PseudoregaliaItemData] = {
         classification=ItemClassification.progression),
     "Soul Cutter": PseudoregaliaItemData(
         code=2365810010,
-        classification=ItemClassification.progression),
+        classification=ItemClassification.progression,
+        can_create=lambda multiworld, player: not bool(multiworld.progressive_breaker[player])),
 
     "Heliacal Power": PseudoregaliaItemData(
         code=2365810011,
@@ -104,6 +107,10 @@ item_table: Dict[str, PseudoregaliaItemData] = {
         code=2365810027,
         classification=ItemClassification.progression,
         can_create=lambda multiworld, player: bool(multiworld.split_sun_greaves[player])),
+    "Progressive Dream Breaker": PseudoregaliaItemData(
+        code=2365810028,
+        classification=ItemClassification.progression,
+        can_create=lambda multiworld, player: bool(multiworld.progressive_breaker[player])),
 
     "Unlocked Door": PseudoregaliaItemData(
         classification=ItemClassification.useful),
@@ -120,6 +127,7 @@ item_frequencies = {
     "Health Piece": 16,
     "Progressive Slide": 2,
     "Air Kick": 4,
+    "Progressive Dream Breaker": 2,  # Will need to change this later when dream breaker stops being locked to vanilla
 }
 
 item_groups: Dict[str, Set[str]] = {

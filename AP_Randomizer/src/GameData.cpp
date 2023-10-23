@@ -35,6 +35,7 @@ namespace GameData {
         {2365810018, L"outfitPro"},
         {2365810026, L"progressiveSlide"},
         {2365810027, L"extraKick"}, // Used for split kicks, just treats them like heliacal
+        {2365810028, L"progressiveBreaker"},
     };
 
     int GameData::GetHealthPieces() {
@@ -226,7 +227,7 @@ namespace GameData {
         if (1 <= id && id <= 18) {
             return ItemType::Ability;
         }
-        if (id == 26) { // Progressive Slide
+        if (26 <= id && id <= 28) { // Progressive items and split kicks
             return ItemType::Ability;
         }
         if (id == 19) {

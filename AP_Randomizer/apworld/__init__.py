@@ -64,6 +64,14 @@ class PseudoregaliaWorld(World):
         for location_name, location_data in self.locked_locations.items():
             if not location_data.can_create(self.multiworld, self.player):
                 continue
+
+            # Doing this really stupidly because breaker's locking will change after logic rework is done
+            if location_name == "Dilapidated Dungeon - Dream Breaker":
+                if bool(self.multiworld.progressive_breaker[self.player]):
+                    locked_item = self.create_item("Progressive Dream Breaker")
+                    self.multiworld.get_location(location_name, self.player).place_locked_item(locked_item)
+                    continue
+
             locked_item = self.create_item(location_table[location_name].locked_item)
             self.multiworld.get_location(location_name, self.player).place_locked_item(locked_item)
 
@@ -73,6 +81,7 @@ class PseudoregaliaWorld(World):
                 "logic_level": self.multiworld.logic_level[self.player].value,
                 "obscure_tricks": bool(self.multiworld.obscure_tricks[self.player]),
                 "progressive_slide": bool(self.multiworld.progressive_slide[self.player]),
+                "progressive_breaker": bool(self.multiworld.progressive_breaker[self.player]),
                 "split_sun_greaves": bool(self.multiworld.split_sun_greaves[self.player]), }
 
     def set_rules(self):
