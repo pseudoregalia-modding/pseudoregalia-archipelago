@@ -12,7 +12,7 @@ class LogicLevel(Choice):
     Expert: Requires more difficult movement tricks such as ultrahops and reverse wallkicks, and obscure knowledge.
     Lunatic: Requires extremely difficult jumps and creative thinking. No holds barred. You have been warned.
 
-    Currently only applies to Castle Sansa.
+    Currently only applies to Castle, Dungeon, and Library.
     """
     display_name = "Logic Level"
     option_normal = NORMAL
@@ -27,7 +27,7 @@ class ObscureTricks(Toggle):
     Enables logic for tricks and paths that aren't difficult to execute but may not be obvious or commonly known.
     This option is forced on if logic level is set to Expert or Lunatic.
 
-    Currently only applies to Castle Sansa.
+    Currently only applies to Castle, Dungeon, and Library.
     """
     display_name = "Obscure Tricks"
 
