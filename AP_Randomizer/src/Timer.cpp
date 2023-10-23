@@ -11,6 +11,7 @@ namespace Timer {
 			};
 
 		std::thread timer_thread(run_timer);
+		timer_thread.detach();
 	}
 
 	// Sets the input boolean to true, sets a timer, and sets the boolean back to false when it expires.
@@ -22,5 +23,6 @@ namespace Timer {
 			};
 
 		std::thread locker_thread(run_timer);
+		locker_thread.detach();
 	}
 }
