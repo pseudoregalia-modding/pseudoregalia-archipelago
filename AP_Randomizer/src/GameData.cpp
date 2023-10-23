@@ -3,40 +3,44 @@
 #include "Logger.hpp"
 
 namespace GameData {
-    ItemType GetItemType(int64_t);
+    // Private members
+    namespace {
+        ItemType GetItemType(int64_t);
 
-    int health_pieces;
-    int small_keys;
-    bool major_keys[5];
-    std::map<std::wstring, int> upgrade_table;
-    std::unordered_map<std::wstring, std::unordered_map<int64_t, Collectible>> collectible_table;
-    std::unordered_map<std::string, bool> options;
-    bool slidejump_owned;
-    bool slidejump_disabled;
+        int health_pieces;
+        int small_keys;
+        bool major_keys[5];
+        std::map<std::wstring, int> upgrade_table;
+        std::unordered_map<std::wstring, std::unordered_map<int64_t, Collectible>> collectible_table;
+        std::unordered_map<std::string, bool> options;
+        bool slidejump_owned;
+        bool slidejump_disabled;
 
-    const std::map<int64_t, std::wstring> lookup_id_to_upgrade = {
-        {2365810001, L"attack"},
-        {2365810002, L"powerBoost"},
-        {2365810003, L"airKick"},
-        {2365810004, L"slide"},
-        {2365810005, L"SlideJump"},
-        {2365810006, L"plunge"},
-        {2365810007, L"chargeAttack"},
-        {2365810008, L"wallRide"},
-        {2365810009, L"Light"},
-        {2365810010, L"projectile"},
-        {2365810011, L"extraKick"},
-        {2365810012, L"airRecovery"},
-        {2365810013, L"mobileHeal"},
-        {2365810014, L"magicHaste"},
-        {2365810015, L"healBoost"},
-        {2365810016, L"damageBoost"},
-        {2365810017, L"magicPiece"},
-        {2365810018, L"outfitPro"},
-        {2365810026, L"progressiveSlide"},
-        {2365810027, L"extraKick"}, // Used for split kicks, just treats them like heliacal
-        {2365810028, L"progressiveBreaker"},
-    };
+        const std::map<int64_t, std::wstring> lookup_id_to_upgrade = {
+            {2365810001, L"attack"},
+            {2365810002, L"powerBoost"},
+            {2365810003, L"airKick"},
+            {2365810004, L"slide"},
+            {2365810005, L"SlideJump"},
+            {2365810006, L"plunge"},
+            {2365810007, L"chargeAttack"},
+            {2365810008, L"wallRide"},
+            {2365810009, L"Light"},
+            {2365810010, L"projectile"},
+            {2365810011, L"extraKick"},
+            {2365810012, L"airRecovery"},
+            {2365810013, L"mobileHeal"},
+            {2365810014, L"magicHaste"},
+            {2365810015, L"healBoost"},
+            {2365810016, L"damageBoost"},
+            {2365810017, L"magicPiece"},
+            {2365810018, L"outfitPro"},
+            {2365810026, L"progressiveSlide"},
+            {2365810027, L"extraKick"}, // Used for split kicks, just treats them like heliacal
+            {2365810028, L"progressiveBreaker"},
+        };
+    } // End private members
+
 
     int GameData::GetHealthPieces() {
         return health_pieces;
@@ -54,6 +58,10 @@ namespace GameData {
         return upgrade_table;
     }
 
+    void GameData::SetOption(std::string option_name, bool is_true) {
+        options[option_name] = is_true;
+    }
+
     bool GameData::GetOption(std::string option_name) {
         try
         {
@@ -64,10 +72,6 @@ namespace GameData {
             Logger::Log(option_name + " was not found in options.", Logger::LogType::Error);
             return false;
         }
-    }
-
-    void GameData::SetOption(std::string option_name, bool is_true) {
-        options[option_name] = is_true;
     }
 
     std::unordered_map<int64_t, Collectible> GameData::GetCollectiblesOfZone(std::wstring world_name) {
@@ -222,26 +226,6 @@ namespace GameData {
         };
     }
 
-    ItemType GameData::GetItemType(int64_t id) {
-        id -= 2365810000;
-        if (1 <= id && id <= 18) {
-            return ItemType::Ability;
-        }
-        if (26 <= id && id <= 28) { // Progressive items and split kicks
-            return ItemType::Ability;
-        }
-        if (id == 19) {
-            return ItemType::HealthPiece;
-        }
-        if (id == 20) {
-            return ItemType::SmallKey;
-        }
-        if (21 <= id && id <= 25) {
-            return ItemType::MajorKey;
-        }
-        return ItemType::Unknown;
-    }
-
     ItemType GameData::ReceiveItem(int64_t id) {
         ItemType type = GetItemType(id);
         switch (type) {
@@ -302,4 +286,28 @@ namespace GameData {
     bool GameData::SlideJumpDisabled() {
         return slidejump_disabled;
     }
+
+
+    // Private functions
+    namespace {
+        ItemType GetItemType(int64_t id) {
+            id -= 2365810000;
+            if (1 <= id && id <= 18) {
+                return ItemType::Ability;
+            }
+            if (26 <= id && id <= 28) { // Progressive items and split kicks
+                return ItemType::Ability;
+            }
+            if (id == 19) {
+                return ItemType::HealthPiece;
+            }
+            if (id == 20) {
+                return ItemType::SmallKey;
+            }
+            if (21 <= id && id <= 25) {
+                return ItemType::MajorKey;
+            }
+            return ItemType::Unknown;
+        }
+    } // End private functions
 }

@@ -6,17 +6,22 @@
 #include "Logger.hpp"
 
 namespace Client {
-    void ReceiveItem(int64_t, bool);
-    void CheckLocation(int64_t);
-    bool ConnectionStatusChanged();
-    void SetSlotNumber(int);
-    void SetSunGreaves(int);
-    bool SetDeathLinkTimer(int);
-    int connection_timer;
-    AP_ConnectionStatus connection_status;
-    int slot_number;
-    int current_death_link_timer;
-    const int death_link_timer_max = 400;
+    // Private members
+    namespace {
+        void ReceiveItem(int64_t, bool);
+        void CheckLocation(int64_t);
+        bool ConnectionStatusChanged();
+        void SetSlotNumber(int);
+        void SetSunGreaves(int);
+        bool SetDeathLinkTimer(int);
+
+        AP_ConnectionStatus connection_status;
+        int connection_timer;
+        int slot_number;
+        int current_death_link_timer;
+        const int death_link_timer_max = 400;
+    } // End private members
+
 
     void Client::Connect(const char* new_ip, const char* new_slot_name, const char* new_password) {
         GameData::Initialize();
@@ -42,24 +47,9 @@ namespace Client {
         // No need to call SyncItems, that will happen through the callback set in AP_SetItemRecvCallback
     }
 
-    void Client::SetSlotNumber(int num) {
-        slot_number = num;
-    }
-
-    void SetSunGreaves(int is_true) {
-        GameData::SetOption("split_sun_greaves", is_true);
-        GameData::SetOption("normal_greaves", !is_true);
-    }
-
     void Client::SendCheck(int64_t id, std::wstring current_world) {
         Logger::Log(L"Sending check with id " + std::to_wstring(id));
         AP_SendItem(id);
-    }
-
-    void Client::ReceiveItem(int64_t id, bool notify) {
-        Logger::Log(L"Receiving item with id " + std::to_wstring(id));
-        GameData::ReceiveItem(id);
-        Engine::SyncItems();
     }
     
     // Sends game completion flag to Archipelago.
@@ -80,14 +70,6 @@ namespace Client {
         AP_SetServerData(completion_flag);
         delete completion_flag;
         delete operation;
-    }
-
-    bool Client::ConnectionStatusChanged() {
-        if (connection_status != AP_GetConnectionStatus()) {
-            connection_status = AP_GetConnectionStatus();
-            return true;
-        }
-        return false;
     }
 
     void Client::PollServer() {
@@ -130,18 +112,46 @@ namespace Client {
         }
     }
 
-    bool SetDeathLinkTimer(int new_time) {
-        if (current_death_link_timer > 0) {
-            return false;
-        }
-        current_death_link_timer = new_time;
-        return true;
-    }
-
     void Client::SendDeathLink() {
         if (SetDeathLinkTimer(death_link_timer_max)) {
             Logger::Log(L"Sending death link");
             AP_DeathLinkSend();
         }
     }
+
+
+    // Private functions
+    namespace {
+        void SetSlotNumber(int num) {
+            slot_number = num;
+        }
+
+        void SetSunGreaves(int is_true) {
+            GameData::SetOption("split_sun_greaves", is_true);
+            GameData::SetOption("normal_greaves", !is_true);
+        }
+
+
+        void ReceiveItem(int64_t id, bool notify) {
+            Logger::Log(L"Receiving item with id " + std::to_wstring(id));
+            GameData::ReceiveItem(id);
+            Engine::SyncItems();
+        }
+
+        bool SetDeathLinkTimer(int new_time) {
+            if (current_death_link_timer > 0) {
+                return false;
+            }
+            current_death_link_timer = new_time;
+            return true;
+        }
+
+        bool ConnectionStatusChanged() {
+            if (connection_status != AP_GetConnectionStatus()) {
+                connection_status = AP_GetConnectionStatus();
+                return true;
+            }
+            return false;
+        }
+    } // End private functions
 }

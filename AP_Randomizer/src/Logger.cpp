@@ -10,27 +10,18 @@ namespace Logger {
 	using namespace RC::LogLevel;
 	using RC::Unreal::FText;
 
-	void PrintToPlayer(std::wstring);
-	void PrintToPlayer(std::string);
+	// Private members
+	namespace {
+		void PrintToPlayer(std::wstring);
+		void PrintToPlayer(std::string);
 
-	std::list<std::wstring> message_queue;
-	std::list<std::wstring> system_message_queue;
-	int message_timer;
-	bool messages_hidden;
-	bool messages_muted;
+		std::list<std::wstring> message_queue;
+		std::list<std::wstring> system_message_queue;
+		int message_timer;
+		bool messages_hidden;
+		bool messages_muted;
+	} // End private members
 
-	void Logger::PrintToPlayer(std::wstring message) {
-		if (!messages_hidden) {
-			message_queue.push_back(message);
-		}
-	}
-
-	void Logger::PrintToPlayer(std::string message) {
-		// Convert message to wstring and just pass it to the wstring version of PrintToPlayer
-		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-		std::wstring newwide(message.begin(), message.end());
-		PrintToPlayer(converter.from_bytes(message));
-	}
 
 	void Logger::Log(std::string text, LogType type) {
 		// Convert message to wstring and just pass it to the wstring version of Log
@@ -119,4 +110,21 @@ namespace Logger {
 			Log(L"Messages are no longer hidden.", LogType::System);
 		}
 	}
+
+
+	// Private functions
+	namespace {
+		void PrintToPlayer(std::wstring message) {
+			if (!messages_hidden) {
+				message_queue.push_back(message);
+			}
+		}
+
+		void PrintToPlayer(std::string message) {
+			// Convert message to wstring and just pass it to the wstring version of PrintToPlayer
+			std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+			std::wstring newwide(message.begin(), message.end());
+			PrintToPlayer(converter.from_bytes(message));
+		}
+	} // End private functions
 }
