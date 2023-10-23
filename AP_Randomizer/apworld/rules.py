@@ -25,7 +25,7 @@ class PseudoregaliaRules:
                 or self.get_kicks(state, 3),
             "Keep Main -> Underbelly Hole": lambda state:
                 self.kick_or_plunge(state, 1),
-            "Keep Main -> Theatre Main": lambda state:
+            "Keep Main -> Theatre Outside Scythe Corridor": lambda state:
                 self.has_gem(state) and self.get_kicks(state, 3)
                 or self.has_gem(state) and self.can_slidejump(state),
             "Empty Bailey -> Castle Main": lambda state: True,
@@ -48,6 +48,9 @@ class PseudoregaliaRules:
             "Theatre Pillar -> Theatre Main": lambda state:
                 state.has_all({"Sunsetter", "Cling Gem"}, self.player)
                 or self.has_plunge(state) and self.get_kicks(state, 4),
+            "Theatre Outside Scythe Corridor": lambda state:
+                self.has_gem(state) and self.get_kicks(state, 3)
+                or self.has_gem(state) and self.can_slidejump(state),
         }
 
         self.location_rules = {
@@ -265,7 +268,7 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
                 self.can_bounce(state)
                 or self.get_kicks(state, 1) and self.has_plunge(state)
                 or self.get_kicks(state, 3),
-            "Dungeon Escape Upper -> Theatre Pillar": lambda state:
+            "Dungeon Escape Upper -> Theatre Outside Scythe Corridor": lambda state:
                 self.can_bounce(state)
                 or self.kick_or_plunge(state, 1)
                 or self.has_gem(state),
@@ -435,7 +438,7 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
                 self.can_bounce(state)
                 or self.has_gem(state)
                 or self.kick_or_plunge(state, 2),
-            "Dungeon Escape Upper -> Theatre Pillar": lambda state:
+            "Dungeon Escape Upper -> Theatre Outside Scythe Corridor": lambda state:
                 self.can_bounce(state)
                 or self.kick_or_plunge(state, 1)
                 or self.has_gem(state),
@@ -612,7 +615,7 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
                 or self.has_gem(state)
                 or self.kick_or_plunge(state, 2)
                 or self.has_slide(state) and self.get_kicks(state, 1),
-            "Dungeon Escape Upper -> Theatre Pillar": lambda state:
+            "Dungeon Escape Upper -> Theatre Outside Scythe Corridor": lambda state:
                 self.can_bounce(state)
                 or self.kick_or_plunge(state, 1)
                 or self.has_gem(state)
@@ -792,7 +795,7 @@ class PseudoregaliaLunaticRules(PseudoregaliaRules):
                 or self.has_gem(state)
                 or self.kick_or_plunge(state, 2)
                 or self.has_slide(state) and self.kick_or_plunge(state, 1),
-            "Dungeon Escape Upper -> Theatre Pillar": lambda state:
+            "Dungeon Escape Upper -> Theatre Outside Scythe Corridor": lambda state:
                 self.can_bounce(state)
                 or self.kick_or_plunge(state, 1)
                 or self.has_gem(state)
