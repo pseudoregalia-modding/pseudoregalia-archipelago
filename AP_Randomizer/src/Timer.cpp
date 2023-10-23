@@ -1,3 +1,4 @@
+#pragma once
 #include <thread>
 #include <functional>
 #include "Timer.hpp"
