@@ -8,34 +8,42 @@
 #include "Logger.hpp"
 
 namespace Engine {
-	void SyncMajorKeys();
-	void SyncHealthPieces();
-	void SyncSmallKeys();
-	void SyncAbilities();
+	using namespace RC::Unreal; // Give Engine easy access to Unreal objects
 
-	std::mutex blueprint_function_mutex;
+	// Private members
+	namespace {
+		void SyncMajorKeys();
+		void SyncHealthPieces();
+		void SyncSmallKeys();
+		void SyncAbilities();
+
+		struct BlueprintFunctionInfo {
+			std::wstring parent_name;
+			std::wstring function_name;
+			std::shared_ptr<void> params;
+		};
+
+		std::mutex blueprint_function_mutex;
+		bool awaiting_item_sync;
+		std::queue<BlueprintFunctionInfo> blueprint_function_queue;
+	} // End private members
 
 
-	struct BlueprintFunctionInfo {
-		std::wstring parent_name;
-		std::wstring function_name;
-		std::shared_ptr<void> params;
-	};
-
-	bool awaiting_item_sync;
-	std::queue<BlueprintFunctionInfo> blueprint_function_queue;
-
+	// Returns the name of the current map.
 	std::wstring Engine::GetWorldName() {
 		UObject* player_controller = UObjectGlobals::FindFirstOf(STR("PlayerController"));
 		return player_controller->GetWorld()->GetName();
 	}
 
+	// Queues up a blueprint function to be executed.
 	void Engine::ExecuteBlueprintFunction(std::wstring new_parent, std::wstring new_name, std::shared_ptr<void> params) {
 		std::lock_guard<std::mutex> guard(blueprint_function_mutex);
 		blueprint_function_queue.push(BlueprintFunctionInfo(new_parent, new_name, params));
 	}
 
+	// Runs once every engine tick.
 	void Engine::OnTick(UObject* blueprint) {
+		// Queue up item syncs together to avoid queueing a bajillion functions on connection or world release.
 		if (awaiting_item_sync) {
 			SyncHealthPieces();
 			SyncSmallKeys();
@@ -44,6 +52,7 @@ namespace Engine {
 			awaiting_item_sync = false;
 		}
 
+		// Engine tick runs in a separate thread from the client so it needs to be locked.
 		std::lock_guard<std::mutex> guard(blueprint_function_mutex);
 		while (!blueprint_function_queue.empty()) {
 			BlueprintFunctionInfo info = blueprint_function_queue.front();
@@ -68,6 +77,7 @@ namespace Engine {
 		}
 	}
 
+	// Calls blueprint's AP_SpawnCollectible function for each unchecked collectible in a map.
 	void Engine::SpawnCollectibles() {
 		// This function must loop through instead of calling once with an array;
 		// as of 10/11/23 the params struct method I use can't easily represent FVectors or FTransforms in C++.
@@ -78,14 +88,11 @@ namespace Engine {
 			FVector position;
 		};
 		std::unordered_map<int64_t, GameData::Collectible> collectible_map = GameData::GetCollectiblesOfZone(GetWorldName());
-		for (auto& pair : collectible_map) {
-			int64_t id = pair.first;
-			GameData::Collectible collectible = pair.second;
-
+		for (const auto& [id, collectible] : collectible_map) {
 			// Return if the collectible shouldn't be spawned based on options
-			if (!pair.second.RequiredOption().empty()
-				&& !GameData::GetOption(pair.second.RequiredOption())) {
-				Logger::Log("Collectible with id " + std::to_string(id) + " was not spawned since option " + pair.second.RequiredOption() + " was not enabled.");
+			if (!collectible.RequiredOption().empty()
+				&& !GameData::GetOption(collectible.RequiredOption())) {
+				Logger::Log("Collectible with id " + std::to_string(id) + " was not spawned since option " + collectible.RequiredOption() + " was not enabled.");
 				continue;
 			}
 
@@ -100,53 +107,9 @@ namespace Engine {
 		}
 	}
 
+	// Queues all item sync functions.
 	void Engine::SyncItems() {
 		awaiting_item_sync = true;
-	}
-
-	void Engine::SyncAbilities() {
-		struct AddUpgradeInfo {
-			TArray<FName> names;
-			TArray<int> counts;
-			bool slidejump_disabled;
-		};
-		TArray<FName> ue_names;
-		TArray<int> ue_counts;
-		bool toggle = GameData::SlideJumpDisabled();
-
-		for (const auto& pair : GameData::GetUpgradeTable()) {
-			std::unique_ptr<FName> new_name(new FName(pair.first));
-			ue_names.Add(*new_name);
-			ue_counts.Add(pair.second);
-		}
-
-		std::shared_ptr<void> upgrade_params(new AddUpgradeInfo{ ue_names, ue_counts, toggle });
-		ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetUpgrades", upgrade_params);
-	}
-
-	void Engine::SyncHealthPieces() {
-		std::shared_ptr<void> hp_params(new int(GameData::GetHealthPieces()));
-		ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetHealthPieces", hp_params);
-	}
-
-	void Engine::SyncSmallKeys() {
-		std::shared_ptr<void> small_key_params(new int(GameData::GetSmallKeys()));
-		ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetSmallKeys", small_key_params);
-	}
-
-	void Engine::SyncMajorKeys() {
-		struct MajorKeyInfo {
-			TArray<bool> keys;
-		};
-		TArray<bool> ue_keys;
-		bool* major_keys = GameData::GetMajorKeys();
-		for (int i = 0; i < 5; i++)
-		{
-			ue_keys.Add(major_keys[i]);
-		}
-
-		std::shared_ptr<void> major_key_params(new MajorKeyInfo{ ue_keys });
-		ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetMajorKeys", major_key_params);
 	}
 
 	void Engine::ToggleSlideJump() {
@@ -155,8 +118,58 @@ namespace Engine {
 		}
 	}
 
+	// Kills Sybil.
 	void Engine::VaporizeGoat() {
 		std::shared_ptr<void> dissolve_delay(new double(0));
 		ExecuteBlueprintFunction(L"BP_PlayerGoatMain_C", L"BPI_CombatDeath", dissolve_delay);
 	}
+
+
+	// Private functions
+	namespace {
+		void SyncAbilities() {
+			struct AddUpgradeInfo {
+				TArray<FName> names;
+				TArray<int> counts;
+				bool slidejump_disabled;
+			};
+			TArray<FName> ue_names;
+			TArray<int> ue_counts;
+			bool toggle = GameData::SlideJumpDisabled();
+
+			for (const auto& [upgrade_name, upgrade_count] : GameData::GetUpgradeTable()) {
+				std::unique_ptr<FName> new_name(new FName(upgrade_name));
+				ue_names.Add(*new_name);
+				ue_counts.Add(upgrade_count);
+			}
+
+			std::shared_ptr<void> upgrade_params(new AddUpgradeInfo{ ue_names, ue_counts, toggle });
+			ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetUpgrades", upgrade_params);
+		}
+
+		void SyncHealthPieces() {
+			std::shared_ptr<void> hp_params(new int(GameData::GetHealthPieces()));
+			ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetHealthPieces", hp_params);
+		}
+
+		void SyncSmallKeys() {
+			std::shared_ptr<void> small_key_params(new int(GameData::GetSmallKeys()));
+			ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetSmallKeys", small_key_params);
+		}
+
+		void SyncMajorKeys() {
+			struct MajorKeyInfo {
+				TArray<bool> keys;
+			};
+			TArray<bool> ue_keys;
+			bool* major_keys = GameData::GetMajorKeys();
+			for (int i = 0; i < 5; i++)
+			{
+				ue_keys.Add(major_keys[i]);
+			}
+
+			std::shared_ptr<void> major_key_params(new MajorKeyInfo{ ue_keys });
+			ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetMajorKeys", major_key_params);
+		}
+	} // End private functions
 }

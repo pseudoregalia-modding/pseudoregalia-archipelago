@@ -2,7 +2,7 @@
 #include "Unreal/UObject.hpp"
 
 namespace Engine {
-	using namespace RC::Unreal;
+	using RC::Unreal::UObject;
 
 	void ExecuteInGameThread(std::function<void(UObject*)>);
 	void ExecuteBlueprintFunction(std::wstring, std::wstring, std::shared_ptr<void>);
