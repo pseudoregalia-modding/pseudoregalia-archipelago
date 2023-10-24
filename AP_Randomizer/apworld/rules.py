@@ -256,8 +256,6 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
                 self.can_bounce(state)
                 or self.kick_or_plunge(state, 1)
                 or self.has_gem(state),
-            "Castle Main -> Dungeon Strong Eyes": lambda state:
-                self.has_small_keys(state),
             "Castle Main -> Library Main": lambda state:
                 self.has_breaker(state)
                 or self.knows_obscure(state) and self.can_attack(state),
@@ -426,8 +424,6 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
                 self.can_bounce(state)
                 or self.kick_or_plunge(state, 1)
                 or self.has_gem(state),
-            "Castle Main -> Dungeon Strong Eyes": lambda state:
-                self.has_small_keys(state),
             "Castle Main -> Library Main": lambda state:
                 self.has_breaker(state)
                 or self.knows_obscure(state) and self.can_attack(state),
@@ -604,8 +600,6 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
                 or self.kick_or_plunge(state, 1)
                 or self.has_gem(state)
                 or self.has_slide(state),
-            "Castle Main -> Dungeon Strong Eyes": lambda state:
-                self.has_small_keys(state),
             "Castle Main -> Library Main": lambda state:
                 self.can_attack(state),
             "Castle Main -> Theatre Pillar": lambda state:
@@ -784,8 +778,6 @@ class PseudoregaliaLunaticRules(PseudoregaliaRules):
                 or self.kick_or_plunge(state, 1)
                 or self.has_gem(state)
                 or self.has_slide(state),
-            "Castle Main -> Dungeon Strong Eyes": lambda state:
-                self.has_small_keys(state),
             "Castle Main -> Library Main": lambda state:
                 self.can_attack(state),
             "Castle Main -> Theatre Pillar": lambda state:
