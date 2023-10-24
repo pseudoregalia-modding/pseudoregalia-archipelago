@@ -42,18 +42,18 @@ class SafeSmallKeys(DefaultOnToggle):
     display_name = "Safe Small Keys"
 
 
-class ProgressiveSlide(DefaultOnToggle):
-    """
-    Replaces Slide and Solar Wind with two Progressive Slide items.
-    """
-    display_name = "Progressive Slide"
-
-
 class ProgressiveBreaker(DefaultOnToggle):
     """
     Replaces Dream Breaker, Strikebreak, and Soul Cutter with three Progressive Dream Breaker items.
     """
     display_name = "Progressive Dream Breaker"
+
+
+class ProgressiveSlide(DefaultOnToggle):
+    """
+    Replaces Slide and Solar Wind with two Progressive Slide items.
+    """
+    display_name = "Progressive Slide"
 
 
 class SplitSunGreaves(Toggle):
@@ -66,8 +66,8 @@ class SplitSunGreaves(Toggle):
 pseudoregalia_options = {
     "logic_level": LogicLevel,
     "obscure_logic": ObscureLogic,
-    "progressive_slide": ProgressiveSlide,
     "progressive_breaker": ProgressiveBreaker,
+    "progressive_slide": ProgressiveSlide,
     "split_sun_greaves": SplitSunGreaves,
     "death_link": DeathLink,
 }

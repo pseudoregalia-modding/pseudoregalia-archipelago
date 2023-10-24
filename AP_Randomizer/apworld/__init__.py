@@ -80,8 +80,8 @@ class PseudoregaliaWorld(World):
                 "death_link": bool(self.multiworld.death_link[self.player]),
                 "logic_level": self.multiworld.logic_level[self.player].value,
                 "obscure_logic": bool(self.multiworld.obscure_logic[self.player]),
-                "progressive_slide": bool(self.multiworld.progressive_slide[self.player]),
                 "progressive_breaker": bool(self.multiworld.progressive_breaker[self.player]),
+                "progressive_slide": bool(self.multiworld.progressive_slide[self.player]),
                 "split_sun_greaves": bool(self.multiworld.split_sun_greaves[self.player]), }
 
     def set_rules(self):
