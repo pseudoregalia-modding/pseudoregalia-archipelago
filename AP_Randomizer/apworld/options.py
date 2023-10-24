@@ -22,14 +22,14 @@ class LogicLevel(Choice):
     default = NORMAL
 
 
-class ObscureTricks(Toggle):
+class ObscureLogic(Toggle):
     """
-    Enables logic for tricks and paths that aren't difficult to execute but may not be obvious or commonly known.
+    Enables logic for obscure knowledge and creative pathing that isn't difficult to execute but may not be obvious or commonly known.
     This option is forced on if logic level is set to Expert or Lunatic.
 
     Currently only applies to Castle, Dungeon, and Library.
     """
-    display_name = "Obscure Tricks"
+    display_name = "Obscure Logic"
 
 
 class SafeSmallKeys(DefaultOnToggle):
@@ -65,7 +65,7 @@ class SplitSunGreaves(Toggle):
 
 pseudoregalia_options = {
     "logic_level": LogicLevel,
-    "obscure_tricks": ObscureTricks,
+    "obscure_logic": ObscureLogic,
     "progressive_slide": ProgressiveSlide,
     "progressive_breaker": ProgressiveBreaker,
     "split_sun_greaves": SplitSunGreaves,
