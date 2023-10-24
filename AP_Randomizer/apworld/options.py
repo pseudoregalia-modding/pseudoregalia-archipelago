@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from Options import Toggle, Range, Choice, DefaultOnToggle, DeathLink
+from Options import Toggle, Range, Choice, DefaultOnToggle, DeathLink, PerGameCommonOptions
 from .constants.difficulties import NORMAL, HARD, EXPERT, LUNATIC
 
 
@@ -63,11 +63,11 @@ class SplitSunGreaves(Toggle):
     display_name = "Split Sun Greaves"
 
 
-pseudoregalia_options = {
-    "logic_level": LogicLevel,
-    "obscure_tricks": ObscureTricks,
-    "progressive_slide": ProgressiveSlide,
-    "progressive_breaker": ProgressiveBreaker,
-    "split_sun_greaves": SplitSunGreaves,
-    "death_link": DeathLink,
-}
+@dataclass
+class PseudoregaliaOptions(PerGameCommonOptions):
+    logic_level: LogicLevel
+    obscure_tricks: ObscureTricks
+    progressive_slide: ProgressiveSlide
+    progressive_breaker: ProgressiveBreaker
+    split_sun_greaves: SplitSunGreaves
+    death_link: DeathLink

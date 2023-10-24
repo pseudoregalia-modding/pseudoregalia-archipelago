@@ -202,7 +202,7 @@ class PseudoregaliaRules:
                 or state.count("Progressive Dream Breaker", self.player) >= 3)
 
     def knows_obscure(self, state) -> bool:
-        return bool(self.world.multiworld.obscure_tricks[self.player])
+        return self.world.options.obscure_tricks.value
 
     def set_pseudoregalia_rules(self) -> None:
         multiworld = self.world.multiworld
