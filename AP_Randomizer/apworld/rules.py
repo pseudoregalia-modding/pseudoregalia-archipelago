@@ -328,7 +328,9 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
                 or self.can_bounce(state) and self.get_kicks(state, 2)
                 or self.has_gem(state) and self.get_kicks(state, 2)
                 or self.has_gem(state) and self.has_plunge(state)
-                or self.get_kicks(state, 4),
+                or self.get_kicks(state, 4)
+                or self.knows_obscure(state) and self.can_bounce(state) and self.get_kicks(state, 1)
+                or self.knows_obscure(state) and self.has_gem(state) and self.get_kicks(state, 1),
             "Castle Sansa - Locked Door": lambda state:
                 self.has_small_keys(state),
             "Castle Sansa - Platform In Main Halls": lambda state:
@@ -352,7 +354,8 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
                 self.can_bounce(state)
                 or self.has_gem(state)
                 or self.get_kicks(state, 2)
-                or self.get_kicks(state, 1) and self.can_slidejump(state),
+                or self.get_kicks(state, 1) and self.can_slidejump(state)
+                or self.knows_obscure(state) and self.has_plunge(state),
             "Castle Sansa - Alcove Near Scythe Corridor": lambda state:
                 self.has_gem(state) and self.get_kicks(state, 1) and self.has_plunge(state)
                 or self.kick_or_plunge(state, 4),
@@ -496,9 +499,10 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
                 or self.knows_obscure(state) and self.has_gem(state) and self.kick_or_plunge(state, 2),
             "Castle Sansa - Floater In Courtyard": lambda state:
                 self.can_bounce(state) and self.has_plunge(state)
-                or self.can_bounce(state) and self.get_kicks(state, 1)
+                or self.can_bounce(state) and self.get_kicks(state, 2)
                 or self.kick_or_plunge(state, 4)
-                or self.has_gem(state),
+                or self.has_gem(state)
+                or self.knows_obscure(state) and self.can_bounce(state) and self.get_kicks(state, 1),
             "Castle Sansa - Locked Door": lambda state:
                 self.has_small_keys(state),
             "Castle Sansa - Platform In Main Halls": lambda state:
@@ -510,7 +514,8 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
                 or self.knows_obscure(state) and self.can_slidejump(state) and self.has_plunge(state),
             "Castle Sansa - Alcove Near Dungeon": lambda state:
                 self.has_gem(state)
-                or self.kick_or_plunge(state, 1),
+                or self.get_kicks(state, 1)
+                or self.knows_obscure(state) and self.has_plunge(state),
             "Castle Sansa - Balcony": lambda state:
                 self.has_gem(state)
                 or self.kick_or_plunge(state, 3)
