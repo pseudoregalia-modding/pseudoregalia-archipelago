@@ -138,8 +138,8 @@ namespace Engine {
 			bool toggle = GameData::SlideJumpDisabled();
 
 			for (const auto& [upgrade_name, upgrade_count] : GameData::GetUpgradeTable()) {
-				std::unique_ptr<FName> new_name(new FName(upgrade_name));
-				ue_names.Add(*new_name);
+				FName new_name(upgrade_name);
+				ue_names.Add(new_name);
 				ue_counts.Add(upgrade_count);
 			}
 

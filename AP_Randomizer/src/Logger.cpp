@@ -46,8 +46,8 @@ namespace Logger {
 				FText text;
 				bool mute_sound;
 			};
-			std::unique_ptr<FText> new_text(new FText(text));
-			std::shared_ptr<void> params(new PrintToPlayerInfo{ *new_text, messages_muted });
+			FText new_text(text);
+			std::shared_ptr<void> params(new PrintToPlayerInfo{ new_text, messages_muted });
 			Engine::ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_PrintMiniMessage", params);
 			break;
 		}
@@ -81,9 +81,9 @@ namespace Logger {
 				FText text;
 				bool mute_sound;
 			};
-			std::unique_ptr<FText> new_text(new FText(message_queue.front()));
+			FText new_text(message_queue.front());
 			message_queue.pop_front();
-			std::shared_ptr<void> params(new PrintToPlayerInfo{ *new_text, messages_muted });
+			std::shared_ptr<void> params(new PrintToPlayerInfo{ new_text, messages_muted });
 			Engine::ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_PrintMessage", params);
 			Timer::SetBooleanAfterTimer(popup_delay, &popups_locked);
 		}
