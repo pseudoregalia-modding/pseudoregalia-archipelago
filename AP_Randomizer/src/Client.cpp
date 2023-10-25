@@ -65,18 +65,16 @@ namespace Client {
 
         // Send a key to datastorage upon game completion for PopTracker integration
         // I get the slot number by storing it in slot data on generation but I'm pretty sure there's a less dumb way.
-        AP_SetServerDataRequest* completion_flag = new AP_SetServerDataRequest();
-        AP_DataStorageOperation* operation = new AP_DataStorageOperation();
+        AP_SetServerDataRequest completion_flag;
+        AP_DataStorageOperation operation;
         int filler_value = 0;
-        operation->operation = "add";
-        operation->value = &filler_value;
-        completion_flag->key = "Pseudoregalia - Player " + std::to_string(slot_number) + " - Game Complete";
-        completion_flag->type = AP_DataType::Int;
-        completion_flag->want_reply = true;
-        completion_flag->operations.push_back(*operation);
-        AP_SetServerData(completion_flag);
-        delete completion_flag;
-        delete operation;
+        operation.operation = "add";
+        operation.value = &filler_value;
+        completion_flag.key = "Pseudoregalia - Player " + std::to_string(slot_number) + " - Game Complete";
+        completion_flag.type = AP_DataType::Int;
+        completion_flag.want_reply = true;
+        completion_flag.operations.push_back(operation);
+        AP_SetServerData(&completion_flag);
     }
 
     void Client::PollServer() {
