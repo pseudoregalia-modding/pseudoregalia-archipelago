@@ -127,25 +127,6 @@ namespace Engine {
 
 	// Private functions
 	namespace {
-		void SyncAbilities() {
-			struct AddUpgradeInfo {
-				TArray<FName> names;
-				TArray<int> counts;
-				bool slidejump_disabled;
-			};
-			TArray<FName> ue_names;
-			TArray<int> ue_counts;
-			bool toggle = GameData::SlideJumpDisabled();
-
-			for (const auto& [upgrade_name, upgrade_count] : GameData::GetUpgradeTable()) {
-				FName new_name(upgrade_name);
-				ue_names.Add(new_name);
-				ue_counts.Add(upgrade_count);
-			}
-			std::shared_ptr<void> upgrade_params(new AddUpgradeInfo{ ue_names, ue_counts, toggle });
-			ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetUpgrades", upgrade_params);
-		}
-
 		void SyncHealthPieces() {
 			std::shared_ptr<void> hp_params(new int(GameData::GetHealthPieces()));
 			ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetHealthPieces", hp_params);
@@ -167,6 +148,25 @@ namespace Engine {
 			}
 			std::shared_ptr<void> major_key_params(new MajorKeyInfo{ ue_keys });
 			ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetMajorKeys", major_key_params);
+		}
+
+		void SyncAbilities() {
+			struct AddUpgradeInfo {
+				TArray<FName> names;
+				TArray<int> counts;
+				bool slidejump_disabled;
+			};
+			TArray<FName> ue_names;
+			TArray<int> ue_counts;
+			bool toggle = GameData::SlideJumpDisabled();
+
+			for (const auto& [upgrade_name, upgrade_count] : GameData::GetUpgradeTable()) {
+				FName new_name(upgrade_name);
+				ue_names.Add(new_name);
+				ue_counts.Add(upgrade_count);
+			}
+			std::shared_ptr<void> upgrade_params(new AddUpgradeInfo{ ue_names, ue_counts, toggle });
+			ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetUpgrades", upgrade_params);
 		}
 	} // End private functions
 }
