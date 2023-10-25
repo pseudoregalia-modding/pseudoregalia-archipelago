@@ -142,7 +142,6 @@ namespace Engine {
 				ue_names.Add(new_name);
 				ue_counts.Add(upgrade_count);
 			}
-
 			std::shared_ptr<void> upgrade_params(new AddUpgradeInfo{ ue_names, ue_counts, toggle });
 			ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetUpgrades", upgrade_params);
 		}
@@ -163,11 +162,9 @@ namespace Engine {
 			};
 			TArray<bool> ue_keys;
 			bool* major_keys = GameData::GetMajorKeys();
-			for (int i = 0; i < 5; i++)
-			{
+			for (int i = 0; i < 5; i++) {
 				ue_keys.Add(major_keys[i]);
 			}
-
 			std::shared_ptr<void> major_key_params(new MajorKeyInfo{ ue_keys });
 			ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetMajorKeys", major_key_params);
 		}
