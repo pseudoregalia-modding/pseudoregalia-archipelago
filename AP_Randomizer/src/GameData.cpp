@@ -71,8 +71,13 @@ namespace GameData {
     }
 
     void GameData::Initialize() {
+        using std::unordered_map;
+        using std::vector;
+        using std::pair;
+        using std::string;
+
         collectible_table = {
-            {L"ZONE_Dungeon", std::unordered_map<int64_t, Collectible>{
+            {L"ZONE_Dungeon", unordered_map<int64_t, Collectible>{
             // Dream Breaker
                 {2365810001, Collectible(FVector(-3500.0, 4950.0, -50.0))},
             // Slide
@@ -88,7 +93,7 @@ namespace GameData {
             // HP, past poles
                 {2365810031, Collectible(FVector(6800, 8850, 3850))},
                     }},
-            {L"ZONE_LowerCastle", std::unordered_map<int64_t, Collectible> {
+            {L"ZONE_LowerCastle", unordered_map<int64_t, Collectible> {
             // Indignation
                 {2365810003, Collectible(FVector(5400, 2100, -550))},
             // Locked door
@@ -114,7 +119,7 @@ namespace GameData {
             // HP, balcony
                 {2365810036, Collectible(FVector(16400, 3800, 1200))},
                     }},
-            {L"Zone_Upper", std::unordered_map<int64_t, Collectible> {
+            {L"Zone_Upper", unordered_map<int64_t, Collectible> {
             // Sunsetter
                 {2365810004, Collectible(FVector(-3000, 4900, -400))},
             // Strikebreak
@@ -128,15 +133,15 @@ namespace GameData {
                 // HP, alcove near locked door
                 {2365810039, Collectible(FVector(800, 2500, 1200))},
                     }},
-            {L"Zone_Library", std::unordered_map<int64_t, Collectible> {
+            {L"Zone_Library", unordered_map<int64_t, Collectible> {
             // sun greaves
-                {2365810006, Collectible(FVector(-4150, 9200, -100), std::vector<std::pair<std::string, int>>{{"split_sun_greaves", false}})},
+                {2365810006, Collectible(FVector(-4150, 9200, -100), vector<pair<string, int>>{{"split_sun_greaves", false}})},
             // split greaves 1
-                {2365810051, Collectible(FVector(-4150, 9160, 0), std::vector<std::pair<std::string, int>>{{"split_sun_greaves", true}})},
+                {2365810051, Collectible(FVector(-4150, 9160, 0), vector<pair<string, int>>{{"split_sun_greaves", true}})},
             // split greaves 2
-                {2365810052, Collectible(FVector(-4100, 9250, -100), std::vector<std::pair<std::string, int>>{{"split_sun_greaves", true}})},
+                {2365810052, Collectible(FVector(-4100, 9250, -100), vector<pair<string, int>>{{"split_sun_greaves", true}})},
             // split greaves 3
-                {2365810053, Collectible(FVector(-4200, 9250, -100), std::vector<std::pair<std::string, int>>{{"split_sun_greaves", true}})},
+                {2365810053, Collectible(FVector(-4200, 9250, -100), vector<pair<string, int>>{{"split_sun_greaves", true}})},
             // Clear mind, locked left
                 {2365810020, Collectible(FVector(-1300, -6750, -700))},
             // HP upper
@@ -144,7 +149,7 @@ namespace GameData {
             // HP locked
                 {2365810038, Collectible(FVector(-3750, -4170, -700))},
                     }},
-            {L"Zone_Theatre", std::unordered_map<int64_t, Collectible> {
+            {L"Zone_Theatre", unordered_map<int64_t, Collectible> {
             // soul cutter
                 {2365810007, Collectible(FVector(8500, 7850, -1400))},
             // theatre major key
@@ -158,7 +163,7 @@ namespace GameData {
             // HP, back of auditorium
                 {2365810045, Collectible(FVector(-1600, 1500, 2600))},
                     }},
-            {L"ZONE_Exterior", std::unordered_map<int64_t, Collectible> {
+            {L"ZONE_Exterior", unordered_map<int64_t, Collectible> {
             // solar wind
                 {2365810008, Collectible(FVector(-1100, 10850, 150))},
             // bailey major key
@@ -170,7 +175,7 @@ namespace GameData {
             // hp, center steeple
                 {2365810040, Collectible(FVector(2350, 7260, 2110))},
                     }},
-            {L"Zone_Caves", std::unordered_map<int64_t, Collectible> {
+            {L"Zone_Caves", unordered_map<int64_t, Collectible> {
             // ascendant light
                 {2365810009, Collectible(FVector(-5400, 6650, 6750))},
             // underbelly major key
@@ -188,7 +193,7 @@ namespace GameData {
             // HP, alcove in light path
                 {2365810043, Collectible(FVector(-2550, 12300, 4400))},
                     }},
-            {L"Zone_Tower", std::unordered_map<int64_t, Collectible> {
+            {L"Zone_Tower", unordered_map<int64_t, Collectible> {
             // cling gem
                 {2365810010, Collectible(FVector(13350, 5250, 4150))},
             // tower major key
