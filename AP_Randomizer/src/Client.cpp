@@ -113,9 +113,7 @@ namespace Client {
 
         void SetSplitKicks(int is_true) {
             GameData::SetOption("split_sun_greaves", is_true);
-            GameData::SetOption("normal_greaves", !is_true);
         }
-
 
         void ReceiveItem(int64_t id, bool notify) {
             Logger::Log(L"Receiving item with id " + std::to_wstring(id));

@@ -11,9 +11,9 @@ namespace GameData {
 			checked = false;
 		}
 
-		Collectible(FVector new_position, std::string new_option) {
+		Collectible(FVector new_position, std::vector<std::pair<std::string, int>> new_options) {
 			position = new_position;
-			required_option = new_option;
+			required_options = new_options;
 			checked = false;
 		}
 
@@ -28,14 +28,19 @@ namespace GameData {
 		FVector GetPosition() const {
 			return position;}
 
-		std::string RequiredOption() const {
-			return required_option;
+		bool CanCreate(std::unordered_map<std::string, int> option_set) const {
+			for (const auto& [option_name, option_value] : required_options) {
+				if (option_set.at(option_name) != option_value) {
+					return false;
+				}
+			}
+			// Note that this always returns true if the collectible has no required options.
+			return true;
 		}
 
 	private:
 		FVector position;
 		bool checked;
-		// TODO: Change this to a map or something so both true and false options can be checked
-		std::string required_option;
+		std::vector<std::pair<std::string, int>> required_options;
 	};
 }

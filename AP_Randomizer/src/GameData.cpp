@@ -12,7 +12,7 @@ namespace GameData {
         bool major_keys[5];
         std::map<std::wstring, int> upgrade_table;
         std::unordered_map<std::wstring, std::unordered_map<int64_t, Collectible>> collectible_table;
-        std::unordered_map<std::string, bool> options;
+        std::unordered_map<std::string, int> options;
         bool slidejump_owned;
         bool slidejump_disabled;
 
@@ -62,16 +62,8 @@ namespace GameData {
         options[option_name] = is_true;
     }
 
-    bool GameData::GetOption(std::string option_name) {
-        try
-        {
-            return options.at(option_name);
-        }
-        catch (const std::exception&)
-        {
-            Logger::Log(option_name + " was not found in options.", Logger::LogType::Error);
-            return false;
-        }
+    std::unordered_map<std::string, int> GameData::GetOptions() {
+        return options;
     }
 
     std::unordered_map<int64_t, Collectible> GameData::GetCollectiblesOfZone(std::wstring world_name) {
@@ -138,13 +130,13 @@ namespace GameData {
                     }},
             {L"Zone_Library", std::unordered_map<int64_t, Collectible> {
             // sun greaves
-                {2365810006, Collectible(FVector(-4150, 9200, -100), "normal_greaves")},
+                {2365810006, Collectible(FVector(-4150, 9200, -100), std::vector<std::pair<std::string, int>>{{"split_sun_greaves", false}})},
             // split greaves 1
-                {2365810051, Collectible(FVector(-4150, 9160, 0), "split_sun_greaves")},
+                {2365810051, Collectible(FVector(-4150, 9160, 0), std::vector<std::pair<std::string, int>>{{"split_sun_greaves", true}})},
             // split greaves 2
-                {2365810052, Collectible(FVector(-4100, 9250, -100), "split_sun_greaves")},
+                {2365810052, Collectible(FVector(-4100, 9250, -100), std::vector<std::pair<std::string, int>>{{"split_sun_greaves", true}})},
             // split greaves 3
-                {2365810053, Collectible(FVector(-4200, 9250, -100), "split_sun_greaves")},
+                {2365810053, Collectible(FVector(-4200, 9250, -100), std::vector<std::pair<std::string, int>>{{"split_sun_greaves", true}})},
             // Clear mind, locked left
                 {2365810020, Collectible(FVector(-1300, -6750, -700))},
             // HP upper

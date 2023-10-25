@@ -90,17 +90,14 @@ namespace Engine {
 		std::unordered_map<int64_t, GameData::Collectible> collectible_map = GameData::GetCollectiblesOfZone(GetWorldName());
 		for (const auto& [id, collectible] : collectible_map) {
 			// Return if the collectible shouldn't be spawned based on options
-			if (!collectible.RequiredOption().empty()
-				&& !GameData::GetOption(collectible.RequiredOption())) {
-				Logger::Log("Collectible with id " + std::to_string(id) + " was not spawned since option " + collectible.RequiredOption() + " was not enabled.");
+			if (!collectible.CanCreate(GameData::GetOptions())) {
+				Logger::Log(L"Collectible with id " + std::to_wstring(id) + L" was not spawned because its required options were not met.");
 				continue;
 			}
-
 			if (collectible.IsChecked()) {
 				Logger::Log(L"Collectible with id " + std::to_wstring(id) + L" has already been checked");
 				continue;
 			}
-
 			Logger::Log(L"Spawning collectible with id " + std::to_wstring(id));
 			std::shared_ptr<void> collectible_info(new CollectibleSpawnInfo{ id, collectible.GetPosition() });
 			ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SpawnCollectible", collectible_info);
