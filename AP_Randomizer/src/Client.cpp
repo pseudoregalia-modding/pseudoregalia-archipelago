@@ -26,8 +26,11 @@ namespace Client {
 
 
     void Client::Connect(const char* new_ip, const char* new_slot_name, const char* new_password) {
+        // Initialize game state.
         GameData::Initialize();
         AP_Init(new_ip, "Pseudoregalia", new_slot_name, new_password);
+
+        // Set all the necessary callbacks and info through APCpp.
         AP_NetworkVersion version{ 0, 6, 0 };
         AP_SetClientVersion(&version);
         AP_SetItemClearCallback(&GameData::Initialize); // Yes, this calls Initialize twice. I'll fix it when I add save files.
@@ -38,16 +41,17 @@ namespace Client {
         AP_RegisterSlotDataIntCallback("slot_number", &SetSlotNumber);
         // TODO: Figure out a way to generalize this; might require lambdas?
         AP_RegisterSlotDataIntCallback("split_sun_greaves", &SetSplitKicks);
+
         AP_Start();
 
-        Timer::CallbackAfterTimer(connection_timer, &ConnectionTimerExpired);
+        // Print feedback to the player so they know the connect command went through.
         connection_status = AP_GetConnectionStatus();
         std::string connect_message = "Attempting to connect to ";
         connect_message.append(new_ip);
         connect_message += " with name ";
         connect_message.append(new_slot_name);
         Logger::Log(connect_message, Logger::LogType::System);
-        // No need to call SyncItems, that will happen through the callback set in AP_SetItemRecvCallback
+        Timer::CallbackAfterTimer(connection_timer, &ConnectionTimerExpired);
     }
 
     void Client::SendCheck(int64_t id, std::wstring current_world) {
