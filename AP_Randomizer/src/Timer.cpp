@@ -43,14 +43,14 @@ namespace Timer {
 	void Timer::RunTimerInGame(float timer_max, bool* to_lock) {
 		*to_lock = true;
 		RunningTimer new_timer{ timer_max, to_lock, nullptr };
-		Logger::Log(L"setting timer for " + std::to_wstring(timer_max), Logger::LogType::System);
+		Logger::Log(L"Setting timer for " + std::to_wstring(timer_max));
 		std::lock_guard<std::mutex> guard(timer_mutex);
 		active_timers.push_back(new_timer);
 	}
 
 	void Timer::RunTimerInGame(float timer_max, std::function<void()> callback) {
 		RunningTimer new_timer{ timer_max, nullptr, callback };
-		Logger::Log(L"setting timer for " + std::to_wstring(timer_max), Logger::LogType::System);
+		Logger::Log(L"Setting timer for " + std::to_wstring(timer_max));
 		std::lock_guard<std::mutex> guard(timer_mutex);
 		active_timers.push_back(new_timer);
 	}
@@ -64,7 +64,6 @@ namespace Timer {
 		for (timer = active_timers.begin(); timer != active_timers.end(); ) {
 			timer->remaining_time -= delta_seconds;
 			if (timer->remaining_time <= 0.0f) {
-				Logger::Log(L"timer expired", Logger::LogType::System);
 				if (timer->locked_boolean != nullptr) {
 					*(timer->locked_boolean) = false;
 				}
