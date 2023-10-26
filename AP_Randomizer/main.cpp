@@ -36,13 +36,20 @@ public:
     {
     }
 
-    auto on_unreal_init() -> void override
-    {
+    auto on_unreal_init() -> void override {
         using namespace RC::Unreal;
 
-        // I want to make this an AActorTickCallback hook so I can use delta_seconds and only check actor name,
+        // We need to force blueprint mods to load as soon as possible.
+        // Sending an Insert keypress once UE initializes will tell UE4SS' BPModLoaderMod to load them manually.
+        {
+            INPUT inputs[1] = {};
+            inputs[0].type = INPUT_KEYBOARD;
+            inputs[0].ki.wVk = VK_INSERT;
+            SendInput(ARRAYSIZE(inputs), inputs, sizeof(INPUT));
+        }
+
+        // I want to make this an AActorTickCallback hook so I can only check actor name,
         // but for some reason that doesn't seem to respond.
-        // Might check with UE4SS devs on that.
         Hook::RegisterProcessEventPreCallback([&](UObject* object, UFunction* function, void* params) {
             if (object->GetName().starts_with(STR("BP_APRandomizerInstance")) && function->GetName() == STR("ReceiveTick")) {
                 float* delta_seconds = static_cast<float*>(params);
