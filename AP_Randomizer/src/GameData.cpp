@@ -229,11 +229,8 @@ namespace GameData {
         case ItemType::Ability:
             upgrade_table[lookup_id_to_upgrade.at(id)]++;
             if (!slidejump_owned) {
-                if (lookup_id_to_upgrade.at(id) == L"SlideJump") {
-                    slidejump_owned = true;
-                }
-                if (lookup_id_to_upgrade.at(id) == L"progressiveSlide"
-                    && upgrade_table.count(L"progressiveSlide") >= 2) {
+                if (lookup_id_to_upgrade.at(id) == L"SlideJump"
+                    || upgrade_table[L"progressiveSlide"] >= 2) {
                     slidejump_owned = true;
                 }
             }
