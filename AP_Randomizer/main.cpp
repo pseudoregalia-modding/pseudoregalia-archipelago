@@ -36,8 +36,7 @@ public:
     {
     }
 
-    auto on_unreal_init() -> void override
-    {
+    auto on_unreal_init() -> void override {
         using namespace RC::Unreal;
 
         // I want to make this an AActorTickCallback hook so I can use delta_seconds and only check actor name,
