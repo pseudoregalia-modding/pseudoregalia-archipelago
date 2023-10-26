@@ -15,9 +15,8 @@ namespace Timer {
 		std::mutex timer_mutex;
 		std::vector<RunningTimer> active_timers;
 	}
-	using std::chrono::duration;
+	using std::chrono::milliseconds;
 
-	// Sets a timer and executes the function passed in when it expires.
 	void Timer::RunTimerRealTime(milliseconds delay, std::function<void()> callback) {
 		auto run_timer = [delay, callback]() {
 			std::this_thread::sleep_for(milliseconds(delay));
