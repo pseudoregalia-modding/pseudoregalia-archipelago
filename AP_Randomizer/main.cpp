@@ -11,6 +11,7 @@
 #include "UnrealConsole.hpp"
 #include "Engine.hpp"
 #include "Logger.hpp"
+#include "Timer.hpp"
 
 class AP_Randomizer : public RC::CppUserModBase {
 public:
@@ -44,6 +45,8 @@ public:
         // Might check with UE4SS devs on that.
         Hook::RegisterProcessEventPreCallback([&](UObject* object, UFunction* function, void* params) {
             if (object->GetName().starts_with(STR("BP_APRandomizerInstance")) && function->GetName() == STR("ReceiveTick")) {
+                float* delta_seconds = static_cast<float*>(params);
+                Timer::OnTick(*delta_seconds);
                 Engine::OnTick(object);
             }
             });

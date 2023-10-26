@@ -19,7 +19,7 @@ namespace Logger {
 		std::list<std::wstring> message_queue;
 		bool popups_locked;
 		// Just over 3 seconds is long enough to ensure only 2 popups can be on screen at once
-		const std::chrono::milliseconds popup_delay(3200);
+		const float popup_delay_seconds(3.2f);
 		bool messages_hidden;
 		bool messages_muted;
 	} // End private members
@@ -85,7 +85,7 @@ namespace Logger {
 			message_queue.pop_front();
 			std::shared_ptr<void> params(new PrintToPlayerInfo{ new_text, messages_muted });
 			Engine::ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_PrintMessage", params);
-			Timer::RunTimerRealTime(popup_delay, &popups_locked);
+			Timer::RunTimerInGame(popup_delay_seconds, &popups_locked);
 		}
 	}
 

@@ -21,7 +21,7 @@ namespace Client {
         const std::chrono::seconds connection_timer(15);
         int slot_number;
         bool death_link_locked;
-        const std::chrono::seconds death_link_timer(4);
+        const float death_link_timer_seconds(4.0f);
     } // End private members
 
 
@@ -101,7 +101,7 @@ namespace Client {
         }
         Logger::Log(L"Sending death link");
         AP_DeathLinkSend();
-        Timer::RunTimerRealTime(death_link_timer, &death_link_locked);
+        Timer::RunTimerInGame(death_link_timer_seconds, &death_link_locked);
     }
 
 
@@ -127,7 +127,7 @@ namespace Client {
             }
             Logger::Log(L"Receiving death link");
             Engine::VaporizeGoat();
-            Timer::RunTimerRealTime(death_link_timer, &death_link_locked);
+            Timer::RunTimerInGame(death_link_timer_seconds, &death_link_locked);
         }
 
         bool ConnectionStatusChanged() {
