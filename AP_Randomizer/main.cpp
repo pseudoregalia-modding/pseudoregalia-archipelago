@@ -39,6 +39,15 @@ public:
     auto on_unreal_init() -> void override {
         using namespace RC::Unreal;
 
+        // We need to force blueprint mods to load as soon as possible.
+        // Sending an Insert keypress once UE initializes will tell UE4SS' BPModLoaderMod to load them manually.
+        {
+            INPUT inputs[1] = {};
+            inputs[0].type = INPUT_KEYBOARD;
+            inputs[0].ki.wVk = VK_INSERT;
+            SendInput(ARRAYSIZE(inputs), inputs, sizeof(INPUT));
+        }
+
         // I want to make this an AActorTickCallback hook so I can only check actor name,
         // but for some reason that doesn't seem to respond.
         Hook::RegisterProcessEventPreCallback([&](UObject* object, UFunction* function, void* params) {
