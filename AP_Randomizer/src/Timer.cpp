@@ -5,7 +5,7 @@
 
 namespace Timer {
 	// Sets a timer and executes the function passed in when it expires.
-	void Timer::CallbackAfterTimer(milliseconds delay, std::function<void()> callback) {
+	void Timer::RunTimerRealTime(milliseconds delay, std::function<void()> callback) {
 		auto run_timer = [delay, callback]() {
 			std::this_thread::sleep_for(milliseconds(delay));
 			callback();
@@ -16,7 +16,7 @@ namespace Timer {
 	}
 
 	// Sets the input boolean to true, sets a timer, and sets the boolean back to false when it expires.
-	void Timer::SetBooleanAfterTimer(milliseconds delay, bool* lock) {
+	void Timer::RunTimerRealTime(milliseconds delay, bool* lock) {
 		auto run_timer = [delay, lock]() {
 			*lock = true;
 			std::this_thread::sleep_for(delay);

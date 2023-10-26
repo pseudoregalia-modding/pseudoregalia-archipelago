@@ -85,7 +85,7 @@ namespace Logger {
 			message_queue.pop_front();
 			std::shared_ptr<void> params(new PrintToPlayerInfo{ new_text, messages_muted });
 			Engine::ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_PrintMessage", params);
-			Timer::SetBooleanAfterTimer(popup_delay, &popups_locked);
+			Timer::RunTimerRealTime(popup_delay, &popups_locked);
 		}
 	}
 

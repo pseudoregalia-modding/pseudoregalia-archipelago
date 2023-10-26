@@ -1,5 +1,5 @@
 namespace Timer {
 	using std::chrono::milliseconds;
-	void CallbackAfterTimer(std::chrono::milliseconds, std::function<void()>);
-	void SetBooleanAfterTimer(std::chrono::milliseconds, bool*);
+	void RunTimerRealTime(std::chrono::milliseconds, std::function<void()>);
+	void RunTimerRealTime(std::chrono::milliseconds, bool*);
 }

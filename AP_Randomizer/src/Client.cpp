@@ -51,7 +51,7 @@ namespace Client {
         connect_message += " with name ";
         connect_message.append(new_slot_name);
         Logger::Log(connect_message, Logger::LogType::System);
-        Timer::CallbackAfterTimer(connection_timer, &ConnectionTimerExpired);
+        Timer::RunTimerRealTime(connection_timer, &ConnectionTimerExpired);
     }
 
     void Client::SendCheck(int64_t id, std::wstring current_world) {
@@ -101,7 +101,7 @@ namespace Client {
         }
         Logger::Log(L"Sending death link");
         AP_DeathLinkSend();
-        Timer::SetBooleanAfterTimer(death_link_timer, &death_link_locked);
+        Timer::RunTimerRealTime(death_link_timer, &death_link_locked);
     }
 
 
@@ -127,7 +127,7 @@ namespace Client {
             }
             Logger::Log(L"Receiving death link");
             Engine::VaporizeGoat();
-            Timer::SetBooleanAfterTimer(death_link_timer, &death_link_locked);
+            Timer::RunTimerRealTime(death_link_timer, &death_link_locked);
         }
 
         bool ConnectionStatusChanged() {
