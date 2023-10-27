@@ -30,13 +30,12 @@ class PseudoregaliaWorld(World):
             if (item_name == "Dream Breaker"):
                 continue  # Really skrunkled way of just adding the one locked breaker to the pool for now.
             if (item_data.code and item_data.can_create(self.multiworld, self.player)):
-                new_item = Item(item_name, item_data.classification, item_data.code, self.player)
-                new_item.game = self.game
                 item_count = 1
                 if (item_name in item_frequencies):
                     item_count = item_frequencies[item_name]
                 for count in range(item_count):
-                    self.multiworld.itempool.append(new_item)
+                    self.multiworld.itempool.append(
+                        PseudoregaliaItem(item_name, item_data.classification, item_data.code, self.player))
 
     def create_regions(self):
         for region_name in region_table.keys():
