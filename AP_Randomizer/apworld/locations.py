@@ -2,6 +2,10 @@ from BaseClasses import Location, MultiWorld
 from typing import NamedTuple, Dict, Optional, Callable
 
 
+class PseudoregaliaLocation(Location):
+    game = "Pseudoregalia"
+
+
 class PseudoregaliaLocationData(NamedTuple):
     region: str
     code: int = None

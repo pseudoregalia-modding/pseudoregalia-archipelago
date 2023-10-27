@@ -1,7 +1,7 @@
 from worlds.AutoWorld import World
 from BaseClasses import Region, Location, Item
 from .items import PseudoregaliaItem, PseudoregaliaItemData, item_table, item_frequencies, item_groups
-from .locations import location_table
+from .locations import PseudoregaliaLocation, location_table
 from .regions import region_table
 from .options import pseudoregalia_options
 from worlds.generic.Rules import add_rule, set_rule, forbid_item
@@ -45,8 +45,7 @@ class PseudoregaliaWorld(World):
             if not loc_data.can_create(self.multiworld, self.player):
                 continue
             region = self.multiworld.get_region(loc_data.region, self.player)
-            new_loc = Location(self.player, loc_name, loc_data.code, region)
-            new_loc.game = self.game
+            new_loc = PseudoregaliaLocation(self.player, loc_name, loc_data.code, region)
             if (not loc_data.show_in_spoiler):
                 new_loc.show_in_spoiler = False
             region.locations.append(new_loc)
