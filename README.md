@@ -10,6 +10,12 @@ You'll spawn in Dungeon with Dream Breaker at its vanilla location, and you'll h
 [You can get the PopTracker pack for Pseudoregalia here.](https://github.com/Br00ty/pseudoregalia_brooty)
 
 
+# Extra Features
+- You can toggle Solar Wind once you've obtained it by pressing the top face button on controller or left ctrl on keyboard.
+- Entering `/messages mute` into the console will mute the sound effects of messages from Archipelago.
+- Entering `/messages hide` into the console will stop Archipelago messages from appearing in-game completely.
+
+
 # Mod Installation
 1. In Steam/steamapps/common, make a copy of your Pseudoregalia folder and rename it "Pseudoregalia_AP" (or whatever else you like).
 2. Extract the contents of pseudoregalia-archipelago.zip directly into "Pseudoregalia_AP". You should notice no change to the root folder, but the mod files will be added to the subfolders.
@@ -33,16 +39,13 @@ You'll spawn in Dungeon with Dream Breaker at its vanilla location, and you'll h
 4. Run ArchipelagoGenerate.exe.
 5. A zip file will be added to Archipelago/output, which can [hosted on the website](https://archipelago.gg/uploads) or hosted locally with ArchipelagoServer.exe.
 
-# Extra Features
-- You can toggle Solar Wind once you've obtained it by pressing the top face button on controller or left ctrl on keyboard.
-- Entering `/messages mute` into the console will mute the sound effects of messages from Archipelago.
-- Entering `/messages hide` into the console will stop Archipelago messages from appearing in-game completely.
 
 # Known Issues
 - The mod will not always fully load before starting the game, especially the first time. If it doesn't seem to respond, try restarting the game.
 - If you enter your connection info incorrectly, you have to restart the game to try again.
 - A crash can occur when entering incorrect connection info under certain conditions.
 - If you're on top of an item when you first connect, it won't spawn until you reload the scene.
+
 
 # Planned Updates
 - Spawning in Castle instead of Dungeon
