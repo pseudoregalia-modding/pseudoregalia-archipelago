@@ -50,9 +50,6 @@ namespace Client {
 
     /*
     TODO:
-    - completing game
-    - sending game completion flag to datastorage
-    - setting options from slot data
     - death link
     */
     void Client::Connect(const char* new_ip, const char* new_slot_name, const char* new_password) {
@@ -105,18 +102,14 @@ namespace Client {
         }
         client->StatusUpdate(APClient::ClientStatus::GOAL);
 
-        // Send a key to datastorage upon game completion for PopTracker integration
-        // I get the slot number by storing it in slot data on generation but I'm pretty sure there's a less dumb way.
-        AP_SetServerDataRequest completion_flag;
-        AP_DataStorageOperation operation;
-        int filler_value = 0;
-        operation.operation = "add";
-        operation.value = &filler_value;
-        completion_flag.key = "Pseudoregalia - Player " + std::to_string(slot_number) + " - Game Complete";
-        completion_flag.type = AP_DataType::Int;
-        completion_flag.want_reply = true;
-        completion_flag.operations.push_back(operation);
-        AP_SetServerData(&completion_flag);
+        // Send a key to datastorage upon game completion for PopTracker integration.
+        std::string key =
+            "Pseudoregalia - Team " + std::to_string(client->get_team_number())
+            + " - Player " + std::to_string(client->get_player_number())
+            + " - Game Complete";
+        json default_value{ 0 };
+        std::list<APClient::DataStorageOperation> filler_operations{ APClient::DataStorageOperation{ "add", default_value  } };
+        client->Set(key, default_value, true, filler_operations);
     }
 
     void Client::PollServer() {
