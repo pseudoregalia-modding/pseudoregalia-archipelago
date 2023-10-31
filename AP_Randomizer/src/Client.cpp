@@ -26,11 +26,9 @@ namespace Client {
         void ReceiveItems(const std::list<APClient::NetworkItem>&);
         void OnSlotConnected(const json&);
         void PrintJsonMessage(const APClient::PrintJSONArgs&);
-        bool ConnectionStatusChanged();
         void SetSlotNumber(int);
         void SetSplitKicks(int);
         void ReceiveDeathLink();
-        void ConnectionTimerExpired();
         void ConnectToSlot();
 
         // I don't think a mutex is required here because apclientpp locks the instance during poll().
@@ -42,7 +40,9 @@ namespace Client {
         std::string slot_name;
         std::string password;
         const std::string game_name = "Pseudoregalia";
-        const std::chrono::seconds connection_timer(15);
+        bool file_active = false; // Used to determine how to phrase socket errors based on whether the player expects to be connected already.
+        const int max_connection_retries = 3;
+        int connection_retries = 0;
         int slot_number;
         bool death_link_locked;
         const float death_link_timer_seconds(4.0f);
@@ -53,7 +53,10 @@ namespace Client {
     - death link
     */
     void Client::Connect(const char* new_ip, const char* new_slot_name, const char* new_password) {
-        // Initialize game state.
+        // Ensure error messages work correctly even when the player doesn't fully disconnect first.
+        file_active = false;
+        connection_retries = 0;
+
         GameData::Initialize();
         uuid = ap_get_uuid("Mods/AP_Randomizer/dlls/uuid");
         uri = new_ip;
@@ -67,16 +70,53 @@ namespace Client {
         client->set_slot_connected_handler(&OnSlotConnected);
         client->set_print_json_handler(&PrintJsonMessage);
 
+        client->set_socket_error_handler([](const std::string& error) {
+            // Only print a message after exactly X failed attempts.
+            std::cout << connection_retries << " " << max_connection_retries << "\n";
+            if (connection_retries == max_connection_retries) {
+                // Change error message based on whether a seed is already active.
+                if (file_active) {
+                    Logger::Log(L"Lost connection with the server. Attempting to reconnect...", Logger::LogType::System);
+                }
+                else {
+                    Logger::Log(L"Could not connect to the server. Please double-check the address and ensure the server is active.", Logger::LogType::System);
+                }
+            }
+
+            connection_retries++;
+            Logger::Log(error);
+            return;
+            });
+
+        client->set_socket_disconnected_handler([]() {
+            file_active = false;
+            Logger::Log("DISCONNECTED", Logger::LogType::Error);
+            });
+
+        client->set_slot_refused_handler([](const std::list<std::string>& reasons) {
+            std::string advice;
+            if (std::find(reasons.begin(), reasons.end(), "InvalidSlot") != reasons.end()
+                || std::find(reasons.begin(), reasons.end(), "InvalidPassword") != reasons.end()) {
+                advice = "Please double-check your slot name and password.";
+            }
+
+            if (std::find(reasons.begin(), reasons.end(), "IncompatibleVersion") != reasons.end()) {
+                advice = "Please double-check your client version.";
+            }
+
+            Logger::Log("Could not connect to the server. " + advice, Logger::LogType::System);
+            });
+
         // Print feedback to the player so they know the connect command went through.
         std::string connect_message = "Attempting to connect to ";
         connect_message.append(new_ip);
         connect_message += " with name ";
         connect_message.append(new_slot_name);
         Logger::Log(connect_message, Logger::LogType::System);
-        Timer::RunTimerRealTime(connection_timer, &ConnectionTimerExpired);
     }
 
     void Client::Disconnect() {
+        // TODO: just call client->reset()
         if (client == nullptr) {
             Logger::Log("You are not currently connected.", Logger::LogType::System);
             return;
@@ -117,12 +157,6 @@ namespace Client {
             return;
         }
         client->poll();
-
-        if (ConnectionStatusChanged()) {
-            if (connection_status == AP_ConnectionStatus::ConnectionRefused) {
-                Logger::Log(L"The server refused the connection. Please double-check your connection info and client version, and restart the game.", Logger::LogType::System);
-            }
-        }
     }
 
     void Client::SendDeathLink() {
@@ -145,12 +179,7 @@ namespace Client {
 
             // TODO: Make this feedback better
             Logger::Log("attempting to connect");
-            if (client->ConnectSlot(name, password, items_handling, {}, version)) {
-                Logger::Log("Connected!", Logger::LogType::System);
-            }
-            else {
-                Logger::Log("Failed to connect...", Logger::LogType::System);
-            }
+            client->ConnectSlot(name, password, items_handling, {}, version);
         }
 
         void PrintJsonMessage(const APClient::PrintJSONArgs& args) {
@@ -159,6 +188,7 @@ namespace Client {
         }
 
         void OnSlotConnected(const json& slot_data) {
+            file_active = true;
             Engine::SpawnCollectibles();
             for (json::const_iterator iter = slot_data.begin(); iter != slot_data.end(); iter++) {
                 GameData::SetOption(iter.key(), iter.value());
@@ -189,21 +219,6 @@ namespace Client {
             Logger::Log(L"Receiving death link");
             Engine::VaporizeGoat();
             Timer::RunTimerInGame(death_link_timer_seconds, &death_link_locked);
-        }
-
-        bool ConnectionStatusChanged() {
-            if (connection_status != AP_GetConnectionStatus()) {
-                connection_status = AP_GetConnectionStatus();
-                return true;
-            }
-            return false;
-        }
-
-        // Prints an error if the connection timer expires with no connection having been established.
-        void ConnectionTimerExpired() {
-            if (AP_GetConnectionStatus() == AP_ConnectionStatus::Disconnected) {
-                Logger::Log(L"Could not find the address entered. Please double-check your connection info and restart the game.", Logger::LogType::System);
-            }
         }
     } // End private functions
 }
