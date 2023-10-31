@@ -18,7 +18,7 @@
 namespace Client {
     // Private members
     namespace {
-        void ReceiveItem(int64_t, bool);
+        void ReceiveItems(const std::list<APClient::NetworkItem>&);
         void CheckLocation(int64_t);
         bool ConnectionStatusChanged();
         void SetSlotNumber(int);
@@ -59,6 +59,7 @@ namespace Client {
         password = new_password;
         client = new APClient(uuid, game_name, uri); // TODO: add cert store
         client->set_room_info_handler(&ConnectToSlot);
+        client->set_items_received_handler(&ReceiveItems);
 
         // Print feedback to the player so they know the connect command went through.
         std::string connect_message = "Attempting to connect to ";
@@ -160,10 +161,13 @@ namespace Client {
             GameData::SetOption("split_sun_greaves", is_true);
         }
 
-        void ReceiveItem(int64_t id, bool notify) {
-            Logger::Log(L"Receiving item with id " + std::to_wstring(id));
-            GameData::ReceiveItem(id);
-            Engine::SyncItems();
+        void ReceiveItems(const std::list<APClient::NetworkItem>& items) {
+            for (const auto& item : items) {
+                int64_t id = item.item;
+                Logger::Log(L"Receiving item with id " + std::to_wstring(id));
+                GameData::ReceiveItem(id);
+                Engine::SyncItems();
+            }
         }
 
         void ReceiveDeathLink() {
