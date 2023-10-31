@@ -220,22 +220,28 @@ namespace Client {
                 return;
             }
 
+            if (!data.contains("data")) {
+                // Should only execute if the received death link data was not properly filled out.
+                Logger::Log("You were assassinated by a mysterious villain...", Logger::LogType::Popup);
+                Engine::VaporizeGoat();
+                Timer::RunTimerInGame(death_link_timer_seconds, &death_link_locked);
+                return;
+            }
             json details = data["data"];
             std::string funny_message;
 
             if (details.contains("cause")) {
                 std::string cause(details["cause"]);
-                funny_message = details["cause"];
+                Logger::Log(cause, Logger::LogType::Popup);
             }
             else if (details.contains("source")) {
                 std::string source(details["source"]);
-                funny_message = "You were brutally murdered by " + source + ".";
+                Logger::Log("You were brutally murdered by " + source + ".", Logger::LogType::Popup);
             }
             else {
                 // Should only execute if the received death link data was not properly filled out.
-                funny_message = "You were assassinated by a mysterious villain...";
+                Logger::Log("You were assassinated by a mysterious villain...", Logger::LogType::Popup);
             }
-            Logger::Log(funny_message, Logger::LogType::Popup);
             Engine::VaporizeGoat();
             Timer::RunTimerInGame(death_link_timer_seconds, &death_link_locked);
         }
