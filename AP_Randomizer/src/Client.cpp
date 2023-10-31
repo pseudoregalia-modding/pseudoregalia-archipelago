@@ -26,7 +26,7 @@ namespace Client {
         void ReceiveItems(const std::list<APClient::NetworkItem>&);
         void OnSlotConnected(const json&);
         void PrintJsonMessage(const APClient::PrintJSONArgs&);
-        void ReceiveDeathLink();
+        void ReceiveDeathLink(const json&);
         void ConnectToSlot();
 
         // I don't think a mutex is required here because apclientpp locks the instance during poll().
@@ -67,6 +67,7 @@ namespace Client {
         client->set_location_checked_handler(&GameData::CheckLocations);
         client->set_slot_connected_handler(&OnSlotConnected);
         client->set_print_json_handler(&PrintJsonMessage);
+        client->set_bounced_handler(&ReceiveDeathLink);
 
         client->set_socket_error_handler([](const std::string& error) {
             // Only print a message after exactly X failed attempts.
@@ -151,11 +152,24 @@ namespace Client {
     }
 
     void Client::SendDeathLink() {
-        if (death_link_locked) {
+        if (client == nullptr
+        || !GameData::GetOptions().at("death_link")
+        || death_link_locked) {
             return;
         }
-        Logger::Log(L"Sending death link");
-        AP_DeathLinkSend();
+
+        // TODO: more of these.
+        // I don't think there's an easy to way to get cause of death from within the game unfortunately.
+        std::string funny_message(client->get_slot());
+        funny_message.append(" wished death upon their friends.");
+        json data{
+            {"time", client->get_server_time()},
+            {"cause", funny_message},
+            {"source", client->get_slot()},
+        };
+        client->Bounce(data, {}, {}, { "DeathLink" });
+        Logger::Log(L"Sending death to your friends ♥", Logger::LogType::Popup);
+        Logger::Log("Sending bounce: " + data.dump());
         Timer::RunTimerInGame(death_link_timer_seconds, &death_link_locked);
     }
 
@@ -182,6 +196,9 @@ namespace Client {
             file_active = true;
             for (json::const_iterator iter = slot_data.begin(); iter != slot_data.end(); iter++) {
                 GameData::SetOption(iter.key(), iter.value());
+                if (iter.key() == "death_link" || iter.value() > 0) {
+                    client->ConnectUpdate(false, 0, true, std::list<std::string> {"DeathLink"});
+                }
             }
             Engine::SpawnCollectibles();
         }
@@ -195,11 +212,30 @@ namespace Client {
             }
         }
 
-        void ReceiveDeathLink() {
-            if (death_link_locked) {
+        void ReceiveDeathLink(const json& data) {
+            Logger::Log("Receiving bounce: " + data.dump());
+            if (client == nullptr
+                || !GameData::GetOptions().at("death_link")
+                || death_link_locked) {
                 return;
             }
-            Logger::Log(L"Receiving death link");
+
+            json details = data["data"];
+            std::string funny_message;
+
+            if (details.contains("cause")) {
+                std::string cause(details["cause"]);
+                funny_message = details["cause"];
+            }
+            else if (details.contains("source")) {
+                std::string source(details["source"]);
+                funny_message = "You were brutally murdered by " + source + ".";
+            }
+            else {
+                // Should only execute if the received death link data was not properly filled out.
+                funny_message = "You were assassinated by a mysterious villain...";
+            }
+            Logger::Log(funny_message, Logger::LogType::Popup);
             Engine::VaporizeGoat();
             Timer::RunTimerInGame(death_link_timer_seconds, &death_link_locked);
         }
