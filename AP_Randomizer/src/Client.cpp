@@ -28,10 +28,9 @@ namespace Client {
         void ConnectionTimerExpired();
         void ConnectToSlot();
 
+        // I don't think a mutex is required here because apclientpp locks the instance during poll().
+        // If people report random crashes, especially when disconnecting, I'll revisit it.
         APClient* client;
-        // I'll admit that I'm not entirely sure whether functionality like processing console commands runs in a separate thread,
-        // but the overhead of a mutex is negligible here so better to be safe than sorry.
-        std::mutex client_mutex;
         AP_ConnectionStatus connection_status;
         std::string uri;
         std::string uuid;
@@ -61,7 +60,6 @@ namespace Client {
         slot_name = new_slot_name;
         password = new_password;
 
-        std::lock_guard<std::mutex> guard(client_mutex);
         client = new APClient(uuid, game_name, uri); // TODO: add cert store
         client->set_room_info_handler(&ConnectToSlot);
         client->set_items_received_handler(&ReceiveItems);
@@ -77,7 +75,6 @@ namespace Client {
     }
 
     void Client::Disconnect() {
-        std::lock_guard<std::mutex> guard(client_mutex);
         if (client == nullptr) {
             Logger::Log("You are not currently connected.", Logger::LogType::System);
             return;
@@ -111,7 +108,6 @@ namespace Client {
     }
 
     void Client::PollServer() {
-        std::lock_guard<std::mutex> guard(client_mutex);
         if (client == nullptr) {
             return;
         }
@@ -154,7 +150,6 @@ namespace Client {
 
             // TODO: Make this feedback better
             Logger::Log("attempting to connect");
-            std::lock_guard<std::mutex> guard(client_mutex);
             if (client->ConnectSlot(name, password, items_handling, {}, version)) {
                 Logger::Log("Connected!", Logger::LogType::System);
             }
