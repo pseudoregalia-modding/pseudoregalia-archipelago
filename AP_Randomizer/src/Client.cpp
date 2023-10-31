@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #pragma comment (lib, "crypt32") // Include crypt32.lib
 #pragma warning(disable: 4267) // Disable conversion warnings from websocketpp and apclientpp
 #pragma warning(disable: 4996) // Disable deprecated warnings from old asio version and apclientpp
@@ -26,8 +26,6 @@ namespace Client {
         void ReceiveItems(const std::list<APClient::NetworkItem>&);
         void OnSlotConnected(const json&);
         void PrintJsonMessage(const APClient::PrintJSONArgs&);
-        void SetSlotNumber(int);
-        void SetSplitKicks(int);
         void ReceiveDeathLink();
         void ConnectToSlot();
 
@@ -193,14 +191,6 @@ namespace Client {
                 GameData::SetOption(iter.key(), iter.value());
             }
             Engine::SpawnCollectibles();
-        }
-
-        void SetSlotNumber(int num) {
-            slot_number = num;
-        }
-
-        void SetSplitKicks(int is_true) {
-            GameData::SetOption("split_sun_greaves", is_true);
         }
 
         void ReceiveItems(const std::list<APClient::NetworkItem>& items) {
