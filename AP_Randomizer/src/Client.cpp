@@ -22,6 +22,7 @@ namespace Client {
         typedef APClient::State ConnectionStatus;
         void ReceiveItems(const std::list<APClient::NetworkItem>&);
         void OnSlotConnected(const json&);
+        void PrintJsonMessage(const APClient::PrintJSONArgs&);
         bool ConnectionStatusChanged();
         void SetSlotNumber(int);
         void SetSplitKicks(int);
@@ -46,10 +47,8 @@ namespace Client {
 
     /*
     TODO:
-    - sending items
     - completing game
     - sending game completion flag to datastorage
-    - receiving messages
     - setting options from slot data
     - death link
     */
@@ -66,6 +65,7 @@ namespace Client {
         client->set_items_received_handler(&ReceiveItems);
         client->set_location_checked_handler(&GameData::CheckLocations);
         client->set_slot_connected_handler(&OnSlotConnected);
+        client->set_print_json_handler(&PrintJsonMessage);
 
         // Print feedback to the player so they know the connect command went through.
         std::string connect_message = "Attempting to connect to ";
@@ -118,13 +118,6 @@ namespace Client {
         }
         client->poll();
 
-        if (AP_IsMessagePending()) {
-            AP_Message* message = AP_GetLatestMessage();
-            Logger::Log(message->text, Logger::LogType::Popup);
-            AP_ClearLatestMessage();
-            // APCpp releases the memory of message
-        }
-
         if (ConnectionStatusChanged()) {
             if (connection_status == AP_ConnectionStatus::ConnectionRefused) {
                 Logger::Log(L"The server refused the connection. Please double-check your connection info and client version, and restart the game.", Logger::LogType::System);
@@ -158,6 +151,11 @@ namespace Client {
             else {
                 Logger::Log("Failed to connect...", Logger::LogType::System);
             }
+        }
+
+        void PrintJsonMessage(const APClient::PrintJSONArgs& args) {
+            std::string message_text = client->render_json(args.data);
+            Logger::Log(message_text, Logger::LogType::Popup);
         }
 
         void OnSlotConnected(const json&) {
