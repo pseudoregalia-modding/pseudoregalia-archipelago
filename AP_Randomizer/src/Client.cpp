@@ -24,9 +24,15 @@ namespace Client {
         void SetSplitKicks(int);
         void ReceiveDeathLink();
         void ConnectionTimerExpired();
+        void SocketConnected();
 
         APClient* client;
         AP_ConnectionStatus connection_status;
+        std::string uri;
+        std::string uuid;
+        std::string slot_name;
+        std::string password;
+        const std::string game_name = "Pseudoregalia";
         const std::chrono::seconds connection_timer(15);
         int slot_number;
         bool death_link_locked;
@@ -35,7 +41,6 @@ namespace Client {
 
     /*
     TODO:
-    - connecting
     - client version
     - sending items
     - receiving items
@@ -46,31 +51,16 @@ namespace Client {
     - death link
     */
     void Client::Connect(const char* new_ip, const char* new_slot_name, const char* new_password) {
-        std::string uuid = "placeholder"; // TODO: get uuid from apuuid.hpp helper
-        std::string game = "Pseudoregalia";
-        std::string uri = new_ip;
-        client = new APClient(uuid, game, uri); // TODO: add cert store
-
         // Initialize game state.
         GameData::Initialize();
-        AP_Init(new_ip, "Pseudoregalia", new_slot_name, new_password);
-
-        // Set all the necessary callbacks and info through APCpp.
-        AP_NetworkVersion version{ 0, 6, 2 };
-        AP_SetClientVersion(&version);
-        AP_SetItemClearCallback(&GameData::Initialize); // Yes, this calls Initialize twice. I'll fix it when I add save files.
-        AP_SetLocationCheckedCallback(&GameData::CheckLocation);
-        AP_SetItemRecvCallback(&ReceiveItem);
-        AP_SetDeathLinkSupported(true);
-        AP_SetDeathLinkRecvCallback(&ReceiveDeathLink);
-        AP_RegisterSlotDataIntCallback("slot_number", &SetSlotNumber);
-        // TODO: Figure out a way to generalize this; might require lambdas?
-        AP_RegisterSlotDataIntCallback("split_sun_greaves", &SetSplitKicks);
-
-        AP_Start();
+        uuid = "placeholder";
+        uri = new_ip;
+        slot_name = new_slot_name;
+        password = new_password;
+        client = new APClient(uuid, game_name, uri); // TODO: add proper uuid and cert store
+        client->set_socket_connected_handler(&SocketConnected);
 
         // Print feedback to the player so they know the connect command went through.
-        connection_status = AP_GetConnectionStatus();
         std::string connect_message = "Attempting to connect to ";
         connect_message.append(new_ip);
         connect_message += " with name ";
@@ -137,6 +127,21 @@ namespace Client {
 
     // Private functions
     namespace {
+        void SocketConnected() {
+            std::string name = slot_name;
+            std::string password = password;
+            int items_handling = 0b111;
+            APClient::Version version{ 0, 6, 2 };
+            // TODO: Make this feedback better
+            Logger::Log("attempting to connect");
+            if (client->ConnectSlot(name, password, items_handling, {}, version)) {
+                Logger::Log("Connected!", Logger::LogType::System);
+            }
+            else {
+                Logger::Log("Failed to connect...", Logger::LogType::System);
+            }
+        }
+
         void SetSlotNumber(int num) {
             slot_number = num;
         }
