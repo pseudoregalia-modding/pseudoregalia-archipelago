@@ -19,7 +19,6 @@ namespace Client {
     // Private members
     namespace {
         void ReceiveItems(const std::list<APClient::NetworkItem>&);
-        void CheckLocation(int64_t);
         bool ConnectionStatusChanged();
         void SetSlotNumber(int);
         void SetSplitKicks(int);
@@ -60,6 +59,7 @@ namespace Client {
         client = new APClient(uuid, game_name, uri); // TODO: add cert store
         client->set_room_info_handler(&ConnectToSlot);
         client->set_items_received_handler(&ReceiveItems);
+        client->set_location_checked_handler(&GameData::CheckLocations);
 
         // Print feedback to the player so they know the connect command went through.
         std::string connect_message = "Attempting to connect to ";
