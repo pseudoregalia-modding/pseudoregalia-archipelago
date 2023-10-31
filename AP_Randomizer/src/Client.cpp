@@ -18,6 +18,8 @@
 namespace Client {
     // Private members
     namespace {
+        typedef nlohmann::json json;
+        typedef APClient::State ConnectionStatus;
         void ReceiveItems(const std::list<APClient::NetworkItem>&);
         bool ConnectionStatusChanged();
         void SetSlotNumber(int);
