@@ -24,7 +24,7 @@ namespace Client {
         void SetSplitKicks(int);
         void ReceiveDeathLink();
         void ConnectionTimerExpired();
-        void SocketConnected();
+        void ConnectToSlot();
 
         APClient* client;
         AP_ConnectionStatus connection_status;
@@ -41,7 +41,6 @@ namespace Client {
 
     /*
     TODO:
-    - client version
     - sending items
     - receiving items
     - completing game
@@ -58,7 +57,7 @@ namespace Client {
         slot_name = new_slot_name;
         password = new_password;
         client = new APClient(uuid, game_name, uri); // TODO: add proper uuid and cert store
-        client->set_socket_connected_handler(&SocketConnected);
+        client->set_room_info_handler(&ConnectToSlot);
 
         // Print feedback to the player so they know the connect command went through.
         std::string connect_message = "Attempting to connect to ";
@@ -127,7 +126,7 @@ namespace Client {
 
     // Private functions
     namespace {
-        void SocketConnected() {
+        void ConnectToSlot() {
             std::string name = slot_name;
             std::string password = password;
             int items_handling = 0b111;
