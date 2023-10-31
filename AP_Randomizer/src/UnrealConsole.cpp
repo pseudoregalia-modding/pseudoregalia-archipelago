@@ -32,6 +32,10 @@ namespace UnrealConsole {
 			UnrealConsole::ParseConnect(command);
 		}
 
+		if (first_word == "disconnect") {
+			Client::Disconnect();
+		}
+
 		if (first_word == "message" || first_word == "messages") {
 			if (command.find(DELIM) == std::string::npos) {
 				Logger::Log(L"Please input an option, such as \"mute\" or \"hide\".", Logger::LogType::System);

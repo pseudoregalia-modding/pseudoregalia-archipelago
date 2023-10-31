@@ -6,4 +6,5 @@ namespace Client {
 	void PollServer();
 	void CompleteGame();
 	void SendDeathLink();
+	void Disconnect();
 }

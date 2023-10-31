@@ -69,6 +69,16 @@ namespace Client {
         Timer::RunTimerRealTime(connection_timer, &ConnectionTimerExpired);
     }
 
+    void Client::Disconnect() {
+        if (client == nullptr) {
+            Logger::Log("You are not currently connected.", Logger::LogType::System);
+            return;
+        }
+        delete client;
+        client = nullptr;
+        Logger::Log("Disconnected from " + uri, Logger::LogType::System);
+    }
+
     void Client::SendCheck(int64_t id, std::wstring current_world) {
         Logger::Log(L"Sending check with id " + std::to_wstring(id));
         AP_SendItem(id);
