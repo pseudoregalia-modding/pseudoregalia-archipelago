@@ -3,7 +3,8 @@
 #pragma warning(disable: 4267) // Disable conversion warnings from websocketpp and apclientpp
 #pragma warning(disable: 4996) // Disable deprecated warnings from old asio version and apclientpp
 
-// Define asio standalone even though we need boost installed for certain dependencies.
+// Define asio standalone even though we need boost installed for certain dependencies,
+// because otherwise we end up with repeated definitions.
 // Honestly this library confuses the hell out of me.
 #define ASIO_STANDALONE
 #define BOOST_ALL_NO_LIB // Allows us to use asio boost as header-only
