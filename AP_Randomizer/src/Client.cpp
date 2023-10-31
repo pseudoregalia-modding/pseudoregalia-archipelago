@@ -1,4 +1,6 @@
 #pragma once
+#pragma comment (lib, "crypt32") // Include crypt32.lib
+
 // Define asio standalone even though we need boost installed for certain dependencies.
 // Honestly this library confuses the hell out of me.
 #define ASIO_STANDALONE
