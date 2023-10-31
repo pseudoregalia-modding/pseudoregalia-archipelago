@@ -70,7 +70,6 @@ namespace Client {
 
         client->set_socket_error_handler([](const std::string& error) {
             // Only print a message after exactly X failed attempts.
-            std::cout << connection_retries << " " << max_connection_retries << "\n";
             if (connection_retries == max_connection_retries) {
                 // Change error message based on whether a seed is already active.
                 if (file_active) {
@@ -84,11 +83,6 @@ namespace Client {
             connection_retries++;
             Logger::Log(error);
             return;
-            });
-
-        client->set_socket_disconnected_handler([]() {
-            file_active = false;
-            Logger::Log("DISCONNECTED", Logger::LogType::Error);
             });
 
         client->set_slot_refused_handler([](const std::list<std::string>& reasons) {
@@ -127,7 +121,6 @@ namespace Client {
     void Client::SendCheck(int64_t id, std::wstring current_world) {
         // TODO: Consider refactoring to queue location ids as an actual list
         std::list<int64_t> id_list{ id };
-        //Logger::Log(std::to_wstring(id_list.size()), Logger::LogType::System);
         Logger::Log(L"Sending check with id " + std::to_wstring(id));
         client->LocationChecks(id_list);
     }
