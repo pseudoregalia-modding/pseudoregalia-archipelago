@@ -25,6 +25,7 @@ namespace Client {
         void ReceiveDeathLink();
         void ConnectionTimerExpired();
 
+        APClient* client;
         AP_ConnectionStatus connection_status;
         const std::chrono::seconds connection_timer(15);
         int slot_number;
@@ -32,8 +33,24 @@ namespace Client {
         const float death_link_timer_seconds(4.0f);
     } // End private members
 
-
+    /*
+    TODO:
+    - connecting
+    - client version
+    - sending items
+    - receiving items
+    - completing game
+    - sending game completion flag to datastorage
+    - receiving messages
+    - setting options from slot data
+    - death link
+    */
     void Client::Connect(const char* new_ip, const char* new_slot_name, const char* new_password) {
+        std::string uuid = "placeholder"; // TODO: get uuid from apuuid.hpp helper
+        std::string game = "Pseudoregalia";
+        std::string uri = new_ip;
+        client = new APClient(uuid, game, uri); // TODO: add cert store
+
         // Initialize game state.
         GameData::Initialize();
         AP_Init(new_ip, "Pseudoregalia", new_slot_name, new_password);
@@ -86,6 +103,11 @@ namespace Client {
     }
 
     void Client::PollServer() {
+        if (client == nullptr) {
+            return;
+        }
+        client->poll();
+
         if (AP_IsMessagePending()) {
             AP_Message* message = AP_GetLatestMessage();
             Logger::Log(message->text, Logger::LogType::Popup);
