@@ -87,8 +87,11 @@ namespace Client {
     }
 
     void Client::SendCheck(int64_t id, std::wstring current_world) {
+        // TODO: Consider refactoring to queue location ids as an actual list
+        std::list<int64_t> id_list{ id };
+        //Logger::Log(std::to_wstring(id_list.size()), Logger::LogType::System);
         Logger::Log(L"Sending check with id " + std::to_wstring(id));
-        AP_SendItem(id);
+        client->LocationChecks(id_list);
     }
     
     // Sends game completion flag to Archipelago.
