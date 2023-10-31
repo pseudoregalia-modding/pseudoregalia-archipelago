@@ -21,6 +21,7 @@ namespace Client {
         typedef nlohmann::json json;
         typedef APClient::State ConnectionStatus;
         void ReceiveItems(const std::list<APClient::NetworkItem>&);
+        void OnSlotConnected(const json&);
         bool ConnectionStatusChanged();
         void SetSlotNumber(int);
         void SetSplitKicks(int);
@@ -64,6 +65,7 @@ namespace Client {
         client->set_room_info_handler(&ConnectToSlot);
         client->set_items_received_handler(&ReceiveItems);
         client->set_location_checked_handler(&GameData::CheckLocations);
+        client->set_slot_connected_handler(&OnSlotConnected);
 
         // Print feedback to the player so they know the connect command went through.
         std::string connect_message = "Attempting to connect to ";
@@ -121,9 +123,6 @@ namespace Client {
         }
 
         if (ConnectionStatusChanged()) {
-            if (connection_status == AP_ConnectionStatus::Authenticated) {
-                Engine::SpawnCollectibles();
-            }
             if (connection_status == AP_ConnectionStatus::ConnectionRefused) {
                 Logger::Log(L"The server refused the connection. Please double-check your connection info and client version, and restart the game.", Logger::LogType::System);
             }
@@ -156,6 +155,10 @@ namespace Client {
             else {
                 Logger::Log("Failed to connect...", Logger::LogType::System);
             }
+        }
+
+        void OnSlotConnected(const json&) {
+            Engine::SpawnCollectibles();
         }
 
         void SetSlotNumber(int num) {
