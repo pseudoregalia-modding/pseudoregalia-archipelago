@@ -8,6 +8,7 @@
 #define APCLIENT_DEBUG
 #include "Archipelago.h"
 #include "apclient.hpp"
+#include "apuuid.hpp"
 #include "GameData.hpp"
 #include "Engine.hpp"
 #include "Client.hpp"
@@ -52,11 +53,11 @@ namespace Client {
     void Client::Connect(const char* new_ip, const char* new_slot_name, const char* new_password) {
         // Initialize game state.
         GameData::Initialize();
-        uuid = "placeholder";
+        uuid = ap_get_uuid("Mods/AP_Randomizer/dlls/uuid");
         uri = new_ip;
         slot_name = new_slot_name;
         password = new_password;
-        client = new APClient(uuid, game_name, uri); // TODO: add proper uuid and cert store
+        client = new APClient(uuid, game_name, uri); // TODO: add cert store
         client->set_room_info_handler(&ConnectToSlot);
 
         // Print feedback to the player so they know the connect command went through.
