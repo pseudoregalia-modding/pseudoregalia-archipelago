@@ -165,8 +165,11 @@ namespace Client {
             Logger::Log(message_text, Logger::LogType::Popup);
         }
 
-        void OnSlotConnected(const json&) {
+        void OnSlotConnected(const json& slot_data) {
             Engine::SpawnCollectibles();
+            for (json::const_iterator iter = slot_data.begin(); iter != slot_data.end(); iter++) {
+                GameData::SetOption(iter.key(), iter.value());
+            }
         }
 
         void SetSlotNumber(int num) {

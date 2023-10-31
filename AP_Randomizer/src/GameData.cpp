@@ -59,6 +59,7 @@ namespace GameData {
     }
 
     void GameData::SetOption(std::string option_name, int value) {
+        Logger::Log("Set option " + option_name + " to " + std::to_string(value));
         options[option_name] = value;
     }
 
