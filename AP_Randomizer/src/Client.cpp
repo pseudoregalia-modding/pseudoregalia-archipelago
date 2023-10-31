@@ -1,5 +1,7 @@
 #pragma once
 #pragma comment (lib, "crypt32") // Include crypt32.lib
+#pragma warning(disable: 4267) // Disable conversion warnings from websocketpp and apclientpp
+#pragma warning(disable: 4996) // Disable deprecated warnings from old asio version and apclientpp
 
 // Define asio standalone even though we need boost installed for certain dependencies.
 // Honestly this library confuses the hell out of me.
