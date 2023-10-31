@@ -58,8 +58,8 @@ namespace GameData {
         return upgrade_table;
     }
 
-    void GameData::SetOption(std::string option_name, bool is_true) {
-        options[option_name] = is_true;
+    void GameData::SetOption(std::string option_name, int value) {
+        options[option_name] = value;
     }
 
     std::unordered_map<std::string, int> GameData::GetOptions() {
