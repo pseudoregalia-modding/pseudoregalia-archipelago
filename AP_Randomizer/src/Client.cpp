@@ -99,7 +99,11 @@ namespace Client {
     
     // Sends game completion flag to Archipelago.
     void Client::CompleteGame() {
-        AP_StoryComplete();
+        if (client == nullptr) {
+            // TODO: queue this if the player forgets to connect before winning
+            return;
+        }
+        client->StatusUpdate(APClient::ClientStatus::GOAL);
 
         // Send a key to datastorage upon game completion for PopTracker integration
         // I get the slot number by storing it in slot data on generation but I'm pretty sure there's a less dumb way.
