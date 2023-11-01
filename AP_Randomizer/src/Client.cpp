@@ -26,10 +26,8 @@ namespace Client {
         typedef nlohmann::json json;
         typedef APClient::State ConnectionStatus;
         void ReceiveItems(const std::list<APClient::NetworkItem>&);
-        void OnSlotConnected(const json&);
         void PrintJsonMessage(const APClient::PrintJSONArgs&);
         void ReceiveDeathLink(const json&);
-        void ConnectToSlot();
 
         // I don't think a mutex is required here because apclientpp locks the instance during poll().
         // If people report random crashes, especially when disconnecting, I'll revisit it.
@@ -71,7 +69,17 @@ namespace Client {
             });
         client->set_items_received_handler(&ReceiveItems);
         client->set_location_checked_handler(&GameData::CheckLocations);
-        client->set_slot_connected_handler(&OnSlotConnected);
+        client->set_slot_connected_handler([](const json& slot_data) {
+            Logger::Log("Connected to slot.");
+            for (json::const_iterator iter = slot_data.begin(); iter != slot_data.end(); iter++) {
+                GameData::SetOption(iter.key(), iter.value());
+                if (iter.key() == "death_link" || iter.value() > 0) {
+                    client->ConnectUpdate(false, 0, true, std::list<std::string> {"DeathLink"});
+                }
+            }
+            Engine::SpawnCollectibles();
+            connection_retries = 0;
+            });
         client->set_print_json_handler(&PrintJsonMessage);
         client->set_bounced_handler(&ReceiveDeathLink);
 
@@ -177,17 +185,6 @@ namespace Client {
         void PrintJsonMessage(const APClient::PrintJSONArgs& args) {
             std::string message_text = client->render_json(args.data);
             Logger::Log(message_text, Logger::LogType::Popup);
-        }
-
-        void OnSlotConnected(const json& slot_data) {
-            for (json::const_iterator iter = slot_data.begin(); iter != slot_data.end(); iter++) {
-                GameData::SetOption(iter.key(), iter.value());
-                if (iter.key() == "death_link" || iter.value() > 0) {
-                    client->ConnectUpdate(false, 0, true, std::list<std::string> {"DeathLink"});
-                }
-            }
-            Engine::SpawnCollectibles();
-            connection_retries = 0;
         }
 
         void ReceiveItems(const std::list<APClient::NetworkItem>& items) {
