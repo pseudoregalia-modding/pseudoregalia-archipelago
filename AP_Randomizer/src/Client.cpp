@@ -46,7 +46,7 @@ namespace Client {
         const float death_link_timer_seconds(4.0f);
     } // End private members
 
-    void Client::Connect(const char* new_ip, const char* new_slot_name, const char* new_password) {
+    void Client::Connect(const std::string new_uri, const std::string new_slot_name, const std::string new_password) {
         // Ensure error messages work correctly even when the player doesn't fully disconnect first.
         file_active = false;
         connection_retries = 0;
@@ -57,7 +57,7 @@ namespace Client {
         }
 
         GameData::Initialize();
-        uri = new_ip;
+        uri = new_uri;
         slot_name = new_slot_name;
         password = new_password;
 
@@ -102,7 +102,7 @@ namespace Client {
 
         // Print feedback to the player so they know the connect command went through.
         std::string connect_message = "Attempting to connect to ";
-        connect_message.append(new_ip);
+        connect_message.append(new_uri);
         connect_message += " with name ";
         connect_message.append(new_slot_name);
         Logger::Log(connect_message, Logger::LogType::System);

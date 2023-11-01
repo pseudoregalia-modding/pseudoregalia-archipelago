@@ -74,7 +74,7 @@ namespace UnrealConsole {
 			}
 
 			std::string password = GetNextToken(args);
-			Client::Connect(ip.c_str(), slot_name.c_str(), password.c_str());
+			Client::Connect(ip, slot_name, password);
 		}
 
 		void ParseMessageOption(std::string option) {
