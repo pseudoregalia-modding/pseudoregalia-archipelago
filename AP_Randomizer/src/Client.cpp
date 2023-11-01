@@ -106,10 +106,27 @@ namespace Client {
                 Log("Could not connect to the server. " + advice, LogType::System);
                 });
 
-            ap->set_items_received_handler(&ReceiveItems);
-            ap->set_location_checked_handler(&GameData::CheckLocations);
-            ap->set_print_json_handler(&PrintJsonMessage);
+            // Executes whenever items are received from the server.
+            ap->set_items_received_handler([](const std::list<APClient::NetworkItem>& items) {
+                for (const auto& item : items) {
+                    Log(L"Receiving item with id " + std::to_wstring(item.item));
+                    GameData::ReceiveItem(item.item);
+                    Engine::SyncItems();
+                }
+                });
+
+            // Executes whenever a chat message is received.
+            ap->set_print_json_handler([](const APClient::PrintJSONArgs& args) {
+                std::string message_text = ap->render_json(args.data);
+                Log(message_text, LogType::Popup);
+                });
+
+            // Executes whenever a bounce (death link) is received.
+            // Extracted because this function is pretty long.
             ap->set_bounced_handler(&ReceiveDeathLink);
+
+            // Executes whenever the server tells us a location has been checked.
+            ap->set_location_checked_handler(&GameData::CheckLocations);
         } // End callbacks
     }
 
@@ -180,20 +197,6 @@ namespace Client {
 
     // Private functions
     namespace {
-        void PrintJsonMessage(const APClient::PrintJSONArgs& args) {
-            std::string message_text = ap->render_json(args.data);
-            Log(message_text, LogType::Popup);
-        }
-
-        void ReceiveItems(const std::list<APClient::NetworkItem>& items) {
-            for (const auto& item : items) {
-                int64_t id = item.item;
-                Log(L"Receiving item with id " + std::to_wstring(id));
-                GameData::ReceiveItem(id);
-                Engine::SyncItems();
-            }
-        }
-
         void ReceiveDeathLink(const json& data) {
             Log("Receiving bounce: " + data.dump());
             if (ap == nullptr
