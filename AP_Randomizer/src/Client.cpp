@@ -32,13 +32,11 @@ namespace Client {
         // I don't think a mutex is required here because apclientpp locks the instance during poll().
         // If people report random crashes, especially when disconnecting, I'll revisit it.
         APClient* ap;
-        AP_ConnectionStatus connection_status;
         std::string uri;
         const std::string uuid = ap_get_uuid("Mods/AP_Randomizer/dlls/uuid");
         const std::string game_name = "Pseudoregalia";
         const int max_connection_retries = 3;
         int connection_retries = 0;
-        int slot_number;
         bool death_link_locked;
         const float death_link_timer_seconds(4.0f);
     } // End private members
