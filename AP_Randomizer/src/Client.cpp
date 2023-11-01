@@ -48,8 +48,6 @@ namespace Client {
         GameData::Initialize();
         ap = new APClient(uuid, game_name, uri); // TODO: add cert store
         connection_retries = 0;
-
-        // Print feedback to the player so they know the connect command went through.
         std::string connect_message(
             "Attempting to connect to " + uri
             + " with name " + slot_name);
