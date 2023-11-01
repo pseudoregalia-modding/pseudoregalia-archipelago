@@ -16,6 +16,7 @@
 #include "Client.hpp"
 #include "Logger.hpp"
 #include "Timer.hpp"
+#include "DeathLinkMessages.hpp"
 
 namespace Client {
     // Private members
@@ -169,23 +170,22 @@ namespace Client {
     }
 
     void Client::SendDeathLink() {
+        using DeathLinkMessages::RandomOutgoingDeathlink;
+        using DeathLinkMessages::RandomOwnDeathlink;
         if (ap == nullptr
         || !GameData::GetOptions().at("death_link")
         || death_link_locked) {
             return;
         }
 
-        // TODO: more of these.
-        // I don't think there's an easy to way to get cause of death from within the game unfortunately.
-        std::string funny_message(ap->get_slot());
-        funny_message.append(" wished death upon their friends.");
+        std::string funny_message(std::vformat(RandomOutgoingDeathlink(), std::make_format_args(ap->get_slot())));
         json data{
             {"time", ap->get_server_time()},
             {"cause", funny_message},
             {"source", ap->get_slot()},
         };
         ap->Bounce(data, {}, {}, { "DeathLink" });
-        Log(L"Sending death to your friends ♥", LogType::Popup);
+        Log(RandomOwnDeathlink(), LogType::Popup);
         Log("Sending bounce: " + data.dump());
         Timer::RunTimerInGame(death_link_timer_seconds, &death_link_locked);
     }
