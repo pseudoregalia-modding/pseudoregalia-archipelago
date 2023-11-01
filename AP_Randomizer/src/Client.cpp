@@ -47,18 +47,16 @@ namespace Client {
     } // End private members
 
     void Client::Connect(const std::string new_uri, const std::string slot_name, const std::string password) {
-        // Ensure error messages work correctly even when the player doesn't fully disconnect first.
-        file_active = false;
-        connection_retries = 0;
-
         // Nuke any existing client in case uri needs to change.
         if (client != nullptr) {
             delete client;
         }
+        // Ensure error messages work correctly even when the player doesn't fully disconnect first.
+        file_active = false;
+        connection_retries = 0;
 
         GameData::Initialize();
         uri = new_uri;
-
         client = new APClient(uuid, game_name, uri); // TODO: add cert store
 
         // Print feedback to the player so they know the connect command went through.
