@@ -46,10 +46,6 @@ namespace Client {
         const float death_link_timer_seconds(4.0f);
     } // End private members
 
-    /*
-    TODO:
-    - death link
-    */
     void Client::Connect(const char* new_ip, const char* new_slot_name, const char* new_password) {
         // Ensure error messages work correctly even when the player doesn't fully disconnect first.
         file_active = false;
