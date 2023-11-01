@@ -37,8 +37,6 @@ namespace Client {
         AP_ConnectionStatus connection_status;
         std::string uri;
         const std::string uuid = ap_get_uuid("Mods/AP_Randomizer/dlls/uuid");
-        std::string slot_name;
-        std::string password;
         const std::string game_name = "Pseudoregalia";
         bool file_active = false; // Used to determine how to phrase socket errors based on whether the player expects to be connected already.
         const int max_connection_retries = 3;
@@ -48,7 +46,7 @@ namespace Client {
         const float death_link_timer_seconds(4.0f);
     } // End private members
 
-    void Client::Connect(const std::string new_uri, const std::string new_slot_name, const std::string new_password) {
+    void Client::Connect(const std::string new_uri, const std::string slot_name, const std::string password) {
         // Ensure error messages work correctly even when the player doesn't fully disconnect first.
         file_active = false;
         connection_retries = 0;
@@ -60,11 +58,16 @@ namespace Client {
 
         GameData::Initialize();
         uri = new_uri;
-        slot_name = new_slot_name;
-        password = new_password;
 
         client = new APClient(uuid, game_name, uri); // TODO: add cert store
-        client->set_room_info_handler(&ConnectToSlot);
+        client->set_room_info_handler([slot_name, password]() {
+            int items_handling = 0b111;
+            APClient::Version version{ 0, 6, 2 };
+
+            // TODO: Make this feedback better
+            Logger::Log("attempting to connect");
+            client->ConnectSlot(slot_name, password, items_handling, {}, version);
+            });
         client->set_items_received_handler(&ReceiveItems);
         client->set_location_checked_handler(&GameData::CheckLocations);
         client->set_slot_connected_handler(&OnSlotConnected);
@@ -106,7 +109,7 @@ namespace Client {
         std::string connect_message = "Attempting to connect to ";
         connect_message.append(new_uri);
         connect_message += " with name ";
-        connect_message.append(new_slot_name);
+        connect_message.append(slot_name);
         Logger::Log(connect_message, Logger::LogType::System);
     }
 
@@ -177,17 +180,6 @@ namespace Client {
 
     // Private functions
     namespace {
-        void ConnectToSlot() {
-            std::string name = slot_name;
-            std::string password = password;
-            int items_handling = 0b111;
-            APClient::Version version{ 0, 6, 2 };
-
-            // TODO: Make this feedback better
-            Logger::Log("attempting to connect");
-            client->ConnectSlot(name, password, items_handling, {}, version);
-        }
-
         void PrintJsonMessage(const APClient::PrintJSONArgs& args) {
             std::string message_text = client->render_json(args.data);
             Logger::Log(message_text, Logger::LogType::Popup);
