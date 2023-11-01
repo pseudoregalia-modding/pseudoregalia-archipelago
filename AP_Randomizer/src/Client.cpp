@@ -55,6 +55,11 @@ namespace Client {
         file_active = false;
         connection_retries = 0;
 
+        // Nuke any existing client in case uri needs to change.
+        if (client != nullptr) {
+            delete client;
+        }
+
         GameData::Initialize();
         uri = new_ip;
         slot_name = new_slot_name;
@@ -108,7 +113,6 @@ namespace Client {
     }
 
     void Client::Disconnect() {
-        // TODO: just call client->reset()
         if (client == nullptr) {
             Logger::Log("You are not currently connected.", Logger::LogType::System);
             return;
