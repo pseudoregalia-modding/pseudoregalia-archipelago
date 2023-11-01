@@ -32,8 +32,9 @@ namespace Client {
         // I don't think a mutex is required here because apclientpp locks the instance during poll().
         // If people report random crashes, especially when disconnecting, I'll revisit it.
         APClient* ap;
-        const std::string uuid = ap_get_uuid("Mods/AP_Randomizer/dlls/uuid");
-        const std::string game_name = "Pseudoregalia";
+        const std::string game_name("Pseudoregalia");
+        const std::string uuid(ap_get_uuid("Mods/AP_Randomizer/dlls/uuid"));
+        const std::string cert_store("Mods/AP_Randomizer/dlls/cacert.pem");
         const int max_connection_retries = 3;
         int connection_retries = 0;
         bool death_link_locked;
@@ -46,7 +47,7 @@ namespace Client {
             delete ap;
         }
         GameData::Initialize();
-        ap = new APClient(uuid, game_name, uri); // TODO: add cert store
+        ap = new APClient(uuid, game_name, uri, cert_store);
         connection_retries = 0;
         std::string connect_message(
             "Attempting to connect to " + uri
