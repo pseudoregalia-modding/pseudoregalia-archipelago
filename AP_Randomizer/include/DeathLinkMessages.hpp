@@ -1,6 +1,7 @@
 ﻿#include <string>
 #include <random>
 #include <format>
+#include <ctime>
 #include <boost/random/mersenne_twister.hpp>
 #include <boost/random/uniform_int_distribution.hpp>
 
@@ -22,7 +23,7 @@ namespace DeathLinkMessages {
 
 		const int own_messages_max = own_deathlink_messages.size() - 1;
 		const int outgoing_messages_max = outgoing_deathlink_messages.size() - 1;
-		boost::random::mt19937 gen;
+		boost::random::mt19937 gen(time(0));
 	}
 
 	// Returns a random death message for the player who died.
