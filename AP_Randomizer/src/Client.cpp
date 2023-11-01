@@ -34,7 +34,7 @@ namespace Client {
         APClient* client;
         AP_ConnectionStatus connection_status;
         std::string uri;
-        std::string uuid;
+        const std::string uuid = ap_get_uuid("Mods/AP_Randomizer/dlls/uuid");
         std::string slot_name;
         std::string password;
         const std::string game_name = "Pseudoregalia";
@@ -56,7 +56,6 @@ namespace Client {
         connection_retries = 0;
 
         GameData::Initialize();
-        uuid = ap_get_uuid("Mods/AP_Randomizer/dlls/uuid");
         uri = new_ip;
         slot_name = new_slot_name;
         password = new_password;
