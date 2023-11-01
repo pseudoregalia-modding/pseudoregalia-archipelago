@@ -67,8 +67,7 @@ namespace Client {
             Logger::Log("attempting to connect");
             client->ConnectSlot(slot_name, password, items_handling, {}, version);
             });
-        client->set_items_received_handler(&ReceiveItems);
-        client->set_location_checked_handler(&GameData::CheckLocations);
+
         client->set_slot_connected_handler([](const json& slot_data) {
             Logger::Log("Connected to slot.");
             for (json::const_iterator iter = slot_data.begin(); iter != slot_data.end(); iter++) {
@@ -80,8 +79,6 @@ namespace Client {
             Engine::SpawnCollectibles();
             connection_retries = 0;
             });
-        client->set_print_json_handler(&PrintJsonMessage);
-        client->set_bounced_handler(&ReceiveDeathLink);
 
         client->set_socket_error_handler([](const std::string& error) {
             // Only print a message after exactly X failed attempts.
@@ -113,6 +110,11 @@ namespace Client {
 
             Logger::Log("Could not connect to the server. " + advice, Logger::LogType::System);
             });
+
+        client->set_items_received_handler(&ReceiveItems);
+        client->set_location_checked_handler(&GameData::CheckLocations);
+        client->set_print_json_handler(&PrintJsonMessage);
+        client->set_bounced_handler(&ReceiveDeathLink);
     }
 
     void Client::Disconnect() {
