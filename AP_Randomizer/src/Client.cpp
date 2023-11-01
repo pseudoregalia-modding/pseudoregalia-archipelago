@@ -62,10 +62,9 @@ namespace Client {
         client = new APClient(uuid, game_name, uri); // TODO: add cert store
 
         // Print feedback to the player so they know the connect command went through.
-        std::string connect_message = "Attempting to connect to ";
-        connect_message.append(new_uri);
-        connect_message += " with name ";
-        connect_message.append(slot_name);
+        std::string connect_message(
+            "Attempting to connect to " + new_uri
+            + " with name " + slot_name);
         Logger::Log(connect_message, Logger::LogType::System);
 
         client->set_room_info_handler([slot_name, password]() {
