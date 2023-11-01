@@ -57,13 +57,13 @@ namespace Client {
         std::string connect_message(
             "Attempting to connect to " + new_uri
             + " with name " + slot_name);
-        Logger::Log(connect_message, Logger::LogType::System);
+        Log(connect_message, LogType::System);
 
         // The Great Wall Of Callbacks
         {
             // Executes when the server sends room info; attempts to connect the player.
             ap->set_room_info_handler([slot_name, password]() {
-                Logger::Log("Received room info");
+                Log("Received room info");
                 int items_handling = 0b111;
                 APClient::Version version{ 0, 6, 2 };
                 ap->ConnectSlot(slot_name, password, items_handling, {}, version);
@@ -71,7 +71,7 @@ namespace Client {
 
             // Executes on successful connection to slot.
             ap->set_slot_connected_handler([](const json& slot_data) {
-                Logger::Log("Connected to slot");
+                Log("Connected to slot");
                 for (json::const_iterator iter = slot_data.begin(); iter != slot_data.end(); iter++) {
                     GameData::SetOption(iter.key(), iter.value());
                     if (iter.key() == "death_link" || iter.value() > 0) {
@@ -85,13 +85,13 @@ namespace Client {
             // Executes whenever a socket error is detected.
             // We want to only print an error after exactly X attempts.
             ap->set_socket_error_handler([](const std::string& error) {
-                Logger::Log("Socket error: " + error);
+                Log("Socket error: " + error);
                 if (connection_retries == max_connection_retries) {
                     if (ap->get_player_number() >= 0) { // Seed is already in progress
-                        Logger::Log(L"Lost connection with the server. Attempting to reconnect...", Logger::LogType::System);
+                        Log(L"Lost connection with the server. Attempting to reconnect...", LogType::System);
                     }
                     else { // Attempting to connect to a new room
-                        Logger::Log(L"Could not connect to the server. Please double-check the address and ensure the server is active.", Logger::LogType::System);
+                        Log(L"Could not connect to the server. Please double-check the address and ensure the server is active.", LogType::System);
                     }
                 }
                 connection_retries++;
@@ -107,7 +107,7 @@ namespace Client {
                 if (std::find(reasons.begin(), reasons.end(), "IncompatibleVersion") != reasons.end()) {
                     advice = "Please double-check your client version.";
                 }
-                Logger::Log("Could not connect to the server. " + advice, Logger::LogType::System);
+                Log("Could not connect to the server. " + advice, LogType::System);
                 });
 
             ap->set_items_received_handler(&ReceiveItems);
@@ -119,18 +119,18 @@ namespace Client {
 
     void Client::Disconnect() {
         if (ap == nullptr) {
-            Logger::Log("You are not currently connected.", Logger::LogType::System);
+            Log("You are not currently connected.", LogType::System);
             return;
         }
         delete ap;
         ap = nullptr;
-        Logger::Log("Disconnected from " + uri, Logger::LogType::System);
+        Log("Disconnected from " + uri, LogType::System);
     }
 
     void Client::SendCheck(int64_t id, std::wstring current_world) {
         // TODO: Consider refactoring to queue location ids as an actual list
         std::list<int64_t> id_list{ id };
-        Logger::Log(L"Sending check with id " + std::to_wstring(id));
+        Log(L"Sending check with id " + std::to_wstring(id));
         ap->LocationChecks(id_list);
     }
     
@@ -176,8 +176,8 @@ namespace Client {
             {"source", ap->get_slot()},
         };
         ap->Bounce(data, {}, {}, { "DeathLink" });
-        Logger::Log(L"Sending death to your friends ♥", Logger::LogType::Popup);
-        Logger::Log("Sending bounce: " + data.dump());
+        Log(L"Sending death to your friends ♥", LogType::Popup);
+        Log("Sending bounce: " + data.dump());
         Timer::RunTimerInGame(death_link_timer_seconds, &death_link_locked);
     }
 
@@ -186,20 +186,20 @@ namespace Client {
     namespace {
         void PrintJsonMessage(const APClient::PrintJSONArgs& args) {
             std::string message_text = ap->render_json(args.data);
-            Logger::Log(message_text, Logger::LogType::Popup);
+            Log(message_text, LogType::Popup);
         }
 
         void ReceiveItems(const std::list<APClient::NetworkItem>& items) {
             for (const auto& item : items) {
                 int64_t id = item.item;
-                Logger::Log(L"Receiving item with id " + std::to_wstring(id));
+                Log(L"Receiving item with id " + std::to_wstring(id));
                 GameData::ReceiveItem(id);
                 Engine::SyncItems();
             }
         }
 
         void ReceiveDeathLink(const json& data) {
-            Logger::Log("Receiving bounce: " + data.dump());
+            Log("Receiving bounce: " + data.dump());
             if (ap == nullptr
                 || !GameData::GetOptions().at("death_link")
                 || death_link_locked) {
@@ -208,7 +208,7 @@ namespace Client {
 
             if (!data.contains("data")) {
                 // Should only execute if the received death link data was not properly filled out.
-                Logger::Log("You were assassinated by a mysterious villain...", Logger::LogType::Popup);
+                Log("You were assassinated by a mysterious villain...", LogType::Popup);
                 Engine::VaporizeGoat();
                 Timer::RunTimerInGame(death_link_timer_seconds, &death_link_locked);
                 return;
@@ -218,15 +218,15 @@ namespace Client {
 
             if (details.contains("cause")) {
                 std::string cause(details["cause"]);
-                Logger::Log(cause, Logger::LogType::Popup);
+                Log(cause, LogType::Popup);
             }
             else if (details.contains("source")) {
                 std::string source(details["source"]);
-                Logger::Log("You were brutally murdered by " + source + ".", Logger::LogType::Popup);
+                Log("You were brutally murdered by " + source + ".", LogType::Popup);
             }
             else {
                 // Should only execute if the received death link data was not properly filled out.
-                Logger::Log("You were assassinated by a mysterious villain...", Logger::LogType::Popup);
+                Log("You were assassinated by a mysterious villain...", LogType::Popup);
             }
             Engine::VaporizeGoat();
             Timer::RunTimerInGame(death_link_timer_seconds, &death_link_locked);

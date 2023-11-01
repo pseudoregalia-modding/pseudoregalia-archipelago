@@ -59,7 +59,7 @@ namespace GameData {
     }
 
     void GameData::SetOption(std::string option_name, int value) {
-        Logger::Log("Set option " + option_name + " to " + std::to_string(value));
+        Log("Set option " + option_name + " to " + std::to_string(value));
         options[option_name] = value;
     }
 
@@ -247,7 +247,7 @@ namespace GameData {
             major_keys[id - 2365810021] = true;
             break;
         default:
-            Logger::Log(L"You were sent an item, but its id wasn't recognized. Verify that you're playing on the same version this seed was generated on.");
+            Log(L"You were sent an item, but its id wasn't recognized. Verify that you're playing on the same version this seed was generated on.");
             break;
         }
         return type;
@@ -264,23 +264,23 @@ namespace GameData {
                     goto location_finished; // Continue loop for next id, skipping the warning log
                 }
             }
-            Logger::Log(L"No location with id " + std::to_wstring(id) + L" was found. The developer probably made a mistake in the internal data.", Logger::LogType::Error);
+            Log(L"No location with id " + std::to_wstring(id) + L" was found. The developer probably made a mistake in the internal data.", LogType::Error);
         location_finished:;
         }
     }
 
     bool GameData::ToggleSlideJump() {
         if (!slidejump_owned) {
-            Logger::Log(L"Slidejump is not obtained");
+            Log(L"Slidejump is not obtained");
             return false;
         }
 
         slidejump_disabled = !slidejump_disabled;
         if (slidejump_disabled) {
-            Logger::Log(L"Solar wind is now OFF.", Logger::LogType::System);
+            Log(L"Solar wind is now OFF.", LogType::System);
         }
         else {
-            Logger::Log(L"Solar wind is now ON.", Logger::LogType::System);
+            Log(L"Solar wind is now ON.", LogType::System);
         }
         return true;
     }

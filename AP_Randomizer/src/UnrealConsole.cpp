@@ -21,11 +21,11 @@ namespace UnrealConsole {
 		std::string command = ConvertTcharToString(new_command);
 		std::string first_word = command.substr(0, command.find(DELIM));
 		transform(first_word.begin(), first_word.end(), first_word.begin(), tolower); // Convert the first word in the command to lowercase
-		Logger::Log("AP console command: " + command);
+		Log("AP console command: " + command);
 
 		if (first_word == "connect") {
 			if (command.find(DELIM) == std::string::npos) {
-				Logger::Log(L"Please provide an ip address, slot name, and (if necessary) password.", Logger::LogType::System);
+				Log(L"Please provide an ip address, slot name, and (if necessary) password.", LogType::System);
 				return;
 			}
 			command.erase(0, command.find(DELIM) + 1);
@@ -38,7 +38,7 @@ namespace UnrealConsole {
 
 		if (first_word == "message" || first_word == "messages") {
 			if (command.find(DELIM) == std::string::npos) {
-				Logger::Log(L"Please input an option, such as \"mute\" or \"hide\".", Logger::LogType::System);
+				Log(L"Please input an option, such as \"mute\" or \"hide\".", LogType::System);
 				return;
 			}
 			command.erase(0, command.find(DELIM) + 1);
@@ -63,13 +63,13 @@ namespace UnrealConsole {
 		void ParseConnect(std::string args) {
 			std::string ip = GetNextToken(args);
 			if (ip.empty()) {
-				Logger::Log("Please provide an ip address, slot name, and (if necessary) password.", Logger::LogType::System);
+				Log("Please provide an ip address, slot name, and (if necessary) password.", LogType::System);
 				return;
 			}
 
 			std::string slot_name = GetNextToken(args);
 			if (slot_name.empty()) {
-				Logger::Log("Please provide a slot name and (if necessary) password.", Logger::LogType::System);
+				Log("Please provide a slot name and (if necessary) password.", LogType::System);
 				return;
 			}
 
@@ -79,7 +79,7 @@ namespace UnrealConsole {
 
 		void ParseMessageOption(std::string option) {
 			if (option.empty()) {
-				Logger::Log("Please input an option, such as \"mute\" or \"hide\".", Logger::LogType::System);
+				Log("Please input an option, such as \"mute\" or \"hide\".", LogType::System);
 				return;
 			}
 			if (option == "hide" || option == "unhide" || option == "show") {
