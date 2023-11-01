@@ -31,7 +31,7 @@ namespace Client {
 
         // I don't think a mutex is required here because apclientpp locks the instance during poll().
         // If people report random crashes, especially when disconnecting, I'll revisit it.
-        APClient* client;
+        APClient* ap;
         AP_ConnectionStatus connection_status;
         std::string uri;
         const std::string uuid = ap_get_uuid("Mods/AP_Randomizer/dlls/uuid");
@@ -45,12 +45,12 @@ namespace Client {
 
     void Client::Connect(const std::string new_uri, const std::string slot_name, const std::string password) {
         // Nuke any existing client in case uri needs to change.
-        if (client != nullptr) {
-            delete client;
+        if (ap != nullptr) {
+            delete ap;
         }
         GameData::Initialize();
         uri = new_uri;
-        client = new APClient(uuid, game_name, uri); // TODO: add cert store
+        ap = new APClient(uuid, game_name, uri); // TODO: add cert store
         connection_retries = 0;
 
         // Print feedback to the player so they know the connect command went through.
@@ -62,22 +62,22 @@ namespace Client {
         // The Great Wall Of Callbacks
         {
             // Executes when the server sends room info; attempts to connect the player.
-            client->set_room_info_handler([slot_name, password]() {
+            ap->set_room_info_handler([slot_name, password]() {
                 int items_handling = 0b111;
                 APClient::Version version{ 0, 6, 2 };
 
                 // TODO: Make this feedback better
                 Logger::Log("attempting to connect");
-                client->ConnectSlot(slot_name, password, items_handling, {}, version);
+                ap->ConnectSlot(slot_name, password, items_handling, {}, version);
                 });
 
             // Executes on successful connection to slot.
-            client->set_slot_connected_handler([](const json& slot_data) {
+            ap->set_slot_connected_handler([](const json& slot_data) {
                 Logger::Log("Connected to slot.");
                 for (json::const_iterator iter = slot_data.begin(); iter != slot_data.end(); iter++) {
                     GameData::SetOption(iter.key(), iter.value());
                     if (iter.key() == "death_link" || iter.value() > 0) {
-                        client->ConnectUpdate(false, 0, true, std::list<std::string> {"DeathLink"});
+                        ap->ConnectUpdate(false, 0, true, std::list<std::string> {"DeathLink"});
                     }
                 }
                 Engine::SpawnCollectibles();
@@ -86,9 +86,9 @@ namespace Client {
 
             // Executes whenever a socket error is detected.
             // We want to only print an error after exactly X attempts.
-            client->set_socket_error_handler([](const std::string& error) {
+            ap->set_socket_error_handler([](const std::string& error) {
                 if (connection_retries == max_connection_retries) {
-                    if (client->get_player_number() >= 0) { // Seed is already in progress
+                    if (ap->get_player_number() >= 0) { // Seed is already in progress
                         Logger::Log(L"Lost connection with the server. Attempting to reconnect...", Logger::LogType::System);
                     }
                     else { // Attempting to connect to a new room
@@ -100,7 +100,7 @@ namespace Client {
                 });
 
             // Executes when the server refuses slot connection.
-            client->set_slot_refused_handler([](const std::list<std::string>& reasons) {
+            ap->set_slot_refused_handler([](const std::list<std::string>& reasons) {
                 std::string advice;
                 if (std::find(reasons.begin(), reasons.end(), "InvalidSlot") != reasons.end()
                     || std::find(reasons.begin(), reasons.end(), "InvalidPassword") != reasons.end()) {
@@ -112,20 +112,20 @@ namespace Client {
                 Logger::Log("Could not connect to the server. " + advice, Logger::LogType::System);
                 });
 
-            client->set_items_received_handler(&ReceiveItems);
-            client->set_location_checked_handler(&GameData::CheckLocations);
-            client->set_print_json_handler(&PrintJsonMessage);
-            client->set_bounced_handler(&ReceiveDeathLink);
+            ap->set_items_received_handler(&ReceiveItems);
+            ap->set_location_checked_handler(&GameData::CheckLocations);
+            ap->set_print_json_handler(&PrintJsonMessage);
+            ap->set_bounced_handler(&ReceiveDeathLink);
         } // End callbacks
     }
 
     void Client::Disconnect() {
-        if (client == nullptr) {
+        if (ap == nullptr) {
             Logger::Log("You are not currently connected.", Logger::LogType::System);
             return;
         }
-        delete client;
-        client = nullptr;
+        delete ap;
+        ap = nullptr;
         Logger::Log("Disconnected from " + uri, Logger::LogType::System);
     }
 
@@ -133,36 +133,36 @@ namespace Client {
         // TODO: Consider refactoring to queue location ids as an actual list
         std::list<int64_t> id_list{ id };
         Logger::Log(L"Sending check with id " + std::to_wstring(id));
-        client->LocationChecks(id_list);
+        ap->LocationChecks(id_list);
     }
     
     // Sends game completion flag to Archipelago.
     void Client::CompleteGame() {
-        if (client == nullptr) {
+        if (ap == nullptr) {
             // TODO: queue this if the player forgets to connect before winning
             return;
         }
-        client->StatusUpdate(APClient::ClientStatus::GOAL);
+        ap->StatusUpdate(APClient::ClientStatus::GOAL);
 
         // Send a key to datastorage upon game completion for PopTracker integration.
         std::string key =
-            "Pseudoregalia - Team " + std::to_string(client->get_team_number())
-            + " - Player " + std::to_string(client->get_player_number())
+            "Pseudoregalia - Team " + std::to_string(ap->get_team_number())
+            + " - Player " + std::to_string(ap->get_player_number())
             + " - Game Complete";
         json default_value{ 0 };
         std::list<APClient::DataStorageOperation> filler_operations{ APClient::DataStorageOperation{ "add", default_value  } };
-        client->Set(key, default_value, true, filler_operations);
+        ap->Set(key, default_value, true, filler_operations);
     }
 
     void Client::PollServer() {
-        if (client == nullptr) {
+        if (ap == nullptr) {
             return;
         }
-        client->poll();
+        ap->poll();
     }
 
     void Client::SendDeathLink() {
-        if (client == nullptr
+        if (ap == nullptr
         || !GameData::GetOptions().at("death_link")
         || death_link_locked) {
             return;
@@ -170,14 +170,14 @@ namespace Client {
 
         // TODO: more of these.
         // I don't think there's an easy to way to get cause of death from within the game unfortunately.
-        std::string funny_message(client->get_slot());
+        std::string funny_message(ap->get_slot());
         funny_message.append(" wished death upon their friends.");
         json data{
-            {"time", client->get_server_time()},
+            {"time", ap->get_server_time()},
             {"cause", funny_message},
-            {"source", client->get_slot()},
+            {"source", ap->get_slot()},
         };
-        client->Bounce(data, {}, {}, { "DeathLink" });
+        ap->Bounce(data, {}, {}, { "DeathLink" });
         Logger::Log(L"Sending death to your friends ♥", Logger::LogType::Popup);
         Logger::Log("Sending bounce: " + data.dump());
         Timer::RunTimerInGame(death_link_timer_seconds, &death_link_locked);
@@ -187,7 +187,7 @@ namespace Client {
     // Private functions
     namespace {
         void PrintJsonMessage(const APClient::PrintJSONArgs& args) {
-            std::string message_text = client->render_json(args.data);
+            std::string message_text = ap->render_json(args.data);
             Logger::Log(message_text, Logger::LogType::Popup);
         }
 
@@ -202,7 +202,7 @@ namespace Client {
 
         void ReceiveDeathLink(const json& data) {
             Logger::Log("Receiving bounce: " + data.dump());
-            if (client == nullptr
+            if (ap == nullptr
                 || !GameData::GetOptions().at("death_link")
                 || death_link_locked) {
                 return;
