@@ -32,7 +32,6 @@ namespace Client {
         // I don't think a mutex is required here because apclientpp locks the instance during poll().
         // If people report random crashes, especially when disconnecting, I'll revisit it.
         APClient* ap;
-        std::string uri;
         const std::string uuid = ap_get_uuid("Mods/AP_Randomizer/dlls/uuid");
         const std::string game_name = "Pseudoregalia";
         const int max_connection_retries = 3;
@@ -41,19 +40,18 @@ namespace Client {
         const float death_link_timer_seconds(4.0f);
     } // End private members
 
-    void Client::Connect(const std::string new_uri, const std::string slot_name, const std::string password) {
+    void Client::Connect(const std::string uri, const std::string slot_name, const std::string password) {
         // Nuke any existing client in case uri needs to change.
         if (ap != nullptr) {
             delete ap;
         }
         GameData::Initialize();
-        uri = new_uri;
         ap = new APClient(uuid, game_name, uri); // TODO: add cert store
         connection_retries = 0;
 
         // Print feedback to the player so they know the connect command went through.
         std::string connect_message(
-            "Attempting to connect to " + new_uri
+            "Attempting to connect to " + uri
             + " with name " + slot_name);
         Log(connect_message, LogType::System);
 
@@ -122,7 +120,7 @@ namespace Client {
         }
         delete ap;
         ap = nullptr;
-        Log("Disconnected from " + uri, LogType::System);
+        Log("Disconnected from Archipelago.", LogType::System);
     }
 
     void Client::SendCheck(int64_t id, std::wstring current_world) {
