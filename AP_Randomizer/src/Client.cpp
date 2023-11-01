@@ -11,7 +11,6 @@
 #define ASIO_STANDALONE
 #define BOOST_ALL_NO_LIB // Allows us to use asio boost as header-only
 #define APCLIENT_DEBUG
-#include "Archipelago.h"
 #include "apclient.hpp"
 #include "apuuid.hpp"
 #include "GameData.hpp"
