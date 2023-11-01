@@ -59,62 +59,64 @@ namespace Client {
             + " with name " + slot_name);
         Logger::Log(connect_message, Logger::LogType::System);
 
-        client->set_room_info_handler([slot_name, password]() {
-            int items_handling = 0b111;
-            APClient::Version version{ 0, 6, 2 };
+        // The Great Wall Of Callbacks
+        {
+            // Executes when the server sends room info; attempts to connect the player.
+            client->set_room_info_handler([slot_name, password]() {
+                int items_handling = 0b111;
+                APClient::Version version{ 0, 6, 2 };
 
-            // TODO: Make this feedback better
-            Logger::Log("attempting to connect");
-            client->ConnectSlot(slot_name, password, items_handling, {}, version);
-            });
+                // TODO: Make this feedback better
+                Logger::Log("attempting to connect");
+                client->ConnectSlot(slot_name, password, items_handling, {}, version);
+                });
 
-        client->set_slot_connected_handler([](const json& slot_data) {
-            Logger::Log("Connected to slot.");
-            for (json::const_iterator iter = slot_data.begin(); iter != slot_data.end(); iter++) {
-                GameData::SetOption(iter.key(), iter.value());
-                if (iter.key() == "death_link" || iter.value() > 0) {
-                    client->ConnectUpdate(false, 0, true, std::list<std::string> {"DeathLink"});
+            // Executes on successful connection to slot.
+            client->set_slot_connected_handler([](const json& slot_data) {
+                Logger::Log("Connected to slot.");
+                for (json::const_iterator iter = slot_data.begin(); iter != slot_data.end(); iter++) {
+                    GameData::SetOption(iter.key(), iter.value());
+                    if (iter.key() == "death_link" || iter.value() > 0) {
+                        client->ConnectUpdate(false, 0, true, std::list<std::string> {"DeathLink"});
+                    }
                 }
-            }
-            Engine::SpawnCollectibles();
-            connection_retries = 0;
-            });
+                Engine::SpawnCollectibles();
+                connection_retries = 0;
+                });
 
-        client->set_socket_error_handler([](const std::string& error) {
-            // Only print a message after exactly X failed attempts.
-            if (connection_retries == max_connection_retries) {
-                // Change error message based on whether a seed is already active.
-                if (client->get_player_number() >= 0) {
-                    Logger::Log(L"Lost connection with the server. Attempting to reconnect...", Logger::LogType::System);
+            // Executes whenever a socket error is detected.
+            // We want to only print an error after exactly X attempts.
+            client->set_socket_error_handler([](const std::string& error) {
+                if (connection_retries == max_connection_retries) {
+                    if (client->get_player_number() >= 0) { // Seed is already in progress
+                        Logger::Log(L"Lost connection with the server. Attempting to reconnect...", Logger::LogType::System);
+                    }
+                    else { // Attempting to connect to a new room
+                        Logger::Log(L"Could not connect to the server. Please double-check the address and ensure the server is active.", Logger::LogType::System);
+                    }
                 }
-                else {
-                    Logger::Log(L"Could not connect to the server. Please double-check the address and ensure the server is active.", Logger::LogType::System);
+                connection_retries++;
+                Logger::Log("Socket error: " + error);
+                });
+
+            // Executes when the server refuses slot connection.
+            client->set_slot_refused_handler([](const std::list<std::string>& reasons) {
+                std::string advice;
+                if (std::find(reasons.begin(), reasons.end(), "InvalidSlot") != reasons.end()
+                    || std::find(reasons.begin(), reasons.end(), "InvalidPassword") != reasons.end()) {
+                    advice = "Please double-check your slot name and password.";
                 }
-            }
+                if (std::find(reasons.begin(), reasons.end(), "IncompatibleVersion") != reasons.end()) {
+                    advice = "Please double-check your client version.";
+                }
+                Logger::Log("Could not connect to the server. " + advice, Logger::LogType::System);
+                });
 
-            connection_retries++;
-            Logger::Log(error);
-            return;
-            });
-
-        client->set_slot_refused_handler([](const std::list<std::string>& reasons) {
-            std::string advice;
-            if (std::find(reasons.begin(), reasons.end(), "InvalidSlot") != reasons.end()
-                || std::find(reasons.begin(), reasons.end(), "InvalidPassword") != reasons.end()) {
-                advice = "Please double-check your slot name and password.";
-            }
-
-            if (std::find(reasons.begin(), reasons.end(), "IncompatibleVersion") != reasons.end()) {
-                advice = "Please double-check your client version.";
-            }
-
-            Logger::Log("Could not connect to the server. " + advice, Logger::LogType::System);
-            });
-
-        client->set_items_received_handler(&ReceiveItems);
-        client->set_location_checked_handler(&GameData::CheckLocations);
-        client->set_print_json_handler(&PrintJsonMessage);
-        client->set_bounced_handler(&ReceiveDeathLink);
+            client->set_items_received_handler(&ReceiveItems);
+            client->set_location_checked_handler(&GameData::CheckLocations);
+            client->set_print_json_handler(&PrintJsonMessage);
+            client->set_bounced_handler(&ReceiveDeathLink);
+        } // End callbacks
     }
 
     void Client::Disconnect() {
