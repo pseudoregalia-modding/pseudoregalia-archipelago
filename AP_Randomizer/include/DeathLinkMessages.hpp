@@ -7,15 +7,16 @@ namespace DeathLinkMessages {
 	// Private members
 	namespace {
 		// Messages that other players see when you die.
+		// These are wstrings because they'll never go out to other games and I like the heart emoji.
 		const std::vector<std::wstring> own_deathlink_messages = {
 			L"Sending death to your friends ♥",
 			L"Are you sure that jump is possible?",
 		};
 
 		// Messages that you see when you die.
-		const std::vector<std::wstring> outgoing_deathlink_messages = {
-			L"{} slipped and fell.",
-			L"{} probably died to an egg.",
+		const std::vector<std::string> outgoing_deathlink_messages = {
+			"{} slipped and fell.",
+			"{} probably died to an egg.",
 		};
 
 		const int own_messages_max = own_deathlink_messages.size() - 1;
@@ -30,7 +31,7 @@ namespace DeathLinkMessages {
 	}
 
 	// Returns a random outgoing death link message.
-	std::wstring RandomOutgoingDeathlink() {
+	std::string RandomOutgoingDeathlink() {
 		boost::random::uniform_int_distribution<> dist(0, outgoing_messages_max);
 		return outgoing_deathlink_messages[dist(gen)];
 	}
