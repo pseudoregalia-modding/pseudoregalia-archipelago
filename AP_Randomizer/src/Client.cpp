@@ -5,9 +5,7 @@
 #pragma warning(disable: 26495) // Disable uninitialized warnings from asio, websocketpp, and apclientpp
 #pragma warning(disable: 26439) // Disable noexcept warnings from asio
 
-// Define asio standalone even though we need boost installed for certain dependencies,
-// because otherwise we end up with repeated definitions.
-// Honestly this library confuses the hell out of me.
+// Boost is included, but not defining asio standalone results in a ton of errors in match_flags.hpp and wswrap_websocketpp.hpp.
 #define ASIO_STANDALONE
 #define BOOST_ALL_NO_LIB // Allows us to use asio boost as header-only
 #define APCLIENT_DEBUG
