@@ -38,7 +38,6 @@ namespace Client {
         std::string uri;
         const std::string uuid = ap_get_uuid("Mods/AP_Randomizer/dlls/uuid");
         const std::string game_name = "Pseudoregalia";
-        bool file_active = false; // Used to determine how to phrase socket errors based on whether the player expects to be connected already.
         const int max_connection_retries = 3;
         int connection_retries = 0;
         int slot_number;
@@ -52,7 +51,6 @@ namespace Client {
             delete client;
         }
         // Ensure error messages work correctly even when the player doesn't fully disconnect first.
-        file_active = false;
         connection_retries = 0;
 
         GameData::Initialize();
@@ -83,7 +81,7 @@ namespace Client {
             // Only print a message after exactly X failed attempts.
             if (connection_retries == max_connection_retries) {
                 // Change error message based on whether a seed is already active.
-                if (file_active) {
+                if (client->get_player_number() >= 0) {
                     Logger::Log(L"Lost connection with the server. Attempting to reconnect...", Logger::LogType::System);
                 }
                 else {
@@ -184,7 +182,6 @@ namespace Client {
         }
 
         void OnSlotConnected(const json& slot_data) {
-            file_active = true;
             for (json::const_iterator iter = slot_data.begin(); iter != slot_data.end(); iter++) {
                 GameData::SetOption(iter.key(), iter.value());
                 if (iter.key() == "death_link" || iter.value() > 0) {
