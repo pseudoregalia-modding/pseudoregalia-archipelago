@@ -7,7 +7,7 @@
 
 // Boost is included, but not defining asio standalone results in a ton of errors in match_flags.hpp and wswrap_websocketpp.hpp.
 #define ASIO_STANDALONE
-#define BOOST_ALL_NO_LIB // Allows us to use asio boost as header-only
+#define BOOST_ALL_NO_LIB
 #define APCLIENT_DEBUG
 #include "apclient.hpp"
 #include "apuuid.hpp"
