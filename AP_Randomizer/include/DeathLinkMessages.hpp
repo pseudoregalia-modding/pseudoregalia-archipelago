@@ -21,7 +21,7 @@ namespace DeathLinkMessages {
 
 		const int own_messages_max = own_deathlink_messages.size() - 1;
 		const int outgoing_messages_max = outgoing_deathlink_messages.size() - 1;
-		const boost::random::mt19937 gen;
+		boost::random::mt19937 gen;
 	}
 
 	// Returns a random death message for the player who died.
