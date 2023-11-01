@@ -63,17 +63,15 @@ namespace Client {
         {
             // Executes when the server sends room info; attempts to connect the player.
             ap->set_room_info_handler([slot_name, password]() {
+                Logger::Log("Received room info");
                 int items_handling = 0b111;
                 APClient::Version version{ 0, 6, 2 };
-
-                // TODO: Make this feedback better
-                Logger::Log("attempting to connect");
                 ap->ConnectSlot(slot_name, password, items_handling, {}, version);
                 });
 
             // Executes on successful connection to slot.
             ap->set_slot_connected_handler([](const json& slot_data) {
-                Logger::Log("Connected to slot.");
+                Logger::Log("Connected to slot");
                 for (json::const_iterator iter = slot_data.begin(); iter != slot_data.end(); iter++) {
                     GameData::SetOption(iter.key(), iter.value());
                     if (iter.key() == "death_link" || iter.value() > 0) {
@@ -87,6 +85,7 @@ namespace Client {
             // Executes whenever a socket error is detected.
             // We want to only print an error after exactly X attempts.
             ap->set_socket_error_handler([](const std::string& error) {
+                Logger::Log("Socket error: " + error);
                 if (connection_retries == max_connection_retries) {
                     if (ap->get_player_number() >= 0) { // Seed is already in progress
                         Logger::Log(L"Lost connection with the server. Attempting to reconnect...", Logger::LogType::System);
@@ -96,7 +95,6 @@ namespace Client {
                     }
                 }
                 connection_retries++;
-                Logger::Log("Socket error: " + error);
                 });
 
             // Executes when the server refuses slot connection.
