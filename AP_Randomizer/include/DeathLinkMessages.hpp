@@ -4,6 +4,7 @@
 #include <ctime>
 #include <boost/random/mersenne_twister.hpp>
 #include <boost/random/uniform_int_distribution.hpp>
+#include "GameData.hpp"
 
 namespace DeathLinkMessages {
 	/*
@@ -16,7 +17,6 @@ namespace DeathLinkMessages {
 		const std::vector<std::wstring> own_deathlink_messages = {
 			L"Sending death to your friends ♥",
 			L"Are you sure that jump is possible?",
-			L"Tip: You can lower the logic level in your yaml settings.",
 			L"Maybe that check isn't so important?", // Garbo
 			L"Maybe you should look for an alternate route.",
 		};
@@ -34,6 +34,11 @@ namespace DeathLinkMessages {
 			"{} didn't schmoove hard enough.", // MuffinJets
 		};
 
+		// TODO: figure out a system to make these work cleanly with flags.
+		const std::vector<std::wstring> high_logic_messages = {
+			L"Tip: You can lower the logic level in your yaml settings.",
+		};
+
 		const int own_messages_max = own_deathlink_messages.size() - 1;
 		const int outgoing_messages_max = outgoing_deathlink_messages.size() - 1;
 		boost::random::mt19937 gen(time(0));
@@ -41,6 +46,11 @@ namespace DeathLinkMessages {
 
 	// Returns a random death message for the player who died.
 	std::wstring RandomOwnDeathlink() {
+		using std::begin, std::end;
+		std::vector<std::wstring> own_messages(own_deathlink_messages);
+		if (GameData::GetOptions().at("logic_level") > 1) {
+			own_messages.insert(end(own_messages), begin(high_logic_messages), end(high_logic_messages));
+		}
 		boost::random::uniform_int_distribution<> dist(0, own_messages_max);
 		return own_deathlink_messages[dist(gen)];
 	}
