@@ -60,6 +60,14 @@ namespace Client {
         uri = new_uri;
 
         client = new APClient(uuid, game_name, uri); // TODO: add cert store
+
+        // Print feedback to the player so they know the connect command went through.
+        std::string connect_message = "Attempting to connect to ";
+        connect_message.append(new_uri);
+        connect_message += " with name ";
+        connect_message.append(slot_name);
+        Logger::Log(connect_message, Logger::LogType::System);
+
         client->set_room_info_handler([slot_name, password]() {
             int items_handling = 0b111;
             APClient::Version version{ 0, 6, 2 };
@@ -104,13 +112,6 @@ namespace Client {
 
             Logger::Log("Could not connect to the server. " + advice, Logger::LogType::System);
             });
-
-        // Print feedback to the player so they know the connect command went through.
-        std::string connect_message = "Attempting to connect to ";
-        connect_message.append(new_uri);
-        connect_message += " with name ";
-        connect_message.append(slot_name);
-        Logger::Log(connect_message, Logger::LogType::System);
     }
 
     void Client::Disconnect() {
