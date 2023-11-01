@@ -50,12 +50,10 @@ namespace Client {
         if (client != nullptr) {
             delete client;
         }
-        // Ensure error messages work correctly even when the player doesn't fully disconnect first.
-        connection_retries = 0;
-
         GameData::Initialize();
         uri = new_uri;
         client = new APClient(uuid, game_name, uri); // TODO: add cert store
+        connection_retries = 0;
 
         // Print feedback to the player so they know the connect command went through.
         std::string connect_message(
@@ -189,6 +187,7 @@ namespace Client {
                 }
             }
             Engine::SpawnCollectibles();
+            connection_retries = 0;
         }
 
         void ReceiveItems(const std::list<APClient::NetworkItem>& items) {
