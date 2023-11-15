@@ -84,7 +84,7 @@ public:
 
                 UFunction* return_check_function = actor->GetFunctionByName(STR("ReturnCheck"));
                 if (!return_check_function) {
-                    Logger::Log(L"Could not find function \"ReturnCheck\" in BP_APCollectible.", Logger::LogType::Error);
+                    Log(L"Could not find function \"ReturnCheck\" in BP_APCollectible.", LogType::Error);
                     return;
                 }
                 Unreal::UObjectGlobals::RegisterHook(return_check_function, EmptyFunction, returncheck, nullptr);
@@ -95,13 +95,13 @@ public:
                 if (!toggleslidejump_hooked) {
                     UFunction* toggle_function = actor->GetFunctionByName(L"AP_ToggleSlideJump");
                     if (!toggle_function) {
-                        Logger::Log(L"Could not find function \"AP_ToggleSlideJump\" in BP_APRandomizerInstance.", Logger::LogType::Error);
+                        Log(L"Could not find function \"AP_ToggleSlideJump\" in BP_APRandomizerInstance.", LogType::Error);
                         return;
                     }
                     Unreal::UObjectGlobals::RegisterHook(toggle_function, EmptyFunction, toggleslidejump, nullptr);
                     toggleslidejump_hooked = true;
                 }
-                Logger::Log(L"Loaded scene " + Engine::GetWorldName());
+                Log(L"Loaded scene " + Engine::GetWorldName());
                 if (Engine::GetWorldName() == STR("EndScreen")) {
                     Client::CompleteGame();
                 }
@@ -113,7 +113,7 @@ public:
                 if (!deathlink_hooked) {
                     UFunction* death_function = actor->GetFunctionByName(L"BPI_CombatDeath");
                     if (!death_function) {
-                        Logger::Log(L"Could not find function \"BPI_CombatDeath\" in BP_PlayerGoatMain.", Logger::LogType::Error);
+                        Log(L"Could not find function \"BPI_CombatDeath\" in BP_PlayerGoatMain.", LogType::Error);
                         return;
                     }
                     Unreal::UObjectGlobals::RegisterHook(death_function, EmptyFunction, deathlink, nullptr);

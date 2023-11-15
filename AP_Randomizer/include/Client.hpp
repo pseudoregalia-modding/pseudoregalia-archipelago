@@ -1,9 +1,10 @@
 #pragma once
 
 namespace Client {
-	void Connect(const char*, const char*, const char*);
+	void Connect(const std::string, const std::string, const std::string);
 	void SendCheck(int64_t, std::wstring);
 	void PollServer();
 	void CompleteGame();
 	void SendDeathLink();
+	void Disconnect();
 }
