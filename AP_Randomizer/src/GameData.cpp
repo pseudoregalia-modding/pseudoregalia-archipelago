@@ -254,7 +254,7 @@ namespace GameData {
     }
 
     void GameData::CheckLocations(const std::list<int64_t>& location_ids) {
-        // Having two loops here is a big awkward but it's necessary if we want to have a separate map for each zone.
+        // Having two loops here is a bit awkward but it's necessary if we want to have a separate map for each zone.
         // There might be a better way to structure the data but I don't wanna refactor it right now since there's not that much data to go through.
         for (const auto& id : location_ids) {
             for (auto& zone : collectible_table) {
