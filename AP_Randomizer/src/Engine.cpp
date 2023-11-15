@@ -18,7 +18,7 @@ namespace Engine {
 		void SyncAbilities();
 
 		struct BlueprintFunctionInfo {
-			std::wstring parent_name;
+			std::variant<std::wstring, UObject*> parent;
 			std::wstring function_name;
 			std::shared_ptr<void> params;
 		};
@@ -36,7 +36,7 @@ namespace Engine {
 	}
 
 	// Queues up a blueprint function to be executed.
-	void Engine::ExecuteBlueprintFunction(std::wstring new_parent, std::wstring new_name, std::shared_ptr<void> params) {
+	void Engine::ExecuteBlueprintFunction(std::variant<std::wstring, UObject*> new_parent, std::wstring new_name, std::shared_ptr<void> params) {
 		std::lock_guard<std::mutex> guard(blueprint_function_mutex);
 		blueprint_function_queue.push(BlueprintFunctionInfo(new_parent, new_name, params));
 	}
@@ -56,14 +56,26 @@ namespace Engine {
 		std::lock_guard<std::mutex> guard(blueprint_function_mutex);
 		while (!blueprint_function_queue.empty()) {
 			BlueprintFunctionInfo info = blueprint_function_queue.front();
-			UObject* parent = UObjectGlobals::FindFirstOf(info.parent_name);
-			if (!parent) {
-				Log(L"Could not find blueprint with name " + info.parent_name, LogType::Error);
-				blueprint_function_queue.pop();
-				continue;
+			UObject* object;
+			if (std::holds_alternative<std::wstring>(info.parent)) {
+				std::wstring parent_name = std::get<std::wstring>(info.parent);
+				object = UObjectGlobals::FindFirstOf(parent_name);
+				if (!object) {
+					Log(L"Could not find blueprint with name " + parent_name, LogType::Error);
+					blueprint_function_queue.pop();
+					continue;
+				}
+			}
+			else {
+				object = std::get<UObject*>(info.parent);
+				if (object->IsUnreachable()) {
+					Log(L"Could not call " + info.function_name + L" because the blueprint was unreachable.", LogType::Error);
+					blueprint_function_queue.pop();
+					continue;
+				}
 			}
 
-			UFunction* function = parent->GetFunctionByName(info.function_name.c_str());
+			UFunction* function = object->GetFunctionByName(info.function_name.c_str());
 			if (!function) {
 				Log(L"Could not find function " + info.function_name, LogType::Error);
 				blueprint_function_queue.pop();
@@ -72,7 +84,7 @@ namespace Engine {
 			Log(L"Executing " + info.function_name);
 			// Need to cast to raw pointer to feed to ProcessEvent, but the memory will still be freed automatically
 			void* ptr(info.params.get());
-			parent->ProcessEvent(function, ptr);
+			object->ProcessEvent(function, ptr);
 			blueprint_function_queue.pop();
 		}
 	}
