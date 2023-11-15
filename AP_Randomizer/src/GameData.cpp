@@ -258,11 +258,10 @@ namespace GameData {
             std::unordered_map<int64_t, Collectible>::iterator iter = zone.second.find(id);
             if (iter != zone.second.end()) {
                 iter->second.Check();
-                goto location_finished; // Continue loop for next id, skipping the warning log
+                return;
             }
         }
         Log(L"No location with id " + std::to_wstring(id) + L" was found. The developer probably made a mistake in the internal data.", LogType::Error);
-    location_finished:;
     }
 
     bool GameData::ToggleSlideJump() {
