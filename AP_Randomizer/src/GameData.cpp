@@ -253,18 +253,15 @@ namespace GameData {
         return type;
     }
 
-    void GameData::CheckLocations(const std::list<int64_t>& location_ids) {
-        // Having two loops here is a bit awkward but it's necessary if we want to have a separate map for each zone.
-        // There might be a better way to structure the data but I don't wanna refactor it right now since there's not that much data to go through.
-        for (const auto& id : location_ids) {
-            for (auto& zone : collectible_table) {
-                std::unordered_map<int64_t, Collectible>::iterator iter = zone.second.find(id);
-                if (iter != zone.second.end()) {
-                    iter->second.Check();
-                    goto location_finished; // Continue loop for next id, skipping the warning log
-                }
+    void GameData::CheckLocation(const int64_t id) {
+        for (auto& zone : collectible_table) {
+            std::unordered_map<int64_t, Collectible>::iterator iter = zone.second.find(id);
+            if (iter != zone.second.end()) {
+                iter->second.Check();
+                goto location_finished; // Continue loop for next id, skipping the warning log
             }
-            Log(L"No location with id " + std::to_wstring(id) + L" was found. The developer probably made a mistake in the internal data.", LogType::Error);
+        }
+        Log(L"No location with id " + std::to_wstring(id) + L" was found. The developer probably made a mistake in the internal data.", LogType::Error);
         location_finished:;
         }
     }

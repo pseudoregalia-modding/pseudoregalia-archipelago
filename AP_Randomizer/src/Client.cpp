@@ -123,7 +123,11 @@ namespace Client {
             ap->set_bounced_handler(&ReceiveDeathLink);
 
             // Executes whenever the server tells us a location has been checked.
-            ap->set_location_checked_handler(&GameData::CheckLocations);
+            ap->set_location_checked_handler([](const std::list<int64_t>& location_ids) {
+                for (const auto& id : location_ids) {
+                    GameData::CheckLocation(id);
+                }
+                });
         } // End callbacks
     }
 
