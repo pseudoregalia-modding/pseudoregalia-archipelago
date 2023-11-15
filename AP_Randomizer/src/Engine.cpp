@@ -58,18 +58,18 @@ namespace Engine {
 			BlueprintFunctionInfo info = blueprint_function_queue.front();
 			UObject* parent = UObjectGlobals::FindFirstOf(info.parent_name);
 			if (!parent) {
-				Logger::Log(L"Could not find blueprint with name " + info.parent_name, Logger::LogType::Error);
+				Log(L"Could not find blueprint with name " + info.parent_name, LogType::Error);
 				blueprint_function_queue.pop();
 				continue;
 			}
 
 			UFunction* function = parent->GetFunctionByName(info.function_name.c_str());
 			if (!function) {
-				Logger::Log(L"Could not find function " + info.function_name, Logger::LogType::Error);
+				Log(L"Could not find function " + info.function_name, LogType::Error);
 				blueprint_function_queue.pop();
 				continue;
 			}
-			Logger::Log(L"Executing " + info.function_name);
+			Log(L"Executing " + info.function_name);
 			// Need to cast to raw pointer to feed to ProcessEvent, but the memory will still be freed automatically
 			void* ptr(info.params.get());
 			parent->ProcessEvent(function, ptr);
@@ -91,14 +91,14 @@ namespace Engine {
 		for (const auto& [id, collectible] : collectible_map) {
 			// Return if the collectible shouldn't be spawned based on options
 			if (!collectible.CanCreate(GameData::GetOptions())) {
-				Logger::Log(L"Collectible with id " + std::to_wstring(id) + L" was not spawned because its required options were not met.");
+				Log(L"Collectible with id " + std::to_wstring(id) + L" was not spawned because its required options were not met.");
 				continue;
 			}
 			if (collectible.IsChecked()) {
-				Logger::Log(L"Collectible with id " + std::to_wstring(id) + L" has already been checked");
+				Log(L"Collectible with id " + std::to_wstring(id) + L" has already been checked");
 				continue;
 			}
-			Logger::Log(L"Spawning collectible with id " + std::to_wstring(id));
+			Log(L"Spawning collectible with id " + std::to_wstring(id));
 			std::shared_ptr<void> collectible_info(new CollectibleSpawnInfo{ id, collectible.GetPosition() });
 			ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SpawnCollectible", collectible_info);
 		}

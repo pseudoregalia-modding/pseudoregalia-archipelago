@@ -4,3 +4,18 @@
 [submodule "AP_Randomizer/dependencies/ClipboardXX"]
 	path = AP_Randomizer/dependencies/ClipboardXX
 	url = https://github.com/Arian8j2/ClipboardXX
+[submodule "AP_Randomizer/dependencies/json"]
+	path = AP_Randomizer/dependencies/json
+	url = https://github.com/nlohmann/json
+[submodule "AP_Randomizer/dependencies/valijson"]
+	path = AP_Randomizer/dependencies/valijson
+	url = https://github.com/tristanpenman/valijson
+[submodule "AP_Randomizer/dependencies/wswrap"]
+	path = AP_Randomizer/dependencies/wswrap
+	url = https://github.com/black-sliver/wswrap
+[submodule "AP_Randomizer/dependencies/websocketpp"]
+	path = AP_Randomizer/dependencies/websocketpp
+	url = https://github.com/zaphoyd/websocketpp
+[submodule "AP_Randomizer/dependencies/apclientpp"]
+	path = AP_Randomizer/dependencies/apclientpp
+	url = https://github.com/black-sliver/apclientpp

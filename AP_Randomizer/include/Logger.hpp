@@ -16,3 +16,7 @@ namespace Logger {
 	void ToggleMessageMute();
 	void ToggleMessageHide();
 }
+
+// Don't want to have to prefix Logger twice every time we log something
+using Logger::Log;
+using Logger::LogType;

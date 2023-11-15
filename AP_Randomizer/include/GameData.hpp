@@ -16,11 +16,11 @@ namespace GameData {
 	int GetHealthPieces();
 	int GetSmallKeys();
 	bool* GetMajorKeys();
-	void SetOption(std::string, bool);
+	void SetOption(std::string, int);
 	std::unordered_map<std::string, int> GetOptions();
 	std::map<std::wstring, int> GetUpgradeTable();
 	std::unordered_map<int64_t, Collectible> GetCollectiblesOfZone(std::wstring);
-	void CheckLocation(int64_t);
+	void CheckLocations(const std::list<int64_t>&);
 	ItemType ReceiveItem(int64_t);
 	bool ToggleSlideJump();
 	bool SlideJumpDisabled();

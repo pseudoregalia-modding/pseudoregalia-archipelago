@@ -58,8 +58,9 @@ namespace GameData {
         return upgrade_table;
     }
 
-    void GameData::SetOption(std::string option_name, bool is_true) {
-        options[option_name] = is_true;
+    void GameData::SetOption(std::string option_name, int value) {
+        Log("Set option " + option_name + " to " + std::to_string(value));
+        options[option_name] = value;
     }
 
     std::unordered_map<std::string, int> GameData::GetOptions() {
@@ -246,37 +247,40 @@ namespace GameData {
             major_keys[id - 2365810021] = true;
             break;
         default:
-            Logger::Log(L"You were sent an item, but its id wasn't recognized. Verify that you're playing on the same version this seed was generated on.");
+            Log(L"You were sent an item, but its id wasn't recognized. Verify that you're playing on the same version this seed was generated on.");
             break;
         }
         return type;
     }
 
-    void GameData::CheckLocation(int64_t id) {
-        // Iterate through each outer map and check if the inner map has the input id.
-        for (auto& zone : collectible_table) {
-            std::unordered_map<int64_t, Collectible>::iterator iter = zone.second.find(id);
-            if (iter != zone.second.end()) {
-                iter->second.Check();
-                return;
+    void GameData::CheckLocations(const std::list<int64_t>& location_ids) {
+        // Having two loops here is a big awkward but it's necessary if we want to have a separate map for each zone.
+        // There might be a better way to structure the data but I don't wanna refactor it right now since there's not that much data to go through.
+        for (const auto& id : location_ids) {
+            for (auto& zone : collectible_table) {
+                std::unordered_map<int64_t, Collectible>::iterator iter = zone.second.find(id);
+                if (iter != zone.second.end()) {
+                    iter->second.Check();
+                    goto location_finished; // Continue loop for next id, skipping the warning log
+                }
             }
+            Log(L"No location with id " + std::to_wstring(id) + L" was found. The developer probably made a mistake in the internal data.", LogType::Error);
+        location_finished:;
         }
-
-        Logger::Log(L"No location with id " + std::to_wstring(id) + L" was found. The developer probably made a mistake in the internal data.", Logger::LogType::Error);
     }
 
     bool GameData::ToggleSlideJump() {
         if (!slidejump_owned) {
-            Logger::Log(L"Slidejump is not obtained");
+            Log(L"Slidejump is not obtained");
             return false;
         }
 
         slidejump_disabled = !slidejump_disabled;
         if (slidejump_disabled) {
-            Logger::Log(L"Solar wind is now OFF.", Logger::LogType::System);
+            Log(L"Solar wind is now OFF.", LogType::System);
         }
         else {
-            Logger::Log(L"Solar wind is now ON.", Logger::LogType::System);
+            Log(L"Solar wind is now ON.", LogType::System);
         }
         return true;
     }
