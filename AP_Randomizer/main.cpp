@@ -7,6 +7,8 @@
 #include "Unreal/Hooks.hpp"
 #include "Unreal/UFunction.hpp"
 #include "Unreal/AActor.hpp"
+#include "Unreal/FText.hpp"
+#include "clipboardxx.hpp"
 #include "Client.hpp"
 #include "UnrealConsole.hpp"
 #include "Engine.hpp"
@@ -23,6 +25,7 @@ public:
     bool returncheck_hooked = false;
     bool toggleslidejump_hooked = false;
     bool deathlink_hooked = false;
+    bool copytext_hooked = false;
 
     AP_Randomizer() : CppUserModBase() {
         ModName = STR("AP_Randomizer");
@@ -119,6 +122,40 @@ public:
                     Unreal::UObjectGlobals::RegisterHook(death_function, EmptyFunction, deathlink, nullptr);
                 }
             }
+            });
+
+        Hook::RegisterStaticConstructObjectPostCallback([&](const FStaticConstructObjectParameters& params, UObject* object) -> UObject* {
+            auto copytext = [&](UnrealScriptFunctionCallableContext& context, void* customdata) {
+                // Copies text in highlighted message to clipboard.
+                std::wstring wide(context.GetParams<FText>().ToString());
+
+                // TODO: converting to narrow string here breaks nonlatin characters.
+                // ClipboardXX only handles narrow chars so I'll need to either fork it or use a different library.
+                std::string narrow;
+                std::transform(wide.begin(), wide.end(), std::back_inserter(narrow), [](wchar_t c) {
+                    return (char)c;
+                    });
+
+                clipboardxx::clipboard clipboard;
+                clipboard << narrow;
+                Logger::Log("copied text to clipboard: " + narrow);
+                };
+
+            if (!copytext_hooked
+                && object->GetName().starts_with(STR("AP_DeluxeConsole"))) {
+                UFunction* copy_function = object->GetFunctionByName(STR("AP_CopyToClipboard"));
+                if (!copy_function) {
+                    // For some reason this always fails once so don't bother displaying an error.
+                    Logger::Log(L"Could not find function \"AP_CopyToClipboard\" in AP_DeluxeConsole.");
+                    return object;
+                }
+                else {
+                    Logger::Log(L"Registering hook for AP_CopyToClipboard.");
+                }
+                Unreal::UObjectGlobals::RegisterHook(copy_function, copytext, EmptyFunction, nullptr);
+                returncheck_hooked = true;
+            }
+            return object;
             });
 
         setup_keybinds();

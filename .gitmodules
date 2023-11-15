@@ -1,6 +1,9 @@
 [submodule "RE-UE4SS"]
 	path = RE-UE4SS
 	url = https://github.com/UE4SS-RE/RE-UE4SS
+[submodule "AP_Randomizer/dependencies/ClipboardXX"]
+	path = AP_Randomizer/dependencies/ClipboardXX
+	url = https://github.com/Arian8j2/ClipboardXX
 [submodule "AP_Randomizer/dependencies/json"]
 	path = AP_Randomizer/dependencies/json
 	url = https://github.com/nlohmann/json
