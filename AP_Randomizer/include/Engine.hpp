@@ -9,6 +9,7 @@ namespace Engine {
 	void OnTick(UObject*);
 	void SyncItems();
 	void SpawnCollectibles();
+	void DespawnCollectible(const int64_t);
 	std::wstring GetWorldName();
 	void ToggleSlideJump();
 	void VaporizeGoat();

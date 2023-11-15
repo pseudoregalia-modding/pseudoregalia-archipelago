@@ -262,8 +262,7 @@ namespace GameData {
             }
         }
         Log(L"No location with id " + std::to_wstring(id) + L" was found. The developer probably made a mistake in the internal data.", LogType::Error);
-        location_finished:;
-        }
+    location_finished:;
     }
 
     bool GameData::ToggleSlideJump() {

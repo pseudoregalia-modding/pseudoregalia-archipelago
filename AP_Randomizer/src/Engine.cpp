@@ -133,6 +133,21 @@ namespace Engine {
 		ExecuteBlueprintFunction(L"BP_PlayerGoatMain_C", L"BPI_CombatDeath", dissolve_delay);
 	}
 
+	void Engine::DespawnCollectible(const int64_t id) {
+		std::vector<UObject*> collectibles{};
+		UObjectGlobals::FindAllOf(STR("BP_APCollectible_C"), collectibles);
+		for (auto const collectible : collectibles) {
+			void* property_ptr = collectible->GetValuePtrByPropertyName(STR("id"));
+			int64_t* new_id = static_cast<int64_t*>(property_ptr);
+			if (*new_id == id) {
+				Log(L"Manually despawning collectible with id " + std::to_wstring(id));
+				ExecuteBlueprintFunction(collectible, L"Despawn", nullptr);
+				break;
+			}
+			// It's fine if we don't find the collectible, it could just be in another map or already despawned
+		}
+	}
+
 
 	// Private functions
 	namespace {

@@ -126,6 +126,7 @@ namespace Client {
             ap->set_location_checked_handler([](const std::list<int64_t>& location_ids) {
                 for (const auto& id : location_ids) {
                     GameData::CheckLocation(id);
+                    Engine::DespawnCollectible(id);
                 }
                 });
         } // End callbacks
