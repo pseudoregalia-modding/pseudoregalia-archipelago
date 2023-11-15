@@ -153,7 +153,7 @@ public:
                     Logger::Log(L"Registering hook for AP_CopyToClipboard.");
                 }
                 Unreal::UObjectGlobals::RegisterHook(copy_function, copytext, EmptyFunction, nullptr);
-                returncheck_hooked = true;
+                copytext_hooked = true;
             }
             return object;
             });
