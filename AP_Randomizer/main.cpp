@@ -58,8 +58,10 @@ public:
         Hook::RegisterProcessEventPreCallback([&](UObject* object, UFunction* function, void* params) {
             static FName randomizer_instance = FName(STR("BP_APRandomizerInstance_C"), RC::Unreal::FNAME_Add);
             static FName receive_tick = FName(STR("ReceiveTick"), RC::Unreal::FNAME_Add);
+
             bool is_main_randomizer_blueprint = object->GetClassPrivate()->GetNamePrivate() == randomizer_instance;
             bool is_event_tick = function->GetNamePrivate() == receive_tick;
+
             if (is_main_randomizer_blueprint && is_event_tick) {
                 float* delta_seconds = static_cast<float*>(params);
                 Timer::OnTick(*delta_seconds);
