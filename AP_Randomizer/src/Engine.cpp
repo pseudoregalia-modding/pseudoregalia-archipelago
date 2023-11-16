@@ -37,7 +37,8 @@ namespace Engine {
 
 	// Returns the current map as a Map enum.
 	GameData::Map Engine::GetCurrentMap() {
-		UObject* player_controller = UObjectGlobals::FindFirstOf(STR("PlayerController"));
+		static FName controller_name = FName(STR("PlayerController"));
+		UObject* player_controller = UObjectGlobals::FindFirstOf(controller_name);
 		wstring world_name = player_controller->GetWorld()->GetName();
 		return GameData::MapNameToEnum(world_name);
 	}
