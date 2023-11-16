@@ -1,11 +1,14 @@
 #pragma once
+#include "boost/algorithm/string.hpp"
 #include "UnrealConsole.hpp"
 #include "Client.hpp"
 #include "Logger.hpp"
+#include <vector>
 
 namespace UnrealConsole {
 	using std::string;
 	using std::wstring;
+	using std::vector;
 	using RC::Unreal::FText;
 
 	// Private members
@@ -21,6 +24,20 @@ namespace UnrealConsole {
 	void UnrealConsole::ProcessInput(FText input) {
 		wstring command = input.ToString();
 		Log(L"AP console command: " + command);
+
+		// We already need boost for apclientpp so might as well make use of it.
+		std::vector<std::wstring> words;
+		boost::split(words, command, boost::is_any_of("\t "));
+
+		vector<wstring>::iterator iter;
+		for (iter = words.begin(); iter != words.end();) {
+			if (iter->empty()) {
+				iter = words.erase(iter);
+			}
+			else {
+				iter++;
+			}
+		}
 	}
 
 	void UnrealConsole::ProcessCommand(const TCHAR* new_command) {
