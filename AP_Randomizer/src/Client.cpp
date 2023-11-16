@@ -100,6 +100,7 @@ namespace Client {
                     || std::find(reasons.begin(), reasons.end(), "InvalidPassword") != reasons.end()) {
                     advice = "Please double-check your slot name and password.";
                 }
+                // Intentionally overwriting advice because slot name doesn't matter if the version is wrong.
                 if (std::find(reasons.begin(), reasons.end(), "IncompatibleVersion") != reasons.end()) {
                     advice = "Please double-check your client version.";
                 }
