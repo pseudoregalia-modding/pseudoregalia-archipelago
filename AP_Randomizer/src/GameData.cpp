@@ -20,7 +20,9 @@ namespace GameData {
         bool slidejump_owned;
         bool slidejump_disabled;
 
-        const unordered_map<int64_t, ItemType> lookup_id_to_type = {
+        // The two lookup tables below could be combined into one table with something like an ItemIdInfo struct,
+        // and should be if a third table would be added.
+        const unordered_map<int64_t, ItemType> lookup_item_id_to_type = {
             {2365810001, ItemType::Ability},
             {2365810002, ItemType::Ability},
             {2365810003, ItemType::Ability},
@@ -54,7 +56,7 @@ namespace GameData {
             {2365810020, ItemType::SmallKey},
         };
 
-        const unordered_map<int64_t, wstring> lookup_id_to_upgrade = {
+        const unordered_map<int64_t, wstring> lookup_item_id_to_upgrade = {
             {2365810001, L"attack"},
             {2365810002, L"powerBoost"},
             {2365810003, L"airKick"},
@@ -261,12 +263,12 @@ namespace GameData {
     }
 
     ItemType GameData::ReceiveItem(int64_t id) {
-        ItemType type = lookup_id_to_type.at(id);
+        ItemType type = lookup_item_id_to_type.at(id);
         switch (type) {
         case ItemType::Ability:
-            upgrade_table[lookup_id_to_upgrade.at(id)]++;
+            upgrade_table[lookup_item_id_to_upgrade.at(id)]++;
             if (!slidejump_owned) {
-                if (lookup_id_to_upgrade.at(id) == L"SlideJump"
+                if (lookup_item_id_to_upgrade.at(id) == L"SlideJump"
                     || upgrade_table[L"progressiveSlide"] >= 2) {
                     slidejump_owned = true;
                 }
