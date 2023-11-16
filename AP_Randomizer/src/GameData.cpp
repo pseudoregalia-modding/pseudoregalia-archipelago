@@ -14,13 +14,13 @@ namespace GameData {
         int health_pieces;
         int small_keys;
         bool major_keys[5];
-        std::map<wstring, int> upgrade_table;
+        unordered_map<wstring, int> upgrade_table;
         unordered_map<wstring, unordered_map<int64_t, Collectible>> collectible_table;
         unordered_map<string, int> options;
         bool slidejump_owned;
         bool slidejump_disabled;
 
-        const std::map<int64_t, wstring> lookup_id_to_upgrade = {
+        const unordered_map<int64_t, wstring> lookup_id_to_upgrade = {
             {2365810001, L"attack"},
             {2365810002, L"powerBoost"},
             {2365810003, L"airKick"},
@@ -58,7 +58,7 @@ namespace GameData {
         return major_keys;
     }
 
-    std::map<wstring, int> GameData::GetUpgradeTable() {
+    unordered_map<wstring, int> GameData::GetUpgradeTable() {
         return upgrade_table;
     }
 
