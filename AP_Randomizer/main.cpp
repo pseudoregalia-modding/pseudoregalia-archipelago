@@ -79,7 +79,7 @@ public:
         Hook::RegisterBeginPlayPostCallback([&](AActor* actor) {
             // TODO: Consider moving some of this function out of main
             auto returncheck = [](UnrealScriptFunctionCallableContext& context, void* customdata) {
-                Client::SendCheck(context.GetParams<int64_t>(), Engine::GetWorldName());
+                Client::SendCheck(context.GetParams<int64_t>());
                 };
             auto toggleslidejump = [](UnrealScriptFunctionCallableContext& context, void* customdata) {
                 Engine::ToggleSlideJump();

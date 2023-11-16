@@ -145,7 +145,7 @@ namespace Client {
         Log("Disconnected from Archipelago.", LogType::System);
     }
 
-    void Client::SendCheck(int64_t id, std::wstring current_world) {
+    void Client::SendCheck(int64_t id) {
         // TODO: Consider refactoring to queue location ids as an actual list
         list<int64_t> id_list{ id };
         Log(L"Sending check with id " + std::to_wstring(id));
