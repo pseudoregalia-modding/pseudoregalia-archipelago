@@ -1,11 +1,12 @@
 #pragma once
-#include "Unreal/FText.hpp"
 #include "UnrealConsole.hpp"
 #include "Client.hpp"
 #include "Logger.hpp"
 
 namespace UnrealConsole {
 	using std::string;
+	using std::wstring;
+	using RC::Unreal::FText;
 
 	// Private members
 	namespace {
@@ -16,6 +17,11 @@ namespace UnrealConsole {
 
 		const char DELIM = ' ';
 	} // End private members
+
+	void UnrealConsole::ProcessInput(FText input) {
+		wstring command = input.ToString();
+		Log(L"AP console command: " + command);
+	}
 
 	void UnrealConsole::ProcessCommand(const TCHAR* new_command) {
 		// TODO: This should maybe just return something and have a parent check on its return value to decide what to do, 

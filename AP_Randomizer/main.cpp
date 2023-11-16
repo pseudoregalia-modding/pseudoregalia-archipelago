@@ -28,6 +28,7 @@ public:
     bool toggleslidejump_hooked = false;
     bool deathlink_hooked = false;
     bool copytext_hooked = false;
+    bool sendmessage_hooked = false;
 
     AP_Randomizer() : CppUserModBase() {
         ModName = STR("AP_Randomizer");
@@ -158,6 +159,10 @@ public:
                 clipboard << narrow;
                 Logger::Log("copied text to clipboard: " + narrow);
                 };
+            auto sendmessage = [&](UnrealScriptFunctionCallableContext& context, void* customdata) {
+                FText input = context.GetParams<FText>();
+                UnrealConsole::ProcessInput(input);
+                };
 
             if (!copytext_hooked
                 && object->GetName().starts_with(STR("AP_DeluxeConsole"))) {
@@ -172,6 +177,20 @@ public:
                 }
                 Unreal::UObjectGlobals::RegisterHook(copy_function, copytext, EmptyFunction, nullptr);
                 copytext_hooked = true;
+            }
+
+            if (!sendmessage_hooked
+                && object->GetName().starts_with(STR("AP_DeluxeConsole"))) {
+                UFunction* send_function = object->GetFunctionByName(STR("AP_SendMessage"));
+                if (!send_function) {
+                    Log(L"Could not find function \"AP_SendMessage\" in AP_DeluxeConsole.");
+                    return object;
+                }
+                else {
+                    Log(L"Registering hook for AP_SendMessage.");
+                }
+                Unreal::UObjectGlobals::RegisterHook(send_function, sendmessage, EmptyFunction, nullptr);
+                sendmessage_hooked = true;
             }
             return object;
             });
