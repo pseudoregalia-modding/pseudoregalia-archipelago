@@ -110,8 +110,9 @@ public:
                     Unreal::UObjectGlobals::RegisterHook(toggle_function, EmptyFunction, toggleslidejump, nullptr);
                     toggleslidejump_hooked = true;
                 }
-                Log(L"Loaded scene " + Engine::GetWorldName());
-                if (Engine::GetWorldName() == STR("EndScreen")) {
+                // TODO: see if i can make this work in a way that doesn't suck
+                // Log(L"Loaded scene " + Engine::GetCurrentMap());
+                if (Engine::GetCurrentMap() == GameData::Map::EndScreen) {
                     Client::CompleteGame();
                 }
                 Engine::SpawnCollectibles();

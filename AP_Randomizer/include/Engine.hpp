@@ -1,6 +1,7 @@
 #pragma once
 #include <variant>
 #include "Unreal/UObject.hpp"
+#include "GameData.hpp"
 
 namespace Engine {
 	using RC::Unreal::UObject;
@@ -10,7 +11,7 @@ namespace Engine {
 	void SyncItems();
 	void SpawnCollectibles();
 	void DespawnCollectible(const int64_t);
-	std::wstring GetWorldName();
+	GameData::Map GetCurrentMap();
 	void ToggleSlideJump();
 	void VaporizeGoat();
 }

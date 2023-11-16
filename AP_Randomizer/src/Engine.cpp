@@ -4,7 +4,6 @@
 #include "Unreal/TArray.hpp"
 #include "Unreal/World.hpp"
 #include "Engine.hpp"
-#include "GameData.hpp"
 #include "Logger.hpp"
 
 namespace Engine {
@@ -36,10 +35,11 @@ namespace Engine {
 	} // End private members
 
 
-	// Returns the name of the current map.
-	wstring Engine::GetWorldName() {
+	// Returns the current map as a Map enum.
+	GameData::Map Engine::GetCurrentMap() {
 		UObject* player_controller = UObjectGlobals::FindFirstOf(STR("PlayerController"));
-		return player_controller->GetWorld()->GetName();
+		wstring world_name = player_controller->GetWorld()->GetName();
+		return GameData::MapNameToEnum(world_name);
 	}
 
 	// Queues up a blueprint function to be executed.
@@ -106,7 +106,7 @@ namespace Engine {
 			int64_t new_id;
 			FVector position;
 		};
-		std::unordered_map<int64_t, GameData::Collectible> collectible_map = GameData::GetCollectiblesOfZone(GetWorldName());
+		std::unordered_map<int64_t, GameData::Collectible> collectible_map = GameData::GetCollectiblesOfZone(GetCurrentMap());
 		for (const auto& [id, collectible] : collectible_map) {
 			// Return if the collectible shouldn't be spawned based on options
 			if (!collectible.CanCreate(GameData::GetOptions())) {

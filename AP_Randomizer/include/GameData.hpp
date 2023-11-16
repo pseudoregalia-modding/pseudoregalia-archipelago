@@ -12,6 +12,20 @@ namespace GameData {
 		Unknown
 	};
 
+	enum class Map {
+		TitleScreen,
+		Dungeon,
+		Castle,
+		Keep,
+		Library,
+		Theatre,
+		Bailey,
+		Underbelly,
+		Tower,
+		Chambers,
+		EndScreen,
+	};
+
 	void Initialize();
 	int GetHealthPieces();
 	int GetSmallKeys();
@@ -19,9 +33,10 @@ namespace GameData {
 	void SetOption(std::string, int);
 	std::unordered_map<std::string, int> GetOptions();
 	std::unordered_map<std::wstring, int> GetUpgradeTable();
-	std::unordered_map<int64_t, Collectible> GetCollectiblesOfZone(std::wstring);
+	std::unordered_map<int64_t, Collectible> GetCollectiblesOfZone(Map);
 	void CheckLocation(const int64_t);
 	ItemType ReceiveItem(int64_t);
+	Map MapNameToEnum(std::wstring);
 	bool ToggleSlideJump();
 	bool SlideJumpDisabled();
 }
