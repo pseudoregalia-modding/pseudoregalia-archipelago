@@ -10,13 +10,15 @@ namespace Logger {
 	using namespace RC::Output;
 	using namespace RC::LogLevel;
 	using RC::Unreal::FText;
+	using std::wstring;
+	using std::string;
 
 	// Private members
 	namespace {
-		void PrintToPlayer(std::wstring);
-		void PrintToPlayer(std::string);
+		void PrintToPlayer(wstring);
+		void PrintToPlayer(string);
 
-		std::list<std::wstring> message_queue;
+		std::list<wstring> message_queue;
 		bool popups_locked;
 		// Just over 3 seconds is long enough to ensure only 2 popups can be on screen at once
 		const float popup_delay_seconds(3.2f);
@@ -25,14 +27,14 @@ namespace Logger {
 	} // End private members
 
 
-	void Logger::Log(std::string text, LogType type) {
+	void Logger::Log(string text, LogType type) {
 		// Convert message to wstring and just pass it to the wstring version of Log
 		// Consider logging a warning since this is a bit more roundabout than usually necessary
 		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
 		Log(converter.from_bytes(text), type);
 	}
 
-	void Logger::Log(std::wstring text, LogType type) {
+	void Logger::Log(wstring text, LogType type) {
 		switch (type) {
 		case LogType::Popup: {
 			send<LogLevel::Verbose>(L"[APRandomizer] Message: " + text + L"\n");
@@ -113,16 +115,16 @@ namespace Logger {
 
 	// Private functions
 	namespace {
-		void PrintToPlayer(std::wstring message) {
+		void PrintToPlayer(wstring message) {
 			if (!messages_hidden) {
 				message_queue.push_back(message);
 			}
 		}
 
-		void PrintToPlayer(std::string message) {
+		void PrintToPlayer(string message) {
 			// Convert message to wstring and just pass it to the wstring version of PrintToPlayer
 			std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-			std::wstring newwide(message.begin(), message.end());
+			wstring newwide(message.begin(), message.end());
 			PrintToPlayer(converter.from_bytes(message));
 		}
 	} // End private functions

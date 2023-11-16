@@ -3,6 +3,10 @@
 #include "Logger.hpp"
 
 namespace GameData {
+    using std::unordered_map;
+    using std::wstring;
+    using std::string;
+
     // Private members
     namespace {
         ItemType GetItemType(int64_t);
@@ -10,13 +14,13 @@ namespace GameData {
         int health_pieces;
         int small_keys;
         bool major_keys[5];
-        std::map<std::wstring, int> upgrade_table;
-        std::unordered_map<std::wstring, std::unordered_map<int64_t, Collectible>> collectible_table;
-        std::unordered_map<std::string, int> options;
+        std::map<wstring, int> upgrade_table;
+        unordered_map<wstring, unordered_map<int64_t, Collectible>> collectible_table;
+        unordered_map<string, int> options;
         bool slidejump_owned;
         bool slidejump_disabled;
 
-        const std::map<int64_t, std::wstring> lookup_id_to_upgrade = {
+        const std::map<int64_t, wstring> lookup_id_to_upgrade = {
             {2365810001, L"attack"},
             {2365810002, L"powerBoost"},
             {2365810003, L"airKick"},
@@ -54,28 +58,26 @@ namespace GameData {
         return major_keys;
     }
 
-    std::map<std::wstring, int> GameData::GetUpgradeTable() {
+    std::map<wstring, int> GameData::GetUpgradeTable() {
         return upgrade_table;
     }
 
-    void GameData::SetOption(std::string option_name, int value) {
+    void GameData::SetOption(string option_name, int value) {
         Log("Set option " + option_name + " to " + std::to_string(value));
         options[option_name] = value;
     }
 
-    std::unordered_map<std::string, int> GameData::GetOptions() {
+    unordered_map<string, int> GameData::GetOptions() {
         return options;
     }
 
-    std::unordered_map<int64_t, Collectible> GameData::GetCollectiblesOfZone(std::wstring world_name) {
+    unordered_map<int64_t, Collectible> GameData::GetCollectiblesOfZone(wstring world_name) {
         return collectible_table[world_name];
     }
 
     void GameData::Initialize() {
-        using std::unordered_map;
         using std::vector;
         using std::pair;
-        using std::string;
 
         collectible_table = {
             {L"ZONE_Dungeon", unordered_map<int64_t, Collectible>{
@@ -255,7 +257,7 @@ namespace GameData {
 
     void GameData::CheckLocation(const int64_t id) {
         for (auto& zone : collectible_table) {
-            std::unordered_map<int64_t, Collectible>::iterator iter = zone.second.find(id);
+            unordered_map<int64_t, Collectible>::iterator iter = zone.second.find(id);
             if (iter != zone.second.end()) {
                 iter->second.Check();
                 return;

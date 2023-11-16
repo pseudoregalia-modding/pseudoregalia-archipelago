@@ -19,27 +19,30 @@
 #include "DeathLinkMessages.hpp"
 
 namespace Client {
+    using std::string;
+    using std::list;
+
     // Private members
     namespace {
         typedef nlohmann::json json;
         typedef APClient::State ConnectionStatus;
-        void ReceiveItems(const std::list<APClient::NetworkItem>&);
+        void ReceiveItems(const list<APClient::NetworkItem>&);
         void PrintJsonMessage(const APClient::PrintJSONArgs&);
         void ReceiveDeathLink(const json&);
 
         // I don't think a mutex is required here because apclientpp locks the instance during poll().
         // If people report random crashes, especially when disconnecting, I'll revisit it.
         APClient* ap;
-        const std::string game_name("Pseudoregalia");
-        const std::string uuid(ap_get_uuid("Mods/AP_Randomizer/dlls/uuid"));
-        const std::string cert_store("Mods/AP_Randomizer/dlls/cacert.pem");
+        const string game_name("Pseudoregalia");
+        const string uuid(ap_get_uuid("Mods/AP_Randomizer/dlls/uuid"));
+        const string cert_store("Mods/AP_Randomizer/dlls/cacert.pem");
         const int max_connection_retries = 3;
         int connection_retries = 0;
         bool death_link_locked;
         const float death_link_timer_seconds(4.0f);
     } // End private members
 
-    void Client::Connect(const std::string uri, const std::string slot_name, const std::string password) {
+    void Client::Connect(const string uri, const string slot_name, const string password) {
         // Nuke any existing client in case uri needs to change.
         if (ap != nullptr) {
             delete ap;
@@ -47,7 +50,7 @@ namespace Client {
         GameData::Initialize();
         ap = new APClient(uuid, game_name, uri, cert_store);
         connection_retries = 0;
-        std::string connect_message(
+        string connect_message(
             "Attempting to connect to " + uri
             + " with name " + slot_name);
         Log(connect_message, LogType::System);
@@ -68,7 +71,7 @@ namespace Client {
                 for (json::const_iterator iter = slot_data.begin(); iter != slot_data.end(); iter++) {
                     GameData::SetOption(iter.key(), iter.value());
                     if (iter.key() == "death_link" || iter.value() > 0) {
-                        ap->ConnectUpdate(false, 0, true, std::list<std::string> {"DeathLink"});
+                        ap->ConnectUpdate(false, 0, true, list<string> {"DeathLink"});
                     }
                 }
                 Engine::SpawnCollectibles();
@@ -77,7 +80,7 @@ namespace Client {
 
             // Executes whenever a socket error is detected.
             // We want to only print an error after exactly X attempts.
-            ap->set_socket_error_handler([](const std::string& error) {
+            ap->set_socket_error_handler([](const string& error) {
                 Log("Socket error: " + error);
                 if (connection_retries == max_connection_retries) {
                     if (ap->get_player_number() >= 0) { // Seed is already in progress
@@ -91,8 +94,8 @@ namespace Client {
                 });
 
             // Executes when the server refuses slot connection.
-            ap->set_slot_refused_handler([](const std::list<std::string>& reasons) {
-                std::string advice;
+            ap->set_slot_refused_handler([](const list<string>& reasons) {
+                string advice;
                 if (std::find(reasons.begin(), reasons.end(), "InvalidSlot") != reasons.end()
                     || std::find(reasons.begin(), reasons.end(), "InvalidPassword") != reasons.end()) {
                     advice = "Please double-check your slot name and password.";
@@ -104,7 +107,7 @@ namespace Client {
                 });
 
             // Executes whenever items are received from the server.
-            ap->set_items_received_handler([](const std::list<APClient::NetworkItem>& items) {
+            ap->set_items_received_handler([](const list<APClient::NetworkItem>& items) {
                 for (const auto& item : items) {
                     Log(L"Receiving item with id " + std::to_wstring(item.item));
                     GameData::ReceiveItem(item.item);
@@ -114,7 +117,7 @@ namespace Client {
 
             // Executes whenever a chat message is received.
             ap->set_print_json_handler([](const APClient::PrintJSONArgs& args) {
-                std::string message_text = ap->render_json(args.data);
+                string message_text = ap->render_json(args.data);
                 Log(message_text, LogType::Popup);
                 });
 
@@ -123,7 +126,7 @@ namespace Client {
             ap->set_bounced_handler(&ReceiveDeathLink);
 
             // Executes whenever the server tells us a location has been checked.
-            ap->set_location_checked_handler([](const std::list<int64_t>& location_ids) {
+            ap->set_location_checked_handler([](const list<int64_t>& location_ids) {
                 for (const auto& id : location_ids) {
                     GameData::CheckLocation(id);
                     Engine::DespawnCollectible(id);
@@ -144,7 +147,7 @@ namespace Client {
 
     void Client::SendCheck(int64_t id, std::wstring current_world) {
         // TODO: Consider refactoring to queue location ids as an actual list
-        std::list<int64_t> id_list{ id };
+        list<int64_t> id_list{ id };
         Log(L"Sending check with id " + std::to_wstring(id));
         ap->LocationChecks(id_list);
     }
@@ -158,12 +161,12 @@ namespace Client {
         ap->StatusUpdate(APClient::ClientStatus::GOAL);
 
         // Send a key to datastorage upon game completion for PopTracker integration.
-        std::string key =
+        string key =
             "Pseudoregalia - Team " + std::to_string(ap->get_team_number())
             + " - Player " + std::to_string(ap->get_player_number())
             + " - Game Complete";
         json default_value{ 0 };
-        std::list<APClient::DataStorageOperation> filler_operations{ APClient::DataStorageOperation{ "add", default_value  } };
+        list<APClient::DataStorageOperation> filler_operations{ APClient::DataStorageOperation{ "add", default_value  } };
         ap->Set(key, default_value, true, filler_operations);
     }
 
@@ -183,7 +186,7 @@ namespace Client {
             return;
         }
 
-        std::string funny_message(std::vformat(RandomOutgoingDeathlink(), std::make_format_args(ap->get_slot())));
+        string funny_message(std::vformat(RandomOutgoingDeathlink(), std::make_format_args(ap->get_slot())));
         json data{
             {"time", ap->get_server_time()},
             {"cause", funny_message},
@@ -214,14 +217,14 @@ namespace Client {
                 return;
             }
             json details = data["data"];
-            std::string funny_message;
+            string funny_message;
 
             if (details.contains("cause")) {
-                std::string cause(details["cause"]);
+                string cause(details["cause"]);
                 Log(cause, LogType::Popup);
             }
             else if (details.contains("source")) {
-                std::string source(details["source"]);
+                string source(details["source"]);
                 Log("You were brutally murdered by " + source + ".", LogType::Popup);
             }
             else {

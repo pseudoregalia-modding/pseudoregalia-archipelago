@@ -5,12 +5,14 @@
 #include "Logger.hpp"
 
 namespace UnrealConsole {
+	using std::string;
+
 	// Private members
 	namespace {
-		void ParseConnect(std::string);
-		void ParseMessageOption(std::string);
-		std::string GetNextToken(std::string&);
-		std::string ConvertTcharToString(const TCHAR*);
+		void ParseConnect(string);
+		void ParseMessageOption(string);
+		string GetNextToken(string&);
+		string ConvertTcharToString(const TCHAR*);
 
 		const char DELIM = ' ';
 	} // End private members
@@ -18,13 +20,13 @@ namespace UnrealConsole {
 	void UnrealConsole::ProcessCommand(const TCHAR* new_command) {
 		// TODO: This should maybe just return something and have a parent check on its return value to decide what to do, 
 		// but for now it's not really worth refactoring
-		std::string command = ConvertTcharToString(new_command);
-		std::string first_word = command.substr(0, command.find(DELIM));
+		string command = ConvertTcharToString(new_command);
+		string first_word = command.substr(0, command.find(DELIM));
 		transform(first_word.begin(), first_word.end(), first_word.begin(), tolower); // Convert the first word in the command to lowercase
 		Log("AP console command: " + command);
 
 		if (first_word == "connect") {
-			if (command.find(DELIM) == std::string::npos) {
+			if (command.find(DELIM) == string::npos) {
 				Log(L"Please provide an ip address, slot name, and (if necessary) password.", LogType::System);
 				return;
 			}
@@ -37,7 +39,7 @@ namespace UnrealConsole {
 		}
 
 		if (first_word == "message" || first_word == "messages") {
-			if (command.find(DELIM) == std::string::npos) {
+			if (command.find(DELIM) == string::npos) {
 				Log(L"Please input an option, such as \"mute\" or \"hide\".", LogType::System);
 				return;
 			}
@@ -49,35 +51,35 @@ namespace UnrealConsole {
 
 	// Private functions
 	namespace {
-		std::string ConvertTcharToString(const TCHAR* tchars) {
+		string ConvertTcharToString(const TCHAR* tchars) {
 			// Handling strings instead of wstrings here because they need to be narrow eventually to pass to APCpp.
 			// There's no character set conversion so if nonlatin unicode characters are entered this will break completely.
 			std::wstring wide(tchars);
-			std::string narrow;
+			string narrow;
 			std::transform(wide.begin(), wide.end(), std::back_inserter(narrow), [](wchar_t c) {
 				return (char)c;
 				});
 			return narrow;
 		}
 
-		void ParseConnect(std::string args) {
-			std::string ip = GetNextToken(args);
+		void ParseConnect(string args) {
+			string ip = GetNextToken(args);
 			if (ip.empty()) {
 				Log("Please provide an ip address, slot name, and (if necessary) password.", LogType::System);
 				return;
 			}
 
-			std::string slot_name = GetNextToken(args);
+			string slot_name = GetNextToken(args);
 			if (slot_name.empty()) {
 				Log("Please provide a slot name and (if necessary) password.", LogType::System);
 				return;
 			}
 
-			std::string password = GetNextToken(args);
+			string password = GetNextToken(args);
 			Client::Connect(ip, slot_name, password);
 		}
 
-		void ParseMessageOption(std::string option) {
+		void ParseMessageOption(string option) {
 			if (option.empty()) {
 				Log("Please input an option, such as \"mute\" or \"hide\".", LogType::System);
 				return;
@@ -90,12 +92,12 @@ namespace UnrealConsole {
 			}
 		}
 
-		std::string GetNextToken(std::string& input) {
+		string GetNextToken(string& input) {
 			// Gets the next space-separated word and removes it from the input string.
 			while (input[0] == DELIM) {
 				input.erase(input.begin());
 			}
-			std::string token;
+			string token;
 			if (input[0] == '"') {
 				// look for second double quote and take everything between them as one token
 				token = input.substr(1, input.find('"', 1) - 1);
