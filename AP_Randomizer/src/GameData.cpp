@@ -20,6 +20,40 @@ namespace GameData {
         bool slidejump_owned;
         bool slidejump_disabled;
 
+        const unordered_map<int64_t, ItemType> lookup_id_to_type = {
+            {2365810001, ItemType::Ability},
+            {2365810002, ItemType::Ability},
+            {2365810003, ItemType::Ability},
+            {2365810004, ItemType::Ability},
+            {2365810005, ItemType::Ability},
+            {2365810006, ItemType::Ability},
+            {2365810007, ItemType::Ability},
+            {2365810008, ItemType::Ability},
+            {2365810009, ItemType::Ability},
+            {2365810010, ItemType::Ability},
+            {2365810011, ItemType::Ability},
+            {2365810012, ItemType::Ability},
+            {2365810013, ItemType::Ability},
+            {2365810014, ItemType::Ability},
+            {2365810015, ItemType::Ability},
+            {2365810016, ItemType::Ability},
+            {2365810017, ItemType::Ability},
+            {2365810018, ItemType::Ability},
+
+            {2365810026, ItemType::Ability},
+            {2365810027, ItemType::Ability},
+            {2365810028, ItemType::Ability},
+
+            {2365810021, ItemType::MajorKey},
+            {2365810022, ItemType::MajorKey},
+            {2365810023, ItemType::MajorKey},
+            {2365810024, ItemType::MajorKey},
+            {2365810025, ItemType::MajorKey},
+
+            {2365810019, ItemType::HealthPiece},
+            {2365810020, ItemType::SmallKey},
+        };
+
         const unordered_map<int64_t, wstring> lookup_id_to_upgrade = {
             {2365810001, L"attack"},
             {2365810002, L"powerBoost"},
@@ -227,7 +261,7 @@ namespace GameData {
     }
 
     ItemType GameData::ReceiveItem(int64_t id) {
-        ItemType type = GetItemType(id);
+        ItemType type = lookup_id_to_type.at(id);
         switch (type) {
         case ItemType::Ability:
             upgrade_table[lookup_id_to_upgrade.at(id)]++;
@@ -285,28 +319,4 @@ namespace GameData {
     bool GameData::SlideJumpDisabled() {
         return slidejump_disabled;
     }
-
-
-    // Private functions
-    namespace {
-        ItemType GetItemType(int64_t id) {
-            id -= 2365810000;
-            if (1 <= id && id <= 18) {
-                return ItemType::Ability;
-            }
-            if (26 <= id && id <= 28) { // Progressive items and split kicks
-                return ItemType::Ability;
-            }
-            if (id == 19) {
-                return ItemType::HealthPiece;
-            }
-            if (id == 20) {
-                return ItemType::SmallKey;
-            }
-            if (21 <= id && id <= 25) {
-                return ItemType::MajorKey;
-            }
-            return ItemType::Unknown;
-        }
-    } // End private functions
 }
