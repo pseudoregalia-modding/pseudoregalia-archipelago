@@ -93,6 +93,63 @@ namespace GameData {
             {2365810027, L"extraKick"}, // Used for split kicks, just treats them like heliacal
             {2365810028, L"progressiveBreaker"},
         };
+
+        // This is for location ids, not items, so it can't be combined with the tables above.
+        const unordered_map<int64_t, Map> lookup_location_id_to_zone = {
+            {2365810001, Map::Dungeon},
+            {2365810002, Map::Dungeon},
+            {2365810003, Map::Dungeon},
+            {2365810004, Map::Dungeon},
+            {2365810005, Map::Dungeon},
+            {2365810006, Map::Dungeon},
+            {2365810007, Map::Dungeon},
+            {2365810008, Map::Castle},
+            {2365810009, Map::Castle},
+            {2365810010, Map::Castle},
+            {2365810011, Map::Castle},
+            {2365810012, Map::Castle},
+            {2365810013, Map::Castle},
+            {2365810014, Map::Castle},
+            {2365810015, Map::Castle},
+            {2365810016, Map::Castle},
+            {2365810017, Map::Castle},
+            {2365810018, Map::Castle},
+            {2365810019, Map::Castle},
+            {2365810020, Map::Keep},
+            {2365810021, Map::Keep},
+            {2365810022, Map::Keep},
+            {2365810023, Map::Keep},
+            {2365810024, Map::Keep},
+            {2365810025, Map::Keep},
+            {2365810026, Map::Library},
+            {2365810027, Map::Library},
+            {2365810028, Map::Library},
+            {2365810029, Map::Library},
+            {2365810051, Map::Library},
+            {2365810052, Map::Library},
+            {2365810053, Map::Library},
+            {2365810030, Map::Theatre},
+            {2365810031, Map::Theatre},
+            {2365810032, Map::Theatre},
+            {2365810033, Map::Theatre},
+            {2365810034, Map::Theatre},
+            {2365810035, Map::Theatre},
+            {2365810036, Map::Bailey},
+            {2365810037, Map::Bailey},
+            {2365810038, Map::Bailey},
+            {2365810039, Map::Bailey},
+            {2365810040, Map::Bailey},
+            {2365810041, Map::Underbelly},
+            {2365810042, Map::Underbelly},
+            {2365810043, Map::Underbelly},
+            {2365810044, Map::Underbelly},
+            {2365810045, Map::Underbelly},
+            {2365810046, Map::Underbelly},
+            {2365810047, Map::Underbelly},
+            {2365810048, Map::Underbelly},
+            {2365810049, Map::Tower},
+            {2365810050, Map::Tower},
+        };
     } // End private members
 
 
@@ -310,14 +367,9 @@ namespace GameData {
     }
 
     void GameData::CheckLocation(const int64_t id) {
-        for (auto& zone : collectible_table) {
-            unordered_map<int64_t, Collectible>::iterator iter = zone.second.find(id);
-            if (iter != zone.second.end()) {
-                iter->second.Check();
-                return;
-            }
-        }
-        Log(L"No location with id " + std::to_wstring(id) + L" was found. The developer probably made a mistake in the internal data.", LogType::Error);
+        Map current_zone = lookup_location_id_to_zone.at(id);
+        Collectible& collectible = collectible_table.at(current_zone).at(id);
+        collectible.Check();
     }
 
     bool GameData::ToggleSlideJump() {
