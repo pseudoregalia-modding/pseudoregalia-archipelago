@@ -21,17 +21,17 @@ namespace GameData {
         bool slidejump_disabled;
 
         const unordered_map<wstring, Map> map_names = {
-            {L"TitleScreen", Map::TitleScreen},
-            {L"ZONE_Dungeon", Map::Dungeon},
-            {L"ZONE_LowerCastle", Map::Castle},
-            {L"Zone_Upper", Map::Keep},
-            {L"Zone_Library", Map::Library},
-            {L"Zone_Theatre", Map::Theatre},
-            {L"ZONE_Exterior", Map::Bailey},
-            {L"Zone_Caves", Map::Underbelly},
-            {L"Zone_Tower", Map::Tower},
-            {L"Zone_PrincessChambers", Map::Chambers},
-            {L"EndScreen", Map::EndScreen},
+            {L"TitleScreen",            Map::TitleScreen},
+            {L"ZONE_Dungeon",           Map::Dungeon},
+            {L"ZONE_LowerCastle",       Map::Castle},
+            {L"Zone_Upper",             Map::Keep},
+            {L"Zone_Library",           Map::Library},
+            {L"Zone_Theatre",           Map::Theatre},
+            {L"ZONE_Exterior",          Map::Bailey},
+            {L"Zone_Caves",             Map::Underbelly},
+            {L"Zone_Tower",             Map::Tower},
+            {L"Zone_PrincessChambers",  Map::Chambers},
+            {L"EndScreen",              Map::EndScreen},
         };
 
         // The two lookup tables below could be combined into one table with something like an ItemIdInfo struct,
