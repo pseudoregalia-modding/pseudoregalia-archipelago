@@ -96,6 +96,9 @@ public:
                     Log(L"Could not find function \"ReturnCheck\" in BP_APCollectible.", LogType::Error);
                     return;
                 }
+                else {
+                    Log(L"Establishing hook for ReturnCheck.");
+                }
                 Unreal::UObjectGlobals::RegisterHook(return_check_function, EmptyFunction, returncheck, nullptr);
                 returncheck_hooked = true;
             }
@@ -106,6 +109,9 @@ public:
                     if (!toggle_function) {
                         Log(L"Could not find function \"AP_ToggleSlideJump\" in BP_APRandomizerInstance.", LogType::Error);
                         return;
+                    }
+                    else {
+                        Log(L"Establishing hook for AP_ToggleSlideJump.");
                     }
                     Unreal::UObjectGlobals::RegisterHook(toggle_function, EmptyFunction, toggleslidejump, nullptr);
                     toggleslidejump_hooked = true;
@@ -125,6 +131,9 @@ public:
                     if (!death_function) {
                         Log(L"Could not find function \"BPI_CombatDeath\" in BP_PlayerGoatMain.", LogType::Error);
                         return;
+                    }
+                    else {
+                        Log(L"Establishing hook for BPI_CombatDeath.");
                     }
                     Unreal::UObjectGlobals::RegisterHook(death_function, EmptyFunction, deathlink, nullptr);
                 }
