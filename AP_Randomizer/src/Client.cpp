@@ -128,6 +128,7 @@ namespace Client {
             // Executes whenever the server tells us a location has been checked.
             ap->set_location_checked_handler([](const list<int64_t>& location_ids) {
                 for (const auto& id : location_ids) {
+                    Log(L"Marking location " + std::to_wstring(id) + L" as checked");
                     GameData::CheckLocation(id);
                     Engine::DespawnCollectible(id);
                 }
