@@ -15,6 +15,7 @@ namespace UnrealConsole {
 	namespace {
 		void ParseConnect(string);
 		void ParseMessageOption(string);
+		void TryConnect(vector<wstring>);
 		string GetNextToken(string&);
 		string ConvertTcharToString(const TCHAR*);
 
@@ -66,7 +67,7 @@ namespace UnrealConsole {
 		size_t hashed_command = Hashes::HashWstring(words[0]);
 		switch (hashed_command) {
 		case Hashes::connect:
-			// try connect
+			TryConnect(words);
 			break;
 		case Hashes::disconnect:
 			// disconnect
@@ -114,6 +115,28 @@ namespace UnrealConsole {
 
 	// Private functions
 	namespace {
+		void TryConnect(vector<wstring> args) {
+			if (args.size() <= 1) { // !connect
+				Log(L"Please provide an ip address, slot name, and (if necessary) password.", LogType::System);
+				return;
+			}
+			if (args.size() <= 2) { // !connect ip
+				Log(L"Please provide a slot name and (if necessary) password.", LogType::System);
+				return;
+			}
+			vector<wstring>::iterator iter;
+			wstring uri = args[1];
+			wstring slot_name = args[2];
+			wstring password = L"";
+			if (args.size() >= 4) { // !connect ip name password
+				password = args[3];
+			}
+
+			Log(uri);
+			Log(slot_name);
+			Log(password);
+		}
+
 		string ConvertTcharToString(const TCHAR* tchars) {
 			// Handling strings instead of wstrings here because they need to be narrow eventually to pass to APCpp.
 			// There's no character set conversion so if nonlatin unicode characters are entered this will break completely.
