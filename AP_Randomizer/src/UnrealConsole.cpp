@@ -47,15 +47,25 @@ namespace UnrealConsole {
 	void UnrealConsole::ProcessInput(FText input) {
 		wstring command = input.ToString();
 		Log(L"AP console command: " + command);
+		if (command[0] == *L"/" || command.front() == *L"!") {
+			command.erase(0, 1);
+			UnrealConsole::ProcessCommand(command);
+		}
+		else {
+			// send say
+		}
+		return;
+	}
 
+	void UnrealConsole::ProcessCommand(wstring input) {
 		// We already need boost for apclientpp so might as well make use of it.
-		std::vector<std::wstring> words;
-		boost::split(words, command, boost::is_any_of("\t "));
+		std::vector<std::wstring> args;
+		boost::split(args, input, boost::is_any_of("\t "));
 
 		vector<wstring>::iterator iter;
-		for (iter = words.begin(); iter != words.end();) {
+		for (iter = args.begin(); iter != args.end();) {
 			if (iter->empty()) {
-				iter = words.erase(iter);
+				iter = args.erase(iter);
 			}
 			else {
 				iter++;
@@ -64,10 +74,10 @@ namespace UnrealConsole {
 
 		// There's no need to check whether the vectory is empty,
 		// since messages containing only whitespace are filtered out by the blueprint and never sent.
-		size_t hashed_command = Hashes::HashWstring(words[0]);
+		size_t hashed_command = Hashes::HashWstring(args[0]);
 		switch (hashed_command) {
 		case Hashes::connect:
-			TryConnect(words);
+			TryConnect(args);
 			break;
 		case Hashes::disconnect:
 			// disconnect
