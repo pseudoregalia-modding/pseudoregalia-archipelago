@@ -21,6 +21,28 @@ namespace UnrealConsole {
 		const char DELIM = ' ';
 	} // End private members
 
+	// wstring hashes to run a switch statement on the first word of the command.
+	namespace Hashes {
+		// std::hash isn't constexpr so we need to implement our own hash function.
+		// I just copy/pasted this from https://stackoverflow.com/a/48896410
+		constexpr size_t HashWstring(const wstring& to_hash) {
+			// Require size_t to be 64-bit.
+			static_assert(sizeof(size_t) == 8);
+
+			// FNV-1a 64 bit algorithm
+			size_t result = 0xcbf29ce484222325; // FNV offset basis
+			for (wchar_t c : to_hash) {
+				result ^= c;
+				result *= 1099511628211; // FNV prime
+			}
+			return result;
+		}
+
+		constexpr size_t connect = HashWstring(L"connect");
+		constexpr size_t disconnect = HashWstring(L"disconnect");
+		constexpr size_t hint = HashWstring(L"hint");
+	}
+
 	void UnrealConsole::ProcessInput(FText input) {
 		wstring command = input.ToString();
 		Log(L"AP console command: " + command);
@@ -37,6 +59,24 @@ namespace UnrealConsole {
 			else {
 				iter++;
 			}
+		}
+
+		// There's no need to check whether the vectory is empty,
+		// since messages containing only whitespace are filtered out by the blueprint and never sent.
+		size_t hashed_command = Hashes::HashWstring(words[0]);
+		switch (hashed_command) {
+		case Hashes::connect:
+			// try connect
+			break;
+		case Hashes::disconnect:
+			// disconnect
+			break;
+		case Hashes::hint:
+			// send hint
+			break;
+		default:
+			// report invalid command
+			break;
 		}
 	}
 
