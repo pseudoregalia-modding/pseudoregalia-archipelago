@@ -61,7 +61,7 @@ namespace UnrealConsole {
 	void UnrealConsole::ProcessCommand(wstring input) {
 		vector<wstring> args = Tokenize(input);
 
-		// There's no need to check whether the vectory is empty,
+		// There's no need to check whether the vector is empty,
 		// since messages containing only whitespace are filtered out by the blueprint and never sent.
 		size_t hashed_command = Hashes::HashWstring(args[0]);
 		switch (hashed_command) {
