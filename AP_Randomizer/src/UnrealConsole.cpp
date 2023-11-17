@@ -16,6 +16,7 @@ namespace UnrealConsole {
 		void ParseConnect(string);
 		void ParseMessageOption(string);
 		void TryConnect(vector<wstring>);
+		vector<wstring> Tokenize(wstring);
 		string GetNextToken(string&);
 		string ConvertTcharToString(const TCHAR*);
 
@@ -58,19 +59,7 @@ namespace UnrealConsole {
 	}
 
 	void UnrealConsole::ProcessCommand(wstring input) {
-		// We already need boost for apclientpp so might as well make use of it.
-		std::vector<std::wstring> args;
-		boost::split(args, input, boost::is_any_of("\t "));
-
-		vector<wstring>::iterator iter;
-		for (iter = args.begin(); iter != args.end();) {
-			if (iter->empty()) {
-				iter = args.erase(iter);
-			}
-			else {
-				iter++;
-			}
-		}
+		vector<wstring> args = Tokenize(input);
 
 		// There's no need to check whether the vectory is empty,
 		// since messages containing only whitespace are filtered out by the blueprint and never sent.
@@ -145,6 +134,25 @@ namespace UnrealConsole {
 			Log(uri);
 			Log(slot_name);
 			Log(password);
+		}
+
+		vector<wstring> Tokenize(wstring input) {
+			// We already need boost for apclientpp so might as well make use of it.
+			std::vector<std::wstring> args;
+			boost::split(args, input, boost::is_any_of("\t "));
+
+			// Remove extra whitespace from the middle of the string.
+			vector<wstring>::iterator iter;
+			for (iter = args.begin(); iter != args.end();) {
+				if (iter->empty()) {
+					iter = args.erase(iter);
+				}
+				else {
+					iter++;
+				}
+			}
+
+			return args;
 		}
 
 		string ConvertTcharToString(const TCHAR* tchars) {
