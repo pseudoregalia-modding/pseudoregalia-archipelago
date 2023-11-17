@@ -19,6 +19,7 @@ namespace UnrealConsole {
 		vector<wstring> Tokenize(wstring);
 		string GetNextToken(string&);
 		string ConvertTcharToString(const TCHAR*);
+		string ConvertWstringToString(wstring);
 
 		const char DELIM = ' ';
 	} // End private members
@@ -131,9 +132,11 @@ namespace UnrealConsole {
 				password = args[3];
 			}
 
-			Log(uri);
-			Log(slot_name);
-			Log(password);
+			Client::Connect(
+				ConvertWstringToString(uri),
+				ConvertWstringToString(slot_name),
+				ConvertWstringToString(password)
+			);
 		}
 
 		vector<wstring> Tokenize(wstring input) {
@@ -153,6 +156,16 @@ namespace UnrealConsole {
 			}
 
 			return args;
+		}
+
+		// Using strings instead of wstrings here because they need to be narrow eventually to pass to apclientpp.
+		// There's no character set conversion so if non-ascii unicode characters are entered this will break completely.
+		string ConvertWstringToString(wstring wide) {
+			string narrow;
+			std::transform(wide.begin(), wide.end(), std::back_inserter(narrow), [](wchar_t c) {
+				return (char)c;
+				});
+			return narrow;
 		}
 
 		string ConvertTcharToString(const TCHAR* tchars) {
