@@ -1,9 +1,9 @@
 #pragma once
+#include <vector>
 #include "boost/algorithm/string.hpp"
 #include "UnrealConsole.hpp"
 #include "Client.hpp"
 #include "Logger.hpp"
-#include <vector>
 
 namespace UnrealConsole {
 	using std::string;
