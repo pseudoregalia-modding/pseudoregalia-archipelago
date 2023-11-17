@@ -86,7 +86,7 @@ namespace UnrealConsole {
 			// send hint
 			break;
 		default:
-			// report invalid command
+			Log(L"Command not recognized: " + input);
 			break;
 		}
 	}
