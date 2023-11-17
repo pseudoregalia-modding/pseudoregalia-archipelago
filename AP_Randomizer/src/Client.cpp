@@ -95,7 +95,6 @@ namespace Client {
 
             // Executes when the server refuses slot connection.
             ap->set_slot_refused_handler([](const list<string>& reasons) {
-                // Searching through reasons is pretty verbose since it's std::list.
                 string advice;
                 if (std::find(reasons.begin(), reasons.end(), "InvalidSlot") != reasons.end()
                     || std::find(reasons.begin(), reasons.end(), "InvalidPassword") != reasons.end()) {
