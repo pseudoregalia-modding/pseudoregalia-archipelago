@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <optional>
 #include "boost/algorithm/string.hpp"
 #include "UnrealConsole.hpp"
 #include "Client.hpp"
@@ -118,23 +119,68 @@ namespace UnrealConsole {
 
 	// Private functions
 	namespace {
-		void TryConnect(vector<wstring> args) {
-			if (args.size() <= 1) { // !connect
+		void TryConnect(wstring args) {
+			using std::optional;
+
+			auto next_token = [&args](wstring::iterator& iter) -> optional<wstring> {
+				// Skip whitespace.
+				while (*iter == L' ' && iter != args.end()) {
+					iter++;
+				};
+				if (iter == args.end()) {
+					return {};
+				}
+
+				wstring token;
+				wchar_t delim;
+				bool arg_in_quotes = (*iter == L'"');
+				if (arg_in_quotes) {
+					delim = L'"';
+					iter++;
+				}
+				else {
+					delim = L' ';
+				}
+				while (*iter != delim && iter != args.end()) {
+					token += *iter;
+					iter++;
+				}
+				// Don't leave the iterator on the last character of the previous token
+				if (iter != args.end()) {
+					iter++;
+				}
+				return token;
+				};
+
+			wstring::iterator char_iter = args.begin();
+			optional<wstring> token;
+
+			wstring uri;
+			token = next_token(char_iter);
+			if (!token) {
 				Log(L"Please provide an ip address, slot name, and (if necessary) password.", LogType::System);
 				return;
 			}
-			if (args.size() <= 2) { // !connect ip
+			uri = token.value();
+
+			wstring slot_name;
+			token = next_token(char_iter);
+			if (!token) {
 				Log(L"Please provide a slot name and (if necessary) password.", LogType::System);
 				return;
 			}
-			vector<wstring>::iterator iter;
-			wstring uri = args[1];
-			wstring slot_name = args[2];
-			wstring password = L"";
-			if (args.size() >= 4) { // !connect ip name password
-				password = args[3];
+			slot_name = token.value();
+
+			wstring password;
+			token = next_token(char_iter);
+			if (!token) {
+				password = L"";
+			}
+			else {
+				password = token.value();
 			}
 
+			Log(L"Uri:" + uri + L"//Slot name:" + slot_name + L"//Password:" + password);
 			Client::Connect(
 				ConvertWstringToString(uri),
 				ConvertWstringToString(slot_name),
