@@ -235,6 +235,14 @@ namespace Client {
         Timer::RunTimerInGame(death_link_timer_seconds, &death_link_locked);
     }
 
+    void Client::Say(string input) {
+        if (ap == nullptr) {
+            return;
+        }
+
+        ap->Say(input);
+    }
+
 
     // Private functions
     namespace {

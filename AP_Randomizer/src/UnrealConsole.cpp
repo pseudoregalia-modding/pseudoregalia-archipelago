@@ -34,13 +34,13 @@ namespace UnrealConsole {
 
 	void UnrealConsole::ProcessInput(FText input) {
 		wstring command = input.ToString();
-		Log(L"AP console command: " + command);
+		Log(L"AP console input: " + command);
 		if (command[0] == *L"/" || command.front() == *L"!") {
 			command.erase(0, 1);
 			UnrealConsole::ProcessCommand(command);
 		}
 		else {
-			// send say
+			Client::Say(StringOps::ToNarrow(command));
 		}
 		return;
 	}
