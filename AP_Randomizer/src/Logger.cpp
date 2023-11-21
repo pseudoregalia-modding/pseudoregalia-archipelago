@@ -40,8 +40,7 @@ namespace Logger {
 		}
 
 		case LogType::Console: {
-			std::shared_ptr<void> params(new FText(text));
-			Engine::ExecuteBlueprintFunction(L"AP_DeluxeConsole_C", L"AP_PrintToConsole", params);
+			send<LogLevel::Default>(L"[APRandomizer] Console: " + text + L"\n");
 			break;
 		}
 

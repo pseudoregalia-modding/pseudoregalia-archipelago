@@ -11,6 +11,7 @@
 #define APCLIENT_DEBUG
 #include "apclient.hpp"
 #include "apuuid.hpp"
+#include "Unreal/FText.hpp"
 #include "GameData.hpp"
 #include "Engine.hpp"
 #include "Client.hpp"
@@ -126,15 +127,22 @@ namespace Client {
 
             // Executes whenever a chat message is received.
             ap->set_print_json_handler([](const APClient::PrintJSONArgs& args) {
+                using RC::Unreal::FText;
                 string plain_text = ap->render_json(args.data);
                 string markdown_text = ProcessMessageText(args);
 
-                Log(markdown_text, LogType::Console);
+                struct ConsoleLineInfo {
+                    FText markdown;
+                    FText plain;
+                };
+                FText ue_markdown(StringOps::ToWide(markdown_text));
+                FText ue_plain(StringOps::ToWide(plain_text));
+                std::shared_ptr<void> params(new ConsoleLineInfo{ ue_markdown, ue_plain });
+                Engine::ExecuteBlueprintFunction(L"AP_DeluxeConsole_C", L"AP_PrintToConsole", params);
+                Log(plain_text, LogType::Console);
+
                 if (args.type == "ItemSend") {
                     Log(plain_text, LogType::Popup);
-                }
-                else {
-                    Log(plain_text);
                 }
                 });
 
