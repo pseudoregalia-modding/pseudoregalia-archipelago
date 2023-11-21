@@ -139,6 +139,7 @@ public:
                         Log(L"Establishing hook for BPI_CombatDeath.");
                     }
                     Unreal::UObjectGlobals::RegisterHook(death_function, EmptyFunction, deathlink, nullptr);
+                    deathlink_hooked = true;
                 }
             }
             });
