@@ -122,9 +122,20 @@ namespace Client {
                 Log(message_text, LogType::Popup);
                 });
 
-            // Executes whenever a bounce (death link) is received.
-            // Extracted because this function is pretty long.
-            ap->set_bounced_handler(&ReceiveDeathLink);
+            // Executes whenever a bounce (such as a death link) is received.
+            ap->set_bounced_handler([](const json& data) {
+                Log("Receiving bounce: " + data.dump());
+
+                auto tags = data.find("tags"); // This will either be data.end() or an array of tags.
+                if (tags == data.end()) {
+                    return; // Just ignore non-deathlink bounces.
+                }
+
+                bool is_deathlink = std::find(tags->begin(), tags->end(), "DeathLink") != tags->end();
+                if (is_deathlink) {
+                    ReceiveDeathLink(data);
+                }
+                });
 
             // Executes whenever the server tells us a location has been checked.
             ap->set_location_checked_handler([](const list<int64_t>& location_ids) {
@@ -204,7 +215,6 @@ namespace Client {
     // Private functions
     namespace {
         void ReceiveDeathLink(const json& data) {
-            Log("Receiving bounce: " + data.dump());
             if (ap == nullptr
                 || !GameData::GetOptions().at("death_link")
                 || death_link_locked) {
