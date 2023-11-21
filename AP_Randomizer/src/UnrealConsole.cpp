@@ -5,7 +5,7 @@
 #include "UnrealConsole.hpp"
 #include "Client.hpp"
 #include "Logger.hpp"
-#include "StringHash.hpp"
+#include "StringOps.hpp"
 
 namespace UnrealConsole {
 	using std::string;
@@ -14,7 +14,7 @@ namespace UnrealConsole {
 	using RC::Unreal::FText;
 
 	namespace Hashes {
-		using StringHash::HashWstring;
+		using StringOps::HashWstring;
 		constexpr size_t connect = HashWstring(L"connect");
 		constexpr size_t disconnect = HashWstring(L"disconnect");
 		constexpr size_t hint = HashWstring(L"hint");

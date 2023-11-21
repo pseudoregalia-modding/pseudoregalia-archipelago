@@ -17,14 +17,14 @@
 #include "Logger.hpp"
 #include "Timer.hpp"
 #include "DeathLinkMessages.hpp"
-#include "StringHash.hpp"
+#include "StringOps.hpp"
 
 namespace Client {
     using std::string;
     using std::list;
 
     namespace Hashes {
-        using StringHash::HashNstring;
+        using StringOps::HashNstring;
         constexpr size_t player_id = HashNstring("player_id");
         constexpr size_t item_id = HashNstring("item_id");
         constexpr size_t location_id = HashNstring("location_id");
@@ -236,7 +236,7 @@ namespace Client {
             // This loop is basically the logic of APClient::render_json(), adapted to use RichTextBlock markdown.
             // Later on this will be stylized to consider the perspective of the player.
             for (const auto& node : args.data) {
-                size_t type_hash = StringHash::HashNstring(node.type);
+                size_t type_hash = StringOps::HashNstring(node.type);
                 switch (type_hash) {
                 case Hashes::player_id: {
                     int id = std::stoi(node.text);

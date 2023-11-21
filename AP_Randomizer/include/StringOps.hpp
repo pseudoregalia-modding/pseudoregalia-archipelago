@@ -1,13 +1,19 @@
 #pragma once
 #include <string>
 
-// string hashes to run switch statements on strings.
-// I've named them differently instead of using an override since it's easy to use the wrong one by accident.
+namespace StringOps {
+	// Converts wide strings to narrow.
+	// No character conversion is used, so non-ascii input will break.
+	std::string ToNarrow(std::wstring);
 
-// std::hash isn't constexpr so we need to implement our own hash function.
-// I just copy/pasted this from https://stackoverflow.com/a/48896410
-namespace StringHash {
+	// Converts UTF-8 inputs to UTF-16 wide strings using std::codecvt.
+	std::wstring ToWide(std::string);
+	
+	// Hashes std::wstrings for executing switch statements on them.
 	constexpr size_t HashWstring(const std::wstring& to_hash) {
+		// std::hash isn't constexpr so we need to implement our own hash function.
+		// I just copy/pasted these from https://stackoverflow.com/a/48896410
+
 		// Require size_t to be 64-bit.
 		static_assert(sizeof(size_t) == 8);
 
@@ -20,6 +26,7 @@ namespace StringHash {
 		return result;
 	}
 
+	// Hashes std::strings for executing switch statements on them.
 	constexpr size_t HashNstring(const std::string& to_hash) {
 		// Require size_t to be 64-bit.
 		static_assert(sizeof(size_t) == 8);
