@@ -17,17 +17,25 @@
 #include "Logger.hpp"
 #include "Timer.hpp"
 #include "DeathLinkMessages.hpp"
+#include "StringHash.hpp"
 
 namespace Client {
     using std::string;
     using std::list;
+
+    namespace Hashes {
+        using StringHash::HashNstring;
+        constexpr size_t player_id = HashNstring("player_id");
+        constexpr size_t item_id = HashNstring("item_id");
+        constexpr size_t location_id = HashNstring("location_id");
+    }
 
     // Private members
     namespace {
         typedef nlohmann::json json;
         typedef APClient::State ConnectionStatus;
         void ReceiveItems(const list<APClient::NetworkItem>&);
-        void PrintJsonMessage(const APClient::PrintJSONArgs&);
+        string ProcessMessageText(const APClient::PrintJSONArgs&);
         void ReceiveDeathLink(const json&);
 
         // I don't think a mutex is required here because apclientpp locks the instance during poll().
@@ -118,8 +126,16 @@ namespace Client {
 
             // Executes whenever a chat message is received.
             ap->set_print_json_handler([](const APClient::PrintJSONArgs& args) {
-                string message_text = ap->render_json(args.data);
-                Log(message_text, LogType::Console);
+                string plain_text = ap->render_json(args.data);
+                string markdown_text = ProcessMessageText(args);
+
+                Log(markdown_text, LogType::Console);
+                if (args.type == "ItemSend") {
+                    Log(plain_text, LogType::Popup);
+                }
+                else {
+                    Log(plain_text);
+                }
                 });
 
             // Executes whenever a bounce (such as a death link) is received.
@@ -214,6 +230,55 @@ namespace Client {
 
     // Private functions
     namespace {
+        string ProcessMessageText(const APClient::PrintJSONArgs& args) {
+            string console_text;
+
+            // This loop is basically the logic of APClient::render_json(), adapted to use RichTextBlock markdown.
+            // Later on this will be stylized to consider the perspective of the player.
+            for (const auto& node : args.data) {
+                size_t type_hash = StringHash::HashNstring(node.type);
+                switch (type_hash) {
+                case Hashes::player_id: {
+                    int id = std::stoi(node.text);
+                    string player_name = ap->get_player_alias(id);
+                    console_text += "<Player>" + player_name + "</>";
+                    break;
+                }
+                case Hashes::item_id: {
+                    int64_t id = std::stoll(node.text);
+                    string item_name = ap->get_item_name(id);
+                    switch (node.flags) {
+                    case APClient::FLAG_ADVANCEMENT:
+                        console_text += "<Progression";
+                        break;
+                    case APClient::FLAG_NEVER_EXCLUDE:
+                        console_text += "<Useful";
+                        break;
+                    case APClient::FLAG_TRAP:
+                        console_text += "<Trap";
+                        break;
+                    default:
+                        console_text += "<Filler";
+                        break;
+                    }
+                    console_text += "Item>" + item_name + "</>";
+                    break;
+                }
+                case Hashes::location_id: {
+                    int64_t id = std::stoll(node.text);
+                    string location_name = ap->get_location_name(id);
+                    console_text += "<Location>" + location_name + "</>";
+                    break;
+                }
+                default:
+                    console_text += node.text;
+                    break;
+                }
+            }
+
+            return console_text;
+        }
+
         void ReceiveDeathLink(const json& data) {
             if (ap == nullptr
                 || !GameData::GetOptions().at("death_link")
