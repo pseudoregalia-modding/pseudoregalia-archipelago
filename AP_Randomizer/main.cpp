@@ -16,6 +16,7 @@
 #include "Engine.hpp"
 #include "Logger.hpp"
 #include "Timer.hpp"
+#include "StringOps.hpp"
 
 class AP_Randomizer : public RC::CppUserModBase {
 public:
@@ -151,11 +152,7 @@ public:
 
                 // TODO: converting to narrow string here breaks nonlatin characters.
                 // ClipboardXX only handles narrow chars so I'll need to either fork it or use a different library.
-                std::string narrow;
-                std::transform(wide.begin(), wide.end(), std::back_inserter(narrow), [](wchar_t c) {
-                    return (char)c;
-                    });
-
+                std::string narrow = StringOps::ToNarrow(wide);
                 clipboardxx::clipboard clipboard;
                 clipboard << narrow;
                 Logger::Log("copied text to clipboard: " + narrow);

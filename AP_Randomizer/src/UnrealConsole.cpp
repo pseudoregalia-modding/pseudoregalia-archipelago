@@ -168,30 +168,17 @@ namespace UnrealConsole {
 
 			Log(L"Uri:" + uri + L"//Slot name:" + slot_name + L"//Password:" + password);
 			Client::Connect(
-				ConvertWstringToString(uri),
-				ConvertWstringToString(slot_name),
-				ConvertWstringToString(password)
+				StringOps::ToNarrow(uri),
+				StringOps::ToNarrow(slot_name),
+				StringOps::ToNarrow(password)
 			);
-		}
-
-		// Using strings instead of wstrings here because they need to be narrow eventually to pass to apclientpp.
-		// There's no character set conversion so if non-ascii unicode characters are entered this will break completely.
-		string ConvertWstringToString(wstring wide) {
-			string narrow;
-			std::transform(wide.begin(), wide.end(), std::back_inserter(narrow), [](wchar_t c) {
-				return (char)c;
-				});
-			return narrow;
 		}
 
 		string ConvertTcharToString(const TCHAR* tchars) {
 			// Handling strings instead of wstrings here because they need to be narrow eventually to pass to APCpp.
 			// There's no character set conversion so if nonlatin unicode characters are entered this will break completely.
 			std::wstring wide(tchars);
-			string narrow;
-			std::transform(wide.begin(), wide.end(), std::back_inserter(narrow), [](wchar_t c) {
-				return (char)c;
-				});
+			string narrow = StringOps::ToNarrow(wide);
 			return narrow;
 		}
 

@@ -1,10 +1,10 @@
 #pragma once
-#include <codecvt>
 #include "Unreal/FText.hpp"
 #include "DynamicOutput/DynamicOutput.hpp"
 #include "Logger.hpp"
 #include "Engine.hpp"
 #include "Timer.hpp"
+#include "StringOps.hpp"
 
 namespace Logger {
 	using namespace RC::Output;
@@ -28,10 +28,7 @@ namespace Logger {
 
 
 	void Logger::Log(string text, LogType type) {
-		// Convert message to wstring and just pass it to the wstring version of Log
-		// Consider logging a warning since this is a bit more roundabout than usually necessary
-		std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-		Log(converter.from_bytes(text), type);
+		Log(StringOps::ToWide(text), type);
 	}
 
 	void Logger::Log(wstring text, LogType type) {
@@ -128,10 +125,7 @@ namespace Logger {
 		}
 
 		void PrintToPlayer(string message) {
-			// Convert message to wstring and just pass it to the wstring version of PrintToPlayer
-			std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-			wstring newwide(message.begin(), message.end());
-			PrintToPlayer(converter.from_bytes(message));
+			PrintToPlayer(StringOps::ToWide(message));
 		}
 	} // End private functions
 }
