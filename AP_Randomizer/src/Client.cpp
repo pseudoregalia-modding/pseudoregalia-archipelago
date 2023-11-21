@@ -119,7 +119,7 @@ namespace Client {
             // Executes whenever a chat message is received.
             ap->set_print_json_handler([](const APClient::PrintJSONArgs& args) {
                 string message_text = ap->render_json(args.data);
-                Log(message_text, LogType::Popup);
+                Log(message_text, LogType::Console);
                 });
 
             // Executes whenever a bounce (such as a death link) is received.

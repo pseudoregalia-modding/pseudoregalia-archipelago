@@ -42,6 +42,13 @@ namespace Logger {
 			break;
 		}
 
+		case LogType::Console: {
+			send<LogLevel::Verbose>(L"[APRandomizer] Console: " + text + L"\n");
+			std::shared_ptr<void> params(new FText(text));
+			Engine::ExecuteBlueprintFunction(L"AP_DeluxeConsole_C", L"AP_PrintToConsole", params);
+			break;
+		}
+
 		case LogType::System: {
 			send<LogLevel::Verbose>(L"[APRandomizer] System: " + text + L"\n");
 			struct PrintToPlayerInfo {

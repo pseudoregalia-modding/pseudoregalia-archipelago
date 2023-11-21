@@ -5,6 +5,7 @@ namespace Logger {
 	enum class LogType {
 		Default,
 		Popup,
+		Console,
 		System,
 		Warning,
 		Error
