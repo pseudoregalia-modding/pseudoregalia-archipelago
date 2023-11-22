@@ -23,6 +23,7 @@ namespace UnrealConsole {
 		constexpr size_t remaining = HashWstring(L"remaining");
 		constexpr size_t missing = HashWstring(L"missing");
 		constexpr size_t checked = HashWstring(L"checked");
+		constexpr size_t getitem = HashWstring(L"getitem");
 	}
 
 	// Private members
@@ -96,6 +97,11 @@ namespace UnrealConsole {
 		case Hashes::checked: {
 			string checked_args = StringOps::ToNarrow(args);
 			Client::Say("!checked " + checked_args);
+			break;
+		}
+		case Hashes::getitem: {
+			string item_name = StringOps::ToNarrow(args);
+			Client::Say("!getitem " + item_name);
 			break;
 		}
 		default:
