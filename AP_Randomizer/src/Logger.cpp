@@ -46,9 +46,8 @@ namespace Logger {
 
 		case LogType::System: {
 			send<LogLevel::Verbose>(L"[APRandomizer] System: " + text + L"\n");
-			string plain_text = StringOps::ToNarrow(text);
-			string markdown_text = "<System>" + plain_text + "</>";
-			PrintToConsole(markdown_text, plain_text);
+			wstring markdown_text = L"<System>" + text + L"</>";
+			PrintToConsole(markdown_text, text);
 			break;
 		}
 
@@ -59,9 +58,8 @@ namespace Logger {
 
 		case LogType::Error: {
 			send<LogLevel::Error>(L"[APRandomizer] ERROR: " + text + L"\n");
-			string plain_text = StringOps::ToNarrow(text);
-			string markdown_text = "<Error>Error: " + plain_text + "</>";
-			PrintToConsole(markdown_text, plain_text);
+			wstring markdown_text = L"<Error>Error: " + text + L"</>";
+			PrintToConsole(markdown_text, text);
 			break;
 		}
 
@@ -72,18 +70,18 @@ namespace Logger {
 		} // End switch
 	}
 
-	void Logger::PrintToConsole(std::string markdown_text, std::string plain_text) {
+	void Logger::PrintToConsole(std::wstring markdown_text, std::wstring plain_text) {
 		struct ConsoleLineInfo {
 			FText markdown;
 			FText plain;
 		};
-		FText ue_markdown(StringOps::ToWide(markdown_text));
-		FText ue_plain(StringOps::ToWide(plain_text));
+		FText ue_markdown(markdown_text);
+		FText ue_plain(plain_text);
 		std::shared_ptr<void> params(new ConsoleLineInfo{ ue_markdown, ue_plain });
 		Engine::ExecuteBlueprintFunction(L"AP_DeluxeConsole_C", L"AP_PrintToConsole", params);
 	}
 
-	void Logger::PrintToConsole(std::string text) {
+	void Logger::PrintToConsole(std::wstring text) {
 		PrintToConsole(text, text);
 	}
 

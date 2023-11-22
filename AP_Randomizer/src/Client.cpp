@@ -130,7 +130,10 @@ namespace Client {
                 using RC::Unreal::FText;
                 string plain_text = ap->render_json(args.data);
                 string markdown_text = ProcessMessageText(args);
-                Logger::PrintToConsole(markdown_text, plain_text);
+                Logger::PrintToConsole(
+                    StringOps::ToWide(markdown_text),
+                    StringOps::ToWide(plain_text)
+                );
 
                 if (args.type == "ItemSend") {
                     Log(plain_text, LogType::Popup);
