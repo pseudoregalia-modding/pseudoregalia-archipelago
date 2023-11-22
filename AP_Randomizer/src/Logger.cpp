@@ -62,7 +62,6 @@ namespace Logger {
 			string plain_text = StringOps::ToNarrow(text);
 			string markdown_text = "<Error>Error: " + plain_text + "</>";
 			PrintToConsole(markdown_text, plain_text);
-			// TODO: functionality to display errors to player
 			break;
 		}
 
