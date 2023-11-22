@@ -62,9 +62,8 @@ namespace UnrealConsole {
 			Client::Disconnect();
 			break;
 		case Hashes::hint: {
-			wstring hint_input = L"!hint ";
-			hint_input += args;
-			Client::Say(StringOps::ToNarrow(hint_input));
+			string hint_args = StringOps::ToNarrow(args);
+			Client::Say("!hint " + hint_args);
 			break;
 		}
 		default:
