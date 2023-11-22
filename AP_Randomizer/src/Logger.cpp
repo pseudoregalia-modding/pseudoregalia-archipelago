@@ -46,13 +46,9 @@ namespace Logger {
 
 		case LogType::System: {
 			send<LogLevel::Verbose>(L"[APRandomizer] System: " + text + L"\n");
-			struct PrintToPlayerInfo {
-				FText text;
-				bool mute_sound;
-			};
-			FText new_text(text);
-			std::shared_ptr<void> params(new PrintToPlayerInfo{ new_text, messages_muted });
-			Engine::ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_PrintMiniMessage", params);
+			string plain_text = StringOps::ToNarrow(text);
+			string markdown_text = "<System>" + plain_text + "</>";
+			PrintToConsole(markdown_text, plain_text);
 			break;
 		}
 
@@ -72,6 +68,18 @@ namespace Logger {
 			break;
 		}
 		} // End switch
+	}
+
+	void Logger::PrintToConsole(std::string markdown_text, std::string plain_text) {
+		struct ConsoleLineInfo {
+			FText markdown;
+			FText plain;
+		};
+		FText ue_markdown(StringOps::ToWide(markdown_text));
+		FText ue_plain(StringOps::ToWide(plain_text));
+		std::shared_ptr<void> params(new ConsoleLineInfo{ ue_markdown, ue_plain });
+		Engine::ExecuteBlueprintFunction(L"AP_DeluxeConsole_C", L"AP_PrintToConsole", params);
+		Log(plain_text, LogType::Console);
 	}
 
 	void Logger::OnTick() {
