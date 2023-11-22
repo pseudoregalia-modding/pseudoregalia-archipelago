@@ -1,5 +1,4 @@
 #pragma once
-#include <vector>
 #include <optional>
 #include "boost/algorithm/string.hpp"
 #include "UnrealConsole.hpp"
@@ -10,7 +9,6 @@
 namespace UnrealConsole {
 	using std::string;
 	using std::wstring;
-	using std::vector;
 	using RC::Unreal::FText;
 
 	namespace Hashes {
@@ -52,8 +50,6 @@ namespace UnrealConsole {
 			args = (input.substr(input.find(L' ') + 1));
 		}
 
-		// There's no need to check whether the vector is empty,
-		// since messages containing only whitespace are filtered out by the blueprint and never sent.
 		size_t hashed_command = Hashes::HashWstring(command);
 		switch (hashed_command) {
 		case Hashes::connect:
