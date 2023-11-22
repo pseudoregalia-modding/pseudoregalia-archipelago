@@ -59,7 +59,7 @@ namespace UnrealConsole {
 			TryConnect(args);
 			break;
 		case Hashes::disconnect:
-			// disconnect
+			Client::Disconnect();
 			break;
 		case Hashes::hint: {
 			wstring hint_input = L"!hint ";
