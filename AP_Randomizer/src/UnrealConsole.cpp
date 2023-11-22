@@ -56,9 +56,11 @@ namespace UnrealConsole {
 		size_t hashed_command = Hashes::HashWstring(command);
 		switch (hashed_command) {
 		case Hashes::connect:
+			Logger::PrintToConsole(L"/" + input);
 			TryConnect(args);
 			break;
 		case Hashes::disconnect:
+			Logger::PrintToConsole(L"/" + input);
 			Client::Disconnect();
 			break;
 		case Hashes::hint: {
@@ -67,7 +69,8 @@ namespace UnrealConsole {
 			break;
 		}
 		default:
-			Log(L"Command not recognized: " + input);
+			Logger::PrintToConsole(L"/" + input);
+			Log(L"Command not recognized: " + input, LogType::System);
 			break;
 		}
 	}
