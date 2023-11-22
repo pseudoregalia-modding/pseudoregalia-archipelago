@@ -17,6 +17,7 @@ namespace Logger {
 	void ToggleMessageMute();
 	void ToggleMessageHide();
 	void PrintToConsole(std::string, std::string);
+	void PrintToConsole(std::string);
 }
 
 // Don't want to have to prefix Logger twice every time we log something
