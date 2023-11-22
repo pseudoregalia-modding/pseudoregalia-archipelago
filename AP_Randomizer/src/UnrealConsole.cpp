@@ -18,6 +18,8 @@ namespace UnrealConsole {
 		constexpr size_t disconnect = HashWstring(L"disconnect");
 		constexpr size_t hint = HashWstring(L"hint");
 		constexpr size_t hint_location = HashWstring(L"hint_location");
+		constexpr size_t release = HashWstring(L"release");
+		constexpr size_t collect = HashWstring(L"collect");
 	}
 
 	// Private members
@@ -63,6 +65,12 @@ namespace UnrealConsole {
 		case Hashes::disconnect:
 			Logger::PrintToConsole(L"/" + input);
 			Client::Disconnect();
+			break;
+		case Hashes::release:
+			Client::Say("!release");
+			break;
+		case Hashes::collect:
+			Client::Say("!collect");
 			break;
 		case Hashes::hint: {
 			string hint_args = StringOps::ToNarrow(args);
