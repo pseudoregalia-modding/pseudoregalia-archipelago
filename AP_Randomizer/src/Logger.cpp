@@ -79,7 +79,6 @@ namespace Logger {
 		FText ue_plain(StringOps::ToWide(plain_text));
 		std::shared_ptr<void> params(new ConsoleLineInfo{ ue_markdown, ue_plain });
 		Engine::ExecuteBlueprintFunction(L"AP_DeluxeConsole_C", L"AP_PrintToConsole", params);
-		Log(plain_text, LogType::Console);
 	}
 
 	void Logger::OnTick() {

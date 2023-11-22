@@ -135,6 +135,9 @@ namespace Client {
                 if (args.type == "ItemSend") {
                     Log(plain_text, LogType::Popup);
                 }
+                else {
+                    Log(plain_text, LogType::Console);
+                }
                 });
 
             // Executes whenever a bounce (such as a death link) is received.
