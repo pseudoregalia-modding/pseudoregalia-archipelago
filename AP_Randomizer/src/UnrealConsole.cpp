@@ -1,5 +1,6 @@
 #pragma once
 #include <optional>
+#include <cwctype>
 #include "boost/algorithm/string.hpp"
 #include "UnrealConsole.hpp"
 #include "Client.hpp"
@@ -45,6 +46,8 @@ namespace UnrealConsole {
 
 	void UnrealConsole::ProcessCommand(wstring input) {
 		wstring command = input.substr(0, input.find(L' '));
+		// Convert the command to lowercase to make it case-insensitive.
+		std::transform(command.begin(), command.end(), command.begin(), tolower);
 		wstring args = L"";
 		if (input.find(L' ') != wstring::npos) {
 			args = (input.substr(input.find(L' ') + 1));
