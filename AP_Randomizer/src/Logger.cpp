@@ -59,6 +59,9 @@ namespace Logger {
 
 		case LogType::Error: {
 			send<LogLevel::Error>(L"[APRandomizer] ERROR: " + text + L"\n");
+			string plain_text = StringOps::ToNarrow(text);
+			string markdown_text = "<Error>Error: " + plain_text + "</>";
+			PrintToConsole(markdown_text, plain_text);
 			// TODO: functionality to display errors to player
 			break;
 		}
