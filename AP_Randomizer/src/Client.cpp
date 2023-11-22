@@ -61,7 +61,7 @@ namespace Client {
         connection_retries = 0;
         string connect_message(
             "Attempting to connect to " + uri
-            + " with name " + slot_name);
+            + " with name " + slot_name + "...");
         Log(connect_message, LogType::System);
 
         // The Great Wall Of Callbacks
