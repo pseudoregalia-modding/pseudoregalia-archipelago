@@ -20,6 +20,9 @@ namespace UnrealConsole {
 		constexpr size_t hint_location = HashWstring(L"hint_location");
 		constexpr size_t release = HashWstring(L"release");
 		constexpr size_t collect = HashWstring(L"collect");
+		constexpr size_t remaining = HashWstring(L"remaining");
+		constexpr size_t missing = HashWstring(L"missing");
+		constexpr size_t checked = HashWstring(L"checked");
 	}
 
 	// Private members
@@ -80,6 +83,19 @@ namespace UnrealConsole {
 		case Hashes::hint_location: {
 			string hint_args = StringOps::ToNarrow(args);
 			Client::Say("!hint_location " + hint_args);
+			break;
+		}
+		case Hashes::remaining:
+			Client::Say("!remaining");
+			break;
+		case Hashes::missing: {
+			string missing_args = StringOps::ToNarrow(args);
+			Client::Say("!missing " + missing_args);
+			break;
+		}
+		case Hashes::checked: {
+			string checked_args = StringOps::ToNarrow(args);
+			Client::Say("!checked " + checked_args);
 			break;
 		}
 		default:
