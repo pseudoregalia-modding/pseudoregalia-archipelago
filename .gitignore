@@ -1,12 +1,18 @@
-# Archipelago files to be imported from #
-#########################################
+# Archipelago files to be imported from
+# I use these for intellisense and such but they don't go in the apworld
 AP_Randomizer/apworld/BaseClasses.py
 AP_Randomizer/apworld/worlds
 
+# apworld caches
+AP_Randomizer/apworld/__pycache__/
+AP_Randomizer/apworld/constants/__pycache__/
+
 # Release files
+# I don't really keep an eye on these so I'd rather put them explicitly in the github releases
 Release
 
 # Visual Studio folders
+# These are built from source with the help of CMake
 .vs/
 out/
 Output/
