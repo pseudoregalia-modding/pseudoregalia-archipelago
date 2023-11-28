@@ -32,7 +32,7 @@ Note: If you are installing on Steam Deck, please read [the Steam Deck installat
 
 
 # Generating a Seed
-1. [Install Archipelago](https://archipelago.gg/tutorial/Archipelago/setup/en), including at least the generator.
+1. [Install Archipelago,](https://archipelago.gg/tutorial/Archipelago/setup/en) including at least the generator.
 
 ![](https://i.imgur.com/9IedtY4.jpg)
 
