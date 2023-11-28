@@ -18,14 +18,15 @@ You'll spawn in Dungeon with Dream Breaker at its vanilla location, and you'll h
 
 # Mod Installation
 Note: If you are installing on Steam Deck, please read [the Steam Deck installation instructions](https://github.com/pseudoregalia-modding/pseudoregalia-archipelago/blob/main/docs/steam_deck_installation.md) instead.
-1. In Steam/steamapps/common, make a copy of your Pseudoregalia folder and rename it "Pseudoregalia_AP" (or whatever else you like).
-2. Extract the contents of pseudoregalia-archipelago.zip directly into "Pseudoregalia_AP". You should notice no change to the root folder, but the mod files will be added to the subfolders.
+1. [Go to the Releases page](https://github.com/pseudoregalia-modding/pseudoregalia-archipelago/releases/latest) and download the latest version of `pseudoregalia-archipelago.zip` and `Pseudoregalia.yaml`. You don't need the apworld or weighted yaml if you don't know what those are.
+2. In Steam/steamapps/common, make a copy of your Pseudoregalia folder and rename it "Pseudoregalia_AP" (or whatever else you like).
+3. Extract the contents of pseudoregalia-archipelago.zip directly into "Pseudoregalia_AP". You should see README.md appear in the folder.
 
 ![](https://i.imgur.com/SGPm9oq.jpg)
 
-3. Create a shortcut to Pseudoregalia_AP/pseudoregalia.exe and rename it "Pseudoregalia_AP" (or whatever else you like). Place it on your desktop or in your games folder or whatever.
-4. Launch the shortcut, which should open Pseudoregalia. Start a new file.
-5. Once you've loaded into dungeon, press F10 to open the in-game console, and enter your connect message:
+4. Create a shortcut to Pseudoregalia_AP/pseudoregalia.exe and rename it "Pseudoregalia_AP" (or whatever else you like). Place it on your desktop or in your games folder or whatever.
+5. Launch the shortcut, which should open Pseudoregalia. Start a new file.
+6. Once you've loaded into dungeon, press F10 to open the in-game console, and enter your connect message:
 
 `/connect ip:port slotname password`
 
