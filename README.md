@@ -17,6 +17,7 @@ You'll spawn in Dungeon with Dream Breaker at its vanilla location, and you'll h
 
 
 # Mod Installation
+Note: If you are installing on Steam Deck, please read [the Steam Deck installation instructions](https://github.com/pseudoregalia-modding/pseudoregalia-archipelago/blob/main/docs/steam_deck_installation.md) instead.
 1. In Steam/steamapps/common, make a copy of your Pseudoregalia folder and rename it "Pseudoregalia_AP" (or whatever else you like).
 2. Extract the contents of pseudoregalia-archipelago.zip directly into "Pseudoregalia_AP". You should notice no change to the root folder, but the mod files will be added to the subfolders.
 
