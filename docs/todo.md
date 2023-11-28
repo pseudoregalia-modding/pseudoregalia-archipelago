@@ -1,5 +1,6 @@
 - for refactoring:
   - make separate Hooks script to reduce the amount of stuff in main, and try generalizing the way the hooks are established to reduce boilerplate
+  - add some function documentation to header files
   - make FNames for actor and function names constants and replace them in FindObject calls for performance
     - this turned out to be a pain in the ass because it seems FNames can only be created after unreal_init; will revisit this if performance problems arise
 
