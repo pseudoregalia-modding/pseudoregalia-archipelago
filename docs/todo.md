@@ -26,7 +26,7 @@
 - see if there's a way to enforce a minimum apworld version from the client, so that people can't connect to an 0.6.0 seed with an 0.7.0 client and fuck up location ids
   - could i set a maximum client version in the apworld?
 
-- ask in archipelago dev channel whether non-ascii characters are supported for slot names and passwords
+- make sure non-ascii characters are supported for slot names and passwords
 
 - maybe make the player obtain the game end event for fun
 
