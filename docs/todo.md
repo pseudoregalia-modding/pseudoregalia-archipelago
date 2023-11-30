@@ -6,8 +6,7 @@
 
 - deluxe console
   - make sure it's always constructed on first load
-  - investigate control misbehaving when pressing tab while console is active (affects alt tabbing)
-    - might be able to just override OnKeyDown and have it return Handled on tab
+  - pressing Enter with a chat line highlighted should probably just give focus back to input box, but that's a problem for another day
 
 - investigate mice not disappearing on first connect (is this still happening?)
 
