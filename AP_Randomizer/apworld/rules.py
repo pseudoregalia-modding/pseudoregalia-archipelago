@@ -487,6 +487,13 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
                 self.has_gem(state)
                 or self.get_kicks(state, 3)
                 or self.get_kicks(state, 2) and self.has_plunge(state) and self.can_bounce(state),
+            "Keep Main -> Keep Locked Room": lambda state: True,
+            "Keep Main -> Keep Sunsetter": lambda state: True,
+            "Keep Main -> Keep => Underbelly": lambda state:
+                self.kick_or_plunge(state, 1)
+                or self.has_gem(state),
+            "Keep Locked Room -> Keep Sunsetter": lambda state: True,
+            "Keep => Underbelly -> Underbelly Hole": lambda state: True,
         })
 
         self.location_rules.update({
@@ -662,6 +669,14 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
             "Library Top -> Library Greaves": lambda state:
                 self.has_gem(state)
                 or self.get_kicks(state, 2),
+            "Keep Main -> Keep Locked Room": lambda state: True,
+            "Keep Main -> Keep Sunsetter": lambda state: True,
+            "Keep Main -> Keep => Underbelly": lambda state:
+                self.kick_or_plunge(state, 1)
+                or self.has_gem(state)
+                or self.has_slide(state),
+            "Keep Locked Room -> Keep Sunsetter": lambda state: True,
+            "Keep => Underbelly -> Underbelly Hole": lambda state: True,
         })
 
         self.location_rules.update({
@@ -841,6 +856,14 @@ class PseudoregaliaLunaticRules(PseudoregaliaRules):
                 self.has_gem(state)
                 or self.get_kicks(state, 2)
                 or self.can_bounce(state) and self.get_kicks(state, 1) and self.has_plunge(state)
+            "Keep Main -> Keep Locked Room": lambda state: True,
+            "Keep Main -> Keep Sunsetter": lambda state: True,
+            "Keep Main -> Keep => Underbelly": lambda state:
+                self.kick_or_plunge(state, 1)
+                or self.has_gem(state)
+                or self.has_slide(state),
+            "Keep Locked Room -> Keep Sunsetter": lambda state: True,
+            "Keep => Underbelly -> Underbelly Hole": lambda state: True,
         })
 
         self.location_rules.update({
