@@ -608,6 +608,19 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
                 self.has_gem(state)
                 or self.can_slidejump(state) and self.get_kicks(state, 1)
                 or self.get_kicks(state, 2),
+            "Sansa Keep - Near Theatre": lambda state:
+                self.kick_or_plunge(state, 1)
+                or self.has_gem(state),
+            "Sansa Keep - Alcove Near Locked Door": lambda state: True,
+            "Sansa Keep - Levers Room": lambda state:
+                self.can_attack(state),
+            "Sansa Keep - Sunsetter": lambda state:
+                self.can_attack(state),
+            "Sansa Keep - Strikebreak": lambda state:
+                (self.can_attack(state) and (self.has_slide(state) or self.can_strikebreak(state)))
+                and (
+                    self.has_gem(state)
+                    or self.kick_or_plunge(state, 1)),
         })
 
     def set_pseudoregalia_rules(self) -> None:
@@ -799,6 +812,18 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
                 self.has_gem(state)
                 or self.kick_or_plunge(state, 2)
                 or self.has_slide(state) and self.kick_or_plunge(state, 1),
+            "Sansa Keep - Near Theatre": lambda state:
+                self.kick_or_plunge(state, 1)
+                or self.has_gem(state),
+            "Sansa Keep - Alcove Near Locked Door": lambda state: True,
+            "Sansa Keep - Levers Room": lambda state:
+                self.can_attack(state),
+            "Sansa Keep - Sunsetter": lambda state:
+                self.can_attack(state),
+            "Sansa Keep - Strikebreak": lambda state:
+                self.can_attack(state) and self.has_slide(state)
+                or self.can_strikebreak(state) and self.has_gem(state)
+                or self.can_strikebreak(state) and self.kick_or_plunge(state, 1),
         })
 
     def set_pseudoregalia_rules(self) -> None:
@@ -992,6 +1017,17 @@ class PseudoregaliaLunaticRules(PseudoregaliaRules):
                 self.has_gem(state)
                 or self.kick_or_plunge(state, 2)
                 or self.has_slide(state) and self.kick_or_plunge(state, 1),
+            "Sansa Keep - Near Theatre": lambda state:
+                self.kick_or_plunge(state, 1)
+                or self.has_gem(state),
+            "Sansa Keep - Alcove Near Locked Door": lambda state: True,
+            "Sansa Keep - Levers Room": lambda state: True,
+            "Sansa Keep - Sunsetter": lambda state:
+                self.can_attack(state),
+            "Sansa Keep - Strikebreak": lambda state:
+                self.can_attack(state) and self.has_slide(state)
+                or self.can_strikebreak(state) and self.has_gem(state)
+                or self.can_strikebreak(state) and self.kick_or_plunge(state, 1),
         })
 
     def set_pseudoregalia_rules(self) -> None:
