@@ -405,7 +405,21 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
             "Listless Library - Locked Door Left": lambda state:
                 self.has_gem(state)
                 or self.can_slidejump(state) and self.get_kicks(state, 1)
-                or self.kick_or_plunge(state, 3)
+                or self.kick_or_plunge(state, 3),
+            "Sansa Keep - Near Theatre": lambda state:
+                self.kick_or_plunge(state, 1)
+                or self.has_gem(state),
+            "Sansa Keep - Alcove Near Locked Door": lambda state: True,
+            "Sansa Keep - Levers Room": lambda state:
+                self.can_attack(state),
+            "Sansa Keep - Sunsetter": lambda state:
+                self.can_attack(state),
+            "Sansa Keep - Strikebreak": lambda state:
+                (self.can_attack(state) and (self.has_slide(state) or self.can_strikebreak(state)))
+                and (
+                    self.has_gem(state)
+                    or self.has_plunge(state) and self.get_kicks(state, 1)
+                    or self.get_kicks(state, 3)),
         })
 
     def set_pseudoregalia_rules(self) -> None:
