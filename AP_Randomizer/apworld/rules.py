@@ -312,6 +312,11 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
                 or self.has_gem(state),
             "Keep Locked Room -> Keep Sunsetter": lambda state: True,
             "Keep => Underbelly -> Underbelly Hole": lambda state: True,
+            "Keep Main -> Theatre Outside Scythe Corridor": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 1)
+                or self.can_bounce(state)
+                or self.can_slidejump(state),
         })
 
         self.location_rules.update({
@@ -494,6 +499,11 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
                 or self.has_gem(state),
             "Keep Locked Room -> Keep Sunsetter": lambda state: True,
             "Keep => Underbelly -> Underbelly Hole": lambda state: True,
+            "Keep Main -> Theatre Outside Scythe Corridor": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 1)
+                or self.can_bounce(state)
+                or self.can_slidejump(state),
         })
 
         self.location_rules.update({
@@ -677,6 +687,11 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
                 or self.has_slide(state),
             "Keep Locked Room -> Keep Sunsetter": lambda state: True,
             "Keep => Underbelly -> Underbelly Hole": lambda state: True,
+            "Keep Main -> Theatre Outside Scythe Corridor": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 1)
+                or self.has_slide(state)
+                or self.can_bounce(state),
         })
 
         self.location_rules.update({
@@ -864,6 +879,11 @@ class PseudoregaliaLunaticRules(PseudoregaliaRules):
                 or self.has_slide(state),
             "Keep Locked Room -> Keep Sunsetter": lambda state: True,
             "Keep => Underbelly -> Underbelly Hole": lambda state: True,
+            "Keep Main -> Theatre Outside Scythe Corridor": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 1)
+                or self.has_slide(state)
+                or self.can_bounce(state),
         })
 
         self.location_rules.update({
