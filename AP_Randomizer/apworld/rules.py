@@ -306,8 +306,7 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
                 self.has_gem(state),
                 # All other methods would go through Keep Locked Room instead
             "Keep Main -> Keep => Underbelly": lambda state:
-                self.has_plunge(state)
-                or self.get_kicks(state, 1)
+                self.kick_or_plunge(state, 1)
                 or self.has_gem(state),
             "Keep Locked Room -> Keep Sunsetter": lambda state: True,
             "Keep => Underbelly -> Underbelly Hole": lambda state: True,
