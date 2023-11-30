@@ -294,6 +294,22 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
                 self.has_gem(state) and self.kick_or_plunge(state, 1)
                 or self.get_kicks(state, 3) and self.has_plunge(state)
                 or self.get_kicks(state, 3) and self.can_bounce(state),
+            "Keep Main -> Keep Locked Room": lambda state:
+                # Note for trackers: This is accessible with nothing but not in logic.
+                self.has_small_keys(state)
+                or self.get_kicks(state, 3)
+                or self.has_plunge(state) and self.get_kicks(state, 1)
+                or self.has_plunge(state) and self.has_gem(state),
+            "Keep Main -> Keep Sunsetter": lambda state:
+                # Note for trackers: This is accessible with nothing but not in logic.
+                self.has_gem(state),
+                # All other methods would go through Keep Locked Room instead
+            "Keep Main -> Keep => Underbelly": lambda state:
+                self.has_plunge(state)
+                or self.get_kicks(state, 1)
+                or self.has_gem(state),
+            "Keep Locked Room -> Keep Sunsetter": lambda state: True,
+            "Keep => Underbelly -> Underbelly Hole": lambda state: True,
         })
 
         self.location_rules.update({
