@@ -86,7 +86,7 @@ location_table = {
         region="Keep Main"),
     "Sansa Keep - Alcove Near Locked Door": PseudoregaliaLocationData(
         code=2365810021,
-        region="Keep Main",),
+        region="Keep Locked Room",),
     "Sansa Keep - Levers Room": PseudoregaliaLocationData(
         code=2365810022,
         region="Keep Main",),

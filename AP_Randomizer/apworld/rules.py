@@ -19,15 +19,6 @@ class PseudoregaliaRules:
         self.player = world.player
 
         self.region_rules = {
-            "Keep Main -> Keep Sunsetter": lambda state:
-                self.has_gem(state)
-                or self.has_small_keys(state)
-                or self.get_kicks(state, 3),
-            "Keep Main -> Underbelly Hole": lambda state:
-                self.kick_or_plunge(state, 1),
-            "Keep Main -> Theatre Outside Scythe Corridor": lambda state:
-                self.has_gem(state) and self.get_kicks(state, 3)
-                or self.has_gem(state) and self.can_slidejump(state),
             "Empty Bailey -> Castle Main": lambda state: True,
             "Empty Bailey -> Theatre Pillar": lambda state: True,
             "Empty Bailey -> Tower Remains": lambda state:
