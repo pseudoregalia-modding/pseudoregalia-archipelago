@@ -296,13 +296,15 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
                 or self.get_kicks(state, 3) and self.can_bounce(state),
             "Keep Main -> Keep Locked Room": lambda state:
                 # Note for trackers: This is accessible with nothing but not in logic.
+                # Cutting the platform or hitting the lever make this harder and are irreversible.
+                # On Hard and above, the player is expected to not do either.
                 self.has_small_keys(state)
                 or self.get_kicks(state, 3)
                 or self.has_plunge(state) and self.get_kicks(state, 1)
                 or self.has_gem(state) and self.has_plunge(state)
                 or self.has_gem(state) and self.get_kicks(state, 1),
             "Keep Main -> Keep Sunsetter": lambda state:
-                # Note for trackers: This is accessible with nothing but not in logic.
+                # See "Keep Main -> Keep Locked Room".
                 self.has_gem(state),
                 # All other methods would go through Keep Locked Room instead
             "Keep Main -> Keep => Underbelly": lambda state:
