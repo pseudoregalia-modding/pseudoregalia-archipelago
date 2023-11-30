@@ -299,7 +299,8 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
                 self.has_small_keys(state)
                 or self.get_kicks(state, 3)
                 or self.has_plunge(state) and self.get_kicks(state, 1)
-                or self.has_plunge(state) and self.has_gem(state),
+                or self.has_gem(state) and self.has_plunge(state)
+                or self.has_gem(state) and self.get_kicks(state, 1),
             "Keep Main -> Keep Sunsetter": lambda state:
                 # Note for trackers: This is accessible with nothing but not in logic.
                 self.has_gem(state),
