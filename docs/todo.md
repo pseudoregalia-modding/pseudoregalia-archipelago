@@ -33,6 +33,8 @@
   - keep
   - underbelly
 
+- replace True rules with comments and add missing True rules
+
 - remove death link messages checking options and map name for now, will do that later
 
 - deprecate f10 console
