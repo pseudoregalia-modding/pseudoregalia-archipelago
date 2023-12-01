@@ -10,12 +10,6 @@
 
 - investigate mice not disappearing on first connect (is this still happening?)
 
-- make sure console and clipboard can handle unicode input and output
-  - will need to look into the string formats of the following sources:
-    - FText from UE4SS
-    - strings from apclientpp 
-    - strings from ClipboardXX
-
 - shuffle outfits (might delay this to a later version)
 
 - validate player options in `generate early`, e.g. force-enabling obscure_logic
@@ -24,8 +18,6 @@
 
 - see if there's a way to enforce a minimum apworld version from the client, so that people can't connect to an 0.6.0 seed with an 0.7.0 client and fuck up location ids
   - could i set a maximum client version in the apworld?
-
-- make sure non-ascii characters are supported for slot names and passwords
 
 - maybe make the player obtain the game end event for fun
 
