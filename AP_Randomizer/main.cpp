@@ -146,17 +146,27 @@ public:
             });
 
         Hook::RegisterStaticConstructObjectPostCallback([&](const FStaticConstructObjectParameters& params, UObject* object) -> UObject* {
+            // Copies text in highlighted message to clipboard.
             auto copytext = [&](UnrealScriptFunctionCallableContext& context, void* customdata) {
-                // Copies text in highlighted message to clipboard.
                 std::wstring wide(context.GetParams<FText>().ToString());
 
-                // TODO: converting to narrow string here breaks nonlatin characters.
-                // ClipboardXX only handles narrow chars so I'll need to either fork it or use a different library.
-                std::string narrow = StringOps::ToNarrow(wide);
-                clipboardxx::clipboard clipboard;
-                clipboard << narrow;
-                Logger::Log("copied text to clipboard: " + narrow);
+                // Shamelessly copied from https://stackoverflow.com/questions/40664890/copy-unicode-string-to-clipboard-isnt-working
+                // I have no idea how this works lol.
+                const wchar_t* buffer = wide.c_str();
+                size_t size = sizeof(WCHAR) * (wcslen(buffer) + 1);
+                if (!OpenClipboard(0)) {
+                    Log("Could not open clipboard!", LogType::Warning);
+                    return;
+                }
+                HGLOBAL hClipboardData = GlobalAlloc(GMEM_MOVEABLE, size);
+                WCHAR* pchData;
+                pchData = (WCHAR*)GlobalLock(hClipboardData);
+                wcscpy_s(pchData, size / sizeof(wchar_t), buffer);
+                GlobalUnlock(hClipboardData);
+                SetClipboardData(CF_UNICODETEXT, hClipboardData);
+                CloseClipboard();
                 };
+
             auto sendmessage = [&](UnrealScriptFunctionCallableContext& context, void* customdata) {
                 FText input = context.GetParams<FText>();
                 UnrealConsole::ProcessInput(input);
