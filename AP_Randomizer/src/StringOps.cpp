@@ -8,11 +8,8 @@ namespace StringOps {
 	using std::wstring;
 	
 	string ToNarrow(wstring input) {
-		string output;
-		std::transform(input.begin(), input.end(), std::back_inserter(output), [](wchar_t c) {
-			return (char)c;
-			});
-		return output;
+		static std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+		return converter.to_bytes(input);
 	}
 
 	wstring ToWide(string input) {
