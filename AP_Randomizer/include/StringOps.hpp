@@ -2,8 +2,7 @@
 #include <string>
 
 namespace StringOps {
-	// Converts wide strings to narrow.
-	// No character conversion is used, so non-ascii input will break.
+	// Converts UTF-16 inputs to UTF-8 strings using std::codecvt.
 	std::string ToNarrow(std::wstring);
 
 	// Converts UTF-8 inputs to UTF-16 wide strings using std::codecvt.
