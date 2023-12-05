@@ -10,7 +10,6 @@
 #include "Unreal/FText.hpp"
 #include "Unreal/UClass.hpp"
 #include "NameTypes.hpp"
-#include "clipboardxx.hpp"
 #include "Client.hpp"
 #include "UnrealConsole.hpp"
 #include "Engine.hpp"
