@@ -317,6 +317,8 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
                 or self.get_kicks(state, 1)
                 or self.can_bounce(state)
                 or self.can_slidejump(state),
+            "Keep Main -> Keep Path To Throne": lambda state:
+                self.has_breaker(state),
         })
 
         self.location_rules.update({
@@ -518,6 +520,8 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
                 or self.get_kicks(state, 1)
                 or self.can_bounce(state)
                 or self.can_slidejump(state),
+            "Keep Main -> Keep Path To Throne": lambda state:
+                self.has_breaker(state),
         })
 
         self.location_rules.update({
@@ -719,6 +723,8 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
                 or self.get_kicks(state, 1)
                 or self.has_slide(state)
                 or self.can_bounce(state),
+            "Keep Main -> Keep Path To Throne": lambda state:
+                self.has_breaker(state),
         })
 
         self.location_rules.update({
@@ -923,6 +929,8 @@ class PseudoregaliaLunaticRules(PseudoregaliaRules):
                 or self.get_kicks(state, 1)
                 or self.has_slide(state)
                 or self.can_bounce(state),
+            "Keep Main -> Keep Path To Throne": lambda state:
+                self.has_breaker(state),
         })
 
         self.location_rules.update({
