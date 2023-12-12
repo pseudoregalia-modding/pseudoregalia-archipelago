@@ -92,7 +92,7 @@ location_table = {
         region="Keep Main",),
     "Sansa Keep - Lonely Throne": PseudoregaliaLocationData(
         code=2365810023,
-        region="Keep Main",),
+        region="Keep Path To Throne",),
     "Sansa Keep - Near Theatre": PseudoregaliaLocationData(
         code=2365810024,
         region="Keep Main",),

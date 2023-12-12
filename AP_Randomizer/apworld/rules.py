@@ -317,6 +317,8 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
                 or self.get_kicks(state, 1)
                 or self.can_bounce(state)
                 or self.can_slidejump(state),
+            "Keep Main -> Keep Path To Throne": lambda state:
+                self.has_breaker(state),
         })
 
         self.location_rules.update({
@@ -420,6 +422,14 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
                     self.has_gem(state)
                     or self.has_plunge(state) and self.get_kicks(state, 1)
                     or self.get_kicks(state, 3)),
+            "Sansa Keep - Lonely Throne": lambda state:
+                (self.has_gem(state)
+                     and (
+                         self.has_plunge(state) and self.get_kicks(state, 1)
+                         or self.has_plunge(state) and state.has("Ascendant Light", self.player)
+                         or self.get_kicks(state, 1) and state.has("Ascendant Light", self.player))
+                         )
+                 or (state.has("Ascendant Light", self.player) and self.kick_or_plunge(state, 4)),
         })
 
     def set_pseudoregalia_rules(self) -> None:
@@ -518,6 +528,8 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
                 or self.get_kicks(state, 1)
                 or self.can_bounce(state)
                 or self.can_slidejump(state),
+            "Keep Main -> Keep Path To Throne": lambda state:
+                self.has_breaker(state),
         })
 
         self.location_rules.update({
@@ -621,6 +633,16 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
                 and (
                     self.has_gem(state)
                     or self.kick_or_plunge(state, 1)),
+            "Sansa Keep - Lonely Throne": lambda state:
+                (self.has_gem(state)
+                    and (
+                        self.has_plunge(state)
+                        or self.get_kicks(state, 2)
+                        or self.get_kicks(state, 1) and state.has("Ascendant Light", self.player)
+                        or self.get_kicks(state, 1) and self.knows_obscure(state))
+                    )
+                or self.has_plunge(state) and self.get_kicks(state, 4)
+                or state.has("Ascendant Light", self.player) and self.get_kicks(state, 3),
         })
 
     def set_pseudoregalia_rules(self) -> None:
@@ -719,6 +741,8 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
                 or self.get_kicks(state, 1)
                 or self.has_slide(state)
                 or self.can_bounce(state),
+            "Keep Main -> Keep Path To Throne": lambda state:
+                self.has_breaker(state),
         })
 
         self.location_rules.update({
@@ -824,6 +848,11 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
                 self.can_attack(state) and self.has_slide(state)
                 or self.can_strikebreak(state) and self.has_gem(state)
                 or self.can_strikebreak(state) and self.kick_or_plunge(state, 1),
+            "Sansa Keep - Lonely Throne": lambda state:
+                self.has_gem(state)
+                or self.has_plunge(state) and self.get_kicks(state, 4)
+                or state.has("Ascendant Light", self.player) and self.kick_or_plunge(state, 3)
+                or self.has_slide(state) and self.get_kicks(state, 3),
         })
 
     def set_pseudoregalia_rules(self) -> None:
@@ -923,6 +952,8 @@ class PseudoregaliaLunaticRules(PseudoregaliaRules):
                 or self.get_kicks(state, 1)
                 or self.has_slide(state)
                 or self.can_bounce(state),
+            "Keep Main -> Keep Path To Throne": lambda state:
+                self.has_breaker(state),
         })
 
         self.location_rules.update({
@@ -1028,6 +1059,16 @@ class PseudoregaliaLunaticRules(PseudoregaliaRules):
                 self.can_attack(state) and self.has_slide(state)
                 or self.can_strikebreak(state) and self.has_gem(state)
                 or self.can_strikebreak(state) and self.kick_or_plunge(state, 1),
+            "Sansa Keep - Lonely Throne": lambda state:
+                self.has_gem(state)
+                or self.has_plunge(state) and self.get_kicks(state, 4)
+                or state.has("Ascendant Light", self.player) and self.kick_or_plunge(state, 3)
+                or self.has_slide(state) and self.kick_or_plunge(state, 3)
+                or (self.has_slide(state)
+                    and state.has("Ascendant Light", self.player)
+                    and self.get_kicks(state, 1)
+                    and self.has_plunge(state)
+                    and self.can_soulcutter(state)),
         })
 
     def set_pseudoregalia_rules(self) -> None:
