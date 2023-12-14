@@ -172,7 +172,7 @@ location_table = {
         region="Underbelly Main Upper",),
     "The Underbelly - Surrounded By Holes": PseudoregaliaLocationData(
         code=2365810048,
-        region="Underbelly Major Key Room",),
+        region="Underbelly Hole",),
 
     "Tower Remains - Cling Gem": PseudoregaliaLocationData(
         code=2365810049,
