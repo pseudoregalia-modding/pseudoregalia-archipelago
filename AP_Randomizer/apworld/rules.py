@@ -29,11 +29,6 @@ class PseudoregaliaRules:
                 self.has_plunge(state),
             "Tower Remains -> The Great Door": lambda state:
                 self.has_gem(state) and self.get_kicks(state, 3),
-            "Underbelly Main -> Empty Bailey": lambda state:
-                self.has_plunge(state)
-                or self.has_breaker(state),
-            "Underbelly Hole -> Underbelly Main": lambda state:
-                self.has_plunge(state),
             "Theatre Main -> Keep Main": lambda state:
                 self.has_gem(state),
             "Theatre Pillar -> Theatre Main": lambda state:
@@ -80,34 +75,6 @@ class PseudoregaliaRules:
             "Twilight Theatre - Center Stage": lambda state:
                 self.can_soulcutter(state) and self.has_gem(state) and self.can_slidejump(state)
                 or self.can_soulcutter(state) and self.has_gem(state) and self.get_kicks(state, 1),
-            "The Underbelly - Ascendant Light": lambda state: True,
-            "The Underbelly - Locked Door": lambda state:
-                (self.has_small_keys(state) and self.has_slide(state))
-                and (
-                    self.get_kicks(state, 3)
-                    or self.has_plunge(state)),
-            "The Underbelly - Strikebreak Wall": lambda state:
-                (self.can_strikebreak(state) and self.can_bounce(state))
-                and (
-                    self.can_slidejump(state)
-                    or self.kick_or_plunge(state, 1)),
-            "The Underbelly - Main Room": lambda state:
-                self.can_slidejump(state)
-                or self.has_plunge(state),
-            "The Underbelly - Alcove Near Light": lambda state: True,
-            "The Underbelly - Building Near Little Guy": lambda state:
-                self.get_kicks(state, 3)
-                or self.has_plunge(state),
-            "The Underbelly - Rafters Near Keep": lambda state:
-                self.get_kicks(state, 3)
-                or self.get_kicks(state, 1) and self.has_plunge(state),
-            "The Underbelly - Surrounded By Holes": lambda state:
-                self.has_plunge(state)
-                and (
-                    self.can_soulcutter(state) and self.can_bounce(state)
-                    or self.can_soulcutter(state) and self.has_gem(state)
-                    or self.can_slidejump(state) and self.get_kicks(state, 3)
-                ),
             "Tower Remains - Cling Gem": lambda state:
                 self.get_kicks(state, 3),
             "Tower Remains - Atop The Tower": lambda state: True,
