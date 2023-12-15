@@ -219,7 +219,7 @@ location_table = {
         locked_item="Unlocked Door",
         show_in_spoiler=False),
     "The Underbelly - Unlock Door": PseudoregaliaLocationData(
-        region="Underbelly Main",
+        region="Underbelly By Heliacal",
         locked_item="Unlocked Door",
         show_in_spoiler=False),
 
