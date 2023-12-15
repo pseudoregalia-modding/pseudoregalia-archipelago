@@ -47,26 +47,6 @@ class PseudoregaliaRules:
         self.location_rules = {
             # TODO: figure out a proper difference between placeholder "free" rules
             # and rules with no universal access(?)
-            "Sansa Keep - Strikebreak": lambda state:
-                self.can_slidejump(state)
-                or self.has_slide(state) and self.get_kicks(state, 1)
-                or self.has_slide(state) and self.has_gem(state)
-                or self.can_strikebreak(state) and self.get_kicks(state, 1)
-                or self.can_strikebreak(state) and self.has_gem(state),
-            "Sansa Keep - Sunsetter": lambda state:
-                self.has_breaker(state),
-            "Sansa Keep - Near Theatre": lambda state:
-                self.kick_or_plunge(state, 1)
-                or self.has_gem(state),
-            "Sansa Keep - Levers Room": lambda state:
-                self.has_breaker(state),
-            "Sansa Keep - Alcove Near Locked Door": lambda state:
-                self.can_slidejump(state)
-                or self.get_kicks(state, 3)
-                or self.has_plunge(state),
-            "Sansa Keep - Lonely Throne": lambda state:
-                self.can_bounce(state) and state.has_all({"Cling Gem, Sunsetter"}, self.player)
-                or self.has_gem(state) and self.can_bounce(state) and self.get_kicks(state, 3),
             "Empty Bailey - Solar Wind": lambda state:
                 self.has_slide(state),
             "Empty Bailey - Cheese Bell": lambda state:

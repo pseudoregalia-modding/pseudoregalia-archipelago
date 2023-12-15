@@ -30,6 +30,7 @@ region_table: Dict[str, List[str]] = {
     "Keep Locked Room": ["Keep Sunsetter"],
     "Keep Sunsetter": [],
     "Keep => Underbelly": ["Keep Main", "Underbelly Hole"],
+    "Keep Path To Throne": [],
     "Empty Bailey": ["Castle Main", "Tower Remains", "Theatre Pillar",],
     "Tower Remains": ["Underbelly Main", "The Great Door",],
     "Underbelly Main Lower": ["Underbelly Little Guy", "Underbelly By Heliacal", "Underbelly Hole", "Underbelly Main Upper"],
