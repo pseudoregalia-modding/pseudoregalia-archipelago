@@ -94,9 +94,9 @@ class PseudoregaliaRulesHelpers:
         return self.has_breaker(state) and state.has("Ascendant Light", self.player)
 
     def can_attack(self, state) -> bool:
-        """Used where either breaker or sunsetter will work."""
-        # TODO: Update this to check obscure tricks when logic rework nears completion
-        return self.has_breaker(state) or state.has("Sunsetter", self.player)
+        """Used where either breaker or sunsetter will work, for example on switches.
+        Using sunsetter is considered Obscure Logic by this method."""
+        raise Exception("can_attack() was not set")
 
     def get_kicks(self, state, count: int) -> bool:
         kicks: int = 0
@@ -139,11 +139,18 @@ class PseudoregaliaRulesHelpers:
                 or state.count("Progressive Dream Breaker", self.player) >= 3)
 
     def knows_obscure(self, state) -> bool:
-        return bool(self.world.multiworld.obscure_logic[self.player])
+        """True when Obscure Logic is enabled, False when it isn't."""
+        raise Exception("knows_obscure() was not set")
 
     def set_pseudoregalia_rules(self) -> None:
         multiworld = self.world.multiworld
         split_kicks = bool(self.world.multiworld.split_sun_greaves[self.player])
+        if bool(self.world.multiworld.obscure_logic[self.player]):
+            self.knows_obscure = lambda state: True
+            self.can_attack = lambda state: self.has_breaker(state) or self.has_plunge(state)
+        else:
+            self.knows_obscure = lambda state: False
+            self.can_attack = lambda state: self.has_breaker(state)
 
         for name, rule in self.region_rules.items():
             entrance = multiworld.get_entrance(name, self.player)
