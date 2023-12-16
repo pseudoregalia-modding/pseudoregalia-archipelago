@@ -149,12 +149,12 @@ class PseudoregaliaRulesHelpers:
             entrance = multiworld.get_entrance(name, self.player)
             set_rule(entrance, rule)
         for name, rule in self.location_rules.items():
+            if name.startswith("Listless Library"):
+                if split_kicks and name.endswith("Greaves"):
+                    continue
+                if not split_kicks and name[-1].isdigit():
+                    continue
             location = multiworld.get_location(name, self.player)
-            if location.name.startswith("Listless Library"):
-                if split_kicks and location.name.endswith("Greaves"):
-                    continue
-                if not split_kicks and location.name[-1].isdigit():
-                    continue
             set_rule(location, rule)
 
         set_rule(multiworld.get_location("D S T RT ED M M O   Y", self.player), lambda state:
