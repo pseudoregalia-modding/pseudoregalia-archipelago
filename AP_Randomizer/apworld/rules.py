@@ -25,7 +25,7 @@ class PseudoregaliaRulesHelpers:
                 self.has_gem(state)
                 or state.has_all({"Slide", "Sunsetter"}, self.player)
                 or self.get_kicks(state, 1),
-            "Tower Remains -> Underbelly Main": lambda state:
+            "Tower Remains -> Underbelly Little Guy": lambda state:
                 self.has_plunge(state),
             "Tower Remains -> The Great Door": lambda state:
                 self.has_gem(state) and self.get_kicks(state, 3),
