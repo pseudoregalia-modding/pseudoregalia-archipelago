@@ -1,5 +1,5 @@
 from BaseClasses import CollectionState
-from typing import Dict, Set, Callable, TYPE_CHECKING
+from typing import Dict, Callable, TYPE_CHECKING
 from worlds.generic.Rules import set_rule
 
 if TYPE_CHECKING:

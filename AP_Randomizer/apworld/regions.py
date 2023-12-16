@@ -1,4 +1,4 @@
-from typing import NamedTuple, Callable, Dict, List, Optional
+from typing import NamedTuple, Callable, Dict, List
 from BaseClasses import CollectionState
 
 

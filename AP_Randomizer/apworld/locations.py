@@ -1,5 +1,5 @@
 from BaseClasses import Location, MultiWorld
-from typing import NamedTuple, Dict, Optional, Callable
+from typing import NamedTuple, Optional, Callable
 
 
 class PseudoregaliaLocation(Location):

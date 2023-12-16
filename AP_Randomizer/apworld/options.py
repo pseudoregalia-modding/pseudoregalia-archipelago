@@ -1,5 +1,4 @@
-from dataclasses import dataclass
-from Options import Toggle, Range, Choice, DefaultOnToggle, DeathLink
+from Options import Toggle, Choice, DefaultOnToggle, DeathLink
 from .constants.difficulties import NORMAL, HARD, EXPERT, LUNATIC
 
 

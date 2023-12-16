@@ -1,16 +1,15 @@
 from worlds.AutoWorld import World
-from BaseClasses import Region, Location, Item
-from .items import PseudoregaliaItem, PseudoregaliaItemData, item_table, item_frequencies, item_groups
+from BaseClasses import Region
+from .items import PseudoregaliaItem, item_table, item_frequencies, item_groups
 from .locations import PseudoregaliaLocation, location_table
 from .regions import region_table
 from .options import pseudoregalia_options
-from worlds.generic.Rules import add_rule, set_rule, forbid_item
 from .rules_normal import PseudoregaliaNormalRules
 from .rules_hard import PseudoregaliaHardRules
 from .rules_expert import PseudoregaliaExpertRules
 from .rules_lunatic import PseudoregaliaLunaticRules
 from typing import Dict, Any
-from .constants.difficulties import UNIVERSAL, NORMAL, HARD, EXPERT, LUNATIC
+from .constants.difficulties import NORMAL, HARD, EXPERT, LUNATIC
 
 
 class PseudoregaliaWorld(World):
