@@ -151,25 +151,25 @@ location_table = {
 
     "The Underbelly - Ascendant Light": PseudoregaliaLocationData(
         code=2365810041,
-        region="Underbelly Main"),
+        region="Underbelly Ascendant Light"),
     "The Underbelly - Alcove Near Light": PseudoregaliaLocationData(
         code=2365810042,
-        region="Underbelly Main",),
+        region="Underbelly Light Pillar",),
     "The Underbelly - Building Near Little Guy": PseudoregaliaLocationData(
         code=2365810043,
-        region="Underbelly Main",),
+        region="Underbelly Little Guy",),
     "The Underbelly - Locked Door": PseudoregaliaLocationData(
         code=2365810044,
-        region="Underbelly Main",),
+        region="Underbelly By Heliacal",),
     "The Underbelly - Main Room": PseudoregaliaLocationData(
         code=2365810045,
-        region="Underbelly Main",),
+        region="Underbelly Main Upper",),
     "The Underbelly - Rafters Near Keep": PseudoregaliaLocationData(
         code=2365810046,
-        region="Underbelly Hole",),
+        region="Underbelly => Keep",),
     "The Underbelly - Strikebreak Wall": PseudoregaliaLocationData(
         code=2365810047,
-        region="Underbelly Main",),
+        region="Underbelly Main Upper",),
     "The Underbelly - Surrounded By Holes": PseudoregaliaLocationData(
         code=2365810048,
         region="Underbelly Hole",),
@@ -219,7 +219,7 @@ location_table = {
         locked_item="Unlocked Door",
         show_in_spoiler=False),
     "The Underbelly - Unlock Door": PseudoregaliaLocationData(
-        region="Underbelly Main",
+        region="Underbelly By Heliacal",
         locked_item="Unlocked Door",
         show_in_spoiler=False),
 
