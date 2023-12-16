@@ -147,15 +147,15 @@ class PseudoregaliaRulesHelpers:
 
     def set_pseudoregalia_rules(self) -> None:
         multiworld = self.world.multiworld
-        split_kicks = bool(self.world.multiworld.split_sun_greaves[self.player])
-        if bool(self.world.multiworld.obscure_logic[self.player]):
+        split_kicks = bool(multiworld.split_sun_greaves[self.player])
+        if bool(multiworld.obscure_logic[self.player]):
             self.knows_obscure = lambda state: True
             self.can_attack = lambda state: self.has_breaker(state) or self.has_plunge(state)
         else:
             self.knows_obscure = lambda state: False
             self.can_attack = lambda state: self.has_breaker(state)
 
-        logic_level = self.multiworld.logic_level[self.player].value
+        logic_level = multiworld.logic_level[self.player].value
         if logic_level == NORMAL:
             self.required_small_keys = 7
 
