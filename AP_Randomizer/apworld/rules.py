@@ -1,6 +1,7 @@
 from BaseClasses import CollectionState
 from typing import Dict, Callable, TYPE_CHECKING
 from worlds.generic.Rules import set_rule
+from .constants.difficulties import NORMAL
 
 if TYPE_CHECKING:
     from . import PseudoregaliaWorld
@@ -13,6 +14,7 @@ class PseudoregaliaRulesHelpers:
     player: int
     region_rules: Dict[str, Callable[[CollectionState], bool]]
     location_rules: Dict[str, Callable[[CollectionState], bool]]
+    required_small_keys: int = 6  # Set to 7 for Normal logic.
 
     def __init__(self, world: PseudoregaliaWorld) -> None:
         self.world = world
@@ -119,8 +121,9 @@ class PseudoregaliaRulesHelpers:
         return total >= count
 
     def has_small_keys(self, state) -> bool:
-        # TODO: This needs to check for can_attack once breaker can be shuffled
-        return (state.count("Small Key", self.player) >= 7)
+        if not self.can_attack(state):
+            return False
+        return state.count("Small Key", self.player) >= self.required_small_keys
 
     def navigate_darkrooms(self, state) -> bool:
         # TODO: Update this to check obscure tricks for breaker only when logic rework nears completion
@@ -151,6 +154,10 @@ class PseudoregaliaRulesHelpers:
         else:
             self.knows_obscure = lambda state: False
             self.can_attack = lambda state: self.has_breaker(state)
+
+        logic_level = self.multiworld.logic_level[self.player].value
+        if logic_level == NORMAL:
+            self.required_small_keys = 7
 
         for name, rule in self.region_rules.items():
             entrance = multiworld.get_entrance(name, self.player)
