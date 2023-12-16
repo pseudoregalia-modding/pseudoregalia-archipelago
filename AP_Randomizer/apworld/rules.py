@@ -143,14 +143,19 @@ class PseudoregaliaRulesHelpers:
 
     def set_pseudoregalia_rules(self) -> None:
         multiworld = self.world.multiworld
+        split_kicks = bool(self.world.multiworld.split_sun_greaves[self.player])
 
-        for region in multiworld.get_regions(self.player):
-            for entrance in region.entrances:
-                if entrance.name in self.region_rules:
-                    set_rule(entrance, self.region_rules[entrance.name])
-            for location in region.locations:
-                if location.name in self.location_rules:
-                    set_rule(location, self.location_rules[location.name])
+        for name, rule in self.region_rules.items():
+            entrance = multiworld.get_entrance(name, self.player)
+            set_rule(entrance, rule)
+        for name, rule in self.location_rules.items():
+            location = multiworld.get_location(name, self.player)
+            if location.name.startswith("Listless Library"):
+                if split_kicks and location.name.endswith("Greaves"):
+                    continue
+                if not split_kicks and location.name[-1].isdigit():
+                    continue
+            set_rule(location, rule)
 
         set_rule(multiworld.get_location("D S T RT ED M M O   Y", self.player), lambda state:
                  state.has_all({
