@@ -107,7 +107,8 @@ class PseudoregaliaRulesHelpers:
         return kicks >= count
 
     def kick_or_plunge(self, state, count: int) -> bool:
-        """Used where one air kick can be replaced with sunsetter. Input is the number of kicks needed without plunge."""
+        """Used where one air kick can be replaced with sunsetter.
+        Input is the number of kicks needed without plunge."""
         total: int = 0
         if (state.has("Sun Greaves", self.player)):
             total += 3
