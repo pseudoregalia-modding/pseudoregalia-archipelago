@@ -447,6 +447,36 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
                          or self.get_kicks(state, 1) and state.has("Ascendant Light", self.player))
                          )
                  or (state.has("Ascendant Light", self.player) and self.kick_or_plunge(state, 4)),
+            "The Underbelly - Rafters Near Keep": lambda state:
+                self.has_plunge(state)
+                or self.get_kicks(state, 2)
+                or self.can_bounce(state),
+            "The Underbelly - Locked Door": lambda state:
+                self.has_small_keys(state),
+            "The Underbelly - Main Room": lambda state:
+                self.has_plunge(state)
+                or self.has_gem(state)
+                or self.get_kicks(state, 2)
+                or self.can_slidejump(state) and self.get_kicks(state, 1),
+            "The Underbelly - Alcove Near Light": lambda state:
+                self.can_attack(state)
+                or self.has_gem(state)
+                or self.get_kicks(state, 4)
+                or self.get_kicks(state, 3) and self.can_slidejump(state),
+            "The Underbelly - Building Near Little Guy": lambda state:
+                self.has_plunge(state)
+                or self.get_kicks(state, 3),
+            "The Underbelly - Strikebreak Wall": lambda state:
+                self.can_bounce(state)
+                or self.get_kicks(state, 4)
+                or self.get_kicks(state, 2) and self.has_plunge(state),
+            "The Underbelly - Surrounded By Holes": lambda state:
+                self.can_soulcutter(state)
+                and (
+                    self.can_bounce(state)
+                    or self.get_kicks(state, 2)
+                    )
+                or self.can_slidejump(state) and self.has_gem(state) and self.get_kicks(state, 1),
         })
 
     def set_pseudoregalia_rules(self) -> None:
@@ -738,6 +768,37 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
                     )
                 or self.has_plunge(state) and self.get_kicks(state, 4)
                 or state.has("Ascendant Light", self.player) and self.get_kicks(state, 3),
+            "The Underbelly - Rafters Near Keep": lambda state:
+                self.kick_or_plunge(state, 1)
+                or self.has_gem(state)
+                or self.has_slide(state)
+                or self.can_bounce(state),
+            "The Underbelly - Locked Door": lambda state:
+                self.has_small_keys(state),
+            "The Underbelly - Main Room": lambda state:
+                self.has_plunge(state)
+                or self.has_gem(state)
+                or self.get_kicks(state, 2)
+                or self.can_slidejump(state),
+            "The Underbelly - Alcove Near Light": lambda state:
+                self.can_attack(state)
+                or self.has_gem(state)
+                or self.get_kicks(state, 3)
+                or self.get_kicks(state, 2) and self.can_slidejump(state),
+            "The Underbelly - Building Near Little Guy": lambda state:
+                self.has_plunge(state)
+                or self.get_kicks(state, 2),
+            "The Underbelly - Strikebreak Wall": lambda state:
+                self.can_bounce(state)
+                or self.get_kicks(state, 3)
+                or self.get_kicks(state, 1) and self.has_plunge(state),
+            "The Underbelly - Surrounded By Holes": lambda state:
+                self.can_soulcutter(state)
+                and (
+                    self.can_bounce(state)
+                    or self.get_kicks(state, 1)
+                    )
+                or self.has_gem(state),
         })
 
     def set_pseudoregalia_rules(self) -> None:
@@ -1024,6 +1085,42 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
                 or self.has_plunge(state) and self.get_kicks(state, 4)
                 or state.has("Ascendant Light", self.player) and self.kick_or_plunge(state, 3)
                 or self.has_slide(state) and self.get_kicks(state, 3),
+            "The Underbelly - Rafters Near Keep": lambda state:
+                self.kick_or_plunge(state, 1)
+                or self.has_gem(state)
+                or self.has_slide(state)
+                or self.can_bounce(state),
+            "The Underbelly - Locked Door": lambda state:
+                self.has_small_keys(state),
+            "The Underbelly - Main Room": lambda state:
+                self.has_plunge(state)
+                or self.has_gem(state)
+                or self.get_kicks(state, 2)
+                or self.has_slide(state),
+            "The Underbelly - Alcove Near Light": lambda state:
+                self.can_attack(state)
+                or self.has_gem(state)
+                or self.get_kicks(state, 3)
+                or self.get_kicks(state, 1) and self.has_slide(state),
+            "The Underbelly - Building Near Little Guy": lambda state:
+                self.has_plunge(state)
+                or self.get_kicks(state, 1)
+                or self.has_slide(state),
+            "The Underbelly - Strikebreak Wall": lambda state:
+                self.can_bounce(state)
+                or self.get_kicks(state, 3)
+                or self.get_kicks(state, 1) and self.has_plunge(state)
+                or self.has_slide(state) and self.kick_or_plunge(state, 1)
+                or self.has_slide(state) and self.has_gem(state),
+            "The Underbelly - Surrounded By Holes": lambda state:
+                self.can_soulcutter(state)
+                and (
+                    self.can_bounce(state)
+                    or self.get_kicks(state, 1)
+                    or self.has_slide(state)
+                    )
+                or self.has_gem(state)
+                or self.has_slide(state) and self.get_kicks(state, 1),
         })
 
     def set_pseudoregalia_rules(self) -> None:
@@ -1316,6 +1413,42 @@ class PseudoregaliaLunaticRules(PseudoregaliaRules):
                     and self.get_kicks(state, 1)
                     and self.has_plunge(state)
                     and self.can_soulcutter(state)),
+            "The Underbelly - Rafters Near Keep": lambda state:
+                self.kick_or_plunge(state, 1)
+                or self.has_gem(state)
+                or self.has_slide(state)
+                or self.can_bounce(state),
+            "The Underbelly - Locked Door": lambda state:
+                self.has_small_keys(state),
+            "The Underbelly - Main Room": lambda state:
+                self.has_plunge(state)
+                or self.has_gem(state)
+                or self.get_kicks(state, 2)
+                or self.has_slide(state),
+            "The Underbelly - Alcove Near Light": lambda state:
+                self.can_attack(state)
+                or self.has_gem(state)
+                or self.get_kicks(state, 3)
+                or self.get_kicks(state, 1) and self.has_slide(state),
+            "The Underbelly - Building Near Little Guy": lambda state:
+                self.has_plunge(state)
+                or self.get_kicks(state, 1)
+                or self.has_slide(state),
+            "The Underbelly - Strikebreak Wall": lambda state:
+                self.can_bounce(state)
+                or self.get_kicks(state, 3)
+                or self.get_kicks(state, 1) and self.has_plunge(state)
+                or self.has_slide(state) and self.kick_or_plunge(state, 1)
+                or self.has_slide(state) and self.has_gem(state),
+            "The Underbelly - Surrounded By Holes": lambda state:
+                self.can_soulcutter(state)
+                and (
+                    self.can_bounce(state)
+                    or self.get_kicks(state, 1)
+                    or self.has_slide(state)
+                    )
+                or self.has_gem(state)
+                or self.has_slide(state) and self.get_kicks(state, 1),
         })
 
     def set_pseudoregalia_rules(self) -> None:
