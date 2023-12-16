@@ -34,9 +34,9 @@ region_table: Dict[str, List[str]] = {
 
     "Castle Main":
         ["Dungeon => Castle",
-         "Library Main",
          "Keep Main",
          "Empty Bailey",
+         "Library Main",
          "Theatre Pillar",
          "Castle Spiral Climb",],
     "Castle Spiral Climb":
@@ -91,36 +91,37 @@ region_table: Dict[str, List[str]] = {
         ["Underbelly Little Guy",
          "The Great Door",],
 
+    "Underbelly => Dungeon":
+        ["Dungeon Escape Lower",
+         "Underbelly Light Pillar",
+         "Underbelly Ascendant Light"],
+    "Underbelly Light Pillar":
+        ["Underbelly Main Upper",
+         "Underbelly => Dungeon",
+         "Underbelly Ascendant Light"],
+    "Underbelly Ascendant Light":
+        ["Underbelly Light Pillar",
+         "Underbelly => Dungeon"],
     "Underbelly Main Lower":
         ["Underbelly Little Guy",
-         "Underbelly By Heliacal",
          "Underbelly Hole",
+         "Underbelly By Heliacal",
          "Underbelly Main Upper"],
     "Underbelly Main Upper":
         ["Underbelly Main Lower",
          "Underbelly Light Pillar",
          "Underbelly By Heliacal"],
+    "Underbelly By Heliacal":
+        ["Underbelly Main Upper"],
     "Underbelly Little Guy":
         ["Empty Bailey",
          "Underbelly Main Lower"],
-    "Underbelly By Heliacal":
-        ["Underbelly Main Upper"],
-    "Underbelly Hole":
-        ["Underbelly Main Lower",
-         "Underbelly => Keep"],
-    "Underbelly Light Pillar":
-        ["Underbelly Ascendant Light",
-         "Underbelly => Dungeon"],
-    "Underbelly Ascendant Light":
-        ["Underbelly Light Pillar",
-         "Underbelly => Dungeon"],
     "Underbelly => Keep":
         ["Keep => Underbelly",
          "Underbelly Hole"],
-    "Underbelly => Dungeon":
-        ["Dungeon Escape Lower",
-         "Underbelly Light Pillar",
-         "Underbelly Ascendant Light"],
+    "Underbelly Hole":
+        ["Underbelly Main Lower",
+         "Underbelly => Keep"],
 
     "Theatre Main":
         ["Keep Main",],
