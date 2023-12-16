@@ -348,6 +348,9 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
         })
 
         self.location_rules.update({
+            # "Dilapidated Dungeon - Dream Breaker": lambda state: True,
+            # "Dilapidated Dungeon - Slide": lambda state: True,
+            # "Dilapidated Dungeon - Alcove Near Mirror": lambda state: True,
             "Dilapidated Dungeon - Dark Orbs": lambda state:
                 self.has_gem(state) and self.can_bounce(state)
                 or self.has_gem(state) and self.kick_or_plunge(state, 3)
@@ -365,6 +368,17 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
                 and (
                     self.has_gem(state) and self.get_kicks(state, 1) and self.has_plunge(state)
                     or self.has_gem(state) and self.get_kicks(state, 3)),
+            # "Castle Sansa - Indignation": lambda state: True,
+            "Castle Sansa - Alcove Near Dungeon": lambda state:
+                self.has_gem(state) and self.kick_or_plunge(state, 1)
+                or self.kick_or_plunge(state, 2),
+            "Castle Sansa - Balcony": lambda state:
+                self.has_gem(state)
+                or self.kick_or_plunge(state, 3)
+                or self.can_slidejump(state) and self.kick_or_plunge(state, 2),
+            "Castle Sansa - Corner Corridor": lambda state:
+                self.has_gem(state)
+                or self.get_kicks(state, 4),
             "Castle Sansa - Floater In Courtyard": lambda state:
                 self.can_bounce(state) and self.has_plunge(state)
                 or self.can_bounce(state) and self.get_kicks(state, 2)
@@ -382,33 +396,23 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
             "Castle Sansa - Tall Room Near Wheel Crawlers": lambda state:
                 self.has_gem(state) and self.kick_or_plunge(state, 1)
                 or self.get_kicks(state, 2),
-            "Castle Sansa - Alcove Near Dungeon": lambda state:
-                self.has_gem(state) and self.kick_or_plunge(state, 1)
-                or self.kick_or_plunge(state, 2),
-            "Castle Sansa - Balcony": lambda state:
-                self.has_gem(state)
-                or self.kick_or_plunge(state, 3)
-                or self.can_slidejump(state) and self.kick_or_plunge(state, 2),
-            "Castle Sansa - Corner Corridor": lambda state:
-                self.has_gem(state)
-                or self.get_kicks(state, 4),
             "Castle Sansa - Wheel Crawlers": lambda state:
                 self.can_bounce(state)
                 or self.has_gem(state)
                 or self.get_kicks(state, 2)
                 or self.get_kicks(state, 1) and self.can_slidejump(state)
                 or self.knows_obscure(state) and self.has_plunge(state),
+            "Castle Sansa - High Climb From Courtyard": lambda state:
+                self.get_kicks(state, 2)
+                or self.has_gem(state) and self.has_plunge(state)
+                or self.has_breaker(state) and self.get_kicks(state, 1)
+                or self.knows_obscure(state) and self.has_plunge(state) and self.get_kicks(state, 1),
             "Castle Sansa - Alcove Near Scythe Corridor": lambda state:
                 self.has_gem(state) and self.get_kicks(state, 1) and self.has_plunge(state)
                 or self.kick_or_plunge(state, 4),
             "Castle Sansa - Near Theatre Front": lambda state:
                 self.get_kicks(state, 4)
                 or self.get_kicks(state, 2) and self.has_plunge(state),
-            "Castle Sansa - High Climb From Courtyard": lambda state:
-                self.get_kicks(state, 2)
-                or self.has_gem(state) and self.has_plunge(state)
-                or self.has_breaker(state) and self.get_kicks(state, 1)
-                or self.knows_obscure(state) and self.has_plunge(state) and self.get_kicks(state, 1),
             "Listless Library - Sun Greaves": lambda state:
                 self.has_breaker(state)
                 or self.knows_obscure(state) and self.has_plunge(state),
@@ -437,7 +441,7 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
             "Sansa Keep - Near Theatre": lambda state:
                 self.kick_or_plunge(state, 1)
                 or self.has_gem(state),
-            "Sansa Keep - Alcove Near Locked Door": lambda state: True,
+            # "Sansa Keep - Alcove Near Locked Door": lambda state: True,
             "Sansa Keep - Levers Room": lambda state:
                 self.can_attack(state),
             "Sansa Keep - Sunsetter": lambda state:
@@ -450,12 +454,13 @@ class PseudoregaliaNormalRules(PseudoregaliaRules):
                     or self.get_kicks(state, 3)),
             "Sansa Keep - Lonely Throne": lambda state:
                 (self.has_gem(state)
-                     and (
-                         self.has_plunge(state) and self.get_kicks(state, 1)
-                         or self.has_plunge(state) and state.has("Ascendant Light", self.player)
-                         or self.get_kicks(state, 1) and state.has("Ascendant Light", self.player))
-                         )
-                 or (state.has("Ascendant Light", self.player) and self.kick_or_plunge(state, 4)),
+                 and (
+                     self.has_plunge(state) and self.get_kicks(state, 1)
+                     or self.has_plunge(state) and state.has("Ascendant Light", self.player)
+                     or self.get_kicks(state, 1) and state.has("Ascendant Light", self.player))
+                 )
+                or (state.has("Ascendant Light", self.player) and self.kick_or_plunge(state, 4)),
+            # "The Underbelly - Ascendant Light": lambda state: True,
             "The Underbelly - Rafters Near Keep": lambda state:
                 self.has_plunge(state)
                 or self.get_kicks(state, 2)
@@ -681,6 +686,9 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
         })
 
         self.location_rules.update({
+            # "Dilapidated Dungeon - Dream Breaker": lambda state: True,
+            # "Dilapidated Dungeon - Slide": lambda state: True,
+            # "Dilapidated Dungeon - Alcove Near Mirror": lambda state: True,
             "Dilapidated Dungeon - Dark Orbs": lambda state:
                 self.has_gem(state)
                 or self.get_kicks(state, 1) and self.can_bounce(state)
@@ -697,6 +705,7 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
             "Dilapidated Dungeon - Strong Eyes": lambda state:
                 self.has_breaker(state)
                 or self.knows_obscure(state) and self.has_gem(state) and self.kick_or_plunge(state, 2),
+            # "Castle Sansa - Indignation": lambda state: True,
             "Castle Sansa - Floater In Courtyard": lambda state:
                 self.can_bounce(state) and self.has_plunge(state)
                 or self.can_bounce(state) and self.get_kicks(state, 2)
@@ -771,7 +780,7 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
             "Sansa Keep - Near Theatre": lambda state:
                 self.kick_or_plunge(state, 1)
                 or self.has_gem(state),
-            "Sansa Keep - Alcove Near Locked Door": lambda state: True,
+            # "Sansa Keep - Alcove Near Locked Door": lambda state: True,
             "Sansa Keep - Levers Room": lambda state:
                 self.can_attack(state),
             "Sansa Keep - Sunsetter": lambda state:
@@ -782,15 +791,15 @@ class PseudoregaliaHardRules(PseudoregaliaRules):
                     self.has_gem(state)
                     or self.kick_or_plunge(state, 1)),
             "Sansa Keep - Lonely Throne": lambda state:
-                (self.has_gem(state)
-                    and (
-                        self.has_plunge(state)
-                        or self.get_kicks(state, 2)
-                        or self.get_kicks(state, 1) and state.has("Ascendant Light", self.player)
-                        or self.get_kicks(state, 1) and self.knows_obscure(state))
-                    )
+                self.has_gem(state)
+                and (
+                    self.has_plunge(state)
+                    or self.get_kicks(state, 2)
+                    or self.get_kicks(state, 1) and state.has("Ascendant Light", self.player)
+                    or self.get_kicks(state, 1) and self.knows_obscure(state))
                 or self.has_plunge(state) and self.get_kicks(state, 4)
                 or state.has("Ascendant Light", self.player) and self.get_kicks(state, 3),
+            # "The Underbelly - Ascendant Light": lambda state: True,
             "The Underbelly - Rafters Near Keep": lambda state:
                 self.kick_or_plunge(state, 1)
                 or self.has_gem(state)
@@ -1023,6 +1032,9 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
         })
 
         self.location_rules.update({
+            # "Dilapidated Dungeon - Dream Breaker": lambda state: True,
+            # "Dilapidated Dungeon - Slide": lambda state: True,
+            # "Dilapidated Dungeon - Alcove Near Mirror": lambda state: True,
             "Dilapidated Dungeon - Dark Orbs": lambda state:
                 self.has_gem(state)
                 or self.get_kicks(state, 1) and self.can_bounce(state)
@@ -1041,6 +1053,7 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
                 self.has_breaker(state)
                 or self.has_gem(state)
                 or self.has_slide(state) and self.get_kicks(state, 1),
+            # "Castle Sansa - Indignation": lambda state: True,
             "Castle Sansa - Floater In Courtyard": lambda state:
                 self.can_bounce(state)
                 and (
@@ -1116,7 +1129,7 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
             "Sansa Keep - Near Theatre": lambda state:
                 self.kick_or_plunge(state, 1)
                 or self.has_gem(state),
-            "Sansa Keep - Alcove Near Locked Door": lambda state: True,
+            # "Sansa Keep - Alcove Near Locked Door": lambda state: True,
             "Sansa Keep - Levers Room": lambda state:
                 self.can_attack(state),
             "Sansa Keep - Sunsetter": lambda state:
@@ -1130,6 +1143,7 @@ class PseudoregaliaExpertRules(PseudoregaliaRules):
                 or self.has_plunge(state) and self.get_kicks(state, 4)
                 or state.has("Ascendant Light", self.player) and self.kick_or_plunge(state, 3)
                 or self.has_slide(state) and self.get_kicks(state, 3),
+            # "The Underbelly - Ascendant Light": lambda state: True,
             "The Underbelly - Rafters Near Keep": lambda state:
                 self.kick_or_plunge(state, 1)
                 or self.has_gem(state)
@@ -1365,6 +1379,9 @@ class PseudoregaliaLunaticRules(PseudoregaliaRules):
         })
 
         self.location_rules.update({
+            # "Dilapidated Dungeon - Dream Breaker": lambda state: True,
+            # "Dilapidated Dungeon - Slide": lambda state: True,
+            # "Dilapidated Dungeon - Alcove Near Mirror": lambda state: True,
             "Dilapidated Dungeon - Dark Orbs": lambda state:
                 self.has_gem(state)
                 or self.get_kicks(state, 1) and self.can_bounce(state)
@@ -1384,6 +1401,7 @@ class PseudoregaliaLunaticRules(PseudoregaliaRules):
                 self.has_breaker(state)
                 or self.has_gem(state)
                 or self.has_slide(state) and self.kick_or_plunge(state, 1),
+            # "Castle Sansa - Indignation": lambda state: True,
             "Castle Sansa - Floater In Courtyard": lambda state:
                 self.can_bounce(state)
                 and (
@@ -1459,8 +1477,8 @@ class PseudoregaliaLunaticRules(PseudoregaliaRules):
             "Sansa Keep - Near Theatre": lambda state:
                 self.kick_or_plunge(state, 1)
                 or self.has_gem(state),
-            "Sansa Keep - Alcove Near Locked Door": lambda state: True,
-            "Sansa Keep - Levers Room": lambda state: True,
+            # "Sansa Keep - Alcove Near Locked Door": lambda state: True,
+            # "Sansa Keep - Levers Room": lambda state: True,
             "Sansa Keep - Sunsetter": lambda state:
                 self.can_attack(state),
             "Sansa Keep - Strikebreak": lambda state:
@@ -1477,6 +1495,7 @@ class PseudoregaliaLunaticRules(PseudoregaliaRules):
                     and self.get_kicks(state, 1)
                     and self.has_plunge(state)
                     and self.can_soulcutter(state)),
+            # "The Underbelly - Ascendant Light": lambda state: True,
             "The Underbelly - Rafters Near Keep": lambda state:
                 self.kick_or_plunge(state, 1)
                 or self.has_gem(state)
