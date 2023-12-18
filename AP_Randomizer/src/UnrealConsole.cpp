@@ -25,6 +25,7 @@ namespace UnrealConsole {
 		constexpr size_t checked = HashWstring(L"checked");
 		constexpr size_t getitem = HashWstring(L"getitem");
 		constexpr size_t popups = HashWstring(L"popups");
+		constexpr size_t countdown = HashWstring(L"countdown");
 	}
 
 	// Private members
@@ -103,6 +104,11 @@ namespace UnrealConsole {
 		case Hashes::getitem: {
 			string item_name = StringOps::ToNarrow(args);
 			Client::Say("!getitem " + item_name);
+			break;
+		}
+		case Hashes::countdown: {
+			string countdown_args = StringOps::ToNarrow(args);
+			Client::Say("!countdown " + countdown_args);
 			break;
 		}
 		case Hashes::popups: {
