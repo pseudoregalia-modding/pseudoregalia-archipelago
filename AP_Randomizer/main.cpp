@@ -124,6 +124,9 @@ public:
                 if (Engine::GetCurrentMap() == GameData::Map::EndScreen) {
                     Client::CompleteGame();
                 }
+                if (Engine::GetCurrentMap() == GameData::Map::TitleScreen) {
+                    Client::Disconnect();
+                }
                 Engine::SpawnCollectibles();
                 Engine::SyncItems();
             }

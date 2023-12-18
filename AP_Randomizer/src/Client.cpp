@@ -172,7 +172,6 @@ namespace Client {
 
     void Client::Disconnect() {
         if (ap == nullptr) {
-            Log("You are not currently connected.", LogType::System);
             return;
         }
         delete ap;
