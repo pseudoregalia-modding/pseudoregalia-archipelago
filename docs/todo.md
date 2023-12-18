@@ -8,17 +8,10 @@
 
 - validate player options in `generate early`, e.g. force-enabling obscure_logic
 
-- make sure new_id in DespawnCollectibles gets freed
-
 - see if there's a way to enforce a minimum apworld version from the client, so that people can't connect to an 0.6.0 seed with an 0.7.0 client and fuck up location ids
   - could i set a maximum client version in the apworld?
 
 - maybe make the player obtain the game end event for fun
-
-- remove death link messages checking options and map name for now, will do that later
-
-- deprecate f10 console
-  - display message on keypress to tell the player to press Enter
 
 - 0.7.0 release
 
