@@ -20,6 +20,7 @@ namespace DeathLinkMessages {
 			L"Maybe that check isn't so important?", // Garbo
 			L"Maybe you should look for an alternate route.",
 			L"Tip: You can lower the logic level in your yaml settings.",
+			L"Tip: You can hit a save point to restore your health.",
 		};
 
 		// Messages that you see when you die.
@@ -33,6 +34,7 @@ namespace DeathLinkMessages {
 			"{} might need to look for an alternate route.", // Garbo
 			"{} got in a fight with gravity and lost.", // Garbo
 			"{} didn't schmoove hard enough.", // MuffinJets
+			"Please send {} more items.", //MuffinJets
 		};
 
 		// TODO: figure out a system to make these work cleanly with flags.
