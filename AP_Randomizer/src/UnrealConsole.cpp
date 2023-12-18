@@ -135,6 +135,9 @@ namespace UnrealConsole {
 		default:
 			Logger::PrintToConsole(L"/" + input);
 			Log(L"Command not recognized: " + input, LogType::System);
+			Log(L"Known commands: "
+				"connect, disconnect, release, collect, hint, hint_location, "
+				"remaining, missing, checked, getitem, popups, countdown", LogType::System);
 			break;
 		}
 	}
