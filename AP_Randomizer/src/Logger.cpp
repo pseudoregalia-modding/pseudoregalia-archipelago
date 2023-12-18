@@ -107,10 +107,10 @@ namespace Logger {
 	void Logger::ToggleMessageMute() {
 		messages_muted = !messages_muted;
 		if (messages_muted) {
-			Log(L"Message sounds are now muted.", LogType::System);
+			Log(L"Popup sounds are now muted.", LogType::System);
 		}
 		else {
-			Log(L"Message sounds are no longer muted.", LogType::System);
+			Log(L"Popup sounds are no longer muted.", LogType::System);
 		}
 	}
 
@@ -118,10 +118,10 @@ namespace Logger {
 		messages_hidden = !messages_hidden;
 		if (messages_hidden) {
 			message_queue.clear();
-			Log(L"Messages are now hidden.", LogType::System);
+			Log(L"Popups are now hidden.", LogType::System);
 		}
 		else {
-			Log(L"Messages are no longer hidden.", LogType::System);
+			Log(L"Popups are no longer hidden.", LogType::System);
 		}
 	}
 

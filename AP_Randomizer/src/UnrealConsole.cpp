@@ -24,6 +24,7 @@ namespace UnrealConsole {
 		constexpr size_t missing = HashWstring(L"missing");
 		constexpr size_t checked = HashWstring(L"checked");
 		constexpr size_t getitem = HashWstring(L"getitem");
+		constexpr size_t popups = HashWstring(L"popups");
 	}
 
 	// Private members
@@ -102,6 +103,27 @@ namespace UnrealConsole {
 		case Hashes::getitem: {
 			string item_name = StringOps::ToNarrow(args);
 			Client::Say("!getitem " + item_name);
+			break;
+		}
+		case Hashes::popups: {
+			Logger::PrintToConsole(L"/" + input);
+			wstring popup_args = L"";
+			for (const wchar_t c : args) {
+				if (c != L' ') {
+					popup_args.push_back(c);
+				}
+			}
+			std::transform(popup_args.begin(), popup_args.end(), popup_args.begin(), tolower);
+
+			if (popup_args == L"hide" || popup_args == L"unhide" || popup_args == L"show") {
+				Logger::ToggleMessageHide();
+			}
+			else if (popup_args == L"mute" || popup_args == L"unmute") {
+				Logger::ToggleMessageMute();
+			}
+			else {
+				Log(L"Please input either \"/popups mute\" or \"/popups hide\".", LogType::System);
+			}
 			break;
 		}
 		default:
