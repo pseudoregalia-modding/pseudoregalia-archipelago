@@ -4,10 +4,6 @@
   - make FNames for actor and function names constants and replace them in FindObject calls for performance
     - this turned out to be a pain in the ass because it seems FNames can only be created after unreal_init; will revisit this if performance problems arise
 
-- deluxe console
-  - make sure it's always constructed on first load
-  - pressing Enter with a chat line highlighted should probably just give focus back to input box, but that's a problem for another day
-
 - investigate mice not disappearing on first connect (is this still happening?)
 
 - shuffle outfits (might delay this to a later version)
