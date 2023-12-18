@@ -83,7 +83,8 @@ namespace Client {
                         ap->ConnectUpdate(false, 0, true, list<string> {"DeathLink"});
                     }
                 }
-                Engine::SpawnCollectibles();
+                // Delay spawning collectibles so that we have time to receive checked locations.
+                Timer::RunTimerRealTime(std::chrono::milliseconds(500), Engine::SpawnCollectibles);
                 connection_retries = 0;
                 });
 

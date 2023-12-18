@@ -4,8 +4,6 @@
   - make FNames for actor and function names constants and replace them in FindObject calls for performance
     - this turned out to be a pain in the ass because it seems FNames can only be created after unreal_init; will revisit this if performance problems arise
 
-- investigate mice not disappearing on first connect (is this still happening?)
-
 - shuffle outfits (might delay this to a later version)
 
 - validate player options in `generate early`, e.g. force-enabling obscure_logic
