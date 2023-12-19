@@ -12,8 +12,8 @@ You'll spawn in Dungeon with Dream Breaker at its vanilla location, and you'll h
 
 # Extra Features
 - You can toggle Solar Wind once you've obtained it by pressing the top face button on controller or left ctrl on keyboard.
-- Entering `/messages mute` into the console will mute the sound effects of messages from Archipelago.
-- Entering `/messages hide` into the console will stop Archipelago messages from appearing in-game completely.
+- Entering `/popups mute` into the console will mute the sound effects of send/receive popups.
+- Entering `/popups hide` into the console will stop send/receive popups from appearing completely.
 
 
 # Mod Installation
@@ -43,9 +43,7 @@ Note: If you are installing on Steam Deck, please read [the Steam Deck installat
 
 
 # Known Issues
-- The mod will not always fully load before starting the game, especially the first time. If it doesn't seem to respond, try restarting the game.
-- If you enter your connection info incorrectly, you have to restart the game to try again.
-- A crash can occur when entering incorrect connection info under certain conditions.
+- The mod will not always fully load before starting the game, especially the first time. If the AP logo doesn't appear in the top right corner of the main menu, try restarting the game.
 - If you're on top of an item when you first connect, it won't spawn until you reload the scene.
 
 
