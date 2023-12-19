@@ -331,11 +331,23 @@ namespace GameData {
             {L"magicPiece", 0},
             {L"outfitPro", 0},
         };
+
+        slidejump_owned = false;
+        slidejump_disabled = false;
+        small_keys = 0;
+        for (bool &k : major_keys) {
+            k = false;
+        }
     }
 
     void GameData::Close() {
         collectible_table = {};
         slidejump_owned = false;
+        slidejump_disabled = false;
+        small_keys = 0;
+        for (bool &k : major_keys) {
+            k = false;
+        }
         upgrade_table = {
             {L"attack", 0},
             {L"powerBoost", 0},
