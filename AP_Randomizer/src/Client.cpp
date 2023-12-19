@@ -70,7 +70,7 @@ namespace Client {
             ap->set_room_info_handler([slot_name, password]() {
                 Log("Received room info");
                 int items_handling = 0b111;
-                APClient::Version version{ 0, 6, 2 };
+                APClient::Version version{ 0, 7, 0 };
                 ap->ConnectSlot(slot_name, password, items_handling, {}, version);
                 });
 
