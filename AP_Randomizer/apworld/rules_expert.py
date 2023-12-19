@@ -177,7 +177,7 @@ class PseudoregaliaExpertRules(PseudoregaliaRulesHelpers):
                     state.has("Ascendant Light", self.player)
                     or self.has_gem(state)
                     or self.has_plunge(state) and self.get_kicks(state, 3)),
-            "Underbelly Heliacal -> Underbelly Main Upper": lambda state:
+            "Underbelly By Heliacal -> Underbelly Main Upper": lambda state:
                 self.can_attack(state)
                 or self.has_gem(state)
                 or self.get_kicks(state, 2),
