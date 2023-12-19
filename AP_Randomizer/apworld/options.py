@@ -11,7 +11,7 @@ class LogicLevel(Choice):
     Expert: Requires more difficult movement tricks such as ultrahops and reverse wallkicks, and obscure knowledge.
     Lunatic: Requires extremely difficult jumps and creative thinking. No holds barred. You have been warned.
 
-    Currently only applies to Castle, Dungeon, and Library.
+    Currently applies to Castle, Dungeon, Library, Keep, and Underbelly.
     """
     display_name = "Logic Level"
     option_normal = NORMAL
