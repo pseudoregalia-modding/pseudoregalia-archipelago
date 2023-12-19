@@ -27,6 +27,7 @@ namespace GameData {
 	};
 
 	void Initialize();
+	void Close();
 	int GetHealthPieces();
 	int GetSmallKeys();
 	bool* GetMajorKeys();

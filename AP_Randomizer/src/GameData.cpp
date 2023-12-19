@@ -333,6 +333,31 @@ namespace GameData {
         };
     }
 
+    void GameData::Close() {
+        collectible_table = {};
+        slidejump_owned = false;
+        upgrade_table = {
+            {L"attack", 0},
+            {L"powerBoost", 0},
+            {L"airKick", 0},
+            {L"slide", 0},
+            {L"SlideJump", 0},
+            {L"plunge", 0},
+            {L"chargeAttack", 0},
+            {L"wallRide", 0},
+            {L"Light", 0},
+            {L"projectile", 0},
+            {L"extraKick", 0},
+            {L"airRecovery", 0},
+            {L"mobileHeal", 0},
+            {L"magicHaste", 0},
+            {L"healBoost", 0},
+            {L"damageBoost", 0},
+            {L"magicPiece", 0},
+            {L"outfitPro", 0},
+        };
+    }
+
     ItemType GameData::ReceiveItem(int64_t id) {
         ItemType type = lookup_item_id_to_type.at(id);
         switch (type) {

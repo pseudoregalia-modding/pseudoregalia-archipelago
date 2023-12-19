@@ -174,6 +174,7 @@ namespace Client {
         if (ap == nullptr) {
             return;
         }
+        GameData::Close();
         delete ap;
         ap = nullptr;
         Log("Disconnected from Archipelago.", LogType::System);
