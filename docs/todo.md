@@ -13,8 +13,6 @@
 
 - maybe make the player obtain the game end event for fun
 
-- 0.7.0 release
-
 - logic rework
   - theatre
   - bailey
