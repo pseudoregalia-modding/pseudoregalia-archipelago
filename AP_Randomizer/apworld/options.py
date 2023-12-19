@@ -26,7 +26,7 @@ class ObscureLogic(Toggle):
     Enables logic for obscure knowledge and creative pathing that isn't difficult to execute but may not be obvious or commonly known.
     This option is forced on if logic level is set to Expert or Lunatic.
 
-    Currently only applies to Castle, Dungeon, and Library.
+    Currently applies to Castle, Dungeon, Library, Keep, and Underbelly.
     """
     display_name = "Obscure Logic"
 
