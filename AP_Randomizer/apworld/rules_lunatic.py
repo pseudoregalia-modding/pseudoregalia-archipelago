@@ -333,11 +333,13 @@ class PseudoregaliaLunaticRules(PseudoregaliaRulesHelpers):
                 or self.get_kicks(state, 1)
                 or self.has_slide(state),
             "The Underbelly - Strikebreak Wall": lambda state:
-                self.can_bounce(state)
-                or self.get_kicks(state, 3)
-                or self.get_kicks(state, 1) and self.has_plunge(state)
-                or self.has_slide(state) and self.kick_or_plunge(state, 1)
-                or self.has_slide(state) and self.has_gem(state),
+                self.can_strikebreak(state)
+                and (
+                    self.can_bounce(state)
+                    or self.get_kicks(state, 3)
+                    or self.get_kicks(state, 1) and self.has_plunge(state)
+                    or self.has_slide(state) and self.kick_or_plunge(state, 1)
+                    or self.has_slide(state) and self.has_gem(state)),
             "The Underbelly - Surrounded By Holes": lambda state:
                 self.can_soulcutter(state)
                 and (

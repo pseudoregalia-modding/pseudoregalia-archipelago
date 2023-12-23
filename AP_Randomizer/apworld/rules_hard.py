@@ -325,9 +325,11 @@ class PseudoregaliaHardRules(PseudoregaliaRulesHelpers):
                 self.has_plunge(state)
                 or self.get_kicks(state, 2),
             "The Underbelly - Strikebreak Wall": lambda state:
-                self.can_bounce(state)
-                or self.get_kicks(state, 3)
-                or self.get_kicks(state, 1) and self.has_plunge(state),
+                self.can_strikebreak(state)
+                and (
+                    self.can_bounce(state)
+                    or self.get_kicks(state, 3)
+                    or self.get_kicks(state, 1) and self.has_plunge(state)),
             "The Underbelly - Surrounded By Holes": lambda state:
                 self.can_soulcutter(state)
                 and (
