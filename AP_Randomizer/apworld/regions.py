@@ -79,7 +79,7 @@ region_table: Dict[str, List[str]] = {
         [],
     "Keep => Underbelly":
         ["Keep Main",
-         "Underbelly Hole"],
+         "Underbelly => Keep"],
     "Keep Path To Throne":
         [],
 

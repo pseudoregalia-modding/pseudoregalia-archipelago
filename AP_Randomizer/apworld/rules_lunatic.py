@@ -104,7 +104,7 @@ class PseudoregaliaLunaticRules(PseudoregaliaRulesHelpers):
                 self.has_breaker(state),
             # "Keep Locked Room -> Keep Sunsetter": lambda state: True,
             # "Keep => Underbelly -> Keep Main": lambda state: True,
-            # "Keep => Underbelly -> Underbelly Hole": lambda state: True,
+            # "Keep => Underbelly -> Underbelly => Keep": lambda state: True,
             # "Underbelly => Dungeon -> Dungeon Escape Lower": lambda state: True,
             # "Underbelly => Dungeon -> Underbelly Light Pillar": lambda state: True,
             "Underbelly => Dungeon -> Underbelly Ascendant Light": lambda state:

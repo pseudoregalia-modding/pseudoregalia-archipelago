@@ -95,8 +95,7 @@ class PseudoregaliaExpertRules(PseudoregaliaRulesHelpers):
                 self.kick_or_plunge(state, 1)
                 or self.has_gem(state)
                 or self.has_slide(state),
-            "Keep Locked Room -> Keep Sunsetter": lambda state: True,
-            "Keep => Underbelly -> Underbelly Hole": lambda state: True,
+            # "Keep Locked Room -> Keep Sunsetter": lambda state: True,
             "Keep Main -> Theatre Outside Scythe Corridor": lambda state:
                 self.has_gem(state)
                 or self.get_kicks(state, 1)
@@ -106,7 +105,7 @@ class PseudoregaliaExpertRules(PseudoregaliaRulesHelpers):
                 self.has_breaker(state),
             # "Keep Locked Room -> Keep Sunsetter": lambda state: True,
             # "Keep => Underbelly -> Keep Main": lambda state: True,
-            # "Keep => Underbelly -> Underbelly Hole": lambda state: True,
+            # "Keep => Underbelly -> Underbelly => Keep": lambda state: True,
             # "Underbelly => Dungeon -> Dungeon Escape Lower": lambda state: True,
             # "Underbelly => Dungeon -> Underbelly Light Pillar": lambda state: True,
             "Underbelly => Dungeon -> Underbelly Ascendant Light": lambda state:
