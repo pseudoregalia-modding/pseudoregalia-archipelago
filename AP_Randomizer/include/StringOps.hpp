@@ -38,4 +38,6 @@ namespace StringOps {
 		}
 		return result;
 	}
+
+	void CopyToClipboard(std::wstring);
 }

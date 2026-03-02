@@ -16,3 +16,6 @@
 [submodule "AP_Randomizer/dependencies/apclientpp"]
 	path = AP_Randomizer/dependencies/apclientpp
 	url = https://github.com/black-sliver/apclientpp
+[submodule "AP_Randomizer/dependencies/tomlplusplus"]
+	path = AP_Randomizer/dependencies/tomlplusplus
+	url = https://github.com/marzer/tomlplusplus.git

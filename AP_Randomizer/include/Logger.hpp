@@ -13,11 +13,6 @@ namespace Logger {
 
 	void Log(std::wstring, LogType = LogType::Default);
 	void Log(std::string, LogType = LogType::Default);
-	void OnTick();
-	void ToggleMessageMute();
-	void ToggleMessageHide();
-	void PrintToConsole(std::wstring, std::wstring);
-	void PrintToConsole(std::wstring);
 }
 
 // Don't want to have to prefix Logger twice every time we log something

@@ -1,0 +1,13 @@
+prefix=C:/Users/danie/Documents/projects/pseudoregalia-archipelago/AP_Randomizer/dependencies/zlib
+exec_prefix=C:/Users/danie/Documents/projects/pseudoregalia-archipelago/AP_Randomizer/dependencies/zlib
+libdir=C:/Users/danie/Documents/projects/pseudoregalia-archipelago/AP_Randomizer/dependencies/zlib/lib
+sharedlibdir=C:/Users/danie/Documents/projects/pseudoregalia-archipelago/AP_Randomizer/dependencies/zlib/lib
+includedir=C:/Users/danie/Documents/projects/pseudoregalia-archipelago/AP_Randomizer/dependencies/zlib/include
+
+Name: zlib
+Description: zlib compression library
+Version: 1.3.1
+
+Requires:
+Libs: -L${libdir} -L${sharedlibdir} -lz
+Cflags: -I${includedir}

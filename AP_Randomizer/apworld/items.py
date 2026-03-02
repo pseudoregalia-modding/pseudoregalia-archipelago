@@ -1,5 +1,7 @@
-from BaseClasses import Item, ItemClassification, MultiWorld
+from BaseClasses import Item, ItemClassification
 from typing import NamedTuple, Dict, Set, Callable
+from .constants.versions import MAP_PATCH
+from .options import PseudoregaliaOptions
 
 
 class PseudoregaliaItem(Item):
@@ -7,53 +9,71 @@ class PseudoregaliaItem(Item):
 
 
 class PseudoregaliaItemData(NamedTuple):
-    code: int = None
+    code: int | None = None
+    frequency: int = 1
     classification: ItemClassification = ItemClassification.filler
-    can_create: Callable[[MultiWorld, int], bool] = lambda multiworld, player: True
+    precollect: Callable[[PseudoregaliaOptions], int] = lambda options: 0
+    can_create: Callable[[PseudoregaliaOptions], bool] = lambda options: True
+
+
+def precollect_if_theatre_start(precollect_if_normal: bool) -> Callable[[PseudoregaliaOptions], int]:
+    def precollect(options: PseudoregaliaOptions) -> int:
+        is_theatre_start = options.spawn_point == options.spawn_point.option_theatre_main
+        is_normal = options.logic_level == options.logic_level.option_normal
+        matches_difficulty = precollect_if_normal == is_normal
+        return 1 if is_theatre_start and matches_difficulty else 0
+    return precollect
+
+precollect_if_theatre_start_normal = precollect_if_theatre_start(True)
+precollect_if_theatre_start_hard_plus = precollect_if_theatre_start(False)
 
 
 item_table: Dict[str, PseudoregaliaItemData] = {
     "Dream Breaker": PseudoregaliaItemData(
         code=2365810001,
         classification=ItemClassification.progression,
-        can_create=lambda multiworld, player: not bool(multiworld.progressive_breaker[player])),
+        precollect=lambda options: 1 if options.start_with_breaker else 0,
+        can_create=lambda options: not bool(options.progressive_breaker)),
     "Indignation": PseudoregaliaItemData(
         code=2365810002,
         classification=ItemClassification.useful),
     "Sun Greaves": PseudoregaliaItemData(
         code=2365810003,
         classification=ItemClassification.progression,
-        can_create=lambda multiworld, player: not bool(multiworld.split_sun_greaves[player])),
+        can_create=lambda options: not bool(options.split_sun_greaves)),
     "Slide": PseudoregaliaItemData(
         code=2365810004,
         classification=ItemClassification.progression,
-        can_create=lambda multiworld, player: not bool(multiworld.progressive_slide[player])),
+        can_create=lambda options: not bool(options.progressive_slide)),
     "Solar Wind": PseudoregaliaItemData(
         code=2365810005,
         classification=ItemClassification.progression,
-        can_create=lambda multiworld, player: not bool(multiworld.progressive_slide[player])),
+        can_create=lambda options: not bool(options.progressive_slide)),
     "Sunsetter": PseudoregaliaItemData(
         code=2365810006,
         classification=ItemClassification.progression),
     "Strikebreak": PseudoregaliaItemData(
         code=2365810007,
         classification=ItemClassification.progression,
-        can_create=lambda multiworld, player: not bool(multiworld.progressive_breaker[player])),
+        can_create=lambda options: not bool(options.progressive_breaker)),
     "Cling Gem": PseudoregaliaItemData(
         code=2365810008,
-        classification=ItemClassification.progression),
+        classification=ItemClassification.progression,
+        precollect=precollect_if_theatre_start_normal,
+        can_create=lambda options: not options.split_cling_gem),
     "Ascendant Light": PseudoregaliaItemData(
         code=2365810009,
         classification=ItemClassification.progression),
     "Soul Cutter": PseudoregaliaItemData(
         code=2365810010,
         classification=ItemClassification.progression,
-        can_create=lambda multiworld, player: not bool(multiworld.progressive_breaker[player])),
+        can_create=lambda options: not bool(options.progressive_breaker)),
 
     "Heliacal Power": PseudoregaliaItemData(
         code=2365810011,
         classification=ItemClassification.progression,
-        can_create=lambda multiworld, player: not bool(multiworld.split_sun_greaves[player])),
+        precollect=precollect_if_theatre_start_hard_plus,
+        can_create=lambda options: not bool(options.split_sun_greaves)),
     "Aerial Finesse": PseudoregaliaItemData(
         code=2365810012,
         classification=ItemClassification.filler),
@@ -62,25 +82,31 @@ item_table: Dict[str, PseudoregaliaItemData] = {
         classification=ItemClassification.filler),
     "Empathy": PseudoregaliaItemData(
         code=2365810014,
+        frequency=2,
         classification=ItemClassification.filler),
     "Good Graces": PseudoregaliaItemData(
         code=2365810015,
+        frequency=2,
         classification=ItemClassification.useful),
     "Martial Prowess": PseudoregaliaItemData(
         code=2365810016,
         classification=ItemClassification.useful),
     "Clear Mind": PseudoregaliaItemData(
         code=2365810017,
+        frequency=3,
         classification=ItemClassification.filler),
     "Professionalism": PseudoregaliaItemData(
         code=2365810018,
+        precollect=lambda options: 1 if options.game_version == MAP_PATCH and not options.randomize_time_trials else 0,
         classification=ItemClassification.filler),
 
     "Health Piece": PseudoregaliaItemData(
         code=2365810019,
+        frequency=16,
         classification=ItemClassification.useful),
     "Small Key": PseudoregaliaItemData(
         code=2365810020,
+        frequency=7,
         classification=ItemClassification.progression),
 
     "Major Key - Empty Bailey": PseudoregaliaItemData(
@@ -101,33 +127,85 @@ item_table: Dict[str, PseudoregaliaItemData] = {
 
     "Progressive Slide": PseudoregaliaItemData(
         code=2365810026,
+        frequency=2,
         classification=ItemClassification.progression,
-        can_create=lambda multiworld, player: bool(multiworld.progressive_slide[player])),
+        can_create=lambda options: bool(options.progressive_slide)),
     "Air Kick": PseudoregaliaItemData(
         code=2365810027,
+        frequency=4,
         classification=ItemClassification.progression,
-        can_create=lambda multiworld, player: bool(multiworld.split_sun_greaves[player])),
+        precollect=precollect_if_theatre_start_hard_plus,
+        can_create=lambda options: bool(options.split_sun_greaves)),
     "Progressive Dream Breaker": PseudoregaliaItemData(
         code=2365810028,
+        frequency=3,
         classification=ItemClassification.progression,
-        can_create=lambda multiworld, player: bool(multiworld.progressive_breaker[player])),
+        precollect=lambda options: 1 if options.start_with_breaker else 0,
+        can_create=lambda options: bool(options.progressive_breaker)),
 
-    "Unlocked Door": PseudoregaliaItemData(
-        classification=ItemClassification.useful),
+    "Devotion": PseudoregaliaItemData(
+        code=2365810029,
+        classification=ItemClassification.filler,
+        precollect=lambda options: 1 if not options.randomize_time_trials else 0,
+        can_create=lambda options: options.game_version == MAP_PATCH),
+    "A Guardian": PseudoregaliaItemData(
+        code=2365810030,
+        classification=ItemClassification.filler,
+        precollect=lambda options: 1 if not options.randomize_time_trials else 0,
+        can_create=lambda options: options.game_version == MAP_PATCH),
+    "Sweater": PseudoregaliaItemData(
+        code=2365810031,
+        classification=ItemClassification.filler,
+        precollect=lambda options: 1 if not options.randomize_time_trials else 0,
+        can_create=lambda options: options.game_version == MAP_PATCH),
+    "Class": PseudoregaliaItemData(
+        code=2365810032,
+        classification=ItemClassification.filler,
+        precollect=lambda options: 1 if not options.randomize_time_trials else 0,
+        can_create=lambda options: options.game_version == MAP_PATCH),
+    "Chivalry": PseudoregaliaItemData(
+        code=2365810033,
+        classification=ItemClassification.filler,
+        precollect=lambda options: 1 if not options.randomize_time_trials else 0,
+        can_create=lambda options: options.game_version == MAP_PATCH),
+    "Nostalgia": PseudoregaliaItemData(
+        code=2365810034,
+        classification=ItemClassification.filler,
+        precollect=lambda options: 1 if not options.randomize_time_trials else 0,
+        can_create=lambda options: options.game_version == MAP_PATCH),
+    "A Bleeding Heart": PseudoregaliaItemData(
+        code=2365810035,
+        classification=ItemClassification.filler,
+        precollect=lambda options: 1 if not options.randomize_time_trials else 0,
+        can_create=lambda options: options.game_version == MAP_PATCH),
+
+    "Memento": PseudoregaliaItemData(
+        code=2365810036,
+        classification=ItemClassification.useful,
+        precollect=lambda options: 1 if options.start_with_map else 0,
+        can_create=lambda options: options.game_version == MAP_PATCH),
+
+    "Cling Shard": PseudoregaliaItemData(
+        code=2365810037,
+        classification=ItemClassification.progression,
+        frequency=3,
+        precollect=precollect_if_theatre_start_normal,
+        can_create=lambda options: bool(options.split_cling_gem),
+    ),
+
+    "Healing": PseudoregaliaItemData(
+        code=2365810038,
+        frequency=0,
+        classification=ItemClassification.filler,
+    ),
+    "Magic Power": PseudoregaliaItemData(
+        code=2365810039,
+        frequency=0,
+        classification=ItemClassification.filler,
+    ),
 
     "Something Worth Being Awake For": PseudoregaliaItemData(
         classification=ItemClassification.progression),
-}
-
-item_frequencies = {
-    "Empathy": 2,
-    "Good Graces": 2,
-    "Clear Mind": 3,
-    "Small Key": 7,
-    "Health Piece": 16,
-    "Progressive Slide": 2,
-    "Air Kick": 4,
-    "Progressive Dream Breaker": 2,  # Will need to change this later when dream breaker stops being locked to vanilla
 }
 
 item_groups: Dict[str, Set[str]] = {

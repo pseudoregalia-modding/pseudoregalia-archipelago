@@ -1,7 +1,9 @@
 from BaseClasses import CollectionState
 from typing import Dict, Callable, TYPE_CHECKING
-from worlds.generic.Rules import set_rule
-from .constants.difficulties import NORMAL
+from worlds.generic.Rules import add_rule, set_rule, CollectionRule
+from .constants.difficulties import NORMAL, EXPERT, LUNATIC
+from .constants.versions import MAP_PATCH
+from .locations import location_table
 
 if TYPE_CHECKING:
     from . import PseudoregaliaWorld
@@ -12,73 +14,61 @@ else:
 class PseudoregaliaRulesHelpers:
     world: PseudoregaliaWorld
     player: int
-    region_rules: Dict[str, Callable[[CollectionState], bool]]
-    location_rules: Dict[str, Callable[[CollectionState], bool]]
+    region_rules: dict[str, list[CollectionRule]]
+    location_rules: dict[str, list[CollectionRule]]
+    # Empty list or missing keys are True, any False rules need to be explicit, multiple rules are ORd together
+    # Classes instantiated in difficulty order and append new clauses to rules,
+    # add_rule applies them backwards meaning harder rules will shortcircuit easier rules
+
     required_small_keys: int = 6  # Set to 7 for Normal logic.
+    knows_dungeon_escape: bool
 
     def __init__(self, world: PseudoregaliaWorld) -> None:
         self.world = world
         self.player = world.player
+        self.region_rules = {}
+        self.location_rules = {}
 
-        self.region_rules = {
-            "Empty Bailey -> Castle Main": lambda state: True,
-            "Empty Bailey -> Theatre Pillar": lambda state: True,
-            "Empty Bailey -> Tower Remains": lambda state:
-                self.has_gem(state)
-                or state.has_all({"Slide", "Sunsetter"}, self.player)
-                or self.get_kicks(state, 1),
-            "Tower Remains -> Underbelly Little Guy": lambda state:
-                self.has_plunge(state),
-            "Tower Remains -> The Great Door": lambda state:
-                self.has_gem(state) and self.get_kicks(state, 3),
-            "Theatre Main -> Keep Main": lambda state:
-                self.has_gem(state),
-            "Theatre Pillar -> Theatre Main": lambda state:
-                state.has_all({"Sunsetter", "Cling Gem"}, self.player)
-                or self.has_plunge(state) and self.get_kicks(state, 4),
-            "Theatre Outside Scythe Corridor -> Theatre Main": lambda state:
-                self.has_gem(state) and self.get_kicks(state, 3)
-                or self.has_gem(state) and self.can_slidejump(state),
-        }
+        # memoize functions that differ based on options
+        if world.options.game_version == MAP_PATCH:
+            self.can_gold_ultra = self.can_slidejump
+            self.can_gold_slide_ultra = lambda state: False
+        else:
+            self.can_gold_ultra = self.has_slide
+            self.can_gold_slide_ultra = self.has_slide
 
-        self.location_rules = {
-            "Empty Bailey - Solar Wind": lambda state:
-                self.has_slide(state),
-            "Empty Bailey - Cheese Bell": lambda state:
-                self.can_slidejump(state) and self.get_kicks(state, 1) and self.has_plunge(state)
-                or self.can_slidejump(state) and self.has_gem(state)
-                or self.get_kicks(state, 3) and self.has_plunge(state),
-            "Empty Bailey - Inside Building": lambda state:
-                self.has_slide(state),
-            "Empty Bailey - Center Steeple": lambda state:
-                self.get_kicks(state, 3)
-                or state.has_all({"Sunsetter", "Slide"}, self.player),
-            "Empty Bailey - Guarded Hand": lambda state:
-                self.has_plunge(state)
-                or self.has_gem(state)
-                or self.get_kicks(state, 3),
-            "Twilight Theatre - Soul Cutter": lambda state:
-                self.can_strikebreak(state),
-            "Twilight Theatre - Corner Beam": lambda state:
-                self.has_gem(state) and self.get_kicks(state, 3)
-                or self.has_gem(state) and self.can_slidejump(state)
-                or self.get_kicks(state, 3) and self.can_slidejump(state),
-            "Twilight Theatre - Locked Door": lambda state:
-                self.has_small_keys(state)
-                and (
-                    self.has_gem(state)
-                    or self.get_kicks(state, 3)),
-            "Twilight Theatre - Back Of Auditorium": lambda state:
-                self.get_kicks(state, 3)
-                or self.has_gem(state),
-            "Twilight Theatre - Murderous Goat": lambda state: True,
-            "Twilight Theatre - Center Stage": lambda state:
-                self.can_soulcutter(state) and self.has_gem(state) and self.can_slidejump(state)
-                or self.can_soulcutter(state) and self.has_gem(state) and self.get_kicks(state, 1),
-            "Tower Remains - Cling Gem": lambda state:
-                self.get_kicks(state, 3),
-            "Tower Remains - Atop The Tower": lambda state: True,
-        }
+        # TODO convert knows_obscure to just a bool?
+        if world.options.obscure_logic:
+            self.knows_obscure = lambda state: True
+            self.can_attack = lambda state: self.has_breaker(state) or self.has_plunge(state)
+        else:
+            self.knows_obscure = lambda state: False
+            self.can_attack = self.has_breaker
+
+        spawn_point = world.options.spawn_point
+        dungeon_start = spawn_point == spawn_point.option_dungeon_mirror
+        self.knows_dungeon_escape = dungeon_start or bool(world.options.obscure_logic)
+
+        logic_level = world.options.logic_level.value
+        if logic_level in (EXPERT, LUNATIC):
+            self.navigate_darkrooms = lambda state: True
+        elif self.knows_dungeon_escape:
+            self.navigate_darkrooms = lambda state: state.has("Ascendant Light", self.player) or self.has_breaker(state)
+        else:
+            self.navigate_darkrooms = lambda state: state.has("Ascendant Light", self.player)
+
+        if logic_level == NORMAL:
+            self.required_small_keys = 7
+
+    def apply_clauses(self, region_clauses, location_clauses):
+        for name, rule in region_clauses.items():
+            if name not in self.region_rules:
+                self.region_rules[name] = []
+            self.region_rules[name].append(rule)
+        for name, rule in location_clauses.items():
+            if name not in self.location_rules:
+                self.location_rules[name] = []
+            self.location_rules[name].append(rule)
 
     def has_breaker(self, state) -> bool:
         return state.has_any({"Dream Breaker", "Progressive Dream Breaker"}, self.player)
@@ -89,9 +79,6 @@ class PseudoregaliaRulesHelpers:
     def has_plunge(self, state) -> bool:
         return state.has("Sunsetter", self.player)
 
-    def has_gem(self, state) -> bool:
-        return state.has("Cling Gem", self.player)
-
     def can_bounce(self, state) -> bool:
         return self.has_breaker(state) and state.has("Ascendant Light", self.player)
 
@@ -100,24 +87,18 @@ class PseudoregaliaRulesHelpers:
         Using sunsetter is considered Obscure Logic by this method."""
         raise Exception("can_attack() was not set")
 
-    def get_kicks(self, state, count: int) -> bool:
-        kicks: int = 0
-        if (state.has("Sun Greaves", self.player)):
-            kicks += 3
-        kicks += state.count("Heliacal Power", self.player)
-        kicks += state.count("Air Kick", self.player)
-        return kicks >= count
+    def get_kicks(self, state: CollectionState, count: int) -> bool:
+        return state.has("Kick Count", self.player, count)
 
-    def kick_or_plunge(self, state, count: int) -> bool:
+    def get_clings(self, state: CollectionState, count: int) -> bool:
+        return state.has("Cling Count", self.player, count)
+
+    def kick_or_plunge(self, state: CollectionState, count: int) -> bool:
         """Used where one air kick can be replaced with sunsetter.
         Input is the number of kicks needed without plunge."""
-        total: int = 0
-        if (state.has("Sun Greaves", self.player)):
-            total += 3
-        if (state.has("Sunsetter", self.player)):
+        total: int = state.count("Kick Count", self.player)
+        if state.has("Sunsetter", self.player):
             total += 1
-        total += state.count("Heliacal Power", self.player)
-        total += state.count("Air Kick", self.player)
         return total >= count
 
     def has_small_keys(self, state) -> bool:
@@ -126,12 +107,20 @@ class PseudoregaliaRulesHelpers:
         return state.count("Small Key", self.player) >= self.required_small_keys
 
     def navigate_darkrooms(self, state) -> bool:
-        # TODO: Update this to check obscure tricks for breaker only when logic rework nears completion
-        return self.has_breaker(state) or state.has("Ascendant Light", self.player)
+        """Used on entry into the dungeon darkrooms."""
+        raise Exception("navigate_darkrooms() was not set")
 
     def can_slidejump(self, state) -> bool:
         return (state.has_all({"Slide", "Solar Wind"}, self.player)
                 or state.count("Progressive Slide", self.player) >= 2)
+
+    def can_gold_ultra(self, state) -> bool:
+        """Used when a gold ultra is needed and it is possible to solar ultra."""
+        raise Exception("can_gold_ultra() was not set")
+
+    def can_gold_slide_ultra(self, state) -> bool:
+        """Used when a gold ultra is needed but it is not possible to solar ultra."""
+        raise Exception("can_gold_slide_ultra() was not set")
 
     def can_strikebreak(self, state) -> bool:
         return (state.has_all({"Dream Breaker", "Strikebreak"}, self.player)
@@ -146,33 +135,28 @@ class PseudoregaliaRulesHelpers:
         raise Exception("knows_obscure() was not set")
 
     def set_pseudoregalia_rules(self) -> None:
+        world = self.world
         multiworld = self.world.multiworld
-        split_kicks = bool(multiworld.split_sun_greaves[self.player])
-        if bool(multiworld.obscure_logic[self.player]):
-            self.knows_obscure = lambda state: True
-            self.can_attack = lambda state: self.has_breaker(state) or self.has_plunge(state)
-        else:
-            self.knows_obscure = lambda state: False
-            self.can_attack = lambda state: self.has_breaker(state)
 
-        logic_level = multiworld.logic_level[self.player].value
-        if logic_level == NORMAL:
-            self.required_small_keys = 7
-
-        for name, rule in self.region_rules.items():
+        for name, rules in self.region_rules.items():
             entrance = multiworld.get_entrance(name, self.player)
-            set_rule(entrance, rule)
-        for name, rule in self.location_rules.items():
-            if name.startswith("Listless Library"):
-                if split_kicks and name.endswith("Greaves"):
-                    continue
-                if not split_kicks and name[-1].isdigit():
-                    continue
+            for index, rule in enumerate(rules):
+                if index == 0:
+                    set_rule(entrance, rule)
+                else:
+                    add_rule(entrance, rule, "or")
+        for name, rules in self.location_rules.items():
+            if not location_table[name].can_create(world.options):
+                continue
             location = multiworld.get_location(name, self.player)
-            set_rule(location, rule)
+            for index, rule in enumerate(rules):
+                if index == 0:
+                    set_rule(location, rule)
+                else:
+                    add_rule(location, rule, "or")
 
         set_rule(multiworld.get_location("D S T RT ED M M O   Y", self.player), lambda state:
-                 state.has_all({
+                 self.has_breaker(state) and state.has_all({
                      "Major Key - Empty Bailey",
                      "Major Key - The Underbelly",
                      "Major Key - Tower Remains",

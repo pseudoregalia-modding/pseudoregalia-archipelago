@@ -8,39 +8,25 @@ namespace GameData {
 	public:
 		Collectible(FVector new_position) {
 			position = new_position;
-			checked = false;
 		}
 
-		Collectible(FVector new_position, std::vector<std::pair<std::string, int>> new_options) {
+		Collectible(FVector new_position, std::tuple<FVector, std::string, int> new_alternate_position) {
 			position = new_position;
-			required_options = new_options;
-			checked = false;
+			alternate_position = new_alternate_position;
 		}
 
-		bool Check() {
-			checked = true;
-			return checked;
-		}
-
-		bool IsChecked() const {
-			return checked;}
-
-		FVector GetPosition() const {
-			return position;}
-
-		bool CanCreate(std::unordered_map<std::string, int> option_set) const {
-			for (const auto& [option_name, option_value] : required_options) {
-				if (option_set.at(option_name) != option_value) {
-					return false;
+		FVector GetPosition(std::unordered_map<std::string, int> option_set) const {
+			if (alternate_position) {
+				const auto& [pos, option_name, option_value] = *alternate_position;
+				if (option_set.at(option_name) == option_value) {
+					return pos;
 				}
 			}
-			// Note that this always returns true if the collectible has no required options.
-			return true;
+			return position;
 		}
 
 	private:
 		FVector position;
-		bool checked;
-		std::vector<std::pair<std::string, int>> required_options;
+		std::optional<std::tuple<FVector, std::string, int>> alternate_position;
 	};
 }

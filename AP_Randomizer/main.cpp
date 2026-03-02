@@ -9,13 +9,15 @@
 #include "Unreal/AActor.hpp"
 #include "Unreal/FText.hpp"
 #include "Unreal/UClass.hpp"
+#include "Unreal/World.hpp"
 #include "NameTypes.hpp"
 #include "Client.hpp"
 #include "UnrealConsole.hpp"
 #include "Engine.hpp"
 #include "Logger.hpp"
 #include "Timer.hpp"
-#include "StringOps.hpp"
+#include "Settings.hpp"
+#include "ModHooks.hpp"
 
 class AP_Randomizer : public RC::CppUserModBase {
 public:
@@ -24,11 +26,6 @@ public:
         std::function<void()> callback;
         bool isPressed = false;
     };
-    bool returncheck_hooked = false;
-    bool toggleslidejump_hooked = false;
-    bool deathlink_hooked = false;
-    bool copytext_hooked = false;
-    bool sendmessage_hooked = false;
 
     AP_Randomizer() : CppUserModBase() {
         ModName = STR("AP_Randomizer");
@@ -36,6 +33,9 @@ public:
         ModDescription = STR("archipelago randomizer for pseudoregalia");
         ModAuthors = STR("littlemeowmeow0134");
         //ModIntendedSDKVersion = STR("2.6");
+
+        Settings::Load();
+        Engine::Init();
     }
 
     ~AP_Randomizer()
@@ -80,130 +80,15 @@ public:
             });
 
         Hook::RegisterBeginPlayPostCallback([&](AActor* actor) {
-            // TODO: Consider moving some of this function out of main
-            auto returncheck = [](UnrealScriptFunctionCallableContext& context, void* customdata) {
-                Client::SendCheck(context.GetParams<int64_t>());
-                };
-            auto toggleslidejump = [](UnrealScriptFunctionCallableContext& context, void* customdata) {
-                Engine::ToggleSlideJump();
-                };
-            auto deathlink = [](UnrealScriptFunctionCallableContext& context, void* customdata) {
-                Client::SendDeathLink();
-                };
-
-            if (!returncheck_hooked
-                && actor->GetName().starts_with(STR("BP_APCollectible"))) {
-
-                UFunction* return_check_function = actor->GetFunctionByName(STR("ReturnCheck"));
-                if (!return_check_function) {
-                    Log(L"Could not find function \"ReturnCheck\" in BP_APCollectible.", LogType::Error);
-                    return;
-                }
-                else {
-                    Log(L"Establishing hook for ReturnCheck.");
-                }
-                Unreal::UObjectGlobals::RegisterHook(return_check_function, EmptyFunction, returncheck, nullptr);
-                returncheck_hooked = true;
-            }
-
-            if (actor->GetName().starts_with(STR("BP_APRandomizerInstance"))) {
-                if (!toggleslidejump_hooked) {
-                    UFunction* toggle_function = actor->GetFunctionByName(L"AP_ToggleSlideJump");
-                    if (!toggle_function) {
-                        Log(L"Could not find function \"AP_ToggleSlideJump\" in BP_APRandomizerInstance.", LogType::Error);
-                        return;
-                    }
-                    else {
-                        Log(L"Establishing hook for AP_ToggleSlideJump.");
-                    }
-                    Unreal::UObjectGlobals::RegisterHook(toggle_function, EmptyFunction, toggleslidejump, nullptr);
-                    toggleslidejump_hooked = true;
-                }
-                // TODO: see if i can make this work in a way that doesn't suck
-                // Log(L"Loaded scene " + Engine::GetCurrentMap());
-                if (Engine::GetCurrentMap() == GameData::Map::EndScreen) {
-                    Client::CompleteGame();
-                }
-                if (Engine::GetCurrentMap() == GameData::Map::TitleScreen) {
-                    Client::Disconnect();
-                }
-                Engine::SpawnCollectibles();
-                Engine::SyncItems();
-            }
-
-            if (actor->GetName().starts_with(L"BP_PlayerGoatMain")) {
-                if (!deathlink_hooked) {
-                    UFunction* death_function = actor->GetFunctionByName(L"BPI_CombatDeath");
-                    if (!death_function) {
-                        Log(L"Could not find function \"BPI_CombatDeath\" in BP_PlayerGoatMain.", LogType::Error);
-                        return;
-                    }
-                    else {
-                        Log(L"Establishing hook for BPI_CombatDeath.");
-                    }
-                    Unreal::UObjectGlobals::RegisterHook(death_function, EmptyFunction, deathlink, nullptr);
-                    deathlink_hooked = true;
-                }
-            }
-            });
+            ModHooks::RegisterActorHooks(actor);
+            ModHooks::RunBeginPlayPostCallback(actor);
+        });
 
         Hook::RegisterStaticConstructObjectPostCallback([&](const FStaticConstructObjectParameters& params, UObject* object) -> UObject* {
-            // Copies text in highlighted message to clipboard.
-            auto copytext = [&](UnrealScriptFunctionCallableContext& context, void* customdata) {
-                std::wstring wide(context.GetParams<FText>().ToString());
-
-                // Shamelessly copied from https://stackoverflow.com/questions/40664890/copy-unicode-string-to-clipboard-isnt-working
-                // I have no idea how this works lol.
-                const wchar_t* buffer = wide.c_str();
-                size_t size = sizeof(WCHAR) * (wcslen(buffer) + 1);
-                if (!OpenClipboard(0)) {
-                    Log("Could not open clipboard!", LogType::Warning);
-                    return;
-                }
-                HGLOBAL hClipboardData = GlobalAlloc(GMEM_MOVEABLE, size);
-                WCHAR* pchData;
-                pchData = (WCHAR*)GlobalLock(hClipboardData);
-                wcscpy_s(pchData, size / sizeof(wchar_t), buffer);
-                GlobalUnlock(hClipboardData);
-                SetClipboardData(CF_UNICODETEXT, hClipboardData);
-                CloseClipboard();
-                };
-
-            auto sendmessage = [&](UnrealScriptFunctionCallableContext& context, void* customdata) {
-                FText input = context.GetParams<FText>();
-                UnrealConsole::ProcessInput(input);
-                };
-
-            if (!copytext_hooked
-                && object->GetName().starts_with(STR("AP_DeluxeConsole"))) {
-                UFunction* copy_function = object->GetFunctionByName(STR("AP_CopyToClipboard"));
-                if (!copy_function) {
-                    // For some reason this always fails once so don't bother displaying an error.
-                    Logger::Log(L"Could not find function \"AP_CopyToClipboard\" in AP_DeluxeConsole.");
-                    return object;
-                }
-                else {
-                    Logger::Log(L"Registering hook for AP_CopyToClipboard.");
-                }
-                Unreal::UObjectGlobals::RegisterHook(copy_function, copytext, EmptyFunction, nullptr);
-                copytext_hooked = true;
-            }
-
-            if (!sendmessage_hooked
-                && object->GetName().starts_with(STR("AP_DeluxeConsole"))) {
-                UFunction* send_function = object->GetFunctionByName(STR("AP_SendMessage"));
-                if (!send_function) {
-                    Log(L"Could not find function \"AP_SendMessage\" in AP_DeluxeConsole.");
-                    return object;
-                }
-                else {
-                    Log(L"Registering hook for AP_SendMessage.");
-                }
-                Unreal::UObjectGlobals::RegisterHook(send_function, sendmessage, EmptyFunction, nullptr);
-                sendmessage_hooked = true;
-            }
+            ModHooks::RegisterObjectHooks(object);
+            ModHooks::RunStaticConstructObjectPostCallback(object);
             return object;
-            });
+        });
 
         setup_keybinds();
     }
@@ -220,8 +105,7 @@ public:
 
     auto on_update() -> void override
     {
-        Client::PollServer();
-        Logger::OnTick();
+        Client::OnTick();
         for (auto& boundKey : m_boundKeys)
         {
             if ((GetKeyState(boundKey.key) & 0x8000) && !boundKey.isPressed)

@@ -1,5 +1,6 @@
 from typing import NamedTuple, Callable, Dict, List
 from BaseClasses import CollectionState
+from .options import SpawnPoint
 
 
 class RegionExit(NamedTuple):
@@ -8,9 +9,21 @@ class RegionExit(NamedTuple):
     breakable_wall: bool = False
 
 
+origin_region_names: dict[int, str] = {
+    SpawnPoint.option_castle_main: "Castle Main",
+    SpawnPoint.option_castle_gazebo: "Castle Main",
+    SpawnPoint.option_dungeon_mirror: "Dungeon Mirror",
+    SpawnPoint.option_library: "Library Main",
+    SpawnPoint.option_underbelly_south: "Underbelly => Bailey",
+    SpawnPoint.option_underbelly_big_room: "Underbelly Main Upper",
+    SpawnPoint.option_bailey_main: "Bailey Lower",
+    SpawnPoint.option_keep_main: "Keep Main",
+    SpawnPoint.option_keep_north: "Keep Main",
+    SpawnPoint.option_theatre_main: "Theatre Main",
+}
+
+
 region_table: Dict[str, List[str]] = {
-    "Menu":
-        ["Dungeon Mirror"],
     "Dungeon Mirror":
         ["Dungeon Slide"],
     "Dungeon Slide":
@@ -35,10 +48,11 @@ region_table: Dict[str, List[str]] = {
     "Castle Main":
         ["Dungeon => Castle",
          "Keep Main",
-         "Empty Bailey",
+         "Bailey Lower",
          "Library Main",
-         "Theatre Pillar",
-         "Castle Spiral Climb",],
+         "Castle => Theatre Pillar",
+         "Castle Spiral Climb",
+         "Keep (Northeast) => Castle"],
     "Castle Spiral Climb":
         ["Castle Main",
          "Castle High Climb",
@@ -59,37 +73,49 @@ region_table: Dict[str, List[str]] = {
     "Library Main":
         ["Library Locked",
          "Library Greaves",
-         "Library Top"],
+         "Library Top",
+         "Castle Main"],
     "Library Locked":
         [],
     "Library Greaves":
-        ["Library Top"],
+        ["Library Back"],
     "Library Top":
-        ["Library Greaves"],
+        ["Library Back"],
+    "Library Back":
+        ["Library Greaves",
+         "Library Top"],
 
     "Keep Main":
         ["Keep Locked Room",
          "Keep Sunsetter",
-         "Keep Path To Throne",
+         "Keep Throne Room",
          "Keep => Underbelly",
-         "Theatre Outside Scythe Corridor",],
+         "Theatre Outside Scythe Corridor",
+         "Keep (Northeast) => Castle",
+         "Castle Main"],
     "Keep Locked Room":
         ["Keep Sunsetter"],
     "Keep Sunsetter":
         [],
+    "Keep Throne Room":
+        [],
     "Keep => Underbelly":
         ["Keep Main",
          "Underbelly => Keep"],
-    "Keep Path To Throne":
-        [],
+    "Keep (Northeast) => Castle":
+        ["Keep Main",
+         "Castle Main"],
 
-    "Empty Bailey":
-        ["Castle Main",
-         "Tower Remains",
-         "Theatre Pillar",],
+    "Bailey Lower":
+        ["Bailey Upper",
+         "Castle Main",
+         "Theatre Pillar => Bailey",],
+    "Bailey Upper":
+        ["Bailey Lower",
+         "Underbelly => Bailey",
+         "Tower Remains",],
     "Tower Remains":
-        ["Underbelly Little Guy",
-         "The Great Door",],
+        ["The Great Door",],
 
     "Underbelly => Dungeon":
         ["Dungeon Escape Lower",
@@ -100,10 +126,9 @@ region_table: Dict[str, List[str]] = {
          "Underbelly => Dungeon",
          "Underbelly Ascendant Light"],
     "Underbelly Ascendant Light":
-        ["Underbelly Light Pillar",
-         "Underbelly => Dungeon"],
+        ["Underbelly => Dungeon"],
     "Underbelly Main Lower":
-        ["Underbelly Little Guy",
+        ["Underbelly => Bailey",
          "Underbelly Hole",
          "Underbelly By Heliacal",
          "Underbelly Main Upper"],
@@ -113,9 +138,10 @@ region_table: Dict[str, List[str]] = {
          "Underbelly By Heliacal"],
     "Underbelly By Heliacal":
         ["Underbelly Main Upper"],
-    "Underbelly Little Guy":
-        ["Empty Bailey",
-         "Underbelly Main Lower"],
+    "Underbelly => Bailey":
+        ["Bailey Upper",
+         "Bailey Lower",
+         "Underbelly Main Lower",],
     "Underbelly => Keep":
         ["Keep => Underbelly",
          "Underbelly Hole"],
@@ -124,11 +150,23 @@ region_table: Dict[str, List[str]] = {
          "Underbelly => Keep"],
 
     "Theatre Main":
-        ["Keep Main",],
+        ["Theatre Outside Scythe Corridor",
+         "Theatre Pillar",
+         "Castle => Theatre (Front)"],
+    "Theatre Pillar => Bailey":
+        ["Theatre Pillar",
+         "Bailey Lower"],
+    "Castle => Theatre Pillar":
+        ["Theatre Pillar",
+         "Castle Main"],
     "Theatre Pillar":
-        ["Theatre Main",],
+        ["Theatre Main",
+         "Theatre Pillar => Bailey",
+         "Castle => Theatre Pillar",],
     "Theatre Outside Scythe Corridor":
-        ["Theatre Main"],
+        ["Theatre Main",
+         "Dungeon Escape Upper",
+         "Keep Main"],
 
     "The Great Door":
         [],
