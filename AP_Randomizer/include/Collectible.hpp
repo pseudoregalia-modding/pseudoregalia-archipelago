@@ -1,4 +1,6 @@
 #pragma once
+
+#include "Unreal/Core/HAL/Platform.hpp"
 #include "Unreal/UnrealCoreStructs.hpp"
 
 namespace GameData {

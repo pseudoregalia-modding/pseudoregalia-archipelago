@@ -5,10 +5,9 @@
 #include "Mod/CppUserModBase.hpp"
 #include "Unreal/UObjectGlobals.hpp"
 #include "Unreal/Hooks.hpp"
-#include "Unreal/UFunction.hpp"
+#include "Unreal/CoreUObject/UObject/Class.hpp"
 #include "Unreal/AActor.hpp"
 #include "Unreal/FText.hpp"
-#include "Unreal/UClass.hpp"
 #include "Unreal/World.hpp"
 #include "NameTypes.hpp"
 #include "Client.hpp"
@@ -56,39 +55,61 @@ public:
 
         // I want to make this an AActorTickCallback hook so I can only check actor name,
         // but for some reason that doesn't seem to respond.
-        Hook::RegisterProcessEventPreCallback([&](UObject* object, UFunction* function, void* params) {
-            static FName randomizer_instance = FName(STR("BP_APRandomizerInstance_C"), RC::Unreal::FNAME_Add);
-            static FName receive_tick = FName(STR("ReceiveTick"), RC::Unreal::FNAME_Add);
+        Hook::RegisterProcessEventPreCallback(
+            [&](Hook::TCallbackIterationData<void>& cb_data, UObject* object, UFunction* function, void* params) {
+                static FName randomizer_instance = FName(STR("BP_APRandomizerInstance_C"), RC::Unreal::FNAME_Add);
+                static FName receive_tick = FName(STR("ReceiveTick"), RC::Unreal::FNAME_Add);
 
-            bool is_main_randomizer_blueprint = object->GetClassPrivate()->GetNamePrivate() == randomizer_instance;
-            bool is_event_tick = function->GetNamePrivate() == receive_tick;
+                bool is_main_randomizer_blueprint = object->GetClassPrivate()->GetNamePrivate() == randomizer_instance;
+                bool is_event_tick = function->GetNamePrivate() == receive_tick;
 
-            if (is_main_randomizer_blueprint && is_event_tick) {
-                float* delta_seconds = static_cast<float*>(params);
-                Timer::OnTick(*delta_seconds);
-                Engine::OnTick(object);
-            }
-            });
+                if (is_main_randomizer_blueprint && is_event_tick) {
+                    float* delta_seconds = static_cast<float*>(params);
+                    Timer::OnTick(*delta_seconds);
+                    Engine::OnTick(object);
+                }
+            },
+            Hook::FCallbackOptions{ .OwnerModName = L"AP_Randomizer", .HookName = L"ProcessEventPre" }
+        );
 
-        Hook::RegisterProcessConsoleExecCallback([&](UObject* object, const Unreal::TCHAR* command, FOutputDevice& Ar, UObject* executor) -> bool {
-            if (command[0] == '/' || command[0] == '!') {
-                command++; // Exclude the first character from the array
-                UnrealConsole::ProcessCommand(command);
-                return true;
-            }
-            return PropogateCommand(command);
-            });
+        Hook::RegisterProcessConsoleExecCallback(
+            [&](
+                Hook::TCallbackIterationData<bool>& cb_data,
+                UObject* object,
+                const Unreal::TCHAR* command,
+                FOutputDevice& Ar,
+                UObject* executor
+            ) -> bool {
+                if (command[0] == '/' || command[0] == '!') {
+                    command++; // Exclude the first character from the array
+                    UnrealConsole::ProcessCommand(command);
+                    return true;
+                }
+                return PropogateCommand(command);
+            },
+            Hook::FCallbackOptions{ .OwnerModName = L"AP_Randomizer", .HookName = L"ProcessConsoleExec" }
+        );
 
-        Hook::RegisterBeginPlayPostCallback([&](AActor* actor) {
-            ModHooks::RegisterActorHooks(actor);
-            ModHooks::RunBeginPlayPostCallback(actor);
-        });
+        Hook::RegisterBeginPlayPostCallback(
+            [&](Hook::TCallbackIterationData<void>& cb_data, AActor* actor) {
+                ModHooks::RegisterActorHooks(actor);
+                ModHooks::RunBeginPlayPostCallback(actor);
+            },
+            Hook::FCallbackOptions{ .OwnerModName = L"AP_Randomizer", .HookName = L"BeginPlayPost" }
+        );
 
-        Hook::RegisterStaticConstructObjectPostCallback([&](const FStaticConstructObjectParameters& params, UObject* object) -> UObject* {
-            ModHooks::RegisterObjectHooks(object);
-            ModHooks::RunStaticConstructObjectPostCallback(object);
-            return object;
-        });
+        Hook::RegisterStaticConstructObjectPostCallback(
+            [&](
+                Hook::TCallbackIterationData<UObject*>& cb_data,
+                const FStaticConstructObjectParameters& params
+            ) -> UObject* {
+                auto object = cb_data.GetCurrentResolvedReturnValue();
+                ModHooks::RegisterObjectHooks(object);
+                ModHooks::RunStaticConstructObjectPostCallback(object);
+                return object;
+            },
+            Hook::FCallbackOptions{ .OwnerModName = L"AP_Randomizer", .HookName = L"StaticConstructObjectPost" }
+        );
 
         setup_keybinds();
     }

@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Unreal/UClass.hpp"
+
+#include "Unreal/CoreUObject/UObject/Class.hpp"
 #include "Unreal/FText.hpp"
 #include "ModHooks.hpp"
 #include "Client.hpp"
