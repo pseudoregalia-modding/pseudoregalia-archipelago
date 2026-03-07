@@ -1,7 +1,7 @@
 # pseudoregalia-archipelago
 This is a mod for Pseudoregalia that works with the [multi-game multi-world randomizer Archipelago](https://archipelago.gg/). It is currently in alpha and is being actively developed. Abilities, minor upgrades, major keys, small keys, and health pieces are shuffled. Outfits are also shuffled if you are playing on current patch and the `randomize_time_trials` option is turned on.
 
-You can get the latest release from [the releases page](https://github.com/qwint/pseudoregalia-archipelago/releases).
+You can get the latest release from [the releases page](https://github.com/pseudoregalia-modding/pseudoregalia-archipelago/releases).
 
 The logic is separated by difficulty, which you can choose in your player yaml file. The options are explained in the template.
 
@@ -20,8 +20,8 @@ You can get the PopTracker pack for Pseudoregalia [here](https://github.com/high
 
 
 # Mod Installation
-Note: If you are installing on Steam Deck, please read [the Steam Deck installation instructions](https://github.com/qwint/pseudoregalia-archipelago/blob/main/docs/steam_deck_installation.md) instead.
-1. [Go to the Releases page](https://github.com/qwint/pseudoregalia-archipelago/releases/latest) and download the latest version of `pseudoregalia-archipelago.zip`.
+Note: If you are installing on Steam Deck, please read [the Steam Deck installation instructions](https://github.com/pseudoregalia-modding/pseudoregalia-archipelago/blob/main/docs/steam_deck_installation.md) instead.
+1. [Go to the Releases page](https://github.com/pseudoregalia-modding/pseudoregalia-archipelago/releases/latest) and download the latest version of `pseudoregalia-archipelago.zip`.
 2. In Steam/steamapps/common, make a copy of your Pseudoregalia folder and rename it "Pseudoregalia_AP" (or whatever else you like).
    * You can add the new `pseudoregalia.exe` as a "Non-Steam Game" in Steam to access it easily from Steam and to maintain Steam Input compatibility (which may be required for some controllers)
    * If you would like to play on full gold version, downpatch using the beta code `fullgoldjump` in Steam before copying the folder. You can make an AP folder for both versions if you want to be able to play on both.
@@ -38,7 +38,7 @@ Note: If you are installing on Steam Deck, please read [the Steam Deck installat
 
 # Generating a Seed
 1. Install [Archipelago](https://archipelago.gg/tutorial/Archipelago/setup/en).
-2. [Go to the Releases page](https://github.com/qwint/pseudoregalia-archipelago/releases/latest) and download the latest version of `pseudoregalia.apworld` and either double click to open the file with Archipelago, or manually place `pseudoregalia.apworld` into `Archipelago/custom_worlds` to install.
+2. [Go to the Releases page](https://github.com/pseudoregalia-modding/pseudoregalia-archipelago/releases/latest) and download the latest version of `pseudoregalia.apworld` and either double click to open the file with Archipelago, or manually place `pseudoregalia.apworld` into `Archipelago/custom_worlds` to install.
 3. Place all yamls for the seed into Archipelago/Players.
    * You can get a template yaml file by clicking Generate Template Options after installing the apworld. If you just installed the apworld, you may have to restart the Archipelago Launcher before generating.
 4. Run Generate from the Launcher.
