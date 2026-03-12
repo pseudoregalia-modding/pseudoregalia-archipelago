@@ -33,8 +33,7 @@ class PseudoregaliaWorld(World):
 
     game = "Pseudoregalia"
     required_client_version = (0, 7, 0)
-    apworld_version = (0, 10, 2)
-
+ 
     item_name_to_id = {name: data.code for name, data in item_table.items() if data.code is not None}
     location_name_to_id = {name: data.code for name, data in location_table.items() if data.code is not None}
     item_name_groups = item_groups
@@ -157,7 +156,7 @@ class PseudoregaliaWorld(World):
 
     def fill_slot_data(self) -> Dict[str, Any]:
         slot_data = {
-            "apworld_version": self.apworld_version,
+            "apworld_version": self.world_version,
             "game_version": self.options.game_version.value,
             "logic_level": self.options.logic_level.value,
             "spawn_point": self.options.spawn_point.value,
