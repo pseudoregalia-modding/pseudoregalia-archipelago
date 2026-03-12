@@ -5,7 +5,7 @@ You can get the latest release from [the releases page](https://github.com/pseud
 
 The logic is separated by difficulty, which you can choose in your player yaml file. The options are explained in the template.
 
-There is an option to set or randomize your spawn point, and some spawns may start you with an item so you aren't immediately stuck. If you don't have Dream Breaker yet, you can save the game by touching a save point.
+There is an option to set or randomize your spawn point, and some spawns may start you with an item so you aren't immediately stuck. For specifics, refer to the [Spawn Points](#spawn-points) section. If you don't have Dream Breaker yet, you can save the game by touching a save point.
 
 You can get the PopTracker pack for Pseudoregalia [here](https://github.com/highrow623/pseudoregalia_brooty).
 
@@ -77,6 +77,35 @@ In summary:
 
 * If a save file has APWorld version `a.b.c` where `a > 0`, only mod versions `a.y.z` where `y >= b` are compatible.
 * If a save file has APWorld version `0.b.c` (i.e. is prerelease), only mod versions `0.b.z` are compatible.
+
+
+# Spawn Points
+
+The following spawn points have special behaviors if they are selected or randomly chosen:
+
+* `dungeon_mirror`: the vanilla starting point in Dilapidated Dungeon
+
+    If this option is selected, `start_with_breaker` will be forced on and you will most likely be expected to leave through the dark rooms to The Underbelly. See [this video](https://youtu.be/Z_a9l2wzd8c) for a guide on how to do that.
+
+* `library`: the save point at the start of Listless Library
+
+    If this option is selected, either `start_with_breaker` or `randomize_books` must also be turned on. If both options are off at the start of generation, `start_with_breaker` will be forced on.
+    
+    If just `randomize_books` is turned on, your sphere one will have a lot of checks but will be very short, so keep that in mind if you are playing in a multiworld with other people.
+
+* `theatre_main`: the save point in the auditorium in Twilight Theatre
+
+    If this option is selected, your starting inventory will include Cling Gem/one Cling Shard on normal, or Heliacal Power/one Air Kick on hard+. You will be able to leave Twilight Theatre through the big pillar room to the south.
+
+The following spawn points don't have any special behaviors:
+
+* `castle_main`: the save point near Memento in Castle Sansa
+* `castle_gazebo`: the save point in the gazebo in the Castle Sansa courtyard
+* `underbelly_south`: the save point near the building at the south of The Underbelly
+* `underbelly_big_room`: the save point in the big room in the middle of The Underbelly
+* `bailey_main`: the save point in Empty Bailey
+* `keep_main`: the save point in the main hallway in Sansa Keep
+* `keep_north`: the north save point in Sansa Keep
 
 
 # Known Issues

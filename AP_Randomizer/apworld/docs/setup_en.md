@@ -1,10 +1,12 @@
 # Pseudoregalia Archipelago Setup Guide
 
+
 ## Required Software
 
 * [Pseudoregalia game](https://store.steampowered.com/app/2365810/Pseudoregalia/)
 * [Pseudoregalia Archipelago mod](https://github.com/pseudoregalia-modding/pseudoregalia-archipelago/releases/latest)
   (the `pseudoregalia-archipelago.zip` file)
+
 
 ## Optional Software
 
@@ -14,6 +16,7 @@
   (the `pseudoregalia.apworld` file)
   for local generation with the [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases/latest) software.
   Refer to the Archipelago setup guide for more information, in particular the "Playing with custom worlds" section.
+
 
 ## Mod Installation
 
@@ -25,6 +28,8 @@ Before installing:
   read the [Compatibility with Other Mods](#compatibility-with-other-mods) section below.
 * If you are playing on Steam Deck or Linux, use the next section instead.
 
+After installing, you can configure your client using the [client settings](#client-customization).
+
 Installation steps:
 
 1. Make a copy of the Pseudoregalia game folder:
@@ -35,7 +40,8 @@ Installation steps:
     3. Rename the copied folder to Pseudoregalia_AP or whatever else you like.
        This guide will refer to the copied folder as Pseudoregalia_AP from here on.
 2. [Optional] Add the executable from Pseudoregalia_AP to Steam as a non-Steam game
-   (this will allow you to still use Steam input for controller compatibility, which is required for some controllers):
+   (this will allow you to still use Steam input for controller compatibility,
+   which is required for some controllers):
     1. Click Add a Game in the bottom left of Steam, then Add a Non-Steam Game.
     2. Click Browse, then navigate to `pseudoregalia.exe` inside Pseudoregalia_AP and click Open.
     3. Click Add Selected Programs.
@@ -46,6 +52,7 @@ Installation steps:
 
 The mod is now installed! To connect to a multiworld slot, create a new file in the modded main menu,
 enter your connect information and click Start.
+
 
 ## Installing on Steam Deck/Linux
 
@@ -77,11 +84,12 @@ Just ignore anything that is Steam Deck specific or that doesn't apply to you.
 Note: In order to use the in-game console once you've loaded into the game,
 you'll also need to add `enter` to your controls.
 
+
 ## Playing on Full Gold
 
 The full gold patch is a previous version of the game that is also supported by the randomizer.
 The game was updated after release to add the map item and other significant changes,
-but the randomizer supports the earlier version for people who played on it first and prefer it.
+but the randomizer supports the earlier version for people who prefer it.
 
 To play on full gold, switch the Steam version of Pseudoregalia before following the installation steps:
 
@@ -95,9 +103,11 @@ If you want to be able to play both versions with the randomizer,
 follow the installation steps for each version and make two separate folders,
 e.g. Pseudoregalia_AP_MapPatch and Pseudoregalia_AP_FullGold.
 
+
 ## Compatibility with Other Mods
 
-The Pseudoregalia Archipelago mod touches many parts of the game in a way that may make it incompatible with other mods.
+The Pseudoregalia Archipelago mod touches many parts of the game
+in a way that may make it incompatible with other mods.
 (This is part of the reason why the installation guide recommends installing into a new folder.)
 Notably, it is **NOT** compatible with PseudoMenuMod because of the way they both modify the main menu.
 However, it does seem to be compatible with the Attire UI Overhaul Mod (custom outfits).
@@ -113,3 +123,8 @@ If you already have mods installed, you can get a "fresh install" by following t
 4. Reinstall Pseudoregalia.
 
 This will result in the Pseudoregalia folder only having the vanilla game files.
+
+
+## Client Customization
+
+TODO: describe where the client settings are and say what is configurable
