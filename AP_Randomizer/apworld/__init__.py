@@ -14,11 +14,23 @@ from .constants.versions import FULL_GOLD
 
 
 class PseudoregaliaWebWorld(WebWorld):
-    setup_en = Tutorial("name", "description", "English", "setup_en.md", "setup/en", ["TODO"])
+    setup_en = Tutorial(
+        "Setup Guide",
+        "A guide for setting up Pseudoregalia to be played in Archipelago.",
+        "English",
+        "setup_en.md",
+        "setup/en",
+        ["highrow623"]
+    )
     tutorials = [setup_en]
     
 
 class PseudoregaliaWorld(World):
+    """
+    Pseudoregalia is a wide-open 3D metroidvania with plenty of cool movement abilities to find and a sprawling
+    dream-like castle to explore.
+    """
+
     game = "Pseudoregalia"
     required_client_version = (0, 7, 0)
     apworld_version = (0, 10, 0)
