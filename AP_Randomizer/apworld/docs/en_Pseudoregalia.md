@@ -41,7 +41,7 @@ Turning on certain options, such as Randomize Goats, will add filler items to ba
 These are the filler items used in balancing:
 
 * Healing: restores one pip of health
-* Major Power: gives one level of magic
+* Magic Power: gives one level of magic
 
 By default, none of your items are restricted to your world,
 meaning any item can appear in anyone's world in the multiworld.
@@ -94,13 +94,13 @@ This will automatically create hints.
 The Spawn Point option allows you to choose (directly or randomly) where you will start the game.
 The following spawn points have special behaviors:
 
-* `dungeon_mirror`: the vanilla starting point in Dilapidated Dungeon
+* Dungeon Mirror: the vanilla starting point in Dilapidated Dungeon
 
     If this option is selected, Start With Breaker will be forced on
     and you will most likely be expected to leave through the dark rooms to The Underbelly.
     See [this video](https://youtu.be/Z_a9l2wzd8c) for a guide on how to do that.
 
-* `library`: the save point at the start of Listless Library
+* Library: the save point at the start of Listless Library
 
     If this option is selected, either Start With Breaker or Randomize Books must also be turned on.
     If both options are off at the start of generation, Start With Breaker will be forced on.
@@ -108,7 +108,7 @@ The following spawn points have special behaviors:
     If just Randomize Books is turned on, your sphere one will have a lot of checks but will be very short,
     so keep that in mind if you are playing in a multiworld with other people.
 
-* `theatre_main`: the save point in the auditorium in Twilight Theatre
+* Theatre Main: the save point in the auditorium in Twilight Theatre
 
     If this option is selected, your starting inventory will include Cling Gem/one Cling Shard on normal,
     or Heliacal Power/one Air Kick on hard+.
@@ -116,13 +116,13 @@ The following spawn points have special behaviors:
 
 The following spawn points don't have any special behaviors:
 
-* `castle_main`: the save point near Memento in Castle Sansa
-* `castle_gazebo`: the save point in the gazebo in the Castle Sansa courtyard
-* `underbelly_south`: the save point near the building at the south of The Underbelly
-* `underbelly_big_room`: the save point in the big room in the middle of The Underbelly
-* `bailey_main`: the save point in Empty Bailey
-* `keep_main`: the save point in the main hallway in Sansa Keep
-* `keep_north`: the north save point in Sansa Keep
+* Castle Main: the save point near Memento in Castle Sansa
+* Castle Gazebo: the save point in the gazebo in the Castle Sansa courtyard
+* Underbelly South: the save point near the building at the south of The Underbelly
+* Underbelly Big Room: the save point in the big room in the middle of The Underbelly
+* Bailey Main: the save point in Empty Bailey
+* Keep Main: the save point in the main hallway in Sansa Keep
+* Keep North: the north save point in Sansa Keep
 
 
 ## Item Appearance
@@ -166,3 +166,20 @@ here are some useful Pseudoregalia-specific commands:
 * `/breaker`: recalls Dream Breaker if you've received it but don't have it for some reason.
 * `/popups hide`: toggles whether item popups appear at all.
 * `/popups mute`: toggles whether item popups make a sound when they appear.
+
+
+## FAQ
+
+* Log file can be found at `Pseudoregalia_AP/pseudoregalia/Binaries/Win64/ue4ss/UE4SS.log`.
+  This isn't super helpful for crashes, but if you have other issues like an item not showing up,
+  you might be able to get some information here.
+  Note that the file is reset every time you boot up the game.
+* You can reach the Castle Sansa - Alcove Near Mirror location itemless
+  by jumping down after entering Dilapidated Dungeon from Castle Sansa.
+  See [this video](https://youtu.be/Z_a9l2wzd8c?t=256) for an example of how to do that.
+* You can enter The Underbelly "backwards" by taking a trek through these areas:
+  Sansa Keep -> Twilight Theatre -> Dilapidated Dungeon (dark rooms) -> The Underbelly.
+  On normal and hard, you won't be expected to go through the dark rooms until you have Ascendant Light.
+* On hard+, you are expected to not cut down the hanging platform in the room behind the locked door in Sansa Keep.
+  You can use it to access the locked room without a key and the Sunsetter location by doing a coyote jump,
+  but cutting it down makes that impossible.

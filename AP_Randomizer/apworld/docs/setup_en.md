@@ -3,7 +3,7 @@
 
 ## Required Software
 
-* [Pseudoregalia game](https://store.steampowered.com/app/2365810/Pseudoregalia/)
+* [Pseudoregalia game on Steam](https://store.steampowered.com/app/2365810/Pseudoregalia/)
 * [Pseudoregalia Archipelago mod](https://github.com/pseudoregalia-modding/pseudoregalia-archipelago/releases/latest)
   (the `pseudoregalia-archipelago.zip` file)
 
