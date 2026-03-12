@@ -128,7 +128,7 @@ This will result in the Pseudoregalia folder only having the vanilla game files.
 ## Client Customization
 
 Client settings can be found here:
-`Pseudoregalia_AP/pseudoregalia/inaries/Win64/ue4ss/Mods/AP_Randomizer/settings.toml`.
+`Pseudoregalia_AP/pseudoregalia/Binaries/Win64/ue4ss/Mods/AP_Randomizer/settings.toml`.
 The mod zip includes a file called `settings.tmpl.toml` in that location,
 so you'll have to rename it by removing the `.tmpl` before any changes will take effect.
 (The settings file is included as a template in releases
