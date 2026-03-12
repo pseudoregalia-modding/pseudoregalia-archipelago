@@ -135,7 +135,7 @@ so you'll have to rename it by removing the `.tmpl` before any changes will take
 so that you don't overwrite your settings when installing updates.)
 
 Client settings allow you to customize how certain things behave in the mod.
-The death link option is also configurged here.
+The death link option is also configured here.
 The template file explains what each option does.
 
 The settings file is only read when starting the executable,
