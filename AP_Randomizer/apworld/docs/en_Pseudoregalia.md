@@ -3,12 +3,16 @@
 
 ## Links
 
-TODO: setup guide, options page, advanced options page, poptracker pack, github repo
+* [Setup Guide](/tutorial/Pseudoregalia/setup/en)
+* [Options Page](../player-options)
+* [Advanced Options Page](../weighted-options)
+* [Pseudoregalia PopTracker Pack](https://github.com/highrow623/pseudoregalia_brooty/releases/latest)
+* [Pseudoregalia Archipelago Github Repo](https://github.com/pseudoregalia-modding/pseudoregalia-archipelago)
 
 
 ## Items
 
-All items that can be found "out in the open" in the base game are added to the item pool by default.
+All items that can be found "out in the open" in the base game are added to the item pool.
 These include:
 
 * Abilities like Dream Breaker and Slide
@@ -17,7 +21,7 @@ These include:
 * Major keys
 * Small keys
 
-The follow options will swap some default items out with replacements:
+The follow options will swap some of these items out with replacements:
 
 * Progressive Dream Breaker:
   swaps Dream Breaker, Strikebreak and Soul Cutter with three Progressive Dream Breaker items.
@@ -39,6 +43,9 @@ These are the filler items used in balancing:
 * Healing: restores one pip of health
 * Major Power: gives one level of magic
 
+By default, none of your items are restricted to your world,
+meaning any item can appear in anyone's world in the multiworld.
+
 
 ## Locations
 
@@ -51,7 +58,7 @@ If Randomize Time Trials is turned on, each time trial also guards an item.
 You have to beat the bronze time to make the item spawn.
 It is recommended to have some familiarity with all the time trials before playing with this option.
 
-The following options will also add additional locations:
+The following options add additional locations:
 
 * Randomize Goats: talk to the goatling to get the item.
   Some goatlings are in easy-to-miss spots, so these videos can help you find them:
@@ -69,8 +76,7 @@ Just like in the base game, the goal is to collect all 5 major keys to open the 
 
 If you are playing in a multiworld with other people,
 you may want to set your major keys to be local so you aren't waiting for someone else to get your MacGuffins.
-
-To make your major keys local, add the following to your Local Items when configuring your options:
+To make your major keys local, add the following to Local Items when configuring your options:
 
 * Major Key - Empty Bailey
 * Major Key - The Underbelly
@@ -121,4 +127,42 @@ The following spawn points don't have any special behaviors:
 
 ## Item Appearance
 
-TODO: describe how items appear and that this is configurable
+Vanilla Pseudoregalia items out in the open appear as they do in the base game.
+This applies to your own items as well as items of other Pseudoregalia players in the multiworld.
+
+Items from other games out in the open appear as the Archipelago logo with an aura around it.
+The color of the aura indicates the classification of the item:
+
+* A progression item has a gold aura
+* A useful or trap item has a green aura
+* A filler item has a red aura
+
+The Healing and Magic Power items appear as generic filler items.
+
+All items in interactable locations (goats, chairs, books, notes)
+appear as an aura around the interactable object.
+The color of the aura follows the same pattern as generic items described above.
+The aura goes away once the item has been collected.
+
+The appearance of items can be customized in client settings.
+For example, you can make all items look the same if you would prefer that.
+See the Setup Guide for more info.
+
+
+## Extra Features
+
+### Solar Wind Toggle
+
+You can toggle Solar Wind once you've obtained it by pressing the top face button on controller
+or left ctrl on keyboard.
+
+### In-Game Console
+
+Once you are in game, you can press enter to bring up the in-game console.
+In addition to all the usual Archipelago commands like `!hint`,
+here are some useful Pseudoregalia-specific commands:
+
+* `/spawn`: saves the game and warps you to spawn. Useful to prevent softlocks.
+* `/breaker`: recalls Dream Breaker if you've received it but don't have it for some reason.
+* `/popups hide`: toggles whether item popups appear at all.
+* `/popups mute`: toggles whether item popups make a sound when they appear.

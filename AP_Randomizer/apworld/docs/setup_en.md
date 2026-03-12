@@ -127,4 +127,16 @@ This will result in the Pseudoregalia folder only having the vanilla game files.
 
 ## Client Customization
 
-TODO: describe where the client settings are and say what is configurable
+Client settings can be found here:
+`Pseudoregalia_AP/pseudoregalia/inaries/Win64/ue4ss/Mods/AP_Randomizer/settings.toml`.
+The mod zip includes a file called `settings.tmpl.toml` in that location,
+so you'll have to rename it by removing the `.tmpl` before any changes will take effect.
+(The settings file is included as a template in releases
+so that you don't overwrite your settings when installing updates.)
+
+Client settings allow you to customize how certain things behave in the mod.
+The death link option is also configurged here.
+The template file explains what each option does.
+
+The settings file is only read when starting the executable,
+so any changes you make require closing and reopening the game.
