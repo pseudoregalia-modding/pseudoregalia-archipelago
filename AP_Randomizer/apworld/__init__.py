@@ -33,7 +33,7 @@ class PseudoregaliaWorld(World):
 
     game = "Pseudoregalia"
     required_client_version = (0, 7, 0)
-    apworld_version = (0, 10, 0)
+    apworld_version = (0, 10, 2)
 
     item_name_to_id = {name: data.code for name, data in item_table.items() if data.code is not None}
     location_name_to_id = {name: data.code for name, data in location_table.items() if data.code is not None}
