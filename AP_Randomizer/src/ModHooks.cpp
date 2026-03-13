@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Unreal/UClass.hpp"
+
+#include "Unreal/CoreUObject/UObject/Class.hpp"
 #include "Unreal/FText.hpp"
 #include "ModHooks.hpp"
 #include "Client.hpp"
@@ -159,7 +160,7 @@ namespace ModHooks {
 
 		typedef function<void(UObject*)> ObjectCallback;
 		const unordered_map<wstring, ObjectCallback> static_construct_object_post_callbacks = {
-			{L"UI_HUD", [](UObject* object) {
+			{L"UI_HUD_C", [](UObject* object) {
 				Engine::ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_CreateConsole", nullptr);
 			}},
 		};

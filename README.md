@@ -1,11 +1,11 @@
 # pseudoregalia-archipelago
 This is a mod for Pseudoregalia that works with the [multi-game multi-world randomizer Archipelago](https://archipelago.gg/). It is currently in alpha and is being actively developed. Abilities, minor upgrades, major keys, small keys, and health pieces are shuffled. Outfits are also shuffled if you are playing on current patch and the `randomize_time_trials` option is turned on.
 
-You can get the latest release from [the releases page](https://github.com/qwint/pseudoregalia-archipelago/releases).
+You can get the latest release from [the releases page](https://github.com/pseudoregalia-modding/pseudoregalia-archipelago/releases).
 
 The logic is separated by difficulty, which you can choose in your player yaml file. The options are explained in the template.
 
-There is an option to set or randomize your spawn point, and some spawns may start you with an item so you aren't immediately stuck. If you don't have Dream Breaker yet, you can save the game by touching a save point.
+There is an option to set or randomize your spawn point, and some spawns may start you with an item so you aren't immediately stuck. For specifics, refer to the [Spawn Points](#spawn-points) section. If you don't have Dream Breaker yet, you can save the game by touching a save point.
 
 You can get the PopTracker pack for Pseudoregalia [here](https://github.com/highrow623/pseudoregalia_brooty).
 
@@ -20,8 +20,8 @@ You can get the PopTracker pack for Pseudoregalia [here](https://github.com/high
 
 
 # Mod Installation
-Note: If you are installing on Steam Deck, please read [the Steam Deck installation instructions](https://github.com/qwint/pseudoregalia-archipelago/blob/main/docs/steam_deck_installation.md) instead.
-1. [Go to the Releases page](https://github.com/qwint/pseudoregalia-archipelago/releases/latest) and download the latest version of `pseudoregalia-archipelago.zip`.
+Note: If you are installing on Steam Deck, please read [the Steam Deck installation instructions](https://github.com/pseudoregalia-modding/pseudoregalia-archipelago/blob/main/docs/steam_deck_installation.md) instead.
+1. [Go to the Releases page](https://github.com/pseudoregalia-modding/pseudoregalia-archipelago/releases/latest) and download the latest version of `pseudoregalia-archipelago.zip`.
 2. In Steam/steamapps/common, make a copy of your Pseudoregalia folder and rename it "Pseudoregalia_AP" (or whatever else you like).
    * You can add the new `pseudoregalia.exe` as a "Non-Steam Game" in Steam to access it easily from Steam and to maintain Steam Input compatibility (which may be required for some controllers)
    * If you would like to play on full gold version, downpatch using the beta code `fullgoldjump` in Steam before copying the folder. You can make an AP folder for both versions if you want to be able to play on both.
@@ -38,7 +38,7 @@ Note: If you are installing on Steam Deck, please read [the Steam Deck installat
 
 # Generating a Seed
 1. Install [Archipelago](https://archipelago.gg/tutorial/Archipelago/setup/en).
-2. [Go to the Releases page](https://github.com/qwint/pseudoregalia-archipelago/releases/latest) and download the latest version of `pseudoregalia.apworld` and either double click to open the file with Archipelago, or manually place `pseudoregalia.apworld` into `Archipelago/custom_worlds` to install.
+2. [Go to the Releases page](https://github.com/pseudoregalia-modding/pseudoregalia-archipelago/releases/latest) and download the latest version of `pseudoregalia.apworld` and either double click to open the file with Archipelago, or manually place `pseudoregalia.apworld` into `Archipelago/custom_worlds` to install.
 3. Place all yamls for the seed into Archipelago/Players.
    * You can get a template yaml file by clicking Generate Template Options after installing the apworld. If you just installed the apworld, you may have to restart the Archipelago Launcher before generating.
 4. Run Generate from the Launcher.
@@ -77,6 +77,35 @@ In summary:
 
 * If a save file has APWorld version `a.b.c` where `a > 0`, only mod versions `a.y.z` where `y >= b` are compatible.
 * If a save file has APWorld version `0.b.c` (i.e. is prerelease), only mod versions `0.b.z` are compatible.
+
+
+# Spawn Points
+
+The following spawn points have special behaviors if they are selected or randomly chosen:
+
+* `dungeon_mirror`: the vanilla starting point in Dilapidated Dungeon
+
+    If this option is selected, `start_with_breaker` will be forced on and you will most likely be expected to leave through the dark rooms to The Underbelly. See [this video](https://youtu.be/Z_a9l2wzd8c) for a guide on how to do that.
+
+* `library`: the save point at the start of Listless Library
+
+    If this option is selected, either `start_with_breaker` or `randomize_books` must also be turned on. If both options are off at the start of generation, `start_with_breaker` will be forced on.
+    
+    If just `randomize_books` is turned on, your sphere one will have a lot of checks but will be very short, so keep that in mind if you are playing in a multiworld with other people.
+
+* `theatre_main`: the save point in the auditorium in Twilight Theatre
+
+    If this option is selected, your starting inventory will include Cling Gem/one Cling Shard on normal, or Heliacal Power/one Air Kick on hard+. You will be able to leave Twilight Theatre through the big pillar room to the south.
+
+The following spawn points don't have any special behaviors:
+
+* `castle_main`: the save point near Memento in Castle Sansa
+* `castle_gazebo`: the save point in the gazebo in the Castle Sansa courtyard
+* `underbelly_south`: the save point near the building at the south of The Underbelly
+* `underbelly_big_room`: the save point in the big room in the middle of The Underbelly
+* `bailey_main`: the save point in Empty Bailey
+* `keep_main`: the save point in the main hallway in Sansa Keep
+* `keep_north`: the north save point in Sansa Keep
 
 
 # Known Issues
