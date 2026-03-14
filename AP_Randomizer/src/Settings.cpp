@@ -17,9 +17,9 @@ namespace Settings {
 
 	namespace {
 		// if you run from the executable directory
-		const string settings_filename1 = "Mods/AP_Randomizer/settings.toml";
+		const string settings_filename1 = "ue4ss/Mods/AP_Randomizer/settings.toml";
 		// if you run from the game directory
-		const string settings_filename2 = "pseudoregalia/Binaries/Win64/Mods/AP_Randomizer/settings.toml";
+		const string settings_filename2 = "pseudoregalia/Binaries/Win64/ue4ss/Mods/AP_Randomizer/settings.toml";
 
 		// settings, set to their defaults
 		ItemDisplay item_display = ItemDisplay::Full;
