@@ -21,6 +21,8 @@ This is a mod for Pseudoregalia that works with the [multi-game multi-world rand
 4. Run Generate from the Launcher.
 5. A zip file will be added to Archipelago/output, which can [hosted on the website](https://archipelago.gg/uploads) or hosted locally by clicking Host.
 
+For a more complete guide, [click here](https://archipelago.gg/tutorial/Archipelago/setup_en#generating-a-game).
+
 
 # Mod and APWorld Compatibility
 
