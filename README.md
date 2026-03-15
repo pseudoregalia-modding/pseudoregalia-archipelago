@@ -12,6 +12,16 @@ This is a mod for Pseudoregalia that works with the [multi-game multi-world rand
 * [General Archipelago guides](https://archipelago.gg/tutorial/)
 
 
+# Generating a Seed
+
+1. Install [Archipelago](https://archipelago.gg/tutorial/Archipelago/setup/en).
+2. [Go to the Releases page](https://github.com/pseudoregalia-modding/pseudoregalia-archipelago/releases/latest) and download the latest version of `pseudoregalia.apworld` and either double click to open the file with Archipelago, or manually place `pseudoregalia.apworld` into `Archipelago/custom_worlds` to install.
+3. Place all yamls for the seed into Archipelago/Players.
+   * You can get a template yaml file by clicking Generate Template Options after installing the apworld. If you just installed the apworld, you may have to restart the Archipelago Launcher before generating.
+4. Run Generate from the Launcher.
+5. A zip file will be added to Archipelago/output, which can [hosted on the website](https://archipelago.gg/uploads) or hosted locally by clicking Host.
+
+
 # Mod and APWorld Compatibility
 
 Starting in version `0.10.0`, the mod automatically checks the APWorld version used in generation to make sure it's compatible with the mod. Version `0.10.0` also introduced save management, so upgrading the mod might make it incompatible with existing saves. If you need to figure out which mod versions are compatible with a particular APWorld version, the rest of this section should give you the info you need.
