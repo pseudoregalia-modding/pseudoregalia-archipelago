@@ -1,0 +1,186 @@
+item_mapping:
+  Dream Breaker: breaker
+  Sun Greaves:
+    name: kick
+    count: 3
+    max: 1
+  Slide: slide
+  Solar Wind: slide_jump
+  Sunsetter: plunge
+  Strikebreak: strikebreak
+  Cling Gem:
+    name: cling
+    count: 6
+    max: 1
+  Ascendant Light: light
+  Soul Cutter: cutter
+  Heliacal Power: kick
+  Small Key: small_key
+  Major Key - Empty Bailey:
+    name: major_key
+    max: 1
+  Major Key - The Underbelly:
+    name: major_key
+    max: 1
+  Major Key - Tower Remains:
+    name: major_key
+    max: 1
+  Major Key - Sansa Keep:
+    name: major_key
+    max: 1
+  Major Key - Twilight Theatre:
+    name: major_key
+    max: 1
+  Progressive Slide:
+  - slide
+  - slide_jump
+  Air Kick: kick
+  Progressive Dream Breaker:
+  - breaker
+  - strikebreak
+  - cutter
+  Cling Shard:
+    name: cling
+    count: 2
+
+tags:
+- name: plunge_attack
+  advanced:
+    Sunsetter plunge does damage, even if you don't have Dream Breaker.
+    In addition to breaking floors,
+    this can be used to break weak walls and hit switches.
+- name: not_afraid_of_the_dark
+  expert:
+    With this tag, the Dungeon dark rooms are in logic as soon as you can enter them,
+    even if you don't have a way to light your path.
+- name: slide_ultras
+  description: This tech involves cancelling a slide and converting its high speed into a high jump.
+  hard: At this level, you may be required to use slide ultras purely to gain height.
+  expert: At this level, you may be required to use slide ultras for distance, which can require higher speed.
+  lunatic: At this level, slide ultra setups may be very precise, involving very small runway or sharp angle changes.
+
+tag_groups:
+- name: basic_tech
+  description: This group includes basic and well known tech and introduces meaningful additions at every logic level.
+  children:
+  - basic_slide_tech
+  - basic_kick_tech
+  # etc
+- name: obscure_tech
+  description: This group compiles less known tech into a single group.
+  children:
+  - plunge_attack
+  - not_afraid_of_the_dark
+  # etc
+
+ref_rules:
+- name: can_attack
+  rule:
+    or:
+    - has: breaker
+    - has: plunge
+      tags:
+        plunge_attack: 1
+- name: can_unlock_door
+  rule:
+    and:
+    - ref: can_attack
+    - or:
+      - has:
+          small_key: 7
+      - has:
+          small_key: 6
+        tags:
+          smart_keys: 1
+- name: can_enter_dark_rooms
+  rule:
+    or:
+    - has: light
+    - has: breaker
+      tags:
+        light_breaker: 1
+    - tags:
+        not_afraid_of_the_dark: 3
+
+regions:
+- name: Dungeon Mirror
+  exits:
+  - region: Dungeon Slide
+    rule:
+      ref: can_attack
+- name: Dungeon Slide
+  exits:
+  - region: Dungeon Mirror
+    rule:
+      ref: can_attack
+  - region: Dungeon Strong Eyes
+    rule:
+      has: slide
+  - region: Dungeon Escape Lower
+    rule:
+      or:
+      - and:
+        - ref: can_attack
+        - ref: can_enter_dark_rooms
+        tags:
+          obscure_paths: 1
+      - has: breaker
+        tags:
+          dungeon_escape: 1
+- name: Dungeon Strong Eyes
+  exits:
+  - region: Dungeon Slide
+    rule:
+      has: slide
+  - region: Dungeon Top Exit
+- name: Dungeon Top Exit
+  exits:
+  - region: Dungeon Mirror
+  - region: Dungeon Strong Eyes
+    rule:
+      # TODO convert to or rule and update to include shortcut
+      ref: can_unlock_door
+  - region: Castle Main
+    entrance_name: Dungeon Top Exit
+
+origins:
+- spawn_point: castle_main
+  region: Castle Main
+- spawn_point: castle_gazebo
+  region: Castle Main
+- spawn_point: dungeon_mirror
+  region: Dungeon Mirror
+- spawn_point: library
+  region: Library Main
+- spawn_point: underbelly_south
+  region: Underbelly South Exit
+- spawn_point: underbelly_big_room
+  region: Underbelly Main Upper
+- spawn_point: bailey_main
+  region: Bailey Lower
+- spawn_point: keep_main
+  region: Keep Main
+- spawn_point: keep_north
+  region: Keep Main
+- spawn_point: theatre_main
+  region: Theatre Main
+
+locations:
+- name: Dilapidated Dungeon - Dream Breaker
+  code: 1
+  region: Dungeon Mirror
+- name: Dilapidated Dungeon - Mirror Room Goatling
+  code: 66
+  region: Dungeon Mirror
+  can_create:
+    randomize_goats: true
+- name: D S T RT ED M M O   Y
+  region: Tower Great Door
+  rule:
+    has:
+      breaker: 1
+      major_key: 5
+  event_item: Something Worth Being Awake For
+
+completion_rule:
+  has: Something Worth Being Awake For
