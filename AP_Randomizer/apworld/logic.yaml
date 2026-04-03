@@ -3,7 +3,7 @@ item_mapping:
   Sun Greaves:
     name: kick
     count: 3
-    max: 1
+    first_only: true
   Slide: slide
   Solar Wind: slide_jump
   Sunsetter: plunge
@@ -11,26 +11,26 @@ item_mapping:
   Cling Gem:
     name: cling
     count: 6
-    max: 1
+    first_only: true
   Ascendant Light: light
   Soul Cutter: cutter
   Heliacal Power: kick
   Small Key: small_key
   Major Key - Empty Bailey:
     name: major_key
-    max: 1
+    first_only: true
   Major Key - The Underbelly:
     name: major_key
-    max: 1
+    first_only: true
   Major Key - Tower Remains:
     name: major_key
-    max: 1
+    first_only: true
   Major Key - Sansa Keep:
     name: major_key
-    max: 1
+    first_only: true
   Major Key - Twilight Theatre:
     name: major_key
-    max: 1
+    first_only: true
   Progressive Slide:
   - slide
   - slide_jump
@@ -74,6 +74,18 @@ tag_groups:
   # etc
 
 ref_rules:
+- name: can_slide_jump
+  rule:
+    has:
+    - slide
+    - slide_jump
+- name: can_gold_ultra
+  rule:
+    or:
+    - has: slide
+      options:
+        game_version: full_gold
+    - ref: can_slide_jump
 - name: can_attack
   rule:
     or:
@@ -125,8 +137,8 @@ regions:
         tags:
           obscure_paths: 1
       - has: breaker
-        tags:
-          dungeon_escape: 1
+        options:
+          spawn_point: dungeon_mirror
 - name: Dungeon Strong Eyes
   exits:
   - region: Dungeon Slide

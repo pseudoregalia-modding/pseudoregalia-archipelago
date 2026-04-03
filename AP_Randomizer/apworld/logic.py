@@ -11,8 +11,8 @@ class PseudoregaliaData:
     A str value is a simple mapping, so one of this item maps to one of the pseudo item.
     A list[str] value is for progressive items: the first of this item maps to the pseudo item at index 0, the second
       maps to the pseudo item at index 1, etc.
-    An ItemMappingData value is for cases where one of the item maps to more than one of the pseudo item and/or there is
-      a max to how many of the item can contribute to the pseudo item.
+    An ItemMappingData value is for cases where one of the item maps to more than one of the pseudo item and/or only the
+      first of the item contributes to the pseudo item.
     """
     tags: list[TagData]
     """Defines the tags that can be used to filter rules."""
@@ -46,8 +46,8 @@ class ItemMappingData:
     """The name of the pseudo item to map to."""
     count: int | None
     """The amount of the pseudo item that one of this item maps to. None defaults to 1."""
-    max: int | None
-    """The max number of this item that can contribute to the pseudo item. None means no limit."""
+    first_only: bool | None
+    """Whether only the first of the item contributes to the pseudo item. None defaults to False."""
 
 @dataclass
 class TagData:
@@ -119,10 +119,12 @@ class LocationData:
 @dataclass
 class RuleData:
     """
-    A rule on an entrance or location. Aside from the tags field, at most one field can be not None. If all fields are
-    None, the rule is built using the True_ RuleBuilder object.
-    
-    Fields can be added to support other RuleBuilder objects as needed.
+    A rule on an entrance or location. Aside from the tags and options fields (which provide filtering), at most one
+    field can be not None. If all fields are None, the rule is built using the True_ RuleBuilder object.
+
+    Each key in the tags and options fields acts as a filter, and all filters must be satisfied or the rule resolves to
+    False_. For tags, the player must have the tag at a level greater than or equal to the level indicated by the
+    filter. For options, the player must have the option equal to the value indicated by the filter.
     """
     and_: list[RuleData] | None
     """Maps to the And RuleBuilder object."""
@@ -134,8 +136,6 @@ class RuleData:
     
     All string values in this type must be valid item names or the names of pseudo items in item_mapping.
     """
-    can_reach_region: str | None
-    """Maps to the CanReachRegion RuleBuilder object."""
     ref: str | None
     """Maps to a ref_rule by name."""
     tags: dict[str, int] | None
