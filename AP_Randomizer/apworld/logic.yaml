@@ -147,7 +147,6 @@ regions:
       - region: Dungeon Escape Upper
         rule:
       - region: Underbelly => Dungeon
-        rule:
   - name: Dungeon Escape Upper
     exits:
       - region: Dungeon Escape Lower
@@ -158,11 +157,8 @@ regions:
   - name: Castle Main
     exits:
       - region: Dungeon => Castle
-        rule:
       - region: Keep Main
-        rule:
       - region: Bailey Lower
-        rule:
       - region: Library Main
         rule:
       - region: Castle => Theatre Pillar
@@ -174,7 +170,6 @@ regions:
   - name: Castle Spiral Climb
     exits:
       - region: Castle Main
-        rule:
       - region: Castle High Climb
         rule:
       - region: Castle By Scythe Corridor
@@ -246,7 +241,6 @@ regions:
   - name: Keep Locked Room
     exits:
       - region: Keep Sunsetter
-        rule:
   - name: Keep Sunsetter
 
   - name: Keep Throne Room
@@ -254,24 +248,18 @@ regions:
   - name: Keep => Underbelly
     exits:
       - region: Keep Main
-        rule:
       - region: Underbelly => Keep
-        rule:
   - name: Keep (Northeast) => Castle
     exits:
       - region: Keep Main
-        rule:
       - region: Castle Main
-        rule:
 
   - name: Bailey Lower
     exits:
       - region: Bailey Upper
         rule:
       - region: Castle Main
-        rule:
       - region: Theatre Pillar => Bailey
-        rule:
   - name: Bailey Upper
     exits:
       - region: Bailey Lower
@@ -290,13 +278,11 @@ regions:
       - region: Dungeon Escape Lower
         rule:
       - region: Underbelly Light Pillar
-        rule:
       - region: Underbelly Ascendant Light
         rule:
   - name: Underbelly Light Pillar
     exits:
       - region: Underbelly Main Upper
-        rule:
       - region: Underbelly => Dungeon
         rule:
       - region: Underbelly Ascendant Light
@@ -308,7 +294,6 @@ regions:
   - name: Underbelly Main Lower
     exits:
       - region: Underbelly => Bailey
-        rule:
       - region: Underbelly Hole
         rule:
       - region: Underbelly By Heliacal
@@ -318,7 +303,6 @@ regions:
   - name: Underbelly Main Upper
     exits:
       - region: Underbelly Main Lower
-        rule:
       - region: Underbelly Light Pillar
         rule:
       - region: Underbelly By Heliacal
@@ -332,13 +316,11 @@ regions:
       - region: Bailey Upper
         rule:
       - region: Bailey Lower
-        rule:
       - region: Underbelly Main Lower
         rule:
   - name: Underbelly => Keep
     exits:
       - region: Keep => Underbelly
-        rule:
       - region: Underbelly Hole
         rule:
   - name: Underbelly Hole
@@ -361,21 +343,17 @@ regions:
       - region: Theatre Pillar
         rule:
       - region: Bailey Lower
-        rule:
   - name: Castle => Theatre Pillar
     exits:
       - region: Theatre Pillar
         rule:
       - region: Castle Main
-        rule:
   - name: Theatre Pillar
     exits:
       - region: Theatre Main
         rule:
       - region: Theatre Pillar => Bailey
-        rule:
       - region: Castle => Theatre Pillar
-        rule:
   - name: Theatre Outside Scythe Corridor
     exits:
       - region: Theatre Main
@@ -517,7 +495,6 @@ locations:
   - name: Sansa Keep - Alcove Near Locked Door
     code: 21
     region: Keep Locked Room
-    rule:
     
   - name: Sansa Keep - Levers Room
     code: 22
@@ -527,7 +504,6 @@ locations:
   - name: Sansa Keep - Lonely Throne
     code: 23
     region: Keep Throne Room
-    rule:
     
   - name: Sansa Keep - Near Theatre
     code: 24
@@ -585,7 +561,6 @@ locations:
   - name: Twilight Theatre - Tucked Behind Boxes
     code: 34
     region: Theatre Main
-    rule:
     
   - name: Twilight Theatre - Corner Beam
     code: 35
@@ -622,7 +597,6 @@ locations:
   - name: The Underbelly - Ascendant Light
     code: 41
     region: Underbelly Ascendant Light
-    rule:
     
   - name: The Underbelly - Alcove Near Light
     code: 42
@@ -669,7 +643,6 @@ locations:
   - name: Tower Remains - Atop The Tower
     code: 50
     region: The Great Door
-    rule:
     
 
   - name: Listless Library - Sun Greaves 1
@@ -743,7 +716,6 @@ locations:
   - name: Castle Sansa - Memento
     code: 62
     region: Castle Main
-    rule:
     can_create:
       game_version: MAP_PATCH
 
@@ -769,7 +741,6 @@ locations:
   - name: Dilapidated Dungeon - Mirror Room Goatling
     code: 66
     region: Dungeon Mirror
-    rule:
     can_create:
       randomize_goats: true
   - name: Dilapidated Dungeon - Rambling Goatling
@@ -781,31 +752,26 @@ locations:
   - name: Dilapidated Dungeon - Unwelcoming Goatling
     code: 68
     region: Dungeon Strong Eyes
-    rule:
     can_create:
       randomize_goats: true
   - name: Dilapidated Dungeon - Repentant Goatling
     code: 69
     region: Dungeon Strong Eyes
-    rule:
     can_create:
       randomize_goats: true
   - name: Dilapidated Dungeon - Defeatist Goatling
     code: 70
     region: Dungeon Strong Eyes
-    rule:
     can_create:
       randomize_goats: true
   - name: Castle Sansa - Crystal Licker Goatling
     code: 71
     region: Castle Main
-    rule:
     can_create:
       randomize_goats: true
   - name: Castle Sansa - Gazebo Goatling
     code: 72
     region: Castle Main
-    rule:
     can_create:
       randomize_goats: true
   - name: Castle Sansa - Bubblephobic Goatling
@@ -823,49 +789,41 @@ locations:
   - name: Castle Sansa - Memento Goatling
     code: 75
     region: Castle Main
-    rule:
     can_create:
       randomize_goats and options.game_version: MAP_PATCH
   - name: Castle Sansa - Goatling Near Library
     code: 76
     region: Castle Main
-    rule:
     can_create:
       randomize_goats and options.game_version: MAP_PATCH
   - name: Sansa Keep - Furniture-less Goatling
     code: 77
     region: Keep Main
-    rule:
     can_create:
       randomize_goats: true
   - name: Sansa Keep - Distorted Goatling
     code: 78
     region: Keep (Northeast) => Castle
-    rule:
     can_create:
       randomize_goats: true
   - name: Twilight Theatre - 20 Bean Casserole Goatling
     code: 79
     region: Castle => Theatre (Front)
-    rule:
     can_create:
       randomize_goats: true
   - name: Twilight Theatre - Theatre Goer Goatling 1
     code: 80
     region: Castle => Theatre (Front)
-    rule:
     can_create:
       randomize_goats: true
   - name: Twilight Theatre - Theatre Goer Goatling 2
     code: 81
     region: Castle => Theatre (Front)
-    rule:
     can_create:
       randomize_goats: true
   - name: Twilight Theatre - Theatre Manager Goatling
     code: 82
     region: Castle => Theatre (Front)
-    rule:
     can_create:
       randomize_goats: true
   - name: Twilight Theatre - Murderous Goatling
@@ -884,85 +842,71 @@ locations:
   - name: Castle Sansa - Stool Near Crystal 1
     code: 85
     region: Castle Main
-    rule:
     can_create:
       randomize_chairs: true
   - name: Castle Sansa - Stool Near Crystal 2
     code: 86
     region: Castle Main
-    rule:
     can_create:
       randomize_chairs: true
   - name: Castle Sansa - Stool Near Crystal 3
     code: 87
     region: Castle Main
-    rule:
     can_create:
       randomize_chairs: true
   - name: Castle Sansa - Gazebo Stool
     code: 88
     region: Castle Main
-    rule:
     can_create:
       randomize_chairs: true
   - name: Sansa Keep - Distorted Stool
     code: 89
     region: Keep (Northeast) => Castle
-    rule:
     can_create:
       randomize_chairs: true
   - name: Sansa Keep - Path to Throne Stool
     code: 90
     region: Keep Throne Room
-    rule:
     can_create:
       randomize_chairs: true
   - name: Sansa Keep - The Throne
     code: 91
     region: Keep Throne Room
-    rule:
     can_create:
       randomize_chairs: true
   - name: Listless Library - Hay Bale Near Entrance
     code: 92
     region: Library Main
-    rule:
     can_create:
       randomize_chairs: true
   - name: Listless Library - Hay Bale Near Eggs
     code: 93
     region: Library Top
-    rule:
     can_create:
       randomize_chairs: true
   - name: Listless Library - Hay Bale in the Back
     code: 94
     region: Library Back
-    rule:
     can_create:
       randomize_chairs: true
   - name: Twilight Theatre - Stool Near Bookcase
     code: 95
     region: Theatre Outside Scythe Corridor
-    rule:
     can_create:
       randomize_chairs: true
   - name: Twilight Theatre - Stool Around a Table 1
     code: 96
     region: Theatre Outside Scythe Corridor
-    rule:
     can_create:
       randomize_chairs: true
   - name: Twilight Theatre - Stool Around a Table 2
     code: 97
     region: Theatre Outside Scythe Corridor
-    rule:
     can_create:
       randomize_chairs: true
   - name: Twilight Theatre - Stool Around a Table 3
     code: 98
     region: Theatre Outside Scythe Corridor
-    rule:
     can_create:
       randomize_chairs: true
   - name: Twilight Theatre - Stage Left Stool
@@ -981,86 +925,72 @@ locations:
   - name: Listless Library - A Book About a Princess
     code: 101
     region: Library Main
-    rule:
     can_create:
       randomize_books: true
   - name: Listless Library - A Book About Cooking
     code: 102
     region: Library Main
-    rule:
     can_create:
       randomize_books: true
   - name: Listless Library - A Book Full of Plays
     code: 103
     region: Library Main
-    rule:
     can_create:
       randomize_books: true
   - name: Listless Library - A Book About Reading
     code: 104
     region: Library Main
-    rule:
     can_create:
       randomize_books: true
   - name: Listless Library - A Book About Aquatic Life
     code: 105
     region: Library Main
-    rule:
     can_create:
       randomize_books: true
   - name: Listless Library - A Book About a Jester
     code: 106
     region: Library Main
-    rule:
     can_create:
       randomize_books: true
   - name: Listless Library - A Book About Loss
     code: 107
     region: Library Main
-    rule:
     can_create:
       randomize_books: true
   - name: Listless Library - A Book on Musical Theory
     code: 108
     region: Library Main
-    rule:
     can_create:
       randomize_books: true
   - name: Listless Library - A Book About a Girl
     code: 109
     region: Library Main
-    rule:
     can_create:
       randomize_books: true
   - name: Listless Library - A Book About a Thimble
     code: 110
     region: Library Main
-    rule:
     can_create:
       randomize_books: true
   - name: Listless Library - A Book About a Monster
     code: 111
     region: Library Greaves
-    rule:
     can_create:
       randomize_books: true
   - name: Listless Library - A Book About Revenge
     code: 112
     region: Library Greaves
-    rule:
     can_create:
       randomize_books: true
   - name: Listless Library - A Book About a Restaurant
     code: 113
     region: Library Top
-    rule:
     can_create:
       randomize_books: true
 
   - name: Listless Library - Note Near Eggs
     code: 114
     region: Library Top
-    rule:
     can_create:
       randomize_notes: true
   - name: The Underbelly - Note on a Ledge
