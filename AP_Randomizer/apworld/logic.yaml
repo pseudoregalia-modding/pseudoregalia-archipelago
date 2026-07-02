@@ -105,264 +105,257 @@ ref_rules:
 regions:
   - name: Dungeon Mirror
     exits:
-      - region: Dungeon Slide
-        rule:
-          ref: can_attack
+    - region: Dungeon Slide
+      rule:
+        ref: can_attack
   - name: Dungeon Slide
     exits:
-      - region: Dungeon Mirror
-        rule:
-          ref: can_attack
-      - region: Dungeon Strong Eyes
-        rule:
-          has: slide
-      - region: Dungeon Escape Lower
-        rule:
-          or:
-            - and:
-              - ref: can_attack
-              - ref: can_enter_dark_rooms
-            - has: breaker
-              tags:
-                dungeon_escape: 1
+    - region: Dungeon Mirror
+      rule:
+        ref: can_attack
+    - region: Dungeon Strong Eyes
+      rule:
+        has: slide
+    - region: Dungeon Escape Lower
+      rule:
+        or:
+        - and:
+          - ref: can_attack
+          - ref: can_enter_dark_rooms
+        - has: breaker
+          tags:
+            dungeon_escape: 1
   - name: Dungeon Strong Eyes
     exits:
-      - region: Dungeon Slide
-        rule:
-          has: slide
-      - region: Dungeon => Castle
-  - name: Dungeon => Castle  # Dungeon Top Exit
+    - region: Dungeon Slide
+      rule:
+        has: slide
+    - region: Dungeon => Castle
+  - name: Dungeon => Castle
     exits:
-      - region: Dungeon Mirror
-      - region: Dungeon Strong Eyes
-        rule:
-          # TODO convert to or rule and update to include shortcut
-          ref: can_unlock_door
-      - region: Castle Main
-        entrance_name: Dungeon Top Exit
+    - region: Dungeon Mirror
+    - region: Dungeon Strong Eyes
+      rule:
+        ref: can_unlock_door
+    - region: Castle Main
+      entrance_name: Dungeon Top Exit
   - name: Dungeon Escape Lower
     exits:
-      - region: Dungeon Slide
-        rule:
-      - region: Dungeon Escape Upper
-        rule:
-      - region: Underbelly => Dungeon
+    - region: Dungeon Slide
+      rule: null
+    - region: Dungeon Escape Upper
+      rule: null
+    - region: Underbelly => Dungeon
   - name: Dungeon Escape Upper
     exits:
-      - region: Dungeon Escape Lower
-        rule:
-      - region: Theatre Outside Scythe Corridor
-        rule:
-
+    - region: Dungeon Escape Lower
+      rule: null
+    - region: Theatre Outside Scythe Corridor
+      rule: null
   - name: Castle Main
     exits:
-      - region: Dungeon => Castle
-      - region: Keep Main
-      - region: Bailey Lower
-      - region: Library Main
-        rule:
-      - region: Castle => Theatre Pillar
-        rule:
-      - region: Castle Spiral Climb
-        rule:
-      - region: Keep (Northeast) => Castle
-        rule:
+    - region: Dungeon => Castle
+    - region: Keep Main
+    - region: Bailey Lower
+    - region: Library Main
+      rule: null
+    - region: Castle => Theatre Pillar
+      rule: null
+    - region: Castle Spiral Climb
+      rule: null
+    - region: Keep (Northeast) => Castle
+      rule: null
   - name: Castle Spiral Climb
     exits:
-      - region: Castle Main
-      - region: Castle High Climb
-        rule:
-      - region: Castle By Scythe Corridor
-        rule:
+    - region: Castle Main
+    - region: Castle High Climb
+      rule: null
+    - region: Castle By Scythe Corridor
+      rule: null
   - name: Castle High Climb
 
   - name: Castle By Scythe Corridor
     exits:
-      - region: Castle Spiral Climb
-        rule:
-      - region: Castle High Climb
-        rule:
-      - region: Castle => Theatre (Front)
-        rule:
+    - region: Castle Spiral Climb
+      rule: null
+    - region: Castle High Climb
+      rule: null
+    - region: Castle => Theatre (Front)
+      rule: null
   - name: Castle => Theatre (Front)
     exits:
-      - region: Castle By Scythe Corridor
-        rule:
-      - region: Castle Moon Room
-        rule:
-      - region: Theatre Main
-        rule:
+    - region: Castle By Scythe Corridor
+      rule: null
+    - region: Castle Moon Room
+      rule: null
+    - region: Theatre Main
+      rule: null
   - name: Castle Moon Room
 
 
   - name: Library Main
     exits:
-      - region: Library Locked
-        rule:
-      - region: Library Greaves
-        rule:
-      - region: Library Top
-        rule:
-      - region: Castle Main
-        rule:
+    - region: Library Locked
+      rule: null
+    - region: Library Greaves
+      rule: null
+    - region: Library Top
+      rule: null
+    - region: Castle Main
+      rule: null
   - name: Library Locked
 
   - name: Library Greaves
     exits:
-      - region: Library Back
-        rule:
+    - region: Library Back
+      rule: null
   - name: Library Top
     exits:
-      - region: Library Back
-        rule:
+    - region: Library Back
+      rule: null
   - name: Library Back
     exits:
-      - region: Library Greaves
-        rule:
-      - region: Library Top
-        rule:
-
+    - region: Library Greaves
+      rule: null
+    - region: Library Top
+      rule: null
   - name: Keep Main
     exits:
-      - region: Keep Locked Room
-        rule:
-      - region: Keep Sunsetter
-        rule:
-      - region: Keep Throne Room
-        rule:
-      - region: Keep => Underbelly
-        rule:
-      - region: Theatre Outside Scythe Corridor
-        rule:
-      - region: Keep (Northeast) => Castle
-        rule:
-      - region: Castle Main
-        rule:
+    - region: Keep Locked Room
+      rule: null
+    - region: Keep Sunsetter
+      rule: null
+    - region: Keep Throne Room
+      rule: null
+    - region: Keep => Underbelly
+      rule: null
+    - region: Theatre Outside Scythe Corridor
+      rule: null
+    - region: Keep (Northeast) => Castle
+      rule: null
+    - region: Castle Main
+      rule: null
   - name: Keep Locked Room
     exits:
-      - region: Keep Sunsetter
+    - region: Keep Sunsetter
   - name: Keep Sunsetter
 
   - name: Keep Throne Room
 
   - name: Keep => Underbelly
     exits:
-      - region: Keep Main
-      - region: Underbelly => Keep
+    - region: Keep Main
+    - region: Underbelly => Keep
   - name: Keep (Northeast) => Castle
     exits:
-      - region: Keep Main
-      - region: Castle Main
-
+    - region: Keep Main
+    - region: Castle Main
   - name: Bailey Lower
     exits:
-      - region: Bailey Upper
-        rule:
-      - region: Castle Main
-      - region: Theatre Pillar => Bailey
+    - region: Bailey Upper
+      rule: null
+    - region: Castle Main
+    - region: Theatre Pillar => Bailey
   - name: Bailey Upper
     exits:
-      - region: Bailey Lower
-        rule:
-      - region: Underbelly => Bailey
-        rule:
-      - region: Tower Remains
-        rule:
+    - region: Bailey Lower
+      rule: null
+    - region: Underbelly => Bailey
+      rule: null
+    - region: Tower Remains
+      rule: null
   - name: Tower Remains
     exits:
-      - region: The Great Door
-        rule:
-
+    - region: The Great Door
+      rule: null
   - name: Underbelly => Dungeon
     exits:
-      - region: Dungeon Escape Lower
-        rule:
-      - region: Underbelly Light Pillar
-      - region: Underbelly Ascendant Light
-        rule:
+    - region: Dungeon Escape Lower
+      rule: null
+    - region: Underbelly Light Pillar
+    - region: Underbelly Ascendant Light
+      rule: null
   - name: Underbelly Light Pillar
     exits:
-      - region: Underbelly Main Upper
-      - region: Underbelly => Dungeon
-        rule:
-      - region: Underbelly Ascendant Light
-        rule:
+    - region: Underbelly Main Upper
+    - region: Underbelly => Dungeon
+      rule: null
+    - region: Underbelly Ascendant Light
+      rule: null
   - name: Underbelly Ascendant Light
     exits:
-      - region: Underbelly => Dungeon
-        rule:
+    - region: Underbelly => Dungeon
+      rule: null
   - name: Underbelly Main Lower
     exits:
-      - region: Underbelly => Bailey
-      - region: Underbelly Hole
-        rule:
-      - region: Underbelly By Heliacal
-        rule:
-      - region: Underbelly Main Upper
-        rule:
+    - region: Underbelly => Bailey
+    - region: Underbelly Hole
+      rule: null
+    - region: Underbelly By Heliacal
+      rule: null
+    - region: Underbelly Main Upper
+      rule: null
   - name: Underbelly Main Upper
     exits:
-      - region: Underbelly Main Lower
-      - region: Underbelly Light Pillar
-        rule:
-      - region: Underbelly By Heliacal
-        rule:
+    - region: Underbelly Main Lower
+    - region: Underbelly Light Pillar
+      rule: null
+    - region: Underbelly By Heliacal
+      rule: null
   - name: Underbelly By Heliacal
     exits:
-      - region: Underbelly Main Upper
-        rule:
+    - region: Underbelly Main Upper
+      rule: null
   - name: Underbelly => Bailey
     exits:
-      - region: Bailey Upper
-        rule:
-      - region: Bailey Lower
-      - region: Underbelly Main Lower
-        rule:
+    - region: Bailey Upper
+      rule: null
+    - region: Bailey Lower
+    - region: Underbelly Main Lower
+      rule: null
   - name: Underbelly => Keep
     exits:
-      - region: Keep => Underbelly
-      - region: Underbelly Hole
-        rule:
+    - region: Keep => Underbelly
+    - region: Underbelly Hole
+      rule: null
   - name: Underbelly Hole
     exits:
-      - region: Underbelly Main Lower
-        rule:
-      - region: Underbelly => Keep
-        rule:
-
+    - region: Underbelly Main Lower
+      rule: null
+    - region: Underbelly => Keep
+      rule: null
   - name: Theatre Main
     exits:
-      - region: Theatre Outside Scythe Corridor
-        rule:
-      - region: Theatre Pillar
-        rule:
-      - region: Castle => Theatre (Front)
-        rule:
+    - region: Theatre Outside Scythe Corridor
+      rule: null
+    - region: Theatre Pillar
+      rule: null
+    - region: Castle => Theatre (Front)
+      rule: null
   - name: Theatre Pillar => Bailey
     exits:
-      - region: Theatre Pillar
-        rule:
-      - region: Bailey Lower
+    - region: Theatre Pillar
+      rule: null
+    - region: Bailey Lower
   - name: Castle => Theatre Pillar
     exits:
-      - region: Theatre Pillar
-        rule:
-      - region: Castle Main
+    - region: Theatre Pillar
+      rule: null
+    - region: Castle Main
   - name: Theatre Pillar
     exits:
-      - region: Theatre Main
-        rule:
-      - region: Theatre Pillar => Bailey
-      - region: Castle => Theatre Pillar
+    - region: Theatre Main
+      rule: null
+    - region: Theatre Pillar => Bailey
+    - region: Castle => Theatre Pillar
   - name: Theatre Outside Scythe Corridor
     exits:
-      - region: Theatre Main
-        rule:
-      - region: Dungeon Escape Upper
-        rule:
-      - region: Keep Main
-        rule:
-
+    - region: Theatre Main
+      rule: null
+    - region: Dungeon Escape Upper
+      rule: null
+    - region: Keep Main
+      rule: null
   - name: The Great Door
 
 
@@ -392,275 +385,483 @@ locations:
   - name: Dilapidated Dungeon - Dream Breaker
     code: 1
     region: Dungeon Mirror
-    rule:
-    
   - name: Dilapidated Dungeon - Slide
     code: 2
     region: Dungeon Slide
-    rule:
-    
   - name: Dilapidated Dungeon - Alcove Near Mirror
     code: 3
     region: Dungeon => Castle
-    rule:
-    
   - name: Dilapidated Dungeon - Dark Orbs
     code: 4
     region: Dungeon Escape Upper
     rule:
-    
+      or:
+      - has:
+          cling: 2
+          bounce: 1
+      - has:
+          cling: 2
+          kick_or_plunge: 3
+      - has:
+          kick: 2
+          bounce: 1
+      - has:
+          slide_jump: 1
+          kick: 1
+          bounce: 1
   - name: Dilapidated Dungeon - Past Poles
     code: 5
     region: Dungeon Strong Eyes
     rule:
-    
+      or:
+      - has:
+          cling: 2
+          kick_or_plunge: 1
+      - has:
+          kick: 3
+      - has:
+          slide_jump: 1
+          kick: 2
+          tags: obscure
   - name: Dilapidated Dungeon - Rafters
     code: 6
     region: Dungeon Strong Eyes
     rule:
-    
+      or:
+      - has:
+          kick_or_plunge: 3
+      - has:
+          bounce: 1
+          plunge: 1
+          tags: obscure
   - name: Dilapidated Dungeon - Strong Eyes
     code: 7
     region: Dungeon Strong Eyes
-    rule:
-    
+    rule: null
 
   - name: Castle Sansa - Indignation
     code: 8
     region: Castle Main
-    rule:
-    
+    rule: null
   - name: Castle Sansa - Alcove Near Dungeon
     code: 9
     region: Castle => Theatre Pillar
     rule:
-    
+      or:
+      - has:
+          cling: 2
+      - has: kick
+      - has: slide_jump
+      - has: plunge
+        tags: obscure
   - name: Castle Sansa - Balcony
     code: 10
     region: Castle Main
     rule:
-    
+      or:
+      - has:
+          cling: 2
+      - has:
+          kick_or_plunge: 3
+      - has:
+          slide_jump: 1
+          kick_or_plunge: 2
   - name: Castle Sansa - Corner Corridor
     code: 11
     region: Castle Main
     rule:
-    
+      or:
+      - has:
+          cling: 2
+      - has:
+          kick: 4
   - name: Castle Sansa - Floater In Courtyard
     code: 12
     region: Castle Main
     rule:
-    
+      or:
+      - has:
+          bounce: 1
+          plunge: 1
+      - has:
+          bounce: 1
+          kick: 2
+      - has:
+          kick: 4
+      - has:
+          bounce: 1
+          kick: 1
+          tags: obscure
   - name: Castle Sansa - Locked Door
     code: 13
     region: Castle Main
     rule:
+      ref: can_unlock_door
     can_create:
       game_version: FULL_GOLD
   - name: Castle Sansa - Platform In Main Halls
     code: 14
     region: Castle Main
     rule:
-    
+      or:
+      - has: plunge
+      - has:
+          cling: 2
+      - has:
+          kick: 2
   - name: Castle Sansa - Tall Room Near Wheel Crawlers
     code: 15
     region: Castle Main
     rule:
-    
+      or:
+      - has:
+          cling: 2
+          kick_or_plunge: 1
+      - has:
+          kick: 2
   - name: Castle Sansa - Wheel Crawlers
     code: 16
     region: Castle Main
     rule:
-    
+      or:
+      - has: bounce
+      - has:
+          cling: 2
+      - has:
+          kick: 2
+      - has:
+          kick: 1
+          slide_jump: 1
+      - has: plunge
+        tags: obscure
   - name: Castle Sansa - High Climb From Courtyard
     code: 17
     region: Castle High Climb
     rule:
-    
+      or:
+      - has:
+          kick: 2
+      - has:
+          cling: 2
+          plunge: 1
+      - has: kick
+        ref: can_attack
   - name: Castle Sansa - Alcove Near Scythe Corridor
     code: 18
     region: Castle By Scythe Corridor
     rule:
-    
+      or:
+      - has:
+          cling: 2
+          kick: 1
+          plunge: 1
+      - has:
+          kick_or_plunge: 4
   - name: Castle Sansa - Near Theatre Front
     code: 19
     region: Castle Moon Room
     rule:
-    
+      or:
+      - has:
+          kick: 4
+      - has:
+          kick: 2
+          plunge: 1
 
   - name: Sansa Keep - Strikebreak
     code: 20
     region: Keep Main
     rule:
-    
+      and:
+      - has: breaker
+      - or:
+        - has: slide
+        - has: strikebreak
+      - or:
+        - has:
+            cling: 2
+        - has:
+            plunge: 1
+            kick: 1
+        - has:
+            kick: 3
   - name: Sansa Keep - Alcove Near Locked Door
     code: 21
     region: Keep Locked Room
-    
   - name: Sansa Keep - Levers Room
     code: 22
     region: Keep Main
     rule:
-    
+      ref: can_attack
   - name: Sansa Keep - Lonely Throne
     code: 23
     region: Keep Throne Room
-    
   - name: Sansa Keep - Near Theatre
     code: 24
     region: Keep Main
     rule:
-    
+      or:
+      - has: kick_or_plunge
+      - has:
+          cling: 2
   - name: Sansa Keep - Sunsetter
     code: 25
     region: Keep Sunsetter
     rule:
-    
+      ref: can_attack
 
   - name: Listless Library - Sun Greaves
     code: 26
     region: Library Greaves
     rule:
+      ref: can_attack
     can_create:
       split_sun_greaves: false
   - name: Listless Library - Upper Back
     code: 27
     region: Library Top
     rule:
-    
+      ref: can_attack
+      or:
+      - has:
+          cling: 2
+          kick_or_plunge: 1
+      - has:
+          kick_or_plunge: 2
   - name: Listless Library - Locked Door Across
     code: 28
     region: Library Locked
     rule:
-    
+      or:
+      - has:
+          cling: 2
+      - has: kick
+      - has: slide_jump
   - name: Listless Library - Locked Door Left
     code: 29
     region: Library Locked
     rule:
-    
+      or:
+      - has:
+          cling: 2
+      - has:
+          slide_jump: 1
+          kick: 1
+      - has:
+          kick_or_plunge: 3
 
   - name: Twilight Theatre - Soul Cutter
     code: 30
     region: Theatre Main
     rule:
-    
+      and:
+      - has: strikebreak
+      - or:
+        - has: bounce
+        - has: kick_or_plunge
+        - has:
+            cling: 2
   - name: Twilight Theatre - Back Of Auditorium
     code: 31
     region: Theatre Main
     rule:
-    
+      or:
+      - has: plunge
+        tags: obscure
+      - has: kick
+      - has:
+          cling: 2
   - name: Twilight Theatre - Center Stage
     code: 32
     region: Theatre Main
     rule:
-    
+      has:
+        cutter: 1
+        cling: 6
+        plunge: 1
+        slide_jump: 1
   - name: Twilight Theatre - Locked Door
     code: 33
     region: Theatre Main
     rule:
-    
+      and:
+      - ref: can_unlock_door
+      - or:
+        - has: bounce
+        - has: kick
   - name: Twilight Theatre - Tucked Behind Boxes
     code: 34
     region: Theatre Main
-    
   - name: Twilight Theatre - Corner Beam
     code: 35
     region: Theatre Pillar
     rule:
-    
+      or:
+      - has:
+          cling: 2
+          kick_or_plunge: 2
+      - has:
+          plunge: 1
+          kick: 3
+          tags: obscure
+      - has:
+          kick: 4
 
   - name: Empty Bailey - Solar Wind
     code: 36
     region: Bailey Lower
     rule:
-    
+      has: slide
   - name: Empty Bailey - Center Steeple
     code: 37
     region: Bailey Upper
     rule:
-    
+      or:
+      - has: plunge
+      - has:
+          kick: 4
   - name: Empty Bailey - Cheese Bell
     code: 38
     region: Bailey Upper
     rule:
-    
+      or:
+      - has:
+          kick: 4
+      - has:
+          cling: 2
+          kick_or_plunge: 2
   - name: Empty Bailey - Guarded Hand
     code: 39
     region: Bailey Lower
     rule:
-    
+      or:
+      - and:
+        - can_reach: upper_bailey
+        - or:
+          - has:
+              cling: 2
+          - has:
+              kick: 3
+          - tag: obscure_tech
+      - and:
+        - has: breaker
+        - or:
+          - has: plunge
+          - has:
+              kick: 2
   - name: Empty Bailey - Inside Building
     code: 40
     region: Bailey Lower
     rule:
-    
+      has: slide
 
   - name: The Underbelly - Ascendant Light
     code: 41
     region: Underbelly Ascendant Light
-    
   - name: The Underbelly - Alcove Near Light
     code: 42
     region: Underbelly Light Pillar
     rule:
-    
+      or:
+      - ref: can_attack
+      - has:
+          cling: 2
+      - has:
+          kick: 4
+      - has:
+          kick: 3
+          slide_jump: 1
   - name: The Underbelly - Building Near Little Guy
     code: 43
     region: Underbelly => Bailey
     rule:
-    
+      or:
+      - has: plunge
+      - has:
+          kick: 3
   - name: The Underbelly - Locked Door
     code: 44
     region: Underbelly By Heliacal
     rule:
-    
+      ref: can_unlock_door
   - name: The Underbelly - Main Room
     code: 45
     region: Underbelly Main Upper
     rule:
-    
+      or:
+      - has: plunge
+      - has:
+          slide_jump: 1
+          kick: 1
+      - tag: obscure_tech
+        or:
+        - has:
+            cling: 2
+        - has:
+            kick: 2
   - name: The Underbelly - Rafters Near Keep
     code: 46
     region: Underbelly => Keep
     rule:
-    
+      or:
+      - has: plunge
+      - has:
+          kick: 2
+      - has: bounce
   - name: The Underbelly - Strikebreak Wall
     code: 47
     region: Underbelly Main Upper
     rule:
-    
+      has:
+        strikebreak: 1
+        bounce: 1
+        kick_or_plunge: 1
   - name: The Underbelly - Surrounded By Holes
     code: 48
     region: Underbelly Hole
     rule:
-    
+      and:
+      - has:
+          cutter: 1
+          plunge: 1
+      - or:
+        - has: bounce
+        - has:
+            kick: 2
+        - has: kick
+          tag: obscure_tech
 
   - name: Tower Remains - Cling Gem
     code: 49
     region: Tower Remains
     rule:
+      has:
+        kick_or_plunge: 2
     can_create:
       split_cling_gem: false
   - name: Tower Remains - Atop The Tower
     code: 50
     region: The Great Door
-    
 
   - name: Listless Library - Sun Greaves 1
     code: 51
     region: Library Greaves
     rule:
+      ref: can_attack
     can_create:
       split_sun_greaves: true
   - name: Listless Library - Sun Greaves 2
     code: 52
     region: Library Greaves
     rule:
+      ref: can_attack
     can_create:
       split_sun_greaves: true
   - name: Listless Library - Sun Greaves 3
     code: 53
     region: Library Greaves
     rule:
+      ref: can_attack
     can_create:
       split_sun_greaves: true
 
@@ -668,48 +869,90 @@ locations:
     code: 54
     region: Dungeon Mirror
     rule:
+      has:
+        breaker: 1
+        plunge: 1
+        kick: 3
+        cling: 6
+        slide_jump: 1
     can_create:
       game_version: MAP_PATCH and options.randomize_time_trials
   - name: Castle Sansa - Time Trial
     code: 55
     region: Castle Main
     rule:
+      ref: can_unlock_door
     can_create:
       game_version: MAP_PATCH and options.randomize_time_trials
   - name: Sansa Keep - Time Trial
     code: 56
     region: Keep Throne Room
     rule:
+      has:
+        breaker: 1
+        plunge: 1
+        kick: 3
+        cling: 6
+        slide_jump: 1
+        bounce: 1
     can_create:
       game_version: MAP_PATCH and options.randomize_time_trials
   - name: Listless Library - Time Trial
     code: 57
     region: Library Main
     rule:
+      has:
+        breaker: 1
+        plunge: 1
+        kick: 3
     can_create:
       game_version: MAP_PATCH and options.randomize_time_trials
   - name: Twilight Theatre - Time Trial
     code: 58
     region: Theatre Pillar
     rule:
+      has:
+        breaker: 1
+        plunge: 1
+        kick: 3
+        cling: 6
+        slide_jump: 1
     can_create:
       game_version: MAP_PATCH and options.randomize_time_trials
   - name: Empty Bailey - Time Trial
     code: 59
     region: Bailey Upper
     rule:
+      has:
+        breaker: 1
+        plunge: 1
+        kick: 3
+        cling: 6
+        slide_jump: 1
     can_create:
       game_version: MAP_PATCH and options.randomize_time_trials
   - name: The Underbelly - Time Trial
     code: 60
     region: Underbelly Main Upper
     rule:
+      has:
+        breaker: 1
+        plunge: 1
+        kick: 3
+        cling: 6
+        slide_jump: 1
     can_create:
       game_version: MAP_PATCH and options.randomize_time_trials
   - name: Tower Remains - Time Trial
     code: 61
     region: The Great Door
     rule:
+      has:
+        breaker: 1
+        plunge: 1
+        kick: 3
+        cling: 6
+        slide_jump: 1
     can_create:
       game_version: MAP_PATCH and options.randomize_time_trials
 
@@ -723,18 +966,24 @@ locations:
     code: 63
     region: Tower Remains
     rule:
+      has:
+        kick_or_plunge: 2
     can_create:
       split_cling_gem: true
   - name: Tower Remains - Cling Gem 2
     code: 64
     region: Tower Remains
     rule:
+      has:
+        kick_or_plunge: 2
     can_create:
       split_cling_gem: true
   - name: Tower Remains - Cling Gem 3
     code: 65
     region: Tower Remains
     rule:
+      has:
+        kick_or_plunge: 2
     can_create:
       split_cling_gem: true
 
@@ -747,6 +996,7 @@ locations:
     code: 67
     region: Dungeon Mirror
     rule:
+      ref: can_attack
     can_create:
       randomize_goats: true
   - name: Dilapidated Dungeon - Unwelcoming Goatling
@@ -778,12 +1028,25 @@ locations:
     code: 73
     region: Castle Main
     rule:
+      or:
+      - has:
+          kick: 2
+      - and:
+        - has: plunge
+        - or:
+          - has:
+              cling: 2
+          - has: kick
+          - has: bounce
+          - has: slide_jump
+          - tags: obscure
     can_create:
       randomize_goats: true
   - name: Castle Sansa - Trapped Goatling
     code: 74
     region: Castle By Scythe Corridor
     rule:
+      ref: can_attack
     can_create:
       randomize_goats: true
   - name: Castle Sansa - Memento Goatling
@@ -830,12 +1093,25 @@ locations:
     code: 83
     region: Theatre Main
     rule:
+      or:
+      - has:
+          kick: 2
+      - has:
+          kick: 1
+          plunge: 1
+          tags: obscure
+      - has:
+          kick: 1
+          slide_jump: 1
+      - has:
+          cling: 2
     can_create:
       randomize_goats: true
   - name: Empty Bailey - Alley Goatling
     code: 84
     region: Bailey Lower
     rule:
+      has: slide
     can_create:
       randomize_goats: true
 
@@ -912,13 +1188,29 @@ locations:
   - name: Twilight Theatre - Stage Left Stool
     code: 99
     region: Theatre Main
-    rule:
+    rule: # TODO: logic  could be filled out, for now it's fine
+      has:
+        cling: 4
     can_create:
       randomize_chairs: true
   - name: Twilight Theatre - Stage Right Stool
     code: 100
     region: Theatre Main
-    rule:
+    rule: # TODO: logic  could be filled out, for now it's fine
+      and:
+      - has: cutter
+      - or:
+        - has: kick
+        - has:
+            cling: 2
+        - has:
+            slide_jump: 1
+            plunge: 1
+            tags: obscure
+        - has:
+            slide_jump: 1
+            bounce: 1
+            tags: obscure
     can_create:
       randomize_chairs: true
 
@@ -996,19 +1288,33 @@ locations:
   - name: The Underbelly - Note on a Ledge
     code: 115
     region: Underbelly => Bailey
-    rule:
+    rule: # TODO: logic  could be filled out, for now it's fine
+      or:
+      - has: kick
+      - has: plunge
+      - has:
+          cling: 2
+      - has: bounce
     can_create:
       randomize_notes: true
   - name: The Underbelly - Note in the Big Room
     code: 116
     region: Underbelly Main Lower
-    rule:
+    rule: # TODO: logic  could be filled out, for now it's fine
+      or:
+      - has:
+          kick: 4
+          plunge: 1
+      - has:
+          kick: 2
+          slide_jump: 1
     can_create:
       randomize_notes: true
   - name: The Underbelly - Note Behind a Locked Door
     code: 117
     region: Underbelly By Heliacal
     rule:
+      ref: can_unlock_door
     can_create:
       randomize_notes: true
 
