@@ -166,21 +166,568 @@ origins:
   region: Theatre Main
 
 locations:
-- name: Dilapidated Dungeon - Dream Breaker
-  code: 1
-  region: Dungeon Mirror
-- name: Dilapidated Dungeon - Mirror Room Goatling
-  code: 66
-  region: Dungeon Mirror
-  can_create:
-    randomize_goats: true
-- name: D S T RT ED M M O   Y
-  region: Tower Great Door
-  rule:
-    has:
-      breaker: 1
-      major_key: 5
-  event_item: Something Worth Being Awake For
+  - name: Dilapidated Dungeon - Dream Breaker
+    code: 1
+    region: Dungeon Mirror
+    
+  - name: Dilapidated Dungeon - Slide
+    code: 2
+    region: Dungeon Slide
+    
+  - name: Dilapidated Dungeon - Alcove Near Mirror
+    code: 3
+    region: Dungeon => Castle
+    
+  - name: Dilapidated Dungeon - Dark Orbs
+    code: 4
+    region: Dungeon Escape Upper
+    
+  - name: Dilapidated Dungeon - Past Poles
+    code: 5
+    region: Dungeon Strong Eyes
+    
+  - name: Dilapidated Dungeon - Rafters
+    code: 6
+    region: Dungeon Strong Eyes
+    
+  - name: Dilapidated Dungeon - Strong Eyes
+    code: 7
+    region: Dungeon Strong Eyes
+    
+
+  - name: Castle Sansa - Indignation
+    code: 8
+    region: Castle Main
+    
+  - name: Castle Sansa - Alcove Near Dungeon
+    code: 9
+    region: Castle => Theatre Pillar
+    
+  - name: Castle Sansa - Balcony
+    code: 10
+    region: Castle Main
+    
+  - name: Castle Sansa - Corner Corridor
+    code: 11
+    region: Castle Main
+    
+  - name: Castle Sansa - Floater In Courtyard
+    code: 12
+    region: Castle Main
+    
+  - name: Castle Sansa - Locked Door
+    code: 13
+    region: Castle Main
+    can_create:
+      game_version: FULL_GOLD
+  - name: Castle Sansa - Platform In Main Halls
+    code: 14
+    region: Castle Main
+    
+  - name: Castle Sansa - Tall Room Near Wheel Crawlers
+    code: 15
+    region: Castle Main
+    
+  - name: Castle Sansa - Wheel Crawlers
+    code: 16
+    region: Castle Main
+    
+  - name: Castle Sansa - High Climb From Courtyard
+    code: 17
+    region: Castle High Climb
+    
+  - name: Castle Sansa - Alcove Near Scythe Corridor
+    code: 18
+    region: Castle By Scythe Corridor
+    
+  - name: Castle Sansa - Near Theatre Front
+    code: 19
+    region: Castle Moon Room
+    
+
+  - name: Sansa Keep - Strikebreak
+    code: 20
+    region: Keep Main
+    
+  - name: Sansa Keep - Alcove Near Locked Door
+    code: 21
+    region: Keep Locked Room
+    
+  - name: Sansa Keep - Levers Room
+    code: 22
+    region: Keep Main
+    
+  - name: Sansa Keep - Lonely Throne
+    code: 23
+    region: Keep Throne Room
+    
+  - name: Sansa Keep - Near Theatre
+    code: 24
+    region: Keep Main
+    
+  - name: Sansa Keep - Sunsetter
+    code: 25
+    region: Keep Sunsetter
+    
+
+  - name: Listless Library - Sun Greaves
+    code: 26
+    region: Library Greaves
+    can_create:
+      split_sun_greaves: false
+  - name: Listless Library - Upper Back
+    code: 27
+    region: Library Top
+    
+  - name: Listless Library - Locked Door Across
+    code: 28
+    region: Library Locked
+    
+  - name: Listless Library - Locked Door Left
+    code: 29
+    region: Library Locked
+    
+
+  - name: Twilight Theatre - Soul Cutter
+    code: 30
+    region: Theatre Main
+    
+  - name: Twilight Theatre - Back Of Auditorium
+    code: 31
+    region: Theatre Main
+    
+  - name: Twilight Theatre - Center Stage
+    code: 32
+    region: Theatre Main
+    
+  - name: Twilight Theatre - Locked Door
+    code: 33
+    region: Theatre Main
+    
+  - name: Twilight Theatre - Tucked Behind Boxes
+    code: 34
+    region: Theatre Main
+    
+  - name: Twilight Theatre - Corner Beam
+    code: 35
+    region: Theatre Pillar
+    
+
+  - name: Empty Bailey - Solar Wind
+    code: 36
+    region: Bailey Lower
+    
+  - name: Empty Bailey - Center Steeple
+    code: 37
+    region: Bailey Upper
+    
+  - name: Empty Bailey - Cheese Bell
+    code: 38
+    region: Bailey Upper
+    
+  - name: Empty Bailey - Guarded Hand
+    code: 39
+    region: Bailey Lower
+    
+  - name: Empty Bailey - Inside Building
+    code: 40
+    region: Bailey Lower
+    
+
+  - name: The Underbelly - Ascendant Light
+    code: 41
+    region: Underbelly Ascendant Light
+    
+  - name: The Underbelly - Alcove Near Light
+    code: 42
+    region: Underbelly Light Pillar
+    
+  - name: The Underbelly - Building Near Little Guy
+    code: 43
+    region: Underbelly => Bailey
+    
+  - name: The Underbelly - Locked Door
+    code: 44
+    region: Underbelly By Heliacal
+    
+  - name: The Underbelly - Main Room
+    code: 45
+    region: Underbelly Main Upper
+    
+  - name: The Underbelly - Rafters Near Keep
+    code: 46
+    region: Underbelly => Keep
+    
+  - name: The Underbelly - Strikebreak Wall
+    code: 47
+    region: Underbelly Main Upper
+    
+  - name: The Underbelly - Surrounded By Holes
+    code: 48
+    region: Underbelly Hole
+    
+
+  - name: Tower Remains - Cling Gem
+    code: 49
+    region: Tower Remains
+    can_create:
+      split_cling_gem: false
+  - name: Tower Remains - Atop The Tower
+    code: 50
+    region: The Great Door
+    
+
+  - name: Listless Library - Sun Greaves 1
+    code: 51
+    region: Library Greaves
+    can_create:
+      split_sun_greaves: true
+  - name: Listless Library - Sun Greaves 2
+    code: 52
+    region: Library Greaves
+    can_create:
+      split_sun_greaves: true
+  - name: Listless Library - Sun Greaves 3
+    code: 53
+    region: Library Greaves
+    can_create:
+      split_sun_greaves: true
+
+  - name: Dilapidated Dungeon - Time Trial
+    code: 54
+    region: Dungeon Mirror
+    can_create:
+      game_version: MAP_PATCH and options.randomize_time_trials
+  - name: Castle Sansa - Time Trial
+    code: 55
+    region: Castle Main
+    can_create:
+      game_version: MAP_PATCH and options.randomize_time_trials
+  - name: Sansa Keep - Time Trial
+    code: 56
+    region: Keep Throne Room
+    can_create:
+      game_version: MAP_PATCH and options.randomize_time_trials
+  - name: Listless Library - Time Trial
+    code: 57
+    region: Library Main
+    can_create:
+      game_version: MAP_PATCH and options.randomize_time_trials
+  - name: Twilight Theatre - Time Trial
+    code: 58
+    region: Theatre Pillar
+    can_create:
+      game_version: MAP_PATCH and options.randomize_time_trials
+  - name: Empty Bailey - Time Trial
+    code: 59
+    region: Bailey Upper
+    can_create:
+      game_version: MAP_PATCH and options.randomize_time_trials
+  - name: The Underbelly - Time Trial
+    code: 60
+    region: Underbelly Main Upper
+    can_create:
+      game_version: MAP_PATCH and options.randomize_time_trials
+  - name: Tower Remains - Time Trial
+    code: 61
+    region: The Great Door
+    can_create:
+      game_version: MAP_PATCH and options.randomize_time_trials
+
+  - name: Castle Sansa - Memento
+    code: 62
+    region: Castle Main
+    can_create:
+      game_version: MAP_PATCH
+
+  - name: Tower Remains - Cling Gem 1
+    code: 63
+    region: Tower Remains
+    can_create:
+      split_cling_gem: true
+  - name: Tower Remains - Cling Gem 2
+    code: 64
+    region: Tower Remains
+    can_create:
+      split_cling_gem: true
+  - name: Tower Remains - Cling Gem 3
+    code: 65
+    region: Tower Remains
+    can_create:
+      split_cling_gem: true
+
+  - name: Dilapidated Dungeon - Mirror Room Goatling
+    code: 66
+    region: Dungeon Mirror
+    can_create:
+      randomize_goats: true
+  - name: Dilapidated Dungeon - Rambling Goatling
+    code: 67
+    region: Dungeon Mirror
+    can_create:
+      randomize_goats: true
+  - name: Dilapidated Dungeon - Unwelcoming Goatling
+    code: 68
+    region: Dungeon Strong Eyes
+    can_create:
+      randomize_goats: true
+  - name: Dilapidated Dungeon - Repentant Goatling
+    code: 69
+    region: Dungeon Strong Eyes
+    can_create:
+      randomize_goats: true
+  - name: Dilapidated Dungeon - Defeatist Goatling
+    code: 70
+    region: Dungeon Strong Eyes
+    can_create:
+      randomize_goats: true
+  - name: Castle Sansa - Crystal Licker Goatling
+    code: 71
+    region: Castle Main
+    can_create:
+      randomize_goats: true
+  - name: Castle Sansa - Gazebo Goatling
+    code: 72
+    region: Castle Main
+    can_create:
+      randomize_goats: true
+  - name: Castle Sansa - Bubblephobic Goatling
+    code: 73
+    region: Castle Main
+    can_create:
+      randomize_goats: true
+  - name: Castle Sansa - Trapped Goatling
+    code: 74
+    region: Castle By Scythe Corridor
+    can_create:
+      randomize_goats: true
+  - name: Castle Sansa - Memento Goatling
+    code: 75
+    region: Castle Main
+    can_create:
+      randomize_goats and options.game_version: MAP_PATCH
+  - name: Castle Sansa - Goatling Near Library
+    code: 76
+    region: Castle Main
+    can_create:
+      randomize_goats and options.game_version: MAP_PATCH
+  - name: Sansa Keep - Furniture-less Goatling
+    code: 77
+    region: Keep Main
+    can_create:
+      randomize_goats: true
+  - name: Sansa Keep - Distorted Goatling
+    code: 78
+    region: Keep (Northeast) => Castle
+    can_create:
+      randomize_goats: true
+  - name: Twilight Theatre - 20 Bean Casserole Goatling
+    code: 79
+    region: Castle => Theatre (Front)
+    can_create:
+      randomize_goats: true
+  - name: Twilight Theatre - Theatre Goer Goatling 1
+    code: 80
+    region: Castle => Theatre (Front)
+    can_create:
+      randomize_goats: true
+  - name: Twilight Theatre - Theatre Goer Goatling 2
+    code: 81
+    region: Castle => Theatre (Front)
+    can_create:
+      randomize_goats: true
+  - name: Twilight Theatre - Theatre Manager Goatling
+    code: 82
+    region: Castle => Theatre (Front)
+    can_create:
+      randomize_goats: true
+  - name: Twilight Theatre - Murderous Goatling
+    code: 83
+    region: Theatre Main
+    can_create:
+      randomize_goats: true
+  - name: Empty Bailey - Alley Goatling
+    code: 84
+    region: Bailey Lower
+    can_create:
+      randomize_goats: true
+
+  - name: Castle Sansa - Stool Near Crystal 1
+    code: 85
+    region: Castle Main
+    can_create:
+      randomize_chairs: true
+  - name: Castle Sansa - Stool Near Crystal 2
+    code: 86
+    region: Castle Main
+    can_create:
+      randomize_chairs: true
+  - name: Castle Sansa - Stool Near Crystal 3
+    code: 87
+    region: Castle Main
+    can_create:
+      randomize_chairs: true
+  - name: Castle Sansa - Gazebo Stool
+    code: 88
+    region: Castle Main
+    can_create:
+      randomize_chairs: true
+  - name: Sansa Keep - Distorted Stool
+    code: 89
+    region: Keep (Northeast) => Castle
+    can_create:
+      randomize_chairs: true
+  - name: Sansa Keep - Path to Throne Stool
+    code: 90
+    region: Keep Throne Room
+    can_create:
+      randomize_chairs: true
+  - name: Sansa Keep - The Throne
+    code: 91
+    region: Keep Throne Room
+    can_create:
+      randomize_chairs: true
+  - name: Listless Library - Hay Bale Near Entrance
+    code: 92
+    region: Library Main
+    can_create:
+      randomize_chairs: true
+  - name: Listless Library - Hay Bale Near Eggs
+    code: 93
+    region: Library Top
+    can_create:
+      randomize_chairs: true
+  - name: Listless Library - Hay Bale in the Back
+    code: 94
+    region: Library Back
+    can_create:
+      randomize_chairs: true
+  - name: Twilight Theatre - Stool Near Bookcase
+    code: 95
+    region: Theatre Outside Scythe Corridor
+    can_create:
+      randomize_chairs: true
+  - name: Twilight Theatre - Stool Around a Table 1
+    code: 96
+    region: Theatre Outside Scythe Corridor
+    can_create:
+      randomize_chairs: true
+  - name: Twilight Theatre - Stool Around a Table 2
+    code: 97
+    region: Theatre Outside Scythe Corridor
+    can_create:
+      randomize_chairs: true
+  - name: Twilight Theatre - Stool Around a Table 3
+    code: 98
+    region: Theatre Outside Scythe Corridor
+    can_create:
+      randomize_chairs: true
+  - name: Twilight Theatre - Stage Left Stool
+    code: 99
+    region: Theatre Main
+    can_create:
+      randomize_chairs: true
+  - name: Twilight Theatre - Stage Right Stool
+    code: 100
+    region: Theatre Main
+    can_create:
+      randomize_chairs: true
+
+  - name: Listless Library - A Book About a Princess
+    code: 101
+    region: Library Main
+    can_create:
+      randomize_books: true
+  - name: Listless Library - A Book About Cooking
+    code: 102
+    region: Library Main
+    can_create:
+      randomize_books: true
+  - name: Listless Library - A Book Full of Plays
+    code: 103
+    region: Library Main
+    can_create:
+      randomize_books: true
+  - name: Listless Library - A Book About Reading
+    code: 104
+    region: Library Main
+    can_create:
+      randomize_books: true
+  - name: Listless Library - A Book About Aquatic Life
+    code: 105
+    region: Library Main
+    can_create:
+      randomize_books: true
+  - name: Listless Library - A Book About a Jester
+    code: 106
+    region: Library Main
+    can_create:
+      randomize_books: true
+  - name: Listless Library - A Book About Loss
+    code: 107
+    region: Library Main
+    can_create:
+      randomize_books: true
+  - name: Listless Library - A Book on Musical Theory
+    code: 108
+    region: Library Main
+    can_create:
+      randomize_books: true
+  - name: Listless Library - A Book About a Girl
+    code: 109
+    region: Library Main
+    can_create:
+      randomize_books: true
+  - name: Listless Library - A Book About a Thimble
+    code: 110
+    region: Library Main
+    can_create:
+      randomize_books: true
+  - name: Listless Library - A Book About a Monster
+    code: 111
+    region: Library Greaves
+    can_create:
+      randomize_books: true
+  - name: Listless Library - A Book About Revenge
+    code: 112
+    region: Library Greaves
+    can_create:
+      randomize_books: true
+  - name: Listless Library - A Book About a Restaurant
+    code: 113
+    region: Library Top
+    can_create:
+      randomize_books: true
+
+  - name: Listless Library - Note Near Eggs
+    code: 114
+    region: Library Top
+    can_create:
+      randomize_notes: true
+  - name: The Underbelly - Note on a Ledge
+    code: 115
+    region: Underbelly => Bailey
+    can_create:
+      randomize_notes: true
+  - name: The Underbelly - Note in the Big Room
+    code: 116
+    region: Underbelly Main Lower
+    can_create:
+      randomize_notes: true
+  - name: The Underbelly - Note Behind a Locked Door
+    code: 117
+    region: Underbelly By Heliacal
+    can_create:
+      randomize_notes: true
+
+  - name: D S T RT ED M M O   Y
+    region: Tower Great Door
+    rule:
+      has:
+        breaker: 1
+        major_key: 5
+    event_item: Something Worth Being Awake For
+
 
 completion_rule:
   has: Something Worth Being Awake For
