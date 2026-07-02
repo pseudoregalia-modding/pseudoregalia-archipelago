@@ -703,7 +703,7 @@ locations:
       - has:
           plunge: 1
           kick: 3
-          tags: obscure
+          tags: obscure  # use crouch backflip
       - has:
           kick: 4
 
@@ -711,7 +711,7 @@ locations:
     code: 36
     region: Bailey Lower
     rule:
-      has: slide
+      has: slide  # to consider: damage boosting w/ crouch
   - name: Empty Bailey - Center Steeple
     code: 37
     region: Bailey Upper
@@ -723,7 +723,7 @@ locations:
   - name: Empty Bailey - Cheese Bell
     code: 38
     region: Bailey Upper
-    rule:
+    rule:  # TODO consider to/from center steeple
       or:
       - has:
           kick: 4
@@ -836,7 +836,7 @@ locations:
     region: Tower Remains
     rule:
       has:
-        kick_or_plunge: 2
+        kick_or_plunge: 2  # climb the right tower and cross
     can_create:
       split_cling_gem: false
   - name: Tower Remains - Atop The Tower
