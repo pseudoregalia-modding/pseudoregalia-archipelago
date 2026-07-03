@@ -131,12 +131,32 @@ regions:
       rule:
         has: slide
     - region: Dungeon => Castle
+      rule:
+        or:
+        - ref: can_unlock_door
+        - tags: obscure_tech
+          options: map_patch
+          or:
+          - has: bounce
+          - ref: can_attack
+            has:
+              kick: 2
+          - ref: can_attack
+            has:
+              cling: 2
   - name: Dungeon => Castle
     exits:
     - region: Dungeon Mirror
     - region: Dungeon Strong Eyes
       rule:
-        ref: can_unlock_door
+        or:
+        - ref: can_unlock_door
+        - tags: obscure_tech
+          options: map_patch
+          or:
+          - has: plunge
+          - ref: can_attack
+            has: kick
     - region: Castle Main
       entrance_name: Dungeon Top Exit
   - name: Dungeon Escape Lower
@@ -263,7 +283,21 @@ regions:
     - region: Underbelly => Bailey
       rule: null
     - region: Tower Remains
-      rule: null
+      rule:
+        and:
+        - or:
+          - has:
+              kick_or_plunge: 4
+          - options: map_patch
+            has:
+              kick: 1
+              plunge: 1
+              bounce: 1
+        - or: # get onto the bridge
+          - has: slide_jump
+          - has: plunge
+            tags: obscure_knowledge
+
   - name: Tower Remains
     exits:
     - region: The Great Door
@@ -437,7 +471,26 @@ locations:
   - name: Dilapidated Dungeon - Strong Eyes
     code: 7
     region: Dungeon Strong Eyes
-    rule: null
+    rule:
+      or:
+      - has: breaker
+      - tag: obscure_tech
+        options: map_patch
+        or:
+        - has:
+            cling: 2
+        - has: kick
+        - has: plunge
+      - tag: obscure_tech
+        options: full_gold
+        or:
+        - has:
+            cling: 2
+            kick: 1
+            plunge: 1
+        - has:
+            cling: 2
+            kick: 3
 
   - name: Castle Sansa - Indignation
     code: 8
