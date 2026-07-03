@@ -196,11 +196,11 @@ def check_options(player_options: PseudoregaliaOptions, options: OptionData | No
 class PseudoregaliaRule(Rule[PseudoregaliaWorld], game="Pseudoregalia"):
     rule: Rule
     tags: dict[str, int] | None
-    options: OptionData | None
+    option_data: OptionData | None
 
     def __init__(self, rule_data: RuleData, ref_rules: dict[str, "PseudoregaliaRule"]):
         self.tags = rule_data.tags
-        self.options = rule_data.options
+        self.option_data = rule_data.options
 
         if rule_data.and_ is not None:
             self.rule = And(*(PseudoregaliaRule(child_rule_data, ref_rules) for child_rule_data in rule_data.and_))
@@ -220,7 +220,7 @@ class PseudoregaliaRule(Rule[PseudoregaliaWorld], game="Pseudoregalia"):
 
     @override
     def _instantiate(self, world: PseudoregaliaWorld) -> Rule.Resolved:
-        passes_filter = check_tags(world.tags) and check_options(world.options)
+        passes_filter = check_tags(world.tags, self.tags) and check_options(world.options, self.option_data)
         return self.rule.resolve(world) if passes_filter else False_().resolve(world)
 
 def create_entrance_name(start: str, end: str, entrance_name: str | None) -> str:

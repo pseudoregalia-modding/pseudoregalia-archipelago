@@ -910,7 +910,7 @@ locations:
     rule:
       ref: can_unlock_door
     can_create:
-      game_version: FULL_GOLD
+      game_version: full_gold
   - name: Castle Sansa - Platform In Main Halls
     code: 14
     region: Castle Main
@@ -1148,7 +1148,7 @@ locations:
     rule:
       or:
       - and:
-        - can_reach: upper_bailey
+        - can_reach_region: upper_bailey
         - or:
           - has:
               cling: 2
@@ -1288,14 +1288,16 @@ locations:
         cling: 6
         slide_jump: 1
     can_create:
-      game_version: MAP_PATCH and options.randomize_time_trials
+      game_version: map_patch
+      randomize_time_trials: True
   - name: Castle Sansa - Time Trial
     code: 55
     region: Castle Main
     rule:
       ref: can_unlock_door
     can_create:
-      game_version: MAP_PATCH and options.randomize_time_trials
+      game_version: map_patch
+      randomize_time_trials: True
   - name: Sansa Keep - Time Trial
     code: 56
     region: Keep Throne Room
@@ -1308,7 +1310,8 @@ locations:
         slide_jump: 1
         bounce: 1
     can_create:
-      game_version: MAP_PATCH and options.randomize_time_trials
+      game_version: map_patch
+      randomize_time_trials: True
   - name: Listless Library - Time Trial
     code: 57
     region: Library Main
@@ -1318,7 +1321,8 @@ locations:
         plunge: 1
         kick: 3
     can_create:
-      game_version: MAP_PATCH and options.randomize_time_trials
+      game_version: map_patch
+      randomize_time_trials: True
   - name: Twilight Theatre - Time Trial
     code: 58
     region: Theatre Pillar
@@ -1330,7 +1334,8 @@ locations:
         cling: 6
         slide_jump: 1
     can_create:
-      game_version: MAP_PATCH and options.randomize_time_trials
+      game_version: map_patch
+      randomize_time_trials: True
   - name: Empty Bailey - Time Trial
     code: 59
     region: Bailey Upper
@@ -1342,7 +1347,8 @@ locations:
         cling: 6
         slide_jump: 1
     can_create:
-      game_version: MAP_PATCH and options.randomize_time_trials
+      game_version: map_patch
+      randomize_time_trials: True
   - name: The Underbelly - Time Trial
     code: 60
     region: Underbelly Main Upper
@@ -1354,7 +1360,8 @@ locations:
         cling: 6
         slide_jump: 1
     can_create:
-      game_version: MAP_PATCH and options.randomize_time_trials
+      game_version: map_patch
+      randomize_time_trials: True
   - name: Tower Remains - Time Trial
     code: 61
     region: The Great Door
@@ -1366,13 +1373,14 @@ locations:
         cling: 6
         slide_jump: 1
     can_create:
-      game_version: MAP_PATCH and options.randomize_time_trials
+      game_version: map_patch
+      randomize_time_trials: True
 
   - name: Castle Sansa - Memento
     code: 62
     region: Castle Main
     can_create:
-      game_version: MAP_PATCH
+      game_version: map_patch
 
   - name: Tower Remains - Cling Gem 1
     code: 63
@@ -1465,12 +1473,14 @@ locations:
     code: 75
     region: Castle Main
     can_create:
-      randomize_goats and options.game_version: MAP_PATCH
+      randomize_goats: True
+      game_version: map_patch
   - name: Castle Sansa - Goatling Near Library
     code: 76
     region: Castle Main
     can_create:
-      randomize_goats and options.game_version: MAP_PATCH
+      randomize_goats: True
+      game_version: map_patch
   - name: Sansa Keep - Furniture-less Goatling
     code: 77
     region: Keep Main
