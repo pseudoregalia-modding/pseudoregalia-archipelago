@@ -118,13 +118,19 @@ regions:
         has: slide
     - region: Dungeon Escape Lower
       rule:
-        or:
-        - and:
-          - ref: can_attack
-          - ref: can_enter_dark_rooms
-        - has: breaker
-          tags:
-            dungeon_escape: 1
+        ref:
+          - dungeon_escape
+          - can_attack
+        options: darkrooms
+      # keeping this version for reference, but keeping the assumptions about macros consistent
+      # rule:
+      #   or:
+      #   - and:
+      #     - ref: can_attack
+      #     - ref: can_enter_dark_rooms
+      #   - has: breaker
+      #     tags:
+      #       dungeon_escape: 1
   - name: Dungeon Strong Eyes
     exits:
     - region: Dungeon Slide
@@ -162,99 +168,272 @@ regions:
   - name: Dungeon Escape Lower
     exits:
     - region: Dungeon Slide
-      rule: null
+      rule:
+        ref: can_attack
     - region: Dungeon Escape Upper
-      rule: null
+      rule:
+        or:
+        - has: bounce
+        - has:
+            kick: 1
+            plunge: 1
+        - has:
+            kick: 3
     - region: Underbelly => Dungeon
   - name: Dungeon Escape Upper
     exits:
     - region: Dungeon Escape Lower
-      rule: null
     - region: Theatre Outside Scythe Corridor
-      rule: null
+      rule:
+        or:
+        - has: bounce
+        - has: kick
+        - has:
+            cling: 2
+        - tags: obscure_tech
+          has: plunge
   - name: Castle Main
     exits:
     - region: Dungeon => Castle
     - region: Keep Main
     - region: Bailey Lower
     - region: Library Main
-      rule: null
+      rule:
+        ref: can_attack
     - region: Castle => Theatre Pillar
-      rule: null
+      rule:
+        or:
+        - has:
+            cling: 2
+            kick_or_plunge: 1
+        - has:
+            kick_or_plunge: 2
     - region: Castle Spiral Climb
-      rule: null
+      rule:
+        or:
+        - has:
+            kick: 2
+        - has:
+            cling: 2
+            plunge: 1
     - region: Keep (Northeast) => Castle
-      rule: null
+      rule:  # TODO: not sure about this logic, idk where doing it with no items should go
+        or:
+        - ref: can_attack
+        - tag: obscure_tech
   - name: Castle Spiral Climb
     exits:
     - region: Castle Main
     - region: Castle High Climb
-      rule: null
+      rule:
+        or:
+        - has:
+            cling: 2
+        - has:
+            kick: 3
+            plunge: 1
+        - ref: can_attack
+          has: kick
     - region: Castle By Scythe Corridor
-      rule: null
+      rule:
+        has:
+          cling: 2
   - name: Castle High Climb
 
   - name: Castle By Scythe Corridor
     exits:
     - region: Castle Spiral Climb
-      rule: null
+      rule:
+        or:
+        - has:
+            cling: 2
+        - has:
+            kick: 4
+            plunge: 1
     - region: Castle High Climb
-      rule: null
+      rule:
+        or:
+        - has:
+            cling: 2
+        - has:
+            kick: 4
+        - has:
+            kick: 2
+            plunge: 1
+        - has:
+            kick: 1
+            plunge: 1
+            slide_jump: 1
     - region: Castle => Theatre (Front)
-      rule: null
+      rule:
+        has:
+          cling: 4
+          kick_or_plunge: 2
   - name: Castle => Theatre (Front)
     exits:
     - region: Castle By Scythe Corridor
-      rule: null
+      rule:
+        or:
+        - has:
+            cling: 2
+        - has:
+            slide_jump: 1
+            kick: 1
+        - has:
+            kick: 4
     - region: Castle Moon Room
-      rule: null
+      rule:
+        or:
+        - has:
+            cling: 2
+        - has:
+            slide_jump: 1
+            kick_or_plunge: 2
     - region: Theatre Main
-      rule: null
+      rule:
+        or:
+        - has:
+            plunge: 1
+            kick: 1
+        - has:
+            kick: 2
   - name: Castle Moon Room
 
 
   - name: Library Main
     exits:
     - region: Library Locked
-      rule: null
+      rule:
+        ref: can_unlock_door
     - region: Library Greaves
-      rule: null
+      rule:
+        has: slide
     - region: Library Top
-      rule: null
+      rule:
+        or:
+        - has:
+            kick_or_plunge: 4
+        - ref: obscure_tech
+          has:
+            kick: 1
+            plunge: 1
     - region: Castle Main
-      rule: null
+      rule:
+        ref: can_attack
   - name: Library Locked
 
   - name: Library Greaves
     exits:
     - region: Library Back
-      rule: null
+      rule:
+        ref: can_attack
+        or:
+        - has:
+            cling: 2
+        - has:
+            kick: 2
   - name: Library Top
     exits:
     - region: Library Back
-      rule: null
+      rule:
+        or:
+        - has:
+            cling: 2
+            kick_or_plunge: 1
+        - has:
+            kick: 3
+            plunge: 1
+        - has:
+            kick: 3
+            bounce: 1
   - name: Library Back
     exits:
     - region: Library Greaves
-      rule: null
+      rule:
+        ref: can_attack
+        or:
+        - has:
+            cling: 2
+        - has:
+            kick: 1
     - region: Library Top
-      rule: null
+      rule:
+        or:
+        - has:
+            cling: 4
+        - has:
+            kick: 2
   - name: Keep Main
     exits:
     - region: Keep Locked Room
-      rule: null
+      rule:
+        or:
+        - ref: can_unlock_door
+        - has:
+            kicks: 3
+        - has:
+            plunge: 1
+            kick: 1
+        - has:
+            cling: 2
+            plunge: 1
+        - has:
+            cling: 2
+            kick: 1
+      # Note for trackers: This is accessible with nothing but not in logic.
+      # Cutting the platform or hitting the lever make this harder and are irreversible.
+      # On Hard and above, the player is expected to not do either.
     - region: Keep Sunsetter
-      rule: null
+      rule:
+        has:
+          cling: 2
+          # See "Keep Main -> Keep Locked Room".
+          # All other methods would go through Keep Locked Room instead.
     - region: Keep Throne Room
-      rule: null
+      rule:
+        or:
+        - and:
+          - has:
+              breaker: 1
+              cling: 6
+          - or:
+              - has:
+                  plunge: 1
+                  kick: 1
+              - has:
+                  plunge: 1
+                  bounce: 1
+              - has:
+                  kick: 1
+                  bounce: 1
+        - has:
+            bounce: 1
+            kick_or_plunge: 4
     - region: Keep => Underbelly
-      rule: null
+      rule:
+        or:
+        - has: kick_or_plunge
+        - has:
+            cling: 2
     - region: Theatre Outside Scythe Corridor
-      rule: null
+      rule:
+        or:
+        - has:
+            cling: 2
+        - has: kick
+        - has: bounce
+        - has: slide_jump
+        - ref: obscure_tech
+          has: plunge  # TODO: this doesn't really matter right now but is a little questionable for normal
     - region: Keep (Northeast) => Castle
-      rule: null
+      rule:
+        or:
+        - has:
+            cling: 2
+        - has:
+            kick: 2
+        - has: plunge
     - region: Castle Main
-      rule: null
   - name: Keep Locked Room
     exits:
     - region: Keep Sunsetter
@@ -273,15 +452,22 @@ regions:
   - name: Bailey Lower
     exits:
     - region: Bailey Upper
-      rule: null
+      rule:
+        or:
+        - has: slide
+          ref: can_attack
+        - has:
+            kick: 2
+        - has: kick
+          tag: obscure_tech
     - region: Castle Main
     - region: Theatre Pillar => Bailey
   - name: Bailey Upper
     exits:
     - region: Bailey Lower
-      rule: null
     - region: Underbelly => Bailey
-      rule: null
+      rule:
+        has: plunge
     - region: Tower Remains
       rule:
         and:
@@ -301,95 +487,264 @@ regions:
   - name: Tower Remains
     exits:
     - region: The Great Door
-      rule: null
+      rule:
+        ref: can_attack
+        has:
+          cling: 2
+          kick_or_plunge: 1
   - name: Underbelly => Dungeon
     exits:
     - region: Dungeon Escape Lower
-      rule: null
+      rule:
+        options: darkrooms
     - region: Underbelly Light Pillar
     - region: Underbelly Ascendant Light
-      rule: null
+      rule:
+        or:
+        - has: bounce
+        - has:
+            cling: 2
+            kick: 1
+        - has:
+            kick: 2
+        - has:
+            kick: 1
+            slide_jump: 1
+        - ref:
+          - obscure_tech
+          - can_attack
   - name: Underbelly Light Pillar
     exits:
     - region: Underbelly Main Upper
     - region: Underbelly => Dungeon
-      rule: null
+      rule:
+        or:
+        - has: bounce
+        - has:
+            kick_or_plunge: 4
     - region: Underbelly Ascendant Light
-      rule: null
+      # this route is more difficult with ascendant light because of the long room with the switches, but
+      # since it's possible to use AL to go up the pillar and get to the item that way (i.e. passing through
+      # Underbelly => Dungeon), the logic for this entrance is written assuming the player doesn't have AL
+      rule:
+        and:
+        - has: breaker
+        - or:
+          - has: plunge
+          - has:
+              kick: 3
+            tag: obscure_tech
   - name: Underbelly Ascendant Light
     exits:
     - region: Underbelly => Dungeon
-      rule: null
+      rule:
+        or:
+        - has: bounce
+        - has:
+            cling: 2
+        - has:
+            kick: 2
+        - has:
+            kick: 1
+            slide_jump: 1
   - name: Underbelly Main Lower
     exits:
     - region: Underbelly => Bailey
     - region: Underbelly Hole
-      rule: null
+      rule:
+        and:
+        - has: plunge
+        - or:
+          - has: kick
+          - has: slide_jump
+          - ref: can_attack
     - region: Underbelly By Heliacal
-      rule: null
+      rule:
+        has:
+          slide: 1
+          plunge: 1
     - region: Underbelly Main Upper
-      rule: null
+      rule:
+        ref: obscure_tech
+        has:
+          plunge: 1
+          kick: 2
   - name: Underbelly Main Upper
     exits:
     - region: Underbelly Main Lower
     - region: Underbelly Light Pillar
-      rule: null
+      rule:
+        or:
+        - has:
+            breaker: 1
+            plunge: 1
+        - and:
+          - ref: obscure_tech
+          - has: breaker
+          - or:
+            - has:
+                kick: 2
+            - has:
+                cling: 2
+                kick: 1
     - region: Underbelly By Heliacal
-      rule: null
+      rule:
+        and:
+        - has: breaker
+        - or:
+          - has:
+              bounce: 1
+              kick: 1
+          - has:
+              slide_jump: 1
+              kick: 3
+          - has:
+              cling: 2
+              kick: 2
   - name: Underbelly By Heliacal
     exits:
     - region: Underbelly Main Upper
-      rule: null
+      rule:
+        or:
+        - has:
+            breaker: 1
+            plunge: 1
+        - ref: obscure_tech
+          has: plunge
+        - or:
+          - has: kick
+          - has:
+              cling: 2
   - name: Underbelly => Bailey
     exits:
     - region: Bailey Upper
-      rule: null
+      rule:
+        or:
+        - ref: obscure_tech
+        - has:
+            plunge: 1
+            kick: 1
     - region: Bailey Lower
     - region: Underbelly Main Lower
-      rule: null
+      rule:
+        or:
+        - has: plunge
+        - has:
+            kick: 2
+        - ref: obscure_tech
   - name: Underbelly => Keep
     exits:
     - region: Keep => Underbelly
     - region: Underbelly Hole
-      rule: null
+      rule:
+        has: plunge
   - name: Underbelly Hole
     exits:
     - region: Underbelly Main Lower
-      rule: null
+      rule:
+        and:
+        - has: plunge
+        - or:
+          - ref: can_attack
+          - has:
+              slide_jump: 1
+              cling: 2
+          - has:
+              slide_jump: 1
+              kick: 1
     - region: Underbelly => Keep
-      rule: null
+      rule:
+        has:
+          plunge: 1
+          slide: 1
   - name: Theatre Main
     exits:
     - region: Theatre Outside Scythe Corridor
-      rule: null
+      rule:
+        has:
+          cling: 6
     - region: Theatre Pillar
-      rule: null
+      rule:
+        or:
+        - has:
+            kick: 2
+        - has:
+            kick: 1
+            plunge: 1
+          tag: obscure_tech
+        - has:
+            kick: 1
+            slide_jump: 1
+        - has:
+            cling: 2
     - region: Castle => Theatre (Front)
-      rule: null
+      rule:
+        or:
+        - has:
+            cling: 2
+        - has: kick
+        - has: slide_jump
   - name: Theatre Pillar => Bailey
     exits:
     - region: Theatre Pillar
-      rule: null
+      rule:
+        or:
+        - has: plunge
+          tags: obscure_tech
+        - has:
+            kick: 1
+            bounce: 1
     - region: Bailey Lower
   - name: Castle => Theatre Pillar
     exits:
     - region: Theatre Pillar
-      rule: null
+      rule:
+        has: plunge
     - region: Castle Main
   - name: Theatre Pillar
     exits:
     - region: Theatre Main
-      rule: null
+      rule:
+        or:
+        - has:
+            cling: 2
+        - has:
+            plunge: 1
+            kick: 3
     - region: Theatre Pillar => Bailey
     - region: Castle => Theatre Pillar
   - name: Theatre Outside Scythe Corridor
     exits:
     - region: Theatre Main
-      rule: null
+      rule:
+        or:
+        - has:
+            cling: 6
+            kick_or_plunge: 3
+        - has:
+            cling: 6
+            slide_jump: 1
     - region: Dungeon Escape Upper
-      rule: null
+      rule:
+        option: darkrooms
+        or:
+        - has: bounce
+        - has: kick
+        - has:
+            cling: 2
+        - has: slide_jump
+        - tags: obscure_tech
+          has: plunge
     - region: Keep Main
-      rule: null
+      rule:
+        or:
+        - has:
+            cling: 2
+        - has: kick
+        - has: bounce
+        - has: slide_jump
+        - tags: obscure_tech
+          has: plunge
   - name: The Great Door
 
 
@@ -495,7 +850,6 @@ locations:
   - name: Castle Sansa - Indignation
     code: 8
     region: Castle Main
-    rule: null
   - name: Castle Sansa - Alcove Near Dungeon
     code: 9
     region: Castle => Theatre Pillar
