@@ -118,10 +118,10 @@ regions:
         has: slide
     - region: Dungeon Escape Lower
       rule:
-        ref:
-          - dungeon_escape
-          - can_attack
-        options: darkrooms
+        and:
+          - ref: dungeon_escape
+          - ref: can_attack
+          - ref: can_enter_dark_rooms
       # keeping this version for reference, but keeping the assumptions about macros consistent
       # rule:
       #   or:
@@ -141,8 +141,9 @@ regions:
         or:
         - ref: can_unlock_door
         - tags: obscure_tech
-          options: map_patch
-          or:
+          options:
+            game_version: map_patch
+        - or:
           - has: bounce
           - ref: can_attack
             has:
@@ -158,7 +159,8 @@ regions:
         or:
         - ref: can_unlock_door
         - tags: obscure_tech
-          options: map_patch
+          options:
+            game_version: map_patch
           or:
           - has: plunge
           - ref: can_attack
@@ -474,7 +476,8 @@ regions:
         - or:
           - has:
               kick_or_plunge: 4
-          - options: map_patch
+          - options:
+              game_version: map_patch
             has:
               kick: 1
               plunge: 1
@@ -496,7 +499,7 @@ regions:
     exits:
     - region: Dungeon Escape Lower
       rule:
-        options: darkrooms
+        ref: can_enter_dark_rooms
     - region: Underbelly Light Pillar
     - region: Underbelly Ascendant Light
       rule:
@@ -510,9 +513,9 @@ regions:
         - has:
             kick: 1
             slide_jump: 1
-        - ref:
-          - obscure_tech
-          - can_attack
+        - and:
+          - ref: obscure_tech
+          - ref: can_attack
   - name: Underbelly Light Pillar
     exits:
     - region: Underbelly Main Upper
@@ -830,14 +833,16 @@ locations:
       or:
       - has: breaker
       - tag: obscure_tech
-        options: map_patch
+        options:
+          game_version: map_patch
         or:
         - has:
             cling: 2
         - has: kick
         - has: plunge
       - tag: obscure_tech
-        options: full_gold
+        options:
+          game_version: full_gold
         or:
         - has:
             cling: 2
