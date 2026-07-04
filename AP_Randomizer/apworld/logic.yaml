@@ -58,6 +58,9 @@ tags:
     hard: At this level, you may be required to use slide ultras purely to gain height.
     expert: At this level, you may be required to use slide ultras for distance, which can require higher speed.
     lunatic: At this level, slide ultra setups may be very precise, involving very small runway or sharp angle changes.
+  - name: old_obscure
+    off: obscure is not expected
+    on: obscure is expected
 
 tag_groups:
   - name: basic_tech
@@ -140,7 +143,8 @@ regions:
       rule:
         or:
         - ref: can_unlock_door
-        - tags: obscure_tech
+        - tags:
+            old_obscure: 1
           options:
             game_version: map_patch
         - or:
@@ -158,7 +162,8 @@ regions:
       rule:
         or:
         - ref: can_unlock_door
-        - tags: obscure_tech
+        - tags:
+            old_obscure: 1
           options:
             game_version: map_patch
           or:
@@ -192,7 +197,8 @@ regions:
         - has: kick
         - has:
             cling: 2
-        - tags: obscure_tech
+        - tags:
+            old_obscure: 1
           has: plunge
   - name: Castle Main
     exits:
@@ -222,7 +228,8 @@ regions:
       rule:  # TODO: not sure about this logic, idk where doing it with no items should go
         or:
         - ref: can_attack
-        - tag: obscure_tech
+        - tags:
+            old_obscure: 1
   - name: Castle Spiral Climb
     exits:
     - region: Castle Main
@@ -461,7 +468,8 @@ regions:
         - has:
             kick: 2
         - has: kick
-          tag: obscure_tech
+          tags:
+            old_obscure: 1
     - region: Castle Main
     - region: Theatre Pillar => Bailey
   - name: Bailey Upper
@@ -485,7 +493,8 @@ regions:
         - or: # get onto the bridge
           - has: slide_jump
           - has: plunge
-            tags: obscure_knowledge
+            tags:
+              old_obscure: 1
 
   - name: Tower Remains
     exits:
@@ -536,7 +545,8 @@ regions:
           - has: plunge
           - has:
               kick: 3
-            tag: obscure_tech
+            tags:
+              old_obscure: 1
   - name: Underbelly Ascendant Light
     exits:
     - region: Underbelly => Dungeon
@@ -674,7 +684,8 @@ regions:
         - has:
             kick: 1
             plunge: 1
-          tag: obscure_tech
+          tags:
+            old_obscure: 1
         - has:
             kick: 1
             slide_jump: 1
@@ -693,7 +704,8 @@ regions:
       rule:
         or:
         - has: plunge
-          tags: obscure_tech
+          tags:
+            old_obscure: 1
         - has:
             kick: 1
             bounce: 1
@@ -736,7 +748,8 @@ regions:
         - has:
             cling: 2
         - has: slide_jump
-        - tags: obscure_tech
+        - tags:
+            old_obscure: 1
           has: plunge
     - region: Keep Main
       rule:
@@ -746,7 +759,8 @@ regions:
         - has: kick
         - has: bounce
         - has: slide_jump
-        - tags: obscure_tech
+        - tags:
+            old_obscure: 1
           has: plunge
   - name: The Great Door
 
@@ -814,7 +828,8 @@ locations:
       - has:
           slide_jump: 1
           kick: 2
-          tags: obscure
+          tags:
+            old_obscure: 1
   - name: Dilapidated Dungeon - Rafters
     code: 6
     region: Dungeon Strong Eyes
@@ -825,14 +840,16 @@ locations:
       - has:
           bounce: 1
           plunge: 1
-          tags: obscure
+          tags:
+            old_obscure: 1
   - name: Dilapidated Dungeon - Strong Eyes
     code: 7
     region: Dungeon Strong Eyes
     rule:
       or:
       - has: breaker
-      - tag: obscure_tech
+      - tags:
+          old_obscure: 1
         options:
           game_version: map_patch
         or:
@@ -840,7 +857,8 @@ locations:
             cling: 2
         - has: kick
         - has: plunge
-      - tag: obscure_tech
+      - tags:
+          old_obscure: 1
         options:
           game_version: full_gold
         or:
@@ -865,7 +883,8 @@ locations:
       - has: kick
       - has: slide_jump
       - has: plunge
-        tags: obscure
+        tags:
+          old_obscure: 1
   - name: Castle Sansa - Balcony
     code: 10
     region: Castle Main
@@ -903,7 +922,8 @@ locations:
       - has:
           bounce: 1
           kick: 1
-          tags: obscure
+          tags:
+            old_obscure: 1
   - name: Castle Sansa - Locked Door
     code: 13
     region: Castle Main
@@ -945,7 +965,8 @@ locations:
           kick: 1
           slide_jump: 1
       - has: plunge
-        tags: obscure
+        tags:
+          old_obscure: 1
   - name: Castle Sansa - High Climb From Courtyard
     code: 17
     region: Castle High Climb
@@ -1079,7 +1100,8 @@ locations:
     rule:
       or:
       - has: plunge
-        tags: obscure
+        tags:
+          old_obscure: 1
       - has: kick
       - has:
           cling: 2
@@ -1115,7 +1137,8 @@ locations:
       - has:
           plunge: 1
           kick: 3
-          tags: obscure  # use crouch backflip
+          tags:
+            old_obscure: 1  # use crouch backflip
       - has:
           kick: 4
 
@@ -1154,7 +1177,8 @@ locations:
               cling: 2
           - has:
               kick: 3
-          - tag: obscure_tech
+          - tags:
+              old_obscure: 1
       - and:
         - has: breaker
         - or:
@@ -1205,7 +1229,8 @@ locations:
       - has:
           slide_jump: 1
           kick: 1
-      - tag: obscure_tech
+      - tags:
+          old_obscure: 1
         or:
         - has:
             cling: 2
@@ -1241,7 +1266,8 @@ locations:
         - has:
             kick: 2
         - has: kick
-          tag: obscure_tech
+          tags:
+            old_obscure: 1
 
   - name: Tower Remains - Cling Gem
     code: 49
@@ -1289,7 +1315,7 @@ locations:
         slide_jump: 1
     can_create:
       game_version: map_patch
-      randomize_time_trials: True
+      randomize_time_trials: true
   - name: Castle Sansa - Time Trial
     code: 55
     region: Castle Main
@@ -1297,7 +1323,7 @@ locations:
       ref: can_unlock_door
     can_create:
       game_version: map_patch
-      randomize_time_trials: True
+      randomize_time_trials: true
   - name: Sansa Keep - Time Trial
     code: 56
     region: Keep Throne Room
@@ -1311,7 +1337,7 @@ locations:
         bounce: 1
     can_create:
       game_version: map_patch
-      randomize_time_trials: True
+      randomize_time_trials: true
   - name: Listless Library - Time Trial
     code: 57
     region: Library Main
@@ -1322,7 +1348,7 @@ locations:
         kick: 3
     can_create:
       game_version: map_patch
-      randomize_time_trials: True
+      randomize_time_trials: true
   - name: Twilight Theatre - Time Trial
     code: 58
     region: Theatre Pillar
@@ -1335,7 +1361,7 @@ locations:
         slide_jump: 1
     can_create:
       game_version: map_patch
-      randomize_time_trials: True
+      randomize_time_trials: true
   - name: Empty Bailey - Time Trial
     code: 59
     region: Bailey Upper
@@ -1348,7 +1374,7 @@ locations:
         slide_jump: 1
     can_create:
       game_version: map_patch
-      randomize_time_trials: True
+      randomize_time_trials: true
   - name: The Underbelly - Time Trial
     code: 60
     region: Underbelly Main Upper
@@ -1361,7 +1387,7 @@ locations:
         slide_jump: 1
     can_create:
       game_version: map_patch
-      randomize_time_trials: True
+      randomize_time_trials: true
   - name: Tower Remains - Time Trial
     code: 61
     region: The Great Door
@@ -1374,7 +1400,7 @@ locations:
         slide_jump: 1
     can_create:
       game_version: map_patch
-      randomize_time_trials: True
+      randomize_time_trials: true
 
   - name: Castle Sansa - Memento
     code: 62
@@ -1459,7 +1485,8 @@ locations:
           - has: kick
           - has: bounce
           - has: slide_jump
-          - tags: obscure
+          - tags:
+              old_obscure: 1
     can_create:
       randomize_goats: true
   - name: Castle Sansa - Trapped Goatling
@@ -1473,13 +1500,13 @@ locations:
     code: 75
     region: Castle Main
     can_create:
-      randomize_goats: True
+      randomize_goats: true
       game_version: map_patch
   - name: Castle Sansa - Goatling Near Library
     code: 76
     region: Castle Main
     can_create:
-      randomize_goats: True
+      randomize_goats: true
       game_version: map_patch
   - name: Sansa Keep - Furniture-less Goatling
     code: 77
@@ -1521,7 +1548,8 @@ locations:
       - has:
           kick: 1
           plunge: 1
-          tags: obscure
+          tags:
+            old_obscure: 1
       - has:
           kick: 1
           slide_jump: 1
@@ -1628,11 +1656,13 @@ locations:
         - has:
             slide_jump: 1
             plunge: 1
-            tags: obscure
+            tags:
+              old_obscure: 1
         - has:
             slide_jump: 1
             bounce: 1
-            tags: obscure
+            tags:
+              old_obscure: 1
     can_create:
       randomize_chairs: true
 
