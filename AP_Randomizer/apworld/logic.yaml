@@ -59,8 +59,7 @@ tags:
     expert: At this level, you may be required to use slide ultras for distance, which can require higher speed.
     lunatic: At this level, slide ultra setups may be very precise, involving very small runway or sharp angle changes.
   - name: old_obscure
-    off: obscure is not expected
-    on: obscure is expected
+    lunatic: At this level, all obscure tech in the previous format is expected
 
 tag_groups:
   - name: basic_tech
@@ -122,7 +121,7 @@ regions:
     - region: Dungeon Escape Lower
       rule:
         and:
-          - ref: dungeon_escape
+          #  - ref: dungeon_escape  # TODO: add this later
           - ref: can_attack
           - ref: can_enter_dark_rooms
       # keeping this version for reference, but keeping the assumptions about macros consistent
@@ -148,7 +147,7 @@ regions:
           options:
             game_version: map_patch
         - or:
-          - has: bounce
+          - has: light
           - ref: can_attack
             has:
               kick: 2
@@ -180,7 +179,7 @@ regions:
     - region: Dungeon Escape Upper
       rule:
         or:
-        - has: bounce
+        - has: light
         - has:
             kick: 1
             plunge: 1
@@ -193,7 +192,7 @@ regions:
     - region: Theatre Outside Scythe Corridor
       rule:
         or:
-        - has: bounce
+        - has: light
         - has: kick
         - has:
             cling: 2
@@ -322,7 +321,8 @@ regions:
         or:
         - has:
             kick_or_plunge: 4
-        - ref: obscure_tech
+        - tags:
+            old_obscure: 1
           has:
             kick: 1
             plunge: 1
@@ -354,7 +354,7 @@ regions:
             plunge: 1
         - has:
             kick: 3
-            bounce: 1
+            light: 1
   - name: Library Back
     exits:
     - region: Library Greaves
@@ -411,12 +411,12 @@ regions:
                   kick: 1
               - has:
                   plunge: 1
-                  bounce: 1
+                  light: 1
               - has:
                   kick: 1
-                  bounce: 1
+                  light: 1
         - has:
-            bounce: 1
+            light: 1
             kick_or_plunge: 4
     - region: Keep => Underbelly
       rule:
@@ -430,9 +430,10 @@ regions:
         - has:
             cling: 2
         - has: kick
-        - has: bounce
+        - has: light
         - has: slide_jump
-        - ref: obscure_tech
+        - tags:
+            old_obscure: 1
           has: plunge  # TODO: this doesn't really matter right now but is a little questionable for normal
     - region: Keep (Northeast) => Castle
       rule:
@@ -489,7 +490,7 @@ regions:
             has:
               kick: 1
               plunge: 1
-              bounce: 1
+              light: 1
         - or: # get onto the bridge
           - has: slide_jump
           - has: plunge
@@ -513,7 +514,7 @@ regions:
     - region: Underbelly Ascendant Light
       rule:
         or:
-        - has: bounce
+        - has: light
         - has:
             cling: 2
             kick: 1
@@ -523,7 +524,8 @@ regions:
             kick: 1
             slide_jump: 1
         - and:
-          - ref: obscure_tech
+          - tags:
+              old_obscure: 1
           - ref: can_attack
   - name: Underbelly Light Pillar
     exits:
@@ -531,7 +533,7 @@ regions:
     - region: Underbelly => Dungeon
       rule:
         or:
-        - has: bounce
+        - has: light
         - has:
             kick_or_plunge: 4
     - region: Underbelly Ascendant Light
@@ -552,7 +554,7 @@ regions:
     - region: Underbelly => Dungeon
       rule:
         or:
-        - has: bounce
+        - has: light
         - has:
             cling: 2
         - has:
@@ -578,7 +580,8 @@ regions:
           plunge: 1
     - region: Underbelly Main Upper
       rule:
-        ref: obscure_tech
+        tags:
+          old_obscure: 1
         has:
           plunge: 1
           kick: 2
@@ -592,7 +595,8 @@ regions:
             breaker: 1
             plunge: 1
         - and:
-          - ref: obscure_tech
+          - tags:
+              old_obscure: 1
           - has: breaker
           - or:
             - has:
@@ -606,7 +610,7 @@ regions:
         - has: breaker
         - or:
           - has:
-              bounce: 1
+              light: 1
               kick: 1
           - has:
               slide_jump: 1
@@ -622,7 +626,8 @@ regions:
         - has:
             breaker: 1
             plunge: 1
-        - ref: obscure_tech
+        - tags:
+            old_obscure: 1
           has: plunge
         - or:
           - has: kick
@@ -633,7 +638,8 @@ regions:
     - region: Bailey Upper
       rule:
         or:
-        - ref: obscure_tech
+        - tags:
+            old_obscure: 1
         - has:
             plunge: 1
             kick: 1
@@ -644,7 +650,8 @@ regions:
         - has: plunge
         - has:
             kick: 2
-        - ref: obscure_tech
+        - tags:
+            old_obscure: 1
   - name: Underbelly => Keep
     exits:
     - region: Keep => Underbelly
@@ -708,7 +715,7 @@ regions:
             old_obscure: 1
         - has:
             kick: 1
-            bounce: 1
+            light: 1
     - region: Bailey Lower
   - name: Castle => Theatre Pillar
     exits:
@@ -741,9 +748,9 @@ regions:
             slide_jump: 1
     - region: Dungeon Escape Upper
       rule:
-        option: darkrooms
+        ref: can_enter_darkrooms
         or:
-        - has: bounce
+        - has: light
         - has: kick
         - has:
             cling: 2
@@ -757,7 +764,7 @@ regions:
         - has:
             cling: 2
         - has: kick
-        - has: bounce
+        - has: light
         - has: slide_jump
         - tags:
             old_obscure: 1
@@ -775,7 +782,7 @@ origins:
   - spawn_point: library
     region: Library Main
   - spawn_point: underbelly_south
-    region: Underbelly South Exit
+    region: Underbelly => Bailey
   - spawn_point: underbelly_big_room
     region: Underbelly Main Upper
   - spawn_point: bailey_main
@@ -804,17 +811,17 @@ locations:
       or:
       - has:
           cling: 2
-          bounce: 1
+          light: 1
       - has:
           cling: 2
           kick_or_plunge: 3
       - has:
           kick: 2
-          bounce: 1
+          light: 1
       - has:
           slide_jump: 1
           kick: 1
-          bounce: 1
+          light: 1
   - name: Dilapidated Dungeon - Past Poles
     code: 5
     region: Dungeon Strong Eyes
@@ -828,8 +835,8 @@ locations:
       - has:
           slide_jump: 1
           kick: 2
-          tags:
-            old_obscure: 1
+        tags:
+          old_obscure: 1
   - name: Dilapidated Dungeon - Rafters
     code: 6
     region: Dungeon Strong Eyes
@@ -838,10 +845,10 @@ locations:
       - has:
           kick_or_plunge: 3
       - has:
-          bounce: 1
+          light: 1
           plunge: 1
-          tags:
-            old_obscure: 1
+        tags:
+          old_obscure: 1
   - name: Dilapidated Dungeon - Strong Eyes
     code: 7
     region: Dungeon Strong Eyes
@@ -912,18 +919,18 @@ locations:
     rule:
       or:
       - has:
-          bounce: 1
+          light: 1
           plunge: 1
       - has:
-          bounce: 1
+          light: 1
           kick: 2
       - has:
           kick: 4
       - has:
-          bounce: 1
+          light: 1
           kick: 1
-          tags:
-            old_obscure: 1
+        tags:
+          old_obscure: 1
   - name: Castle Sansa - Locked Door
     code: 13
     region: Castle Main
@@ -956,7 +963,7 @@ locations:
     region: Castle Main
     rule:
       or:
-      - has: bounce
+      - has: light
       - has:
           cling: 2
       - has:
@@ -1090,7 +1097,7 @@ locations:
       and:
       - has: strikebreak
       - or:
-        - has: bounce
+        - has: light
         - has: kick_or_plunge
         - has:
             cling: 2
@@ -1121,7 +1128,7 @@ locations:
       and:
       - ref: can_unlock_door
       - or:
-        - has: bounce
+        - has: light
         - has: kick
   - name: Twilight Theatre - Tucked Behind Boxes
     code: 34
@@ -1137,8 +1144,8 @@ locations:
       - has:
           plunge: 1
           kick: 3
-          tags:
-            old_obscure: 1  # use crouch backflip
+        tags:
+          old_obscure: 1  # use crouch backflip
       - has:
           kick: 4
 
@@ -1244,14 +1251,14 @@ locations:
       - has: plunge
       - has:
           kick: 2
-      - has: bounce
+      - has: light
   - name: The Underbelly - Strikebreak Wall
     code: 47
     region: Underbelly Main Upper
     rule:
       has:
         strikebreak: 1
-        bounce: 1
+        light: 1
         kick_or_plunge: 1
   - name: The Underbelly - Surrounded By Holes
     code: 48
@@ -1262,7 +1269,7 @@ locations:
           cutter: 1
           plunge: 1
       - or:
-        - has: bounce
+        - has: light
         - has:
             kick: 2
         - has: kick
@@ -1334,7 +1341,7 @@ locations:
         kick: 3
         cling: 6
         slide_jump: 1
-        bounce: 1
+        light: 1
     can_create:
       game_version: map_patch
       randomize_time_trials: true
@@ -1483,7 +1490,7 @@ locations:
           - has:
               cling: 2
           - has: kick
-          - has: bounce
+          - has: light
           - has: slide_jump
           - tags:
               old_obscure: 1
@@ -1548,8 +1555,8 @@ locations:
       - has:
           kick: 1
           plunge: 1
-          tags:
-            old_obscure: 1
+        tags:
+          old_obscure: 1
       - has:
           kick: 1
           slide_jump: 1
@@ -1656,13 +1663,13 @@ locations:
         - has:
             slide_jump: 1
             plunge: 1
-            tags:
-              old_obscure: 1
+          tags:
+            old_obscure: 1
         - has:
             slide_jump: 1
-            bounce: 1
-            tags:
-              old_obscure: 1
+            light: 1
+          tags:
+            old_obscure: 1
     can_create:
       randomize_chairs: true
 
@@ -1746,7 +1753,7 @@ locations:
       - has: plunge
       - has:
           cling: 2
-      - has: bounce
+      - has: light
     can_create:
       randomize_notes: true
   - name: The Underbelly - Note in the Big Room
@@ -1771,7 +1778,7 @@ locations:
       randomize_notes: true
 
   - name: D S T RT ED M M O   Y
-    region: Tower Great Door
+    region: The Great Door
     rule:
       has:
         breaker: 1

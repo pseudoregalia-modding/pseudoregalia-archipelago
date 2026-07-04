@@ -1,5 +1,6 @@
 import pkgutil
 from typing import Any
+from collections import defaultdict
 import yaml
 
 from worlds.AutoWorld import World, WebWorld
@@ -48,8 +49,8 @@ class PseudoregaliaWorld(World):
     game = "Pseudoregalia"
     required_client_version = (0, 7, 0)
  
-    item_name_to_id = {name: data.code for name, data in item_table.items() if data.code is not None}
-    location_name_to_id = {name: data.code for name, data in location_table.items() if data.code is not None}
+    item_name_to_id = {name: 2365810000 + data.code for name, data in item_table.items() if data.code is not None}
+    location_name_to_id = {name: 2365810000 + data.code for name, data in location_table.items() if data.code is not None}
     item_name_groups = item_groups
 
     options_dataclass = PseudoregaliaOptions
@@ -60,7 +61,7 @@ class PseudoregaliaWorld(World):
     filler = ("Healing", "Magic Power")
     filler_index = 0
 
-    tags: dict[str, int] = {}
+    tags: dict[str, int]
 
     def create_key_hints(self) -> Any:
         key_hints = [[] for _ in range(5)]
@@ -102,14 +103,20 @@ class PseudoregaliaWorld(World):
         mapping = pseudoregalia_data.item_mapping[item.name]
         if isinstance(mapping, str):
             state.add_item(mapping, self.player)
+            if mapping in ("kick", "plunge"):
+                state.add_item("kick_or_plunge", self.player)
         elif isinstance(mapping, list):
             index = state.count(item.name, self.player)
             if index < len(mapping):
                 state.add_item(mapping[index], self.player)
+                if mapping[index] in ("kick", "plunge"):
+                    state.add_item("kick_or_plunge", self.player)
         elif isinstance(mapping, ItemMappingData):
             if mapping.max is None or state.count(item.name, self.player) < mapping.max:
                 count = mapping.count if mapping.count is not None else 1
                 state.add_item(mapping.name, self.player, count)
+                if mapping.name in ("kick", "plunge"):
+                    state.add_item("kick_or_plunge", self.player, count)
         return super().collect(state, item)
 
     def remove(self, state: CollectionState, item: PseudoregaliaItem) -> bool:
@@ -149,6 +156,7 @@ class PseudoregaliaWorld(World):
                 # start_with_breaker is forced on if otherwise player wouldn't have enough checks
                 self.options.start_with_breaker.value = 1
 
+        self.tags = defaultdict(lambda: 0)
         # TODO fill out self.tags based on player options
 
     def create_regions(self):
