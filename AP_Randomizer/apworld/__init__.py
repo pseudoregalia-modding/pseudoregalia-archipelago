@@ -49,8 +49,8 @@ class PseudoregaliaWorld(World):
     game = "Pseudoregalia"
     required_client_version = (0, 7, 0)
  
-    item_name_to_id = {name: 2365810000 + data.code for name, data in item_table.items() if data.code is not None}
-    location_name_to_id = {name: 2365810000 + data.code for name, data in location_table.items() if data.code is not None}
+    item_name_to_id = {name: data.code for name, data in item_table.items() if data.code is not None}
+    location_name_to_id = {name: data.code for name, data in location_table.items() if data.code is not None}
     item_name_groups = item_groups
 
     options_dataclass = PseudoregaliaOptions
@@ -173,7 +173,8 @@ class PseudoregaliaWorld(World):
             if not check_options(self.options, loc_data.can_create):
                 continue
             region = self.get_region(loc_data.region)
-            new_loc = PseudoregaliaLocation(self.player, loc_data.name, loc_data.code, region)
+            loc_id = None if loc_data.code is None else 2365810000 + loc_data.code
+            new_loc = PseudoregaliaLocation(self.player, loc_data.name, loc_id, region)
             region.locations.append(new_loc)
             rule = pseudoregalia_rules.location_rules.get(loc_data.name)
             if rule is not None:
