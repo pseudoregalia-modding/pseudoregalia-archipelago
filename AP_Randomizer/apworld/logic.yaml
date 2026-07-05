@@ -9,7 +9,7 @@ item_mapping:
   Slide: slide
   Solar Wind: slide_jump
   Sunsetter:
-    names: 
+    names:
       - plunge
       - kick_or_plunge
     first_only: true
@@ -273,6 +273,10 @@ regions:
             logic_level: hard
           has:
             kick_or_plunge: 2
+        - options:
+            logic_level: lunatic
+          ref: can_gold_ultra
+          has: plunge
     - region: Underbelly => Dungeon
   - name: Dungeon Escape Upper
     exits:
@@ -316,6 +320,9 @@ regions:
         - options:
             logic_level: expert
           has: slide
+        - options:
+            logic_level: lunatic
+          has: plunge
     - region: Castle Spiral Climb
       rule:
         or:
@@ -395,6 +402,10 @@ regions:
             logic_level: expert
           has:
             kick_or_plunge: 4
+        - options:
+            logic_level: lunatic
+          has:
+            kick: 3
   - name: Castle High Climb
 
   - name: Castle By Scythe Corridor
@@ -462,6 +473,11 @@ regions:
           has:
             slide: 1
             kick_or_plunge: 3
+        - options:
+            logic_level: lunatic
+          ref: can_gold_ultra
+          has:
+            kick_or_plunge: 2
   - name: Castle => Theatre (Front)
     exits:
     - region: Castle By Scythe Corridor
@@ -486,6 +502,9 @@ regions:
             logic_level: expert
           has:
             kick: 3
+        - options:
+            logic_level: lunatic
+          has: slide_jump
     - region: Castle Moon Room
       rule:
         or:
@@ -558,6 +577,13 @@ regions:
         - options:
             logic_level: expert
           has: slide
+        - options:
+            logic_level: lunatic
+          has: kick
+        - options:
+            logic_level: lunatic
+          has:
+            cling: 2
     - region: Castle Main
       rule:
         ref: can_attack
@@ -612,6 +638,12 @@ regions:
             logic_level: expert
           has:
             kick: 2
+        - options:
+            logic_level: lunatic
+          has:
+            light: 1
+            kick: 1
+            plunge: 1
   - name: Library Back
     exits:
     - region: Library Greaves
@@ -743,6 +775,25 @@ regions:
             breaker: 1
             slide: 1
             kick: 3
+        - options:
+            logic_level: lunatic
+          has:
+            breaker: 1
+            slide: 1
+            kick_or_plunge: 3
+        - options:
+            logic_level: lunatic
+          has:
+            breaker: 1
+            cling: 2
+        - options:
+            logic_level: lunatic
+          ref: can_gold_ultra
+          has:
+            light: 1
+            kick: 1
+            plunge: 1
+            cutter: 1
     - region: Keep => Underbelly
       rule:
         or:
@@ -818,6 +869,9 @@ regions:
         - options:
             logic_level: expert
           has: slide
+        - options:
+            logic_level: lunatic
+          has: light
     - region: Castle Main
     - region: Theatre Pillar => Bailey
   - name: Bailey Upper
@@ -869,6 +923,12 @@ regions:
             game_version: full_gold
             logic_level: expert
           has: slide
+        - options:
+            game_version: map_patch
+            logic_level: lunatic
+          has:
+            slide_jump: 1
+            pllunge: 1
 
   - name: Tower Remains
     exits:
@@ -900,6 +960,21 @@ regions:
           has:
             kick: 1
             plunge: 1
+        - options:
+            logic_level: lunatic
+          ref: can_gold_ultra
+          has: kick
+        - options:
+            logic_level: lunatic
+          has:
+            slide: 1
+            kick: 1
+            plunge: 1
+        - options:
+            logic_level: lunatic
+          has:
+            plunge: 1
+            kick: 2
   - name: Underbelly => Dungeon
     exits:
     - region: Dungeon Escape Lower
@@ -1098,6 +1173,9 @@ regions:
           has:
             kick: 1
             breaker: 1
+        - options:
+            logic_level: lunatic
+          has: kick
   - name: Underbelly Main Upper
     exits:
     - region: Underbelly Main Lower
@@ -1415,6 +1493,10 @@ regions:
           has:
             slide: 1
             kick_or_plunge: 3
+        - options:
+            logic_level: lunatic
+          has:
+            kick: 2
     - region: Theatre Pillar => Bailey
     - region: Castle => Theatre Pillar
   - name: Theatre Outside Scythe Corridor
@@ -1584,6 +1666,17 @@ locations:
         has:
           slide: 1
           kick: 1
+      - options:
+          logic_level: lunatic
+        has:
+          kick: 1
+          plunge: 1
+      - options:
+          logic_level: lunatic
+        has:
+          breaker: 1
+          plunge: 1
+          slide: 1
   - name: Dilapidated Dungeon - Rafters
     code: 6
     region: Dungeon Strong Eyes
@@ -1623,6 +1716,14 @@ locations:
         has:
           light: 1
           cling: 2
+      - options:
+          logic_level: lunatic
+        ref: can_gold_ultra
+      - options:
+          logic_level: lunatic
+        has:
+          slide: 1
+          plunge: 1
   - name: Dilapidated Dungeon - Strong Eyes
     code: 7
     region: Dungeon Strong Eyes
@@ -1665,6 +1766,12 @@ locations:
         has:
           slide: 1
           kick: 1
+      - options:
+          game_version: full_gold
+          logic_level: lunatic
+        has:
+          slide: 1
+          kick_or_plunge: 1
 
   - name: Castle Sansa - Indignation
     code: 8
@@ -1731,6 +1838,16 @@ locations:
         has:
           kick: 2
           slide: 1
+      - options:
+          logic_level: lunatic
+        ref: can_gold_slide_ultra
+        has: kick
+      - options:
+          logic_level: lunatic
+        has:
+          slide: 1
+          kick: 1
+          plunge: 1
   - name: Castle Sansa - Floater In Courtyard
     code: 12
     region: Castle Main
@@ -1784,6 +1901,11 @@ locations:
           logic_level: expert
         has:
           cling: 2
+      - options:
+          logic_level: lunatic
+        has:
+          slide: 1
+          kick: 1
 
   - name: Castle Sansa - Locked Door
     code: 13
@@ -1808,6 +1930,9 @@ locations:
       - options:
           logic_level: expert
         has: slide
+      - options:
+          logic_level: lunatic
+        has: light
   - name: Castle Sansa - Tall Room Near Wheel Crawlers
     code: 15
     region: Castle Main
@@ -1967,6 +2092,13 @@ locations:
           logic_level: expert
         has:
           cling: 4
+      - options:
+          logic_level: lunatic
+        has: slide
+      - options:
+          logic_level: lunatic
+        has:
+          cling: 2
 
   - name: Sansa Keep - Strikebreak
     code: 20
@@ -2001,7 +2133,10 @@ locations:
     code: 22
     region: Keep Main
     rule:
-      ref: can_attack
+      or:
+      - ref: can_attack
+      - options:
+          logic_level: lunatic
   - name: Sansa Keep - Lonely Throne
     code: 23
     region: Keep Throne Room
@@ -2033,20 +2168,24 @@ locations:
     code: 27
     region: Library Top
     rule:
-      ref: can_attack
       or:
-      - has:
-          cling: 2
-          kick_or_plunge: 1
-      - has:
-          kick_or_plunge: 2
+      - ref: can_attack
+        or:
+        - has:
+            cling: 2
+            kick_or_plunge: 1
+        - has:
+            kick_or_plunge: 2
+        - options:
+            logic_level: hard
+          has:
+            cling: 4
+        - options:
+            logic_level: expert
+            has: slide
       - options:
-          logic_level: hard
-        has:
-          cling: 4
-      - options:
-          logic_level: expert
-          has: slide
+          logic_level: lunatic
+        has: plunge
   - name: Listless Library - Locked Door Across
     code: 28
     region: Library Locked
