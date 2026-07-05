@@ -173,6 +173,11 @@ regions:
           has:
             breaker: 1
             slide_jump: 1
+      - options:
+          game_version: map_patch
+          difficulty: expert
+        ref: can_attack
+        has: slide
   - name: Dungeon => Castle
     exits:
     - region: Dungeon Mirror
@@ -195,6 +200,12 @@ regions:
           has:
             breaker: 1
             cling: 2
+      - options:
+          game_version: map_patch
+          difficulty: expert
+        has:
+          breaker: 1
+          slide: 1
     - region: Castle Main
       entrance_name: Dungeon Top Exit
   - name: Dungeon Escape Lower
@@ -671,7 +682,20 @@ regions:
           has:
             kick: 2
             light: 1
-
+      - options:
+          game_version: map_patch
+          difficulty: expert
+        and:
+        - has: slide
+        - or:
+          - has: light
+          - has: kick
+          - has:
+              cling: 2
+      - options:
+          game_version: full_gold
+          difficulty: expert
+        has: slide
 
   - name: Tower Remains
     exits:
@@ -1231,6 +1255,21 @@ locations:
         - has:
             cling: 2
             kick: 3
+      - options:
+          game_version: map_patch
+          difficulty: expert
+        has: slide
+      - options:
+          game_version: full_gold
+          difficulty: expert
+        has:
+          cling: 2
+      - options:
+          game_version: full_gold
+          difficulty: expert
+        has:
+          slide: 1
+          kick: 1
 
   - name: Castle Sansa - Indignation
     code: 8
