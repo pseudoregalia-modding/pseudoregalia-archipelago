@@ -108,32 +108,32 @@ ref_rules:
         game_version: full_gold
     - ref: can_slide_jump
 - name: can_attack
-    rule:
-      or:
-      - has: breaker
-      - has: plunge
+  rule:
+    or:
+    - has: breaker
+    - has: plunge
+      tags:
+        plunge_attack: 1
+- name: can_unlock_door
+  rule:
+    and:
+    - ref: can_attack
+    - or:
+      - has:
+          small_key: 7
+      - has:
+          small_key: 6
         tags:
-          plunge_attack: 1
-  - name: can_unlock_door
-    rule:
-      and:
-      - ref: can_attack
-      - or:
-        - has:
-            small_key: 7
-        - has:
-            small_key: 6
-          tags:
-            smart_keys: 1
-  - name: can_enter_dark_rooms
-    rule:
-      or:
-      - has: light
-      - has: breaker
-        tags:
-          light_breaker: 1
-      - tags:
-          not_afraid_of_the_dark: 3
+          smart_keys: 1
+- name: can_enter_dark_rooms
+  rule:
+    or:
+    - has: light
+    - has: breaker
+      tags:
+        light_breaker: 1
+    - tags:
+        not_afraid_of_the_dark: 3
 
 regions:
   - name: Dungeon Mirror
@@ -210,11 +210,11 @@ regions:
           has:
             breaker: 1
             slide_jump: 1
-      - options:
-          game_version: map_patch
-          difficulty: expert
-        ref: can_attack
-        has: slide
+        - options:
+            game_version: map_patch
+            difficulty: expert
+          ref: can_attack
+          has: slide
   - name: Dungeon => Castle
     exits:
     - region: Dungeon Mirror
@@ -237,12 +237,12 @@ regions:
           has:
             breaker: 1
             cling: 2
-      - options:
-          game_version: map_patch
-          difficulty: expert
-        has:
-          breaker: 1
-          slide: 1
+        - options:
+            game_version: map_patch
+            difficulty: expert
+          has:
+            breaker: 1
+            slide: 1
     - region: Castle Main
       entrance_name: Dungeon Top Exit
   - name: Dungeon Escape Lower
@@ -306,7 +306,7 @@ regions:
             cling: 2
         - options:
             difficulty: hard
-          - has: kick
+          has: kick
         - options:
             difficulty: expert
           has: slide
@@ -366,7 +366,7 @@ regions:
             difficulty: hard
           tags:
             old_obscure: 1
-          reg: can_attack
+          ref: can_attack
           has: slide_jump
         - options:
             difficulty: expert
@@ -657,10 +657,11 @@ regions:
       # On Hard and above, the player is expected to not do either.
     - region: Keep Sunsetter
       rule:
-        has:
-          cling: 2
-          # See "Keep Main -> Keep Locked Room".
-          # All other methods would go through Keep Locked Room instead.
+        or:
+        - has:
+            cling: 2
+           # See "Keep Main -> Keep Locked Room".
+           # All other methods would go through Keep Locked Room instead.
         - options:
             difficulty: hard
     - region: Keep Throne Room
@@ -730,7 +731,7 @@ regions:
             breaker: 1
             light: 1
             kick_or_plunge: 3
-         - options:
+        - options:
             difficulty: expert
           has:
             breaker: 1
@@ -848,20 +849,20 @@ regions:
           has:
             kick: 2
             light: 1
-      - options:
-          game_version: map_patch
-          difficulty: expert
-        and:
-        - has: slide
-        - or:
-          - has: light
-          - has: kick
-          - has:
-              cling: 2
-      - options:
-          game_version: full_gold
-          difficulty: expert
-        has: slide
+        - options:
+            game_version: map_patch
+            difficulty: expert
+          and:
+          - has: slide
+          - or:
+            - has: light
+            - has: kick
+            - has:
+                cling: 2
+        - options:
+            game_version: full_gold
+            difficulty: expert
+          has: slide
 
   - name: Tower Remains
     exits:
@@ -2033,12 +2034,12 @@ locations:
           kick_or_plunge: 1
       - has:
           kick_or_plunge: 2
-        - options:
-            difficulty: hard
-          has:
-            cling: 4
-        - options:
-            difficulty: expert
+      - options:
+          difficulty: hard
+        has:
+          cling: 4
+      - options:
+          difficulty: expert
           has: slide
   - name: Listless Library - Locked Door Across
     code: 28
