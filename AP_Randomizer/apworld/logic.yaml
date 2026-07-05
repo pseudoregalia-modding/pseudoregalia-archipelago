@@ -2182,7 +2182,7 @@ locations:
             cling: 4
         - options:
             logic_level: expert
-            has: slide
+          has: slide
       - options:
           logic_level: lunatic
         has: plunge
