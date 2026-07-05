@@ -103,22 +103,16 @@ class PseudoregaliaWorld(World):
         mapping = pseudoregalia_data.item_mapping[item.name]
         if isinstance(mapping, str):
             state.add_item(mapping, self.player)
-            if mapping in ("kick", "plunge"):
-                state.add_item("kick_or_plunge", self.player)
         elif isinstance(mapping, list):
             index = state.count(item.name, self.player)
             if index < len(mapping):
                 state.add_item(mapping[index], self.player)
-                if mapping[index] in ("kick", "plunge"):
-                    state.add_item("kick_or_plunge", self.player)
         elif isinstance(mapping, ItemMappingData):
             first_only = mapping.first_only if mapping.first_only is not None else False
             if not first_only or state.count(item.name, self.player) == 0:
                 count = mapping.count if mapping.count is not None else 1
                 for name in mapping.names:
                     state.add_item(name, self.player, count)
-                    if name in ("kick", "plunge"):
-                        state.add_item("kick_or_plunge", self.player, count)
         return super().collect(state, item)
 
     def remove(self, state: CollectionState, item: PseudoregaliaItem) -> bool:
