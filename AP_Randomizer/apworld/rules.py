@@ -9,7 +9,7 @@ from .options import PseudoregaliaOptions
 from rule_builder.rules import Rule, And, Or, Has, HasAll, HasAllCounts, True_, False_
 from typing_extensions import override
 from dataclasses import dataclass
-from .logic import OptionData, RuleData, RefRuleData, RegionData, LocationData, PseudoregaliaData
+from .logic import OptionData, RuleData, PseudoregaliaData
 
 if TYPE_CHECKING:
     from . import PseudoregaliaWorld
@@ -178,20 +178,8 @@ class PseudoregaliaRulesHelpers:
 def check_tags(player_tags: dict[str, int], tags: dict[str, int] | None) -> bool:
     return tags is None or all(level <= player_tags[tag] for tag, level in tags.items())
 
-def check_options(player_options: PseudoregaliaOptions, options: OptionData | None,
-                  resolution_if_none: bool = True) -> bool:
-    if options is None:
-        return resolution_if_none
-
-    for option_name, value in options.items():
-        option = getattr(player_options, option_name)
-        if isinstance(value, bool):
-            has_option = option == value
-        else:
-            has_option = option == getattr(option.__class__, f"option_{value}")
-        if not has_option:
-            return False
-    return True
+def check_options(player_options: PseudoregaliaOptions, options: OptionData | None) -> bool:
+    return options is None or all(getattr(player_options, op_name) == value for op_name, value in options.items())
 
 class PseudoregaliaRule(Rule[PseudoregaliaWorld], game="Pseudoregalia"):
     rule: Rule

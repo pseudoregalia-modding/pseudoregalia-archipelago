@@ -112,11 +112,13 @@ class PseudoregaliaWorld(World):
                 if mapping[index] in ("kick", "plunge"):
                     state.add_item("kick_or_plunge", self.player)
         elif isinstance(mapping, ItemMappingData):
-            if mapping.max is None or state.count(item.name, self.player) < mapping.max:
+            first_only = mapping.first_only if mapping.first_only is not None else False
+            if not first_only or state.count(item.name, self.player) == 0:
                 count = mapping.count if mapping.count is not None else 1
-                state.add_item(mapping.name, self.player, count)
-                if mapping.name in ("kick", "plunge"):
-                    state.add_item("kick_or_plunge", self.player, count)
+                for name in mapping.names:
+                    state.add_item(name, self.player, count)
+                    if name in ("kick", "plunge"):
+                        state.add_item("kick_or_plunge", self.player, count)
         return super().collect(state, item)
 
     def remove(self, state: CollectionState, item: PseudoregaliaItem) -> bool:
@@ -132,9 +134,11 @@ class PseudoregaliaWorld(World):
             if index < len(mapping):
                 state.remove_item(mapping[index], self.player)
         elif isinstance(mapping, ItemMappingData):
-            if mapping.max is None or state.count(item.name, self.player) < mapping.max:
+            first_only = mapping.first_only if mapping.first_only is not None else False
+            if not first_only or state.count(item.name, self.player) == 0:
                 count = mapping.count if mapping.count is not None else 1
-                state.remove_item(mapping.name, self.player, count)
+                for name in mapping.names:
+                    state.remove_item(name, self.player, count)
         return ret
 
     # generation overrides
