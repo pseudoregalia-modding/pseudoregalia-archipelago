@@ -1172,6 +1172,20 @@ locations:
         has:
           kick: 3
           plunge: 1
+      - options:
+          difficulty: expert
+        ref: can_gold_slide_ultra
+        has: kick
+      - options:
+          difficulty: expert
+        has:
+          slide: 1
+          light: 1
+      - options:
+          difficulty: expert
+        has:
+          slide: 1
+          kick: 2
   - name: Dilapidated Dungeon - Past Poles
     code: 5
     region: Dungeon Strong Eyes
@@ -1202,6 +1216,11 @@ locations:
         has:
           slide_jump: 1
           kick: 1
+      - options:
+          difficulty: expert
+        has:
+          slide: 1
+          kick: 1
   - name: Dilapidated Dungeon - Rafters
     code: 6
     region: Dungeon Strong Eyes
@@ -1228,6 +1247,19 @@ locations:
         has:
           kick: 1
           light: 1
+      - options:
+          difficulty: expert
+        has:
+          kick_or_plunge: 2
+      - options:
+          difficulty: expert
+        ref: can_gold_ultra
+        has: kick_or_plunge
+      - options:
+          difficulty: expert
+        has:
+          light: 1
+          cling: 2
   - name: Dilapidated Dungeon - Strong Eyes
     code: 7
     region: Dungeon Strong Eyes
@@ -1286,6 +1318,9 @@ locations:
       - has: plunge
         tags:
           old_obscure: 1
+      - options:
+          difficulty: expert
+        has: slide
   - name: Castle Sansa - Balcony
     code: 10
     region: Castle Main
@@ -1303,6 +1338,18 @@ locations:
         has:
           slide_jump: 1
           kick: 1
+      - options:
+          difficulty: expert
+        has:
+          kick: 3
+      - options:
+          difficulty: expert
+        has:
+          plunge: 1
+          kick: 1
+      - options:
+          difficulty: expert
+        has: slide
   - name: Castle Sansa - Corner Corridor
     code: 11
     region: Castle Main
@@ -1316,6 +1363,11 @@ locations:
           difficulty: hard
         has:
           kick: 3
+      - options:
+          difficulty: expert
+        has:
+          kick: 2
+          slide: 1
   - name: Castle Sansa - Floater In Courtyard
     code: 12
     region: Castle Main
@@ -1347,6 +1399,29 @@ locations:
           difficulty: hard
         has:
           cling: 4
+      - options:
+          difficulty: expert
+        has:
+          light: 1
+          slide: 1
+      - options:
+          difficulty: expert
+        ref: can_gold_ultra
+        has: kick
+      - options:
+          difficulty: expert
+        has:
+          slide: 1
+          kick_or_plunge: 2
+      - options:
+          difficulty: expert
+        has:
+          kick: 3
+      - options:
+          difficulty: expert
+        has:
+          cling: 2
+
   - name: Castle Sansa - Locked Door
     code: 13
     region: Castle Main
@@ -1367,6 +1442,9 @@ locations:
       - options:
           difficulty: hard
         has: kick_or_plunge
+      - options:
+          difficulty: expert
+        has: slide
   - name: Castle Sansa - Tall Room Near Wheel Crawlers
     code: 15
     region: Castle Main
@@ -1391,6 +1469,9 @@ locations:
         has:
           slide_jump: 1
           plunge: 1
+      - options:
+          difficulty: expert
+        ref: can_gold_ultra
   - name: Castle Sansa - Wheel Crawlers
     code: 16
     region: Castle Main
@@ -1415,6 +1496,12 @@ locations:
         has:
           slide_jump: 1
           plunge: 1
+      - options:
+          difficulty: expert
+        has: kick_or_plunge
+      - options:
+          difficulty: expert
+        has: slide
   - name: Castle Sansa - High Climb From Courtyard
     code: 17
     region: Castle High Climb
@@ -1436,6 +1523,18 @@ locations:
         has:
           plunge: 1
           slide_jump: 1
+      - options:
+          difficulty: expert
+        ref: can_attack
+        has: kick
+      - options:
+          difficulty: expert
+        has:
+          cling: 2
+          kick: 1
+      - options:
+          difficulty: expert
+        has: slide
   - name: Castle Sansa - Alcove Near Scythe Corridor
     code: 18
     region: Castle By Scythe Corridor
@@ -1461,6 +1560,19 @@ locations:
         has:
           kick: 2
           plunge: 1
+      - options:
+          difficulty: expert
+        has:
+          kick_or_plunge: 3
+      - options:
+          difficulty: expert
+        has:
+          slide: 1
+          kick: 1
+      - options:
+          difficulty: expert
+        ref: can_gold_ultra
+        has: plunge
   - name: Castle Sansa - Near Theatre Front
     code: 19
     region: Castle Moon Room
@@ -1480,6 +1592,18 @@ locations:
         has:
           cling: 2
           kick: 2
+      - options:
+          difficulty: expert
+        ref: can_gold_slide_ultra
+      - options:
+          difficulty: expert
+        has:
+          slide: 1
+          kick: 1
+      - options:
+          difficulty: expert
+        has:
+          cling: 4
 
   - name: Sansa Keep - Strikebreak
     code: 20
@@ -1501,6 +1625,12 @@ locations:
         - options:
             difficulty: hard
           has: kick
+        - options:
+            difficulty: expert
+          has: slide
+        - options:
+            difficulty: expert
+          has: plunge
   - name: Sansa Keep - Alcove Near Locked Door
     code: 21
     region: Keep Locked Room
@@ -1520,6 +1650,9 @@ locations:
       - has: kick_or_plunge
       - has:
           cling: 2
+      - options:
+          difficulty: expert
+        has: slide
   - name: Sansa Keep - Sunsetter
     code: 25
     region: Keep Sunsetter
@@ -1544,11 +1677,13 @@ locations:
           kick_or_plunge: 1
       - has:
           kick_or_plunge: 2
-      - options:
-          difficulty: hard
-        ref: can_attack
-        has:
-          cling: 4
+        - options:
+            difficulty: hard
+          has:
+            cling: 4
+        - options:
+            difficulty: expert
+          has: slide
   - name: Listless Library - Locked Door Across
     code: 28
     region: Library Locked
@@ -1562,6 +1697,9 @@ locations:
           difficulty: hard
         has:
           kick_or_plunge: 1
+      - options:
+          difficulty: expert
+        has: slide
   - name: Listless Library - Locked Door Left
     code: 29
     region: Library Locked
@@ -1578,6 +1716,15 @@ locations:
           difficulty: hard
         has:
           kick: 2
+      - options:
+          difficulty: expert
+        has:
+          kick_or_plunge: 2
+      - options:
+          difficulty: expert
+        has:
+          slide: 1
+          kick_or_plunge: 1
 
   - name: Twilight Theatre - Soul Cutter
     code: 30
@@ -1590,11 +1737,12 @@ locations:
         - has: kick_or_plunge
         - has:
             cling: 2
-      - options:
-          difficulty: hard
-        has:
-          strikebreak: 1
-          slide_jump: 1
+        - options:
+            difficulty: hard
+          has: slide_jump
+        - options:
+            difficulty: expert
+          has: slide
   - name: Twilight Theatre - Back Of Auditorium
     code: 31
     region: Theatre Main
@@ -1609,6 +1757,9 @@ locations:
       - options:
           difficulty: hard
         has: slide_jump
+      - options:
+          difficulty: expert
+        has: slide
   - name: Twilight Theatre - Center Stage
     code: 32
     region: Theatre Main
@@ -1626,6 +1777,11 @@ locations:
           cling: 6
           kick_or_plunge: 1
           slide_jump: 1
+      - options:
+          difficulty: expert
+        has:
+          cutter: 1
+          cling: 4
   - name: Twilight Theatre - Locked Door
     code: 33
     region: Theatre Main
@@ -1639,6 +1795,9 @@ locations:
             difficulty: hard
           has:
             cling: 4
+        - options:
+            difficulty: expert
+          has: slide
   - name: Twilight Theatre - Tucked Behind Boxes
     code: 34
     region: Theatre Main
@@ -1667,6 +1826,20 @@ locations:
         has:
           cling: 2
           slide_jump: 1
+      - options:
+          difficulty: expert
+        has:
+          kick: 3
+      - options:
+          difficulty: expert
+        has:
+          slide: 1
+          kick_or_plunge: 2
+      - options:
+          difficulty: expert
+        has:
+          slide: 1
+          cling: 2
 
   - name: Empty Bailey - Solar Wind
     code: 36
@@ -1686,6 +1859,12 @@ locations:
         has:
           kick: 2
           breaker: 1
+      - options:
+          difficulty: expert
+        has: kick
+      - options:
+          difficulty: expert
+        has: slide
   - name: Empty Bailey - Cheese Bell
     code: 38
     region: Bailey Upper
@@ -1704,6 +1883,11 @@ locations:
           difficulty: hard
         has:
           cling: 6
+      - options:
+          difficulty: expert
+        has:
+          slide: 1
+          kick: 1
   - name: Empty Bailey - Guarded Hand
     code: 39
     region: Bailey Lower
@@ -1755,6 +1939,11 @@ locations:
         has:
           kick: 2
           slide_jump: 1
+      - options:
+          difficulty: expert
+        has:
+          kick: 1
+          slide: 1
   - name: The Underbelly - Building Near Little Guy
     code: 43
     region: Underbelly => Bailey
@@ -1767,6 +1956,12 @@ locations:
           difficulty: hard
         has:
           kick: 2
+      - options:
+          difficulty: expert
+        has: kick
+      - options:
+          difficulty: expert
+        has: slide
   - name: The Underbelly - Locked Door
     code: 44
     region: Underbelly By Heliacal
@@ -1791,6 +1986,12 @@ locations:
       - options:
           difficulty: hard
         has: slide_jump
+      - options:
+          difficulty: expert
+        has: slide
+      - options:
+          difficulty: expert
+        has: kick
   - name: The Underbelly - Rafters Near Keep
     code: 46
     region: Underbelly => Keep
@@ -1807,6 +2008,9 @@ locations:
           difficulty: hard
         has:
           cling: 2
+      - options:
+          difficulty: expert
+        has: slide
   - name: The Underbelly - Strikebreak Wall
     code: 47
     region: Underbelly Main Upper
@@ -1825,6 +2029,21 @@ locations:
             difficulty: hard
           has:
             kick_or_plunge: 3
+        - options:
+            difficulty: expert
+          has:
+            kick: 1
+            plunge: 1
+        - options:
+            difficulty: expert
+          has:
+            slide: 1
+            kick: 2
+        - options:
+            difficulty: expert
+          ref: can_gold_ultra
+          has:
+            cling: 2
 
   - name: The Underbelly - Surrounded By Holes
     code: 48
@@ -1847,6 +2066,17 @@ locations:
         has:
           plunge: 1
           cling: 6
+      - options:
+          difficulty: expert
+        has:
+          cutter: 1
+          slide: 1
+      - options:
+          difficulty: expert
+        has:
+          slide: 1
+          kick: 1
+          plunge: 1
 
   - name: Tower Remains - Cling Gem
     code: 49
@@ -1859,6 +2089,9 @@ locations:
           difficulty: hard
         has:
           cling: 2
+      - options:
+          difficulty: expert
+        has: slide
     can_create:
       split_cling_gem: false
   - name: Tower Remains - Atop The Tower
@@ -2003,6 +2236,9 @@ locations:
           difficulty: hard
         has:
           cling: 2
+      - options:
+          difficulty: expert
+        has: slide
     can_create:
       split_cling_gem: true
   - name: Tower Remains - Cling Gem 2
@@ -2016,6 +2252,9 @@ locations:
           difficulty: hard
         has:
           cling: 2
+      - options:
+          difficulty: expert
+        has: slide
     can_create:
       split_cling_gem: true
   - name: Tower Remains - Cling Gem 3
@@ -2029,6 +2268,9 @@ locations:
           difficulty: hard
         has:
           cling: 2
+      - options:
+          difficulty: expert
+        has: slide
     can_create:
       split_cling_gem: true
 
@@ -2093,6 +2335,9 @@ locations:
           difficulty: hard
         has:
           cling: 2
+      - options:
+          difficulty: expert
+        has: slide
     can_create:
       randomize_goats: true
   - name: Castle Sansa - Trapped Goatling
@@ -2277,6 +2522,9 @@ locations:
           tags:
             old_obscure: 1
           has: slide_jump
+        - options:
+            difficulty: expert
+          has: slide
     can_create:
       randomize_chairs: true
 
@@ -2364,6 +2612,9 @@ locations:
       - options:
           difficulty: hard
         has: slide_jump
+      - options:
+          difficulty: expert
+        has: slide
     can_create:
       randomize_notes: true
   - name: The Underbelly - Note in the Big Room
@@ -2386,6 +2637,13 @@ locations:
         has:
           cling: 6
           kick: 1
+      - options:
+          difficulty: expert
+        has: slide
+      - options:
+          difficulty: expert
+        has:
+          cling: 6
     can_create:
       randomize_notes: true
   - name: The Underbelly - Note Behind a Locked Door
