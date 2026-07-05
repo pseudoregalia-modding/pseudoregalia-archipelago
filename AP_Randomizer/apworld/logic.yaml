@@ -120,10 +120,16 @@ regions:
         has: slide
     - region: Dungeon Escape Lower
       rule:
-        and:
+        or:
+        - and:
           #  - ref: dungeon_escape  # TODO: add this later
           - ref: can_attack
           - ref: can_enter_dark_rooms
+        - options:
+            difficulty: expert
+          ref: can_gold_ultra
+          has: kick
+
       # keeping this version for reference, but keeping the assumptions about macros consistent
       # rule:
       #   or:
@@ -244,6 +250,9 @@ regions:
         - tags:
             old_obscure: 1
           has: plunge
+        - options:
+            difficulty: expert
+          has: slide
   - name: Castle Main
     exits:
     - region: Dungeon => Castle
@@ -267,6 +276,9 @@ regions:
         - options:
             difficulty: hard
           - has: kick
+        - options:
+            difficulty: expert
+          has: slide
     - region: Castle Spiral Climb
       rule:
         or:
@@ -288,6 +300,14 @@ regions:
           has:
             slide_jump: 1
             plunge: 1
+        - options:
+            difficulty: expert
+          ref: can_gold_ultra
+        - options:
+            difficulty: expert
+          has:
+            slide: 1
+            kick_or_plunge: 1
     - region: Keep (Northeast) => Castle
       rule:  # TODO: not sure about this logic, idk where doing it with no items should go
         or:
@@ -317,10 +337,27 @@ regions:
             old_obscure: 1
           reg: can_attack
           has: slide_jump
+        - options:
+            difficulty: expert
+          ref: can_gold_slide_ultra
+        - options:
+            difficulty: expert
+          has:
+            slide: 1
+            kick_or_plunge: 1
+        - options:
+            difficulty: expert
+          has:
+            kick: 2
     - region: Castle By Scythe Corridor
       rule:
-        has:
-          cling: 2
+        or:
+        - has:
+            cling: 2
+        - options:
+            difficulty: expert
+          has:
+            kick_or_plunge: 4
   - name: Castle High Climb
 
   - name: Castle By Scythe Corridor
@@ -361,15 +398,33 @@ regions:
           has:
             kick: 1
             plunge: 1
+        - options:
+            difficulty: expert
+          has: slide
+        - options:
+            difficulty: expert
+          has:
+            kick_or_plunge: 2
     - region: Castle => Theatre (Front)
       rule:
-        has:
-          cling: 4
-          kick_or_plunge: 2
+        or:
+        - has:
+            cling: 4
+            kick_or_plunge: 2
         - options:
             difficulty: hard
           has:
             cling: 6
+        - options:
+            difficulty: expert
+          ref: can_gold_ultra
+          has:
+            kick: 2
+        - options:
+            difficulty: expert
+          has:
+            slide: 1
+            kick_or_plunge: 3
   - name: Castle => Theatre (Front)
     exits:
     - region: Castle By Scythe Corridor
@@ -382,6 +437,18 @@ regions:
             kick: 1
         - has:
             kick: 4
+        - options:
+            difficulty: expert
+          ref: can_gold_slide_ultra
+        - options:
+            difficulty: expert
+          has:
+            slide: 1
+            kick: 1
+        - options:
+            difficulty: expert
+          has:
+            kick: 3
     - region: Castle Moon Room
       rule:
         or:
@@ -394,6 +461,9 @@ regions:
             difficulty: hard
           has:
             kick: 4
+        - options:
+            difficulty: expert
+          has: slide
     - region: Theatre Main
       rule:
         or:
@@ -406,6 +476,14 @@ regions:
             difficulty: hard
           has:
             kick: 4  # TODO double check for hard logic
+        - options:
+            difficulty: expert
+          ref: can_gold_slide_ultra
+        - options:
+            difficulty: expert
+          has:
+            slide: 1
+            kick_or_plunge: 1
   - name: Castle Moon Room
 
 
@@ -437,6 +515,12 @@ regions:
             old_obscure: 1
           has:
             kick_or_plunge: 2
+        - options:
+            difficulty: expert
+          has: plunge
+        - options:
+            difficulty: expert
+          has: slide
     - region: Castle Main
       rule:
         ref: can_attack
@@ -456,6 +540,9 @@ regions:
             difficulty: hard
           ref: can_attack
           has: kick
+        - options:
+            difficulty: expert
+          has: slide
   - name: Library Top
     exits:
     - region: Library Back
@@ -484,6 +571,10 @@ regions:
             kick: 2
             plunge: 1
             light: 1
+        - options:
+            difficulty: expert
+          has:
+            kick: 2
   - name: Library Back
     exits:
     - region: Library Greaves
@@ -508,6 +599,9 @@ regions:
             difficulty: hard
           has:
             cling: 2
+        - options:
+            difficulty: expert
+          has: slide
   - name: Keep Main
     exits:
     - region: Keep Locked Room
@@ -582,12 +676,44 @@ regions:
           has:
             light: 1
             kick: 3
+        - options:
+            difficulty: expert
+          has:
+            breaker: 1
+            cling: 4
+        - options:
+            difficulty: expert
+          has:
+            breaker: 1
+            cling: 2
+            kick: 1
+        - options:
+            difficulty: expert
+          has:
+            breaker: 1
+            cling: 2
+            slide: 1
+        - options:
+            difficulty: expert
+          has:
+            breaker: 1
+            light: 1
+            kick_or_plunge: 3
+         - options:
+            difficulty: expert
+          has:
+            breaker: 1
+            slide: 1
+            kick: 3
     - region: Keep => Underbelly
       rule:
         or:
         - has: kick_or_plunge
         - has:
             cling: 2
+        - options:
+            difficulty: expert
+          has: slide
     - region: Theatre Outside Scythe Corridor
       rule:
         or:
@@ -599,6 +725,9 @@ regions:
         - tags:
             old_obscure: 1
           has: plunge  # TODO: this doesn't really matter right now but is a little questionable for normal
+        - options:
+            difficulty: expert
+          has: slide
     - region: Keep (Northeast) => Castle
       rule:
         or:
@@ -610,6 +739,9 @@ regions:
         - options:
             difficulty: hard
           has: kick
+        - options:
+            difficulty: expert
+          has: slide
     - region: Castle Main
   - name: Keep Locked Room
     exits:
@@ -645,6 +777,9 @@ regions:
             difficulty: hard
           has:
             cling: 2
+        - options:
+            difficulty: expert
+          has: slide
     - region: Castle Main
     - region: Theatre Pillar => Bailey
   - name: Bailey Upper
@@ -711,6 +846,22 @@ regions:
           ref: can_attack
           has:
             cling: 2
+        - options:
+            difficulty: expert
+          has:
+            slide: 1
+            cling: 2
+        - options:
+            difficulty: expert
+          has:
+            slide: 1
+            kick: 2
+        - options:
+            difficulty: expert
+          ref: can_gold_ultra
+          has:
+            kick: 1
+            plunge: 1
   - name: Underbelly => Dungeon
     exits:
     - region: Dungeon Escape Lower
@@ -737,6 +888,11 @@ regions:
             difficulty: hard
           has:
             cling: 2
+        - options:
+            difficulty: expert
+          has:
+            kick: 1
+            slide: 1
   - name: Underbelly Light Pillar
     exits:
     - region: Underbelly Main Upper
@@ -746,6 +902,22 @@ regions:
         - has: light
         - has:
             kick_or_plunge: 4
+        - options:
+            difficulty: expert
+          has:
+            slide: 1
+            kick: 3
+        - options:
+            difficulty: expert
+          ref: can_gold_ultra
+          has:
+            kick: 1
+            plunge: 1
+        - options:
+            difficulty: expert
+          has:
+            plunge: 1
+            kick: 2
     - region: Underbelly Ascendant Light
       # this route is more difficult with ascendant light because of the long room with the switches, but
       # since it's possible to use AL to go up the pillar and get to the item that way (i.e. passing through
@@ -774,6 +946,22 @@ regions:
           has:
             plunge: 1
             cling: 2
+        - options:
+            difficulty: expert
+          has:
+            plunge: 1
+            kick: 1
+        - options:
+            difficulty: expert
+          ref: can_attack
+          has:
+            slide: 1
+        - options:
+            difficulty: expert
+          ref: can_gold_ultra
+          has:
+            kick: 3
+            cling: 4
   - name: Underbelly Ascendant Light
     exits:
     - region: Underbelly => Dungeon
@@ -787,6 +975,16 @@ regions:
         - has:
             kick: 1
             slide_jump: 1
+        - options:
+            difficulty: expert
+          has:
+            kick: 1
+            slide: 1
+        - options:
+            difficulty: expert
+          has:
+            kick: 1
+            plunge: 1
   - name: Underbelly Main Lower
     exits:
     - region: Underbelly => Bailey
@@ -806,35 +1004,62 @@ regions:
             cling: 4
     - region: Underbelly By Heliacal
       rule:
-        has:
-          slide: 1
-          plunge: 1
+        or:
+        - has:
+            slide: 1
+            plunge: 1
         - options:
             difficulty: hard
           has:
             slide: 1
             kick: 2
+        - options:
+            difficulty: expert
+          has: slide
     - region: Underbelly Main Upper
       rule:
-        tags:
-          old_obscure: 1
-        has:
-          plunge: 1
-          kick: 2
-        - options:
-            difficulty: hard
-          tags:
+        or:
+        - tags:
             old_obscure: 1
           or:
           - has:
               plunge: 1
+              kick: 2
+          - options:
+              difficulty: hard
+            has:
+              plunge: 1
               kick: 1
-          - has:
+          - options:
+              difficulty: hard
+            has:
               plunge: 1
               cling: 4
-          - has:
+          - options:
+              difficulty: hard
+            has:
               kick: 2
               cling: 2
+        - options:
+            difficulty: expert
+          has:
+            kick: 2
+        - options:
+            difficulty: expert
+          has:
+            kick: 1
+            cling: 2
+        - options:
+            difficulty: expert
+          has:
+            slide: 1
+            cling: 4
+        - options:
+            difficulty: expert
+          ref: can_gold_slide_ultra
+          has:
+            kick: 1
+            breaker: 1
   - name: Underbelly Main Upper
     exits:
     - region: Underbelly Main Lower
@@ -867,6 +1092,31 @@ regions:
             slide_jump: 1
             kick: 1
             plunge: 1
+        - options:
+            difficulty: expert
+          has:
+            breaker: 1
+            slide: 1
+        - options:
+            difficulty: expert
+          has:
+            breaker: 1
+            kick: 1
+        - options:
+            difficulty: expert
+          has:
+            slide: 1
+            kick_or_plunge: 3
+        - options:
+            difficulty: expert
+          has:
+            slide: 1
+            cling: 6
+        - options:
+            difficulty: expert
+          ref: can_gold_ultra
+          has:
+            kick_or_plunge: 2
     - region: Underbelly By Heliacal
       rule:
         and:
@@ -881,6 +1131,33 @@ regions:
           - has:
               cling: 2
               kick: 2
+          - options:
+              difficulty: hard
+            has: light
+          - options:
+              difficulty: hard
+            has:
+              cling: 2
+              kick_or_plunge: 1
+          - options:
+              difficulty: hard
+            has:
+              kick_or_plunge: 4
+          - options:
+              difficulty: hard
+            tags:
+              old_obscure: 1
+            has:
+              cling:4
+          - options:
+              difficulty: expert
+            has:
+              slide: 1
+              kick: 2
+          - options:
+              difficulty: expert
+            has:
+              kick: 3
   - name: Underbelly By Heliacal
     exits:
     - region: Underbelly Main Upper
@@ -891,26 +1168,42 @@ regions:
             plunge: 1
         - tags:
             old_obscure: 1
-          has: plunge
-        - or:
-          - has: kick
-          - has:
-              cling: 2
+          has:
+            plunge: 1
+            kick: 1
+        - tags:
+            old_obscure: 1
+          has:
+            plunge: 1
+            cling: 2
         - options:
-            difficulty: hard
-          and:
-          - has: breaker
-          - or:
-            - has: light
-            - has:
-                cling: 2
-                kick_or_plunge: 1
-            - has:
-                kick_or_plunge: 4
-            - tags:
-                old_obscure: 1
-              has:
-                cling: 4
+            difficulty: expert
+          has: plunge
+        - options:
+            difficulty: expert
+          has:
+            breaker: 1
+            slide: 1
+        - options:
+            difficulty: expert
+          has:
+            breaker: 1
+            cling: 2
+        - options:
+            difficulty: expert
+          has:
+            breaker: 1
+            kick: 1
+        - options:
+            difficulty: expert
+          has:
+            slide: 1
+            cling: 2
+        - options:
+            difficulty: expert
+          has:
+            slide: 1
+            kick: 2
   - name: Underbelly => Bailey
     exits:
     - region: Bailey Upper
@@ -1014,6 +1307,9 @@ regions:
             cling: 2
         - has: kick
         - has: slide_jump
+        - options:
+            difficulty: expert
+          has: slide
   - name: Theatre Pillar => Bailey
     exits:
     - region: Theatre Pillar
@@ -1033,6 +1329,13 @@ regions:
             difficulty: hard
           has:
             slide_jump: 1
+        - options:
+            difficulty: expert
+          has: slide
+        - options:
+            difficulty: expert
+          has:
+            cling: 2
     - region: Bailey Lower
   - name: Castle => Theatre Pillar
     exits:
@@ -1041,8 +1344,18 @@ regions:
       - rule:
           has: plunge
       - options:
-         difficulty: hard
+          difficulty: hard
         has: slide_jump
+      - options:
+          difficulty: expert
+        has: kick
+      - options:
+          difficulty: expert
+        has:
+          cling: 2
+      - options:
+          difficulty: expert
+        has: slide
     - region: Castle Main
   - name: Theatre Pillar
     exits:
@@ -1058,6 +1371,11 @@ regions:
             difficulty: hard
           has:
             slide_jump: 1
+            kick_or_plunge: 3
+        - options:
+            difficulty: expert
+          has:
+            slide: 1
             kick_or_plunge: 3
     - region: Theatre Pillar => Bailey
     - region: Castle => Theatre Pillar
@@ -1088,6 +1406,10 @@ regions:
         - tags:
             old_obscure: 1
           has: plunge
+        - options:
+            difficulty: expert
+          ref: can_enter_darkrooms
+          has: slide
     - region: Keep Main
       rule:
         or:
@@ -1099,6 +1421,9 @@ regions:
         - tags:
             old_obscure: 1
           has: plunge
+        - options:
+            difficulty: expert
+          has: slide
   - name: The Great Door
 
 
