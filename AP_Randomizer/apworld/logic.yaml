@@ -1,46 +1,65 @@
 item_mapping:
   Dream Breaker: breaker
   Sun Greaves:
-    name: kick
+    names:
+      - kick
+      - kick_or_plunge
     count: 3
     first_only: true
   Slide: slide
   Solar Wind: slide_jump
-  Sunsetter: plunge
+  Sunsetter:
+    names: 
+      - plunge
+      - kick_or_plunge
+    first_only: true
   Strikebreak: strikebreak
   Cling Gem:
-    name: cling
+    names:
+      - cling
     count: 6
     first_only: true
   Ascendant Light: light
   Soul Cutter: cutter
-  Heliacal Power: kick
+  Heliacal Power:
+    names:
+      - kick
+      - kick_or_plunge
   Small Key: small_key
   Major Key - Empty Bailey:
-    name: major_key
+    names:
+      - major_key
     first_only: true
   Major Key - The Underbelly:
-    name: major_key
+    names:
+      - major_key
     first_only: true
   Major Key - Tower Remains:
-    name: major_key
+    names:
+      - major_key
     first_only: true
   Major Key - Sansa Keep:
-    name: major_key
+    names:
+      - major_key
     first_only: true
   Major Key - Twilight Theatre:
-    name: major_key
+    names:
+      - major_key
     first_only: true
   Progressive Slide:
   - slide
   - slide_jump
-  Air Kick: kick
+  Air Kick:
+    names:
+      - kick
+      - kick_or_plunge
   Progressive Dream Breaker:
   - breaker
   - strikebreak
   - cutter
   Cling Shard:
-    name: cling
+    names:
+      - cling
     count: 2
 
 tags:

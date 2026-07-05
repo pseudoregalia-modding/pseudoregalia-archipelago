@@ -11,8 +11,8 @@ class PseudoregaliaData:
     A str value is a simple mapping, so one of this item maps to one of the pseudo item.
     A list[str] value is for progressive items: the first of this item maps to the pseudo item at index 0, the second
       maps to the pseudo item at index 1, etc.
-    An ItemMappingData value is for cases where one of the item maps to more than one of the pseudo item and/or only the
-      first of the item contributes to the pseudo item.
+    An ItemMappingData value is for cases where the item maps to more than one pseudo item, one of the item maps to more
+      than one of the pseudo item, or only the first of the item contributes to the pseudo item.
     """
     tags: list[TagData]
     """Defines the tags that can be used to filter rules."""
@@ -42,8 +42,8 @@ class PseudoregaliaData:
 
 @dataclass
 class ItemMappingData:
-    name: str
-    """The name of the pseudo item to map to."""
+    names: list[str]
+    """The names of the pseudo items to map to."""
     count: int | None
     """The amount of the pseudo item that one of this item maps to. None defaults to 1."""
     first_only: bool | None
