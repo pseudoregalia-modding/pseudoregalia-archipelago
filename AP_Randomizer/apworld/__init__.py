@@ -1,5 +1,6 @@
 import pkgutil
 from typing import Any
+from collections import defaultdict
 import yaml
 
 from worlds.AutoWorld import World, WebWorld
@@ -60,7 +61,7 @@ class PseudoregaliaWorld(World):
     filler = ("Healing", "Magic Power")
     filler_index = 0
 
-    tags: dict[str, int] = {}
+    tags: dict[str, int]
 
     def create_key_hints(self) -> Any:
         key_hints = [[] for _ in range(5)]
@@ -153,6 +154,7 @@ class PseudoregaliaWorld(World):
                 # start_with_breaker is forced on if otherwise player wouldn't have enough checks
                 self.options.start_with_breaker.value = 1
 
+        self.tags = defaultdict(lambda: 0)
         # TODO fill out self.tags based on player options
 
     def create_regions(self):
@@ -169,7 +171,8 @@ class PseudoregaliaWorld(World):
             if not check_options(self.options, loc_data.can_create):
                 continue
             region = self.get_region(loc_data.region)
-            new_loc = PseudoregaliaLocation(self.player, loc_data.name, loc_data.code, region)
+            loc_id = None if loc_data.code is None else 2365810000 + loc_data.code
+            new_loc = PseudoregaliaLocation(self.player, loc_data.name, loc_id, region)
             region.locations.append(new_loc)
             rule = pseudoregalia_rules.location_rules.get(loc_data.name)
             if rule is not None:
