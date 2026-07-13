@@ -136,6 +136,8 @@ class RuleData:
     
     All string values in this type must be valid item names or the names of pseudo items in item_mapping.
     """
+    can_reach_region: str | None
+    """Maps to the CanReachRegion RuleBuilder object."""
     ref: str | None
     """Maps to a ref_rule by name."""
     tags: dict[str, int] | None

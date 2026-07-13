@@ -156,6 +156,18 @@ ref_rules:
             light_breaker: 1
         - tags:
             not_afraid_of_the_dark: 3
+  - name: can_get_cling_gem
+    rule:
+      or:
+        - has:
+            kick_or_plunge: 2 # climb the right tower and cross
+        - has:
+            cling: 2
+          tags:
+            logic_level: hard
+        - has: slide
+          tags:
+            logic_level: expert
 
 regions:
   - name: Dungeon Mirror
@@ -830,7 +842,7 @@ regions:
                 old_obscure: 1
             - has: slide
               tags:
-                logic_level: expert                
+                logic_level: expert
       - region: Keep (Northeast) => Castle
         rule:
           or:
@@ -1565,7 +1577,7 @@ regions:
             - ref: can_slide_jump
             - has: plunge
               tags:
-                  old_obscure: 1
+                old_obscure: 1
             - has: slide
               tags:
                 logic_level: expert
@@ -1609,53 +1621,56 @@ locations:
     region: Dungeon Escape Upper
     rule:
       or:
-        - has:
-            cling: 2
-            light: 1
+        - and:
+            - has:
+                cling: 2
+            - ref: can_bounce
         - has:
             cling: 2
             kick_or_plunge: 3
+        - and:
+            - has:
+                kick: 2
+            - ref: can_bounce
+        - and:
+            - ref: can_slide_jump
+            - ref: can_bounce
+            - has: kick
         - has:
-            kick: 2
-            light: 1
-        - has:
-            slide_jump: 1
-            kick: 1
-            light: 1
-        - options:
-            logic_level: hard
-          has:
             cling: 6
-        - options:
+          tags:
             logic_level: hard
-          has:
-            kick: 1
-            light: 1
-        - options:
+        - and:
+            - has: kick
+            - ref: can_bounce
+          tags:
             logic_level: hard
-          has:
-            slide_jump: 1
-            plunge: 1
-            light: 1
-        - options:
+        - and:
+            - ref: can_slide_jump
+            - has: plunge
+            - ref: can_bounce
+          tags:
             logic_level: hard
-          has:
+        - has:
             kick: 3
             plunge: 1
-        - options:
+          tags:
+            logic_level: hard
+        - and:
+            - ref: can_gold_slide_ultra
+            - has: kick
+          tags:
             logic_level: expert
-          ref: can_gold_slide_ultra
-          has: kick
-        - options:
+        - and:
+            - has: slide
+            - ref: can_bounce
+          tags:
             logic_level: expert
-          has:
-            slide: 1
-            light: 1
-        - options:
-            logic_level: expert
-          has:
+        - has:
             slide: 1
             kick: 2
+          tags:
+            logic_level: expert
   - name: Dilapidated Dungeon - Past Poles
     code: 5
     region: Dungeon Strong Eyes
@@ -1666,42 +1681,42 @@ locations:
             kick_or_plunge: 1
         - has:
             kick: 3
+        - and:
+            - ref: can_slide_jump
+            - has:
+                kick: 2
+          tags:
+            old_obscure: 1
         - has:
-            slide_jump: 1
-            kick: 2
-          tags:
-            old_obscure: 1
-        - options:
-            logic_level: hard
-          has:
             cling: 2
-        - options:
-            logic_level: hard
-          has:
-            kick: 2
-        - options:
-            logic_level: hard
           tags:
+            logic_level: hard
+        - has:
+            kick: 2
+          tags:
+            logic_level: hard
+        - and:
+            - ref: can_slide_jump
+            - has: kick
+          tags:
+            logic_level: hard
             old_obscure: 1
-          has:
-            slide_jump: 1
-            kick: 1
-        - options:
+        - has:
+            - slide
+            - kick
+          tags:
             logic_level: expert
-          has:
-            slide: 1
-            kick: 1
-        - options:
+        - has:
+            - kick
+            - plunge
+          tags:
             logic_level: lunatic
-          has:
-            kick: 1
-            plunge: 1
-        - options:
+        - has:
+            - breaker
+            - plunge
+            - slide
+          tags:
             logic_level: lunatic
-          has:
-            breaker: 1
-            plunge: 1
-            slide: 1
   - name: Dilapidated Dungeon - Rafters
     code: 6
     region: Dungeon Strong Eyes
@@ -1709,66 +1724,64 @@ locations:
       or:
         - has:
             kick_or_plunge: 3
-        - has:
-            light: 1
-            plunge: 1
+        - and:
+            - ref: can_bounce
+            - has: plunge
           tags:
             old_obscure: 1
-        - options:
-            logic_level: hard
-          has:
+        - has:
             cling: 6
-        - options:
+          tags:
             logic_level: hard
-          has:
-            kick: 1
-            plunge: 1
-        - options:
+        - has:
+            - kick
+            - plunge
+          tags:
             logic_level: hard
-          has:
-            kick: 1
-            light: 1
-        - options:
-            logic_level: expert
-          has:
+        - and:
+            - has: kick
+            - ref: can_bounce
+          tags:
+            logic_level: hard
+        - has:
             kick_or_plunge: 2
-        - options:
+          tags:
             logic_level: expert
-          ref: can_gold_ultra
-          has: kick_or_plunge
-        - options:
+        - and:
+            - ref: can_gold_ultra
+            - has: kick_or_plunge
+          tags:
             logic_level: expert
-          has:
-            light: 1
-            cling: 2
-        - options:
+        - and:
+            - ref: can_bounce
+            - has:
+                cling: 2
+          tags:
+            logic_level: expert
+        - ref: can_gold_ultra
+          tags:
             logic_level: lunatic
-          ref: can_gold_ultra
-        - options:
+        - has:
+            - slide
+            - plunge
+          tags:
             logic_level: lunatic
-          has:
-            slide: 1
-            plunge: 1
   - name: Dilapidated Dungeon - Strong Eyes
     code: 7
     region: Dungeon Strong Eyes
     rule:
       or:
         - has: breaker
-        - tags:
-            old_obscure: 1
-          options:
-            game_version: map_patch
-          or:
+        - or:
             - has:
                 cling: 2
             - has: kick
             - has: plunge
-        - tags:
+          tags:
             old_obscure: 1
           options:
-            game_version: full_gold
-          or:
+            game_version: map_patch
+        - or:
             - has:
                 cling: 2
                 kick: 1
@@ -1776,27 +1789,35 @@ locations:
             - has:
                 cling: 2
                 kick: 3
-        - options:
+          tags:
+            old_obscure: 1
+          options:
+            game_version: full_gold
+        - has: slide
+          tags:
+            logic_level: expert
+          options:
             game_version: map_patch
-            logic_level: expert
-          has: slide
-        - options:
-            game_version: full_gold
-            logic_level: expert
-          has:
+        - has:
             cling: 2
-        - options:
-            game_version: full_gold
+          tags:
             logic_level: expert
-          has:
-            slide: 1
-            kick: 1
-        - options:
+          options:
             game_version: full_gold
+        - has:
+            - slide
+            - kick
+          tags:
+            logic_level: expert
+          options:
+            game_version: full_gold
+        - has:
+            - slide
+            - plunge
+          tags:
             logic_level: lunatic
-          has:
-            slide: 1
-            kick_or_plunge: 1
+          options:
+            game_version: full_gold
 
   - name: Castle Sansa - Indignation
     code: 8
@@ -1809,13 +1830,13 @@ locations:
         - has:
             cling: 2
         - has: kick
-        - has: slide_jump
+        - ref: can_slide_jump
         - has: plunge
           tags:
             old_obscure: 1
-        - options:
+        - has: slide
+          tags:
             logic_level: expert
-          has: slide
   - name: Castle Sansa - Balcony
     code: 10
     region: Castle Main
@@ -1825,26 +1846,27 @@ locations:
             cling: 2
         - has:
             kick_or_plunge: 3
-        - has:
-            slide_jump: 1
-            kick_or_plunge: 2
-        - options:
+        - and:
+            - ref: can_slide_jump
+            - has:
+                kick_or_plunge: 2
+        - and:
+            - ref: can_slide_jump
+            - has: kick
+          tags:
             logic_level: hard
-          has:
-            slide_jump: 1
-            kick: 1
-        - options:
-            logic_level: expert
-          has:
+        - has:
             kick: 3
-        - options:
+          tags:
             logic_level: expert
-          has:
-            plunge: 1
-            kick: 1
-        - options:
+        - has:
+            - plunge
+            - kick
+          tags:
             logic_level: expert
-          has: slide
+        - has: slide
+          tags:
+            logic_level: expert
   - name: Castle Sansa - Corner Corridor
     code: 11
     region: Castle Main
@@ -1854,83 +1876,86 @@ locations:
             cling: 2
         - has:
             kick: 4
-        - options:
-            logic_level: hard
-          has:
+        - has:
             kick: 3
-        - options:
-            logic_level: expert
-          has:
+          tags:
+            logic_level: hard
+        - has:
             kick: 2
             slide: 1
-        - options:
+          tags:
+            logic_level: expert
+        - and:
+            - ref: can_gold_slide_ultra
+            - has: kick
+          tags:
             logic_level: lunatic
-          ref: can_gold_slide_ultra
-          has: kick
-        - options:
+        - has:
+            - slide
+            - kick
+            - plunge
+          tags:
             logic_level: lunatic
-          has:
-            slide: 1
-            kick: 1
-            plunge: 1
   - name: Castle Sansa - Floater In Courtyard
     code: 12
     region: Castle Main
     rule:
       or:
-        - has:
-            light: 1
-            plunge: 1
-        - has:
-            light: 1
-            kick: 2
+        - and:
+            - ref: can_bounce
+            - has: plunge
+        - and:
+            - ref: can_bounce
+            - has:
+                kick: 2
         - has:
             kick: 4
-        - has:
-            light: 1
-            kick: 1
+        - and:
+            - ref: can_bounce
+            - has: kick
           tags:
             old_obscure: 1
-        - options:
-            logic_level: hard
-          has:
+        - has:
             kick_or_plunge: 4
-        - options:
+          tags:
             logic_level: hard
-          has:
+        - has:
             cling: 2
             plunge: 1
-        - options:
+          tags:
             logic_level: hard
-          has:
+        - has:
             cling: 4
-        - options:
+          tags:
+            logic_level: hard
+        - and:
+            - ref: can_bounce
+            - has: slide
+          tags:
             logic_level: expert
-          has:
-            light: 1
-            slide: 1
-        - options:
+        - and:
+            - ref: can_gold_ultra
+            - has: kick
+          tags:
             logic_level: expert
-          ref: can_gold_ultra
-          has: kick
-        - options:
-            logic_level: expert
-          has:
+        - has:
             slide: 1
             kick_or_plunge: 2
-        - options:
+          tags:
             logic_level: expert
-          has:
+        - has:
             kick: 3
-        - options:
+          tags:
             logic_level: expert
-          has:
+        - has:
             cling: 2
-        - options:
+          tags:
+            logic_level: expert
+        - has:
+            - slide
+            - kick
+          tags:
             logic_level: lunatic
-          has:
-            slide: 1
-            kick: 1
   - name: Castle Sansa - Locked Door
     code: 13
     region: Castle Main
@@ -1948,15 +1973,15 @@ locations:
             cling: 2
         - has:
             kick: 2
-        - options:
+        - has: kick_or_plunge
+          tags:
             logic_level: hard
-          has: kick_or_plunge
-        - options:
+        - has: slide
+          tags:
             logic_level: expert
-          has: slide
-        - options:
+        - has: light
+          tags:
             logic_level: lunatic
-          has: light
   - name: Castle Sansa - Tall Room Near Wheel Crawlers
     code: 15
     region: Castle Main
@@ -1967,23 +1992,22 @@ locations:
             kick_or_plunge: 1
         - has:
             kick: 2
-        - options:
-            logic_level: hard
-          has:
+        - has:
             cling: 2
-        - options:
-            logic_level: hard
-          has: kick
-        - options:
-            logic_level: hard
           tags:
+            logic_level: hard
+        - has: kick
+          tags:
+            logic_level: hard
+        - tags:
+            logic_level: hard
             old_obscure: 1
-          has:
-            slide_jump: 1
-            plunge: 1
-        - options:
+          and:
+            - ref: can_slide_jump
+            - has: plunge
+        - ref: can_gold_ultra
+          tags:
             logic_level: expert
-          ref: can_gold_ultra
   - name: Castle Sansa - Wheel Crawlers
     code: 16
     region: Castle Main
@@ -1994,26 +2018,26 @@ locations:
             cling: 2
         - has:
             kick: 2
-        - has:
-            kick: 1
-            slide_jump: 1
+        - and:
+            - has: kick
+            - ref: can_slide_jump
         - has: plunge
           tags:
             old_obscure: 1
-        - options:
+        - has: kick
+          tags:
             logic_level: hard
-          has: kick
-        - options:
+        - and:
+            - ref: can_slide_jump
+            - has: plunge
+          tags:
             logic_level: hard
-          has:
-            slide_jump: 1
-            plunge: 1
-        - options:
+        - has: kick_or_plunge
+          tags:
             logic_level: expert
-          has: kick_or_plunge
-        - options:
+        - has: slide
+          tags:
             logic_level: expert
-          has: slide
   - name: Castle Sansa - High Climb From Courtyard
     code: 17
     region: Castle High Climb
@@ -2024,29 +2048,31 @@ locations:
         - has:
             cling: 2
             plunge: 1
-        - has: kick
-          ref: can_attack
-        - options:
-            logic_level: hard
-          has:
+        - and:
+            - has: kick
+            - ref: can_attack
+        - has:
             cling: 6
-        - options:
+          tags:
             logic_level: hard
-          has:
-            plunge: 1
-            slide_jump: 1
-        - options:
+        - and:
+            - has: plunge
+            - ref: can_slide_jump
+          tags:
+            logic_level: hard
+        - and:
+            - ref: can_attack
+            - has: kick
+          tags:
             logic_level: expert
-          ref: can_attack
-          has: kick
-        - options:
-            logic_level: expert
-          has:
+        - has:
             cling: 2
             kick: 1
-        - options:
+          tags:
             logic_level: expert
-          has: slide
+        - has: slide
+          tags:
+            logic_level: expert
   - name: Castle Sansa - Alcove Near Scythe Corridor
     code: 18
     region: Castle By Scythe Corridor
@@ -2058,33 +2084,34 @@ locations:
             plunge: 1
         - has:
             kick_or_plunge: 4
-        - options:
-            logic_level: hard
-          has:
+        - has:
             cling: 4
-        - options:
+          tags:
             logic_level: hard
-          has:
+        - has:
             plunge: 1
             cling: 2
-        - options:
+          tags:
             logic_level: hard
-          has:
+        - has:
             kick: 2
             plunge: 1
-        - options:
-            logic_level: expert
-          has:
+          tags:
+            logic_level: hard
+        - has:
             kick_or_plunge: 3
-        - options:
+          tags:
             logic_level: expert
-          has:
-            slide: 1
-            kick: 1
-        - options:
+        - has:
+            - slide
+            - kick
+          tags:
             logic_level: expert
-          ref: can_gold_ultra
-          has: plunge
+        - and:
+            - ref: can_gold_ultra
+            - has: plunge
+          tags:
+            logic_level: expert
   - name: Castle Sansa - Near Theatre Front
     code: 19
     region: Castle Moon Room
@@ -2095,34 +2122,34 @@ locations:
         - has:
             kick: 2
             plunge: 1
-        - options:
-            logic_level: hard
-          has:
+        - has:
             cling: 6
-        - options:
+          tags:
             logic_level: hard
-          has:
+        - has:
             cling: 2
             kick: 2
-        - options:
+          tags:
+            logic_level: hard
+        - ref: can_gold_slide_ultra
+          tags:
             logic_level: expert
-          ref: can_gold_slide_ultra
-        - options:
+        - has:
+            - slide
+            - kick
+          tags:
             logic_level: expert
-          has:
-            slide: 1
-            kick: 1
-        - options:
-            logic_level: expert
-          has:
+        - has:
             cling: 4
-        - options:
+          tags:
+            logic_level: expert
+        - has: slide
+          tags:
             logic_level: lunatic
-          has: slide
-        - options:
-            logic_level: lunatic
-          has:
+        - has:
             cling: 2
+          tags:
+            logic_level: lunatic
 
   - name: Sansa Keep - Strikebreak
     code: 20
@@ -2137,19 +2164,19 @@ locations:
             - has:
                 cling: 2
             - has:
-                plunge: 1
-                kick: 1
+                - plunge
+                - kick
             - has:
                 kick: 3
-            - options:
+            - has: kick
+              tags:
                 logic_level: hard
-              has: kick
-            - options:
+            - has: slide
+              tags:
                 logic_level: expert
-              has: slide
-            - options:
+            - has: plunge
+              tags:
                 logic_level: expert
-              has: plunge
   - name: Sansa Keep - Alcove Near Locked Door
     code: 21
     region: Keep Locked Room
@@ -2159,7 +2186,7 @@ locations:
     rule:
       or:
         - ref: can_attack
-        - options:
+        - tags:
             logic_level: lunatic
   - name: Sansa Keep - Lonely Throne
     code: 23
@@ -2172,9 +2199,9 @@ locations:
         - has: kick_or_plunge
         - has:
             cling: 2
-        - options:
+        - has: slide
+          tags:
             logic_level: expert
-          has: slide
   - name: Sansa Keep - Sunsetter
     code: 25
     region: Keep Sunsetter
@@ -2192,24 +2219,24 @@ locations:
     code: 27
     region: Library Top
     rule:
-      or:
+      and:
         - ref: can_attack
-          or:
+        - or:
             - has:
                 cling: 2
                 kick_or_plunge: 1
             - has:
                 kick_or_plunge: 2
-            - options:
-                logic_level: hard
-              has:
+            - has:
                 cling: 4
-            - options:
+              tags:
+                logic_level: hard
+            - has: slide
+              tags:
                 logic_level: expert
-              has: slide
-        - options:
-            logic_level: lunatic
-          has: plunge
+            - has: plunge
+              tags:
+                logic_level: lunatic
   - name: Listless Library - Locked Door Across
     code: 28
     region: Library Locked
@@ -2218,14 +2245,14 @@ locations:
         - has:
             cling: 2
         - has: kick
-        - has: slide_jump
-        - options:
-            logic_level: hard
-          has:
+        - ref: can_slide_jump
+        - has:
             kick_or_plunge: 1
-        - options:
+          tags:
+            logic_level: hard
+        - has: slide
+          tags:
             logic_level: expert
-          has: slide
   - name: Listless Library - Locked Door Left
     code: 29
     region: Library Locked
@@ -2233,42 +2260,42 @@ locations:
       or:
         - has:
             cling: 2
-        - has:
-            slide_jump: 1
-            kick: 1
+        - and:
+            - ref: can_slide_jump
+            - has: kick
         - has:
             kick_or_plunge: 3
-        - options:
-            logic_level: hard
-          has:
+        - has:
             kick: 2
-        - options:
-            logic_level: expert
-          has:
+          tags:
+            logic_level: hard
+        - has:
             kick_or_plunge: 2
-        - options:
+          tags:
             logic_level: expert
-          has:
-            slide: 1
-            kick_or_plunge: 1
+        - has:
+            - slide
+            - kick_or_plunge
+          tags:
+            logic_level: expert
 
   - name: Twilight Theatre - Soul Cutter
     code: 30
     region: Theatre Main
     rule:
       and:
-        - has: strikebreak
+        - ref: can_strikebreak
         - or:
-            - has: light
+            - ref: can_bounce
             - has: kick_or_plunge
             - has:
                 cling: 2
-            - options:
+            - ref: can_slide_jump
+              tags:
                 logic_level: hard
-              has: slide_jump
-            - options:
+            - has: slide
+              tags:
                 logic_level: expert
-              has: slide
   - name: Twilight Theatre - Back Of Auditorium
     code: 31
     region: Theatre Main
@@ -2280,34 +2307,37 @@ locations:
         - has: kick
         - has:
             cling: 2
-        - options:
+        - ref: can_slide_jump
+          tags:
             logic_level: hard
-          has: slide_jump
-        - options:
+        - has: slide
+          tags:
             logic_level: expert
-          has: slide
   - name: Twilight Theatre - Center Stage
     code: 32
     region: Theatre Main
     rule:
       or:
-        - has:
-            cutter: 1
-            cling: 6
-            plunge: 1
-            slide_jump: 1
-        - options:
+        - and:
+            - ref: can_soul_cutter
+            - ref: can_slide_jump
+            - has:
+                cling: 6
+                plunge: 1
+        - and:
+            - ref: can_soul_cutter
+            - ref: can_slide_jump
+            - has:
+                cling: 6
+                kick: 1
+          tags:
             logic_level: hard
-          has:
-            cutter: 1
-            cling: 6
-            kick_or_plunge: 1
-            slide_jump: 1
-        - options:
+        - and:
+            - ref: can_soul_cutter
+            - has:
+                cling: 4
+          tags:
             logic_level: expert
-          has:
-            cutter: 1
-            cling: 4
   - name: Twilight Theatre - Locked Door
     code: 33
     region: Theatre Main
@@ -2315,15 +2345,15 @@ locations:
       and:
         - ref: can_unlock_door
         - or:
-            - has: light
+            - ref: can_bounce
             - has: kick
-            - options:
-                logic_level: hard
-              has:
+            - has:
                 cling: 4
-            - options:
+              tags:
+                logic_level: hard
+            - has: slide
+              tags:
                 logic_level: expert
-              has: slide
   - name: Twilight Theatre - Tucked Behind Boxes
     code: 34
     region: Theatre Main
@@ -2342,30 +2372,31 @@ locations:
             old_obscure: 1 # use crouch backflip
         - has:
             kick: 4
-        - options:
-            logic_level: hard
-          has:
+        - has:
             cling: 2
             kick_or_plunge: 1
-        - options:
+          tags:
             logic_level: hard
-          has:
-            cling: 2
-            slide_jump: 1
-        - options:
-            logic_level: expert
-          has:
+        - and:
+            - has:
+                cling: 2
+            - ref: can_slide_jump
+          tags:
+            logic_level: hard
+        - has:
             kick: 3
-        - options:
+          tags:
             logic_level: expert
-          has:
+        - has:
             slide: 1
             kick_or_plunge: 2
-        - options:
+          tags:
             logic_level: expert
-          has:
+        - has:
             slide: 1
             cling: 2
+          tags:
+            logic_level: expert
 
   - name: Empty Bailey - Solar Wind
     code: 36
@@ -2380,17 +2411,17 @@ locations:
         - has: plunge
         - has:
             kick: 4
-        - options:
-            logic_level: hard
-          has:
+        - has:
             kick: 2
             breaker: 1
-        - options:
+          tags:
+            logic_level: hard
+        - has: kick
+          tags:
             logic_level: expert
-          has: kick
-        - options:
+        - has: slide
+          tags:
             logic_level: expert
-          has: slide
   - name: Empty Bailey - Cheese Bell
     code: 38
     region: Bailey Upper
@@ -2401,26 +2432,26 @@ locations:
         - has:
             cling: 2
             kick_or_plunge: 2
-        - options:
-            logic_level: hard
-          has:
+        - has:
             kick: 3
-        - options:
+          tags:
             logic_level: hard
-          has:
+        - has:
             cling: 6
-        - options:
+          tags:
+            logic_level: hard
+        - has:
+            - slide
+            - kick
+          tags:
             logic_level: expert
-          has:
-            slide: 1
-            kick: 1
   - name: Empty Bailey - Guarded Hand
     code: 39
     region: Bailey Lower
     rule:
       or:
         - and:
-            # - can_reach_region: upper_bailey  # TODO refactor/implement this
+            - can_reach_region: Bailey Upper
             - or:
                 - has:
                     cling: 2
@@ -2453,23 +2484,25 @@ locations:
             cling: 2
         - has:
             kick: 4
+        - and:
+            - has:
+                kick: 3
+            - ref: can_slide_jump
         - has:
             kick: 3
-            slide_jump: 1
-        - options:
+          tags:
             logic_level: hard
-          has:
-            kick: 3
-        - options:
+        - and:
+            - has:
+                kick: 2
+            - ref: can_slide_jump
+          tags:
             logic_level: hard
-          has:
-            kick: 2
-            slide_jump: 1
-        - options:
+        - has:
+            - kick
+            - slide
+          tags:
             logic_level: expert
-          has:
-            kick: 1
-            slide: 1
   - name: The Underbelly - Building Near Little Guy
     code: 43
     region: Underbelly => Bailey
@@ -2478,16 +2511,16 @@ locations:
         - has: plunge
         - has:
             kick: 3
-        - options:
-            logic_level: hard
-          has:
+        - has:
             kick: 2
-        - options:
+          tags:
+            logic_level: hard
+        - has: kick
+          tags:
             logic_level: expert
-          has: kick
-        - options:
+        - has: slide
+          tags:
             logic_level: expert
-          has: slide
   - name: The Underbelly - Locked Door
     code: 44
     region: Underbelly By Heliacal
@@ -2499,25 +2532,26 @@ locations:
     rule:
       or:
         - has: plunge
+        - and:
+            - ref: can_slide_jump
+            - has: kick
         - has:
-            slide_jump: 1
-            kick: 1
-        - tags:
+            cling: 2
+          tags:
             old_obscure: 1
-          or:
-            - has:
-                cling: 2
-            - has:
-                kick: 2
-        - options:
+        - has:
+            kick: 2
+          tags:
+            old_obscure: 1
+        - ref: can_slide_jump
+          tags:
             logic_level: hard
-          has: slide_jump
-        - options:
+        - has: slide
+          tags:
             logic_level: expert
-          has: slide
-        - options:
+        - has: kick
+          tags:
             logic_level: expert
-          has: kick
   - name: The Underbelly - Rafters Near Keep
     code: 46
     region: Underbelly => Keep
@@ -2526,97 +2560,87 @@ locations:
         - has: plunge
         - has:
             kick: 2
-        - has: light
-        - options:
+        - ref: can_bounce
+        - has: kick_or_plunge
+          tags:
             logic_level: hard
-          has: kick_or_plunge
-        - options:
-            logic_level: hard
-          has:
+        - has:
             cling: 2
-        - options:
+          tags:
+            logic_level: hard
+        - has: slide
+          tags:
             logic_level: expert
-          has: slide
   - name: The Underbelly - Strikebreak Wall
     code: 47
     region: Underbelly Main Upper
     rule:
       and:
-        - has:
-            strikebreak: 1
+        - ref: can_strikebreak
         - or:
+            - and:
+                - ref: can_bounce
+                - has: kick_or_plunge
+            - ref: can_bounce
+              tags:
+                logic_level: hard
             - has:
-                light: 1
-                kick_or_plunge: 1
-            - options:
-                logic_level: hard
-              has: light
-            - options:
-                logic_level: hard
-              has:
                 kick_or_plunge: 3
-            - options:
+              tags:
+                logic_level: hard
+            - has:
+                - kick
+                - plunge
+              tags:
                 logic_level: expert
-              has:
-                kick: 1
-                plunge: 1
-            - options:
-                logic_level: expert
-              has:
+            - has:
                 slide: 1
                 kick: 2
-            - options:
+              tags:
                 logic_level: expert
-              ref: can_gold_ultra
-              has:
-                cling: 2
+            - and:
+                - ref: can_gold_ultra
+                - has:
+                    cling: 2
+              tags:
+                logic_level: expert
   - name: The Underbelly - Surrounded By Holes
     code: 48
     region: Underbelly Hole
     rule:
       or:
         - and:
-            - has:
-                cutter: 1
-                plunge: 1
+            - ref: can_soul_cutter
+            - has: plunge
             - or:
-                - has: light
+                - ref: can_bounce
                 - has:
                     kick: 2
                 - has: kick
                   tags:
                     old_obscure: 1
-        - options:
-            logic_level: hard
-          has:
+        - has:
             plunge: 1
             cling: 6
-        - options:
+          tags:
+            logic_level: hard
+        - and:
+            - ref: can_soul_cutter
+              has: slide
+          tags:
             logic_level: expert
-          has:
-            cutter: 1
-            slide: 1
-        - options:
+        - has:
+            - slide
+            - kick
+            - plunge
+          tags:
             logic_level: expert
-          has:
-            slide: 1
-            kick: 1
-            plunge: 1
 
   - name: Tower Remains - Cling Gem
     code: 49
     region: Tower Remains
     rule:
-      or:
-        - has:
-            kick_or_plunge: 2 # climb the right tower and cross
-        - options:
-            logic_level: hard
-          has:
-            cling: 2
-        - options:
-            logic_level: expert
-          has: slide
+      ref: can_get_cling_gem
     can_create:
       split_cling_gem: false
   - name: Tower Remains - Atop The Tower
@@ -2649,12 +2673,13 @@ locations:
     code: 54
     region: Dungeon Mirror
     rule:
-      has:
-        breaker: 1
-        plunge: 1
-        kick: 3
-        cling: 6
-        slide_jump: 1
+      and:
+        - has:
+            breaker: 1
+            plunge: 1
+            kick: 3
+            cling: 6
+        - ref: can_slide_jump
     can_create:
       game_version: map_patch
       randomize_time_trials: true
@@ -2670,13 +2695,13 @@ locations:
     code: 56
     region: Keep Throne Room
     rule:
-      has:
-        breaker: 1
-        plunge: 1
-        kick: 3
-        cling: 6
-        slide_jump: 1
-        light: 1
+      and:
+        - has:
+            plunge: 1
+            kick: 3
+            cling: 6
+        - ref: can_slide_jump
+        - ref: can_bounce
     can_create:
       game_version: map_patch
       randomize_time_trials: true
@@ -2695,12 +2720,13 @@ locations:
     code: 58
     region: Theatre Pillar
     rule:
-      has:
-        breaker: 1
-        plunge: 1
-        kick: 3
-        cling: 6
-        slide_jump: 1
+      and:
+        - has:
+            breaker: 1
+            plunge: 1
+            kick: 3
+            cling: 6
+        - ref: can_slide_jump
     can_create:
       game_version: map_patch
       randomize_time_trials: true
@@ -2708,12 +2734,13 @@ locations:
     code: 59
     region: Bailey Upper
     rule:
-      has:
-        breaker: 1
-        plunge: 1
-        kick: 3
-        cling: 6
-        slide_jump: 1
+      and:
+        - has:
+            breaker: 1
+            plunge: 1
+            kick: 3
+            cling: 6
+        - ref: can_slide_jump
     can_create:
       game_version: map_patch
       randomize_time_trials: true
@@ -2721,12 +2748,13 @@ locations:
     code: 60
     region: Underbelly Main Upper
     rule:
-      has:
-        breaker: 1
-        plunge: 1
-        kick: 3
-        cling: 6
-        slide_jump: 1
+      and:
+        - has:
+            breaker: 1
+            plunge: 1
+            kick: 3
+            cling: 6
+        - ref: can_slide_jump
     can_create:
       game_version: map_patch
       randomize_time_trials: true
@@ -2734,12 +2762,13 @@ locations:
     code: 61
     region: The Great Door
     rule:
-      has:
-        breaker: 1
-        plunge: 1
-        kick: 3
-        cling: 6
-        slide_jump: 1
+      and:
+        - has:
+            breaker: 1
+            plunge: 1
+            kick: 3
+            cling: 6
+        - ref: can_slide_jump
     can_create:
       game_version: map_patch
       randomize_time_trials: true
@@ -2754,48 +2783,21 @@ locations:
     code: 63
     region: Tower Remains
     rule:
-      or:
-        - has:
-            kick_or_plunge: 2
-        - options:
-            logic_level: hard
-          has:
-            cling: 2
-        - options:
-            logic_level: expert
-          has: slide
+      ref: can_get_cling_gem
     can_create:
       split_cling_gem: true
   - name: Tower Remains - Cling Gem 2
     code: 64
     region: Tower Remains
     rule:
-      or:
-        - has:
-            kick_or_plunge: 2
-        - options:
-            logic_level: hard
-          has:
-            cling: 2
-        - options:
-            logic_level: expert
-          has: slide
+      ref: can_get_cling_gem
     can_create:
       split_cling_gem: true
   - name: Tower Remains - Cling Gem 3
     code: 65
     region: Tower Remains
     rule:
-      or:
-        - has:
-            kick_or_plunge: 2
-        - options:
-            logic_level: hard
-          has:
-            cling: 2
-        - options:
-            logic_level: expert
-          has: slide
+      ref: can_get_cling_gem
     can_create:
       split_cling_gem: true
 
@@ -2849,20 +2851,20 @@ locations:
                 - has:
                     cling: 2
                 - has: kick
-                - has: light
-                - has: slide_jump
+                - ref: can_bounce
+                - ref: can_slide_jump
                 - tags:
                     old_obscure: 1
-        - options:
+        - has: kick
+          tags:
             logic_level: hard
-          has: kick
-        - options:
-            logic_level: hard
-          has:
+        - has:
             cling: 2
-        - options:
+          tags:
+            logic_level: hard
+        - has: slide
+          tags:
             logic_level: expert
-          has: slide
     can_create:
       randomize_goats: true
   - name: Castle Sansa - Trapped Goatling
@@ -2922,18 +2924,18 @@ locations:
         - has:
             kick: 2
         - has:
-            kick: 1
-            plunge: 1
+            - kick
+            - plunge
           tags:
             old_obscure: 1
-        - has:
-            kick: 1
-            slide_jump: 1
+        - and:
+            - has: kick
+            - ref: can_slide_jump
         - has:
             cling: 2
-        - options:
+        - has: kick
+          tags:
             logic_level: hard
-          has: kick
     can_create:
       randomize_goats: true
   - name: Empty Bailey - Alley Goatling
@@ -2971,6 +2973,9 @@ locations:
       randomize_chairs: true
   - name: Sansa Keep - Path to Throne Stool
     code: 90
+    # this is an easy implementation that doesn't accurately capture getting to the stool since it's only halfway to
+    # the throne room.
+    # TODO: make real logic someday? idk
     region: Keep Throne Room
     can_create:
       randomize_chairs: true
@@ -2994,6 +2999,8 @@ locations:
     region: Library Back
     can_create:
       randomize_chairs: true
+  # TODO: logic for the next 4 locations could be filled out, for now it's fine
+  # should be fixed when implementing transition rando
   - name: Twilight Theatre - Stool Near Bookcase
     code: 95
     region: Theatre Outside Scythe Corridor
@@ -3017,7 +3024,7 @@ locations:
   - name: Twilight Theatre - Stage Left Stool
     code: 99
     region: Theatre Main
-    rule: # TODO: logic  could be filled out, for now it's fine
+    rule:
       has:
         cling: 4
     can_create:
@@ -3025,31 +3032,30 @@ locations:
   - name: Twilight Theatre - Stage Right Stool
     code: 100
     region: Theatre Main
-    rule: # TODO: logic  could be filled out, for now it's fine
+    rule:
       and:
-        - has: cutter
+        - ref: can_soul_cutter
         - or:
             - has: kick
             - has:
                 cling: 2
-            - has:
-                slide_jump: 1
-                plunge: 1
+            - and:
+                - ref: can_slide_jump
+                - has: plunge
               tags:
                 old_obscure: 1
-            - has:
-                slide_jump: 1
-                light: 1
+            - and:
+                - ref: can_slide_jump
+                - ref: can_bounce
               tags:
                 old_obscure: 1
-            - options:
+            - ref: can_slide_jump
+              tags:
                 logic_level: hard
-              tags:
                 old_obscure: 1
-              has: slide_jump
-            - options:
+            - has: slide
+              tags:
                 logic_level: expert
-              has: slide
     can_create:
       randomize_chairs: true
 
@@ -3127,48 +3133,49 @@ locations:
   - name: The Underbelly - Note on a Ledge
     code: 115
     region: Underbelly => Bailey
-    rule: # TODO: logic  could be filled out, for now it's fine
+    rule:
       or:
         - has: kick
         - has: plunge
         - has:
             cling: 2
-        - has: light
-        - options:
+        - ref: can_bounce
+        - ref: can_slide_jump
+          tags:
             logic_level: hard
-          has: slide_jump
-        - options:
+        - has: slide
+          tags:
             logic_level: expert
-          has: slide
     can_create:
       randomize_notes: true
   - name: The Underbelly - Note in the Big Room
     code: 116
     region: Underbelly Main Lower
-    rule: # TODO: logic  could be filled out, for now it's fine
+    rule:
       or:
         - has:
             kick: 4
             plunge: 1
+        - and:
+            - has:
+                kick: 2
+            - ref: can_slide_jump
         - has:
-            kick: 2
-            slide_jump: 1
-        - options:
-            logic_level: hard
-          has:
             kick_or_plunge: 2
-        - options:
+          tags:
             logic_level: hard
-          has:
+        - has:
             cling: 6
             kick: 1
-        - options:
+          tags:
+            logic_level: hard
+        - has: slide
+          tags:
             logic_level: expert
-          has: slide
-        - options:
-            logic_level: expert
-          has:
+        - has:
             cling: 6
+          tags:
+            logic_level: expert
     can_create:
       randomize_notes: true
   - name: The Underbelly - Note Behind a Locked Door

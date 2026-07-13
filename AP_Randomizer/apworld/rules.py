@@ -6,7 +6,7 @@ from .constants.versions import MAP_PATCH
 from .locations import location_table
 from .options import PseudoregaliaOptions
 
-from rule_builder.rules import Rule, And, Or, Has, HasAll, HasAllCounts, True_, False_
+from rule_builder.rules import Rule, And, Or, Has, HasAll, HasAllCounts, CanReachRegion, True_, False_
 from typing_extensions import override
 from dataclasses import dataclass
 from .logic import OptionData, RuleData, PseudoregaliaData
@@ -201,6 +201,8 @@ class PseudoregaliaRule(Rule[PseudoregaliaWorld], game="Pseudoregalia"):
                 self.rule = HasAll(*rule_data.has)
             else:
                 self.rule = HasAllCounts(rule_data.has)
+        elif rule_data.can_reach_region is not None:
+            self.rule = CanReachRegion(rule_data.can_reach_region)
         elif rule_data.ref is not None:
             self.rule = ref_rules[rule_data.ref]
         else:
