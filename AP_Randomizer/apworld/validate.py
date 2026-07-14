@@ -8,6 +8,7 @@ from .items import item_table
 from .logic import ExitData, ItemMappingData, LocationData, OptionData, OriginData, PseudoregaliaData, RefRuleData, \
     RegionData, RuleData, TagGroupData, TagData
 from .options import PseudoregaliaOptions, SpawnPoint
+from .rules import create_entrance_name
 
 # TODO: improve push_key by using this regex
 # if it matches, use the f".{key}" format
@@ -216,7 +217,8 @@ class Validator:
     def validate_region_exit(self, region_name: str, index: int, exit_data: ExitData):
         with self.index(index):
             self.validate_region_exit_region(exit_data.region)
-            self.validate_region_exit_entrance_name(region_name, exit_data)
+            entrance_name = create_entrance_name(region_name, exit_data.region, exit_data.entrance_name)            
+            self.validate_region_exit_entrance_name(entrance_name)
             if exit_data.rule is not None:
                 self.validate_rule(exit_data.rule)
 
@@ -226,11 +228,8 @@ class Validator:
             if region not in self.all_regions:
                 self.err("does not match the name of a region")
 
-    def validate_region_exit_entrance_name(self, region_name: str, exit_data: ExitData):
+    def validate_region_exit_entrance_name(self, entrance_name: str):
         with self.key("entrance_name"):
-            entrance_name = exit_data.entrance_name if exit_data.entrance_name is not None \
-                else f"{region_name} -> {exit_data.region}"
-
             # CHECK: entrance names are unique
             if entrance_name in self.entrances:
                 self.err("not unique across entrances")
@@ -302,7 +301,7 @@ class Validator:
         with self.key("code"):
             # CHECK: location codes are unique
             if code in self.location_codes:
-                self.err("code is not unique")
+                self.err("not unique across locations")
             else:
                 self.location_codes.add(code)
 
