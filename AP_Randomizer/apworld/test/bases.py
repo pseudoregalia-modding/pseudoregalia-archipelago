@@ -51,7 +51,8 @@ class PseudoValidationBase(PseudoTestBase):
     def test_validate(self):
         validator = Validator()
         validator.validate_data(self.data)
+        num_errors = len(validator.errors)
         if self.expect_errors:
-            assert len(validator.errors) != 0, "expected errors, got none"
+            assert num_errors != 0, "expected errors, got none"
         else:
-            assert len(validator.errors) == 0, f"expected no errors, got\n  {"\n  ".join(validator.errors)})"
+            assert num_errors == 0, f"expected no errors, got {num_errors}\n{"\n".join(validator.errors)})"

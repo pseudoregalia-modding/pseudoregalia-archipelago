@@ -1,9 +1,6 @@
 from .bases import PseudoValidationBase
 from ..logic import PseudoregaliaData, RuleData
 
-class TestValidationDefault(PseudoValidationBase):
-    pass
-
 
 class TestValidationItemMappingFailure(PseudoValidationBase):
     # TODO: add a way to create mock data more cleanly
