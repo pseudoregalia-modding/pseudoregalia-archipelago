@@ -1,7 +1,9 @@
 from test.bases import WorldTestBase
 from Fill import fast_fill
 
-from .. import PseudoregaliaWorld
+from .. import PseudoregaliaWorld, pseudoregalia_data
+from ..logic import PseudoregaliaData
+from ..validate import Validator
 
 
 class PseudoTestBase(WorldTestBase):
@@ -39,3 +41,17 @@ class PseudoKeyHintsBase(PseudoTestBase):
                    f"Expected {expected_key_hints} but found {slot_data["key_hints"]}"
         else:
             assert "key_hints" not in slot_data, "Expected no key_hints in slot_data"
+
+
+class PseudoValidationBase(PseudoTestBase):
+    run_default_tests = False
+    data: PseudoregaliaData = pseudoregalia_data
+    expect_errors: bool = False
+
+    def test_validate(self):
+        validator = Validator()
+        validator.validate_data(self.data)
+        if self.expect_errors:
+            assert len(validator.errors) != 0, "expected errors, got none"
+        else:
+            assert len(validator.errors) == 0, f"expected no errors, got\n  {"\n  ".join(validator.errors)})"

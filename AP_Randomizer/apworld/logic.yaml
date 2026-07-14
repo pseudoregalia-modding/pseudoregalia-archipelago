@@ -63,36 +63,15 @@ item_mapping:
     count: 2
 
 tags:
-  - name: plunge_attack
-    advanced:
-      Sunsetter plunge does damage, even if you don't have Dream Breaker.
-      In addition to breaking floors,
-      this can be used to break weak walls and hit switches.
-  - name: not_afraid_of_the_dark
-    expert:
-      With this tag, the Dungeon dark rooms are in logic as soon as you can enter them,
-      even if you don't have a way to light your path.
-  - name: slide_ultras
-    description: This tech involves cancelling a slide and converting its high speed into a high jump.
-    hard: At this level, you may be required to use slide ultras purely to gain height.
-    expert: At this level, you may be required to use slide ultras for distance, which can require higher speed.
-    lunatic: At this level, slide ultra setups may be very precise, involving very small runway or sharp angle changes.
   - name: old_obscure
-    lunatic: At this level, all obscure tech in the previous format is expected
+    advanced: At this level, all obscure tech in the previous format is expected
+  - name: logic_level
+    description: Old logic level.
+    hard: Old hard.
+    expert: Old expert.
+    lunatic: old lunatic.
 
-tag_groups:
-  - name: basic_tech
-    description: This group includes basic and well known tech and introduces meaningful additions at every logic level.
-    children:
-      - basic_slide_tech
-      - basic_kick_tech
-    # etc
-  - name: obscure_tech
-    description: This group compiles less known tech into a single group.
-    children:
-      - plunge_attack
-      - not_afraid_of_the_dark
-    # etc
+tag_groups: []
 
 ref_rules:
   - name: can_slide_jump
@@ -119,23 +98,23 @@ ref_rules:
         - has: breaker
         - has: plunge
           tags:
-            plunge_attack: 1
+            old_obscure: 1
   - name: can_strikebreak
     rule:
       has:
-        breaker: 1
-        strikebreak: 1
+        - breaker
+        - strikebreak
   - name: can_soul_cutter
     rule:
       has:
-        breaker: 1
-        strikebreak: 1
-        soul_cutter: 1
+        - breaker
+        - strikebreak
+        - cutter
   - name: can_bounce
     rule:
       has:
-        breaker: 1
-        light: 1
+        - breaker
+        - light
   - name: can_unlock_door
     rule:
       and:
@@ -146,16 +125,16 @@ ref_rules:
             - has:
                 small_key: 6
               tags:
-                smart_keys: 1
+                logic_level: 2
   - name: can_enter_dark_rooms
     rule:
       or:
         - has: light
         - has: breaker
           tags:
-            light_breaker: 1
+            old_obscure: 1
         - tags:
-            not_afraid_of_the_dark: 3
+            logic_level: 3
   - name: can_get_cling_gem
     rule:
       or:
@@ -700,7 +679,7 @@ regions:
           or:
             - ref: can_unlock_door
             - has:
-                kicks: 3
+                kick: 3
             - has:
                 - plunge
                 - kick
@@ -749,7 +728,7 @@ regions:
                 - has:
                     breaker: 1
                     cling: 6
-                  or:
+                - or:
                     - has: plunge
                     - has:
                         kick: 2
@@ -1554,7 +1533,7 @@ regions:
       - region: Dungeon Escape Upper
         rule:
           and:
-            - ref: can_enter_darkrooms
+            - ref: can_enter_dark_rooms
             - or:
                 - ref: can_bounce
                 - has: kick
@@ -2626,7 +2605,7 @@ locations:
             logic_level: 2
         - and:
             - ref: can_soul_cutter
-              has: slide
+            - has: slide
           tags:
             logic_level: 3
         - has:

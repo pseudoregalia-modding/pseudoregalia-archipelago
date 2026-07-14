@@ -114,7 +114,7 @@ class LocationData:
     can_create: OptionData | None
     """Provides a set of options to determined whether the location should be created."""
     event_item: str | None
-    """Name of the even item to lock to this location."""
+    """Name of the event item to lock to this location. Must reference a progression item with no code."""
 
 @dataclass
 class RuleData:
