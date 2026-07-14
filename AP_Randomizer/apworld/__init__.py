@@ -1,13 +1,11 @@
 import pkgutil
 from typing import Any
-from collections import defaultdict
 import yaml
 
 from worlds.AutoWorld import World, WebWorld
-from BaseClasses import Region, CollectionState, Tutorial
+from BaseClasses import Location, Region, CollectionState, Tutorial
 
 from .items import PseudoregaliaItem, item_table, item_groups
-from .locations import PseudoregaliaLocation, location_table, zones
 from .options import PseudoregaliaOptions
 from .constants.difficulties import EXPERT, LUNATIC
 from .constants.versions import FULL_GOLD
@@ -26,6 +24,22 @@ config = Config(
 )
 pseudoregalia_data = from_dict(PseudoregaliaData, yaml_dict, config)
 pseudoregalia_rules = create_rules(pseudoregalia_data)
+
+
+class PseudoregaliaLocation(Location):
+    game = "Pseudoregalia"
+
+zones = (
+    "Dilapidated Dungeon",
+    "Castle Sansa",
+    "Sansa Keep",
+    "Listless Library",
+    "Twilight Theatre",
+    "Empty Bailey",
+    "The Underbelly",
+    "Tower Remains",
+    "D S T RT ED M M O   Y",
+)
 
 
 class PseudoregaliaWebWorld(WebWorld):
@@ -50,7 +64,7 @@ class PseudoregaliaWorld(World):
     required_client_version = (0, 7, 0)
  
     item_name_to_id = {name: data.code for name, data in item_table.items() if data.code is not None}
-    location_name_to_id = {name: data.code for name, data in location_table.items() if data.code is not None}
+    location_name_to_id = {data.name: data.code for data in pseudoregalia_data.locations if data.code is not None}
     item_name_groups = item_groups
 
     options_dataclass = PseudoregaliaOptions
@@ -154,8 +168,10 @@ class PseudoregaliaWorld(World):
                 # start_with_breaker is forced on if otherwise player wouldn't have enough checks
                 self.options.start_with_breaker.value = 1
 
-        self.tags = defaultdict(lambda: 0)
-        # TODO fill out self.tags based on player options
+        self.tags = {
+            "logic_level": self.options.logic_level.value,
+            "old_obscure": 1 if self.options.obscure_logic else 0,
+        }
 
     def create_regions(self):
         for origin_data in pseudoregalia_data.origins:
