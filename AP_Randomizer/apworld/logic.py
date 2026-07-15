@@ -6,7 +6,8 @@ from typing import TypeAlias
 class PseudoregaliaData:
     item_mapping: dict[str, str | list[str] | ItemMappingData]
     """
-    Defines how to map progression items to pseudo items in world collect and remove functions.
+    Defines how to map progression items to pseudo items in world collect and remove functions. All keys must match the
+    name of a progression item.
     
     A str value is a simple mapping, so one of this item maps to one of the pseudo item.
     A list[str] value is for progressive items: the first of this item maps to the pseudo item at index 0, the second
@@ -134,7 +135,7 @@ class RuleData:
     """
     Maps to the Has, HasAll, or HasAllCounts RuleBuilder objects depending on the type.
     
-    All string values in this type must be valid item names or the names of pseudo items in item_mapping.
+    All string values in this type must be the name of a progression item or a pseudo item defined in item_mapping.
     """
     can_reach_region: str | None
     """Maps to the CanReachRegion RuleBuilder object."""

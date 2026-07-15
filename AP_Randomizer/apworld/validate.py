@@ -90,9 +90,9 @@ class Validator:
 
     def validate_item_mapping_entry(self, item_name: str, mapping: str | list[str] | ItemMappingData):
         with self.key(item_name):
-            # CHECK: keys in item_mapping match the name of an item
-            if item_name not in item_table:
-                self.err("key does not match the name of an item")
+            # CHECK: keys in item_mapping match the name of a progression item
+            if not self.is_progression(item_name):
+                self.err("item referenced by key does not exist or is not marked as progression")
 
             if isinstance(mapping, str):
                 self.pseudo_items.add(mapping)
@@ -317,14 +317,10 @@ class Validator:
 
     def validate_location_event_item(self, item: str):
         with self.key("event_item"):
-            # CHECK: event items match the name of an item
-            if item not in item_table:
-                self.err("does not match the name of an item")
+            # CHECK: event items match the name of a progression item
+            if not self.is_progression(item):
+                self.err("item does not exist or is not marked as progression")
                 return
-
-            # CHECK: event items are marked progression
-            if item_table[item].classification & ItemClassification.progression == 0:
-                self.err("item is not marked as progression")
 
             # CHECK: event items don't have a code
             if item_table[item].code is not None:
@@ -391,8 +387,8 @@ class Validator:
                     self.validate_has_item_key(item)
 
     def check_has_item(self, item: str):
-        if item not in item_table and item not in self.pseudo_items:
-            self.err("does not match the name of an item or a pseudo item defined in item_mapping")
+        if not self.is_progression(item) and item not in self.pseudo_items:
+            self.err("does not match the name of a progression item or a pseudo item defined in item_mapping")
 
     def validate_has_item_entry(self, index: int, item: str):
         with self.index(index):
@@ -459,3 +455,6 @@ class Validator:
                 # CHECK: str values match an attribute on the Choice option object
                 if not hasattr(option_class, attr_name):
                     self.err("option class has no option with this name")
+
+    def is_progression(self, item: str) -> bool:
+        return item in item_table and item_table[item].classification & ItemClassification.progression != 0
