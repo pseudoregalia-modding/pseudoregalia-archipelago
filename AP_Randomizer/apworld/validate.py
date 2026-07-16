@@ -10,7 +10,7 @@ from .logic import ExitData, ItemMappingData, LocationData, OptionData, OriginDa
 from .options import PseudoregaliaOptions, SpawnPoint
 from .rules import create_entrance_name
 
-# TODO: improve push_key by using this regex
+# TODO: improve validation_context when context_type="key" by using this regex
 # if it matches, use the f".{key}" format
 # otherwise, use the f'["{key}"]' format
 # escape quotes?? probably not necessary but would be "correct"
@@ -19,8 +19,14 @@ from .rules import create_entrance_name
 class Validator:
     def validation_context(*, context_type: Literal["start", "key", "index"], key: str | None = None):
         """
-        Manages the path for validation errors. If `context_type="key"` and `key=None` or if `context_type="index"`, the
-        first argument after the validator will be added to the path and should be a `str` or `int` respectively.
+        Manages the path for validation errors. Keeping track of the path helps to describe exactly where in the data
+        the error occured.
+        
+        Context type `"start"` should be used only at the start of validation. Context type `"key"` should be used when
+        descending into an object. Context type `"index"` should be used when descending into an array.
+        
+        If `context_type="key"` and `key=None` or if `context_type="index"`, the first argument after the validator will
+        be added to the path and should be a `str` or `int` respectively.
         """
         def decorator(func):
             def wrapper(validator: Validator, *args, **kwargs):
