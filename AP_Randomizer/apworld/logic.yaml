@@ -88,9 +88,9 @@ ref_rules:
         - ref: can_slide_jump
   - name: can_gold_slide_ultra
     rule:
+      has: slide
       options:
         game_version: full_gold
-      has: slide
       # currently this rule is only applied for high enough logic, but should be refactored to include here
   - name: can_attack
     rule:
