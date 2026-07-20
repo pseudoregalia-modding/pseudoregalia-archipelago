@@ -652,8 +652,7 @@ regions:
             - or:
                 - has:
                     cling: 2
-                - has:
-                    kick: 1
+                - has: kick
       - region: Library Top
         rule:
           or:
@@ -715,11 +714,11 @@ regions:
                         - plunge
                         - kick
                     - has:
-                        plunge: 1
-                        light: 1
+                        - plunge
+                        - light
                     - has:
-                        kick: 1
-                        light: 1
+                        - kick
+                        - light
             - and:
                 - ref: can_bounce
                 - has:
@@ -1146,8 +1145,8 @@ regions:
                 plunge: 1
                 kick: 2
             - has:
-                plunge: 1
-                kick: 1
+                - plunge
+                - kick
               tags:
                 logic_level: 2
             - has:
@@ -2226,8 +2225,7 @@ locations:
             cling: 2
         - has: kick
         - ref: can_slide_jump
-        - has:
-            kick_or_plunge: 1
+        - has: kick_or_plunge
           tags:
             logic_level: 2
         - has: slide
