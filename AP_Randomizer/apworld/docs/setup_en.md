@@ -70,8 +70,10 @@ Just ignore anything that is Steam Deck specific or that doesn't apply to you.
    then go to Pseudoregalia_AP folder and select `pseudoregalia.exe`.
 5. Open Properties. You will need to change:
     * `Shortcut` > `Launch Options` > Copy in `WINEDLLOVERRIDES="dwmapi=n,b" %command%`
-    * `Compatibility` > Check `Force the use of a specific Steam Play compatibility tool` > Select `Proton 8.0-5` in the dropdown.
-    * (Optional) `Shortcut` > The field at the top that is by default `pseudoregalia.exe` to something more distinct (Necessary for having multiple Non-Steam Games with the same .exe name).
+    * `Compatibility` > Check `Force the use of a specific Steam Play compatibility tool`
+      > Select `Proton 8.0-5` in the dropdown.
+    * (Optional) `Shortcut` > The field at the top that is by default `pseudoregalia.exe` to something more distinct
+      (Necessary for having multiple Non-Steam Games with the same .exe name).
 6. Lastly, Pseudoregalia utilizes Visual C++ Runtime 2022.
     1. Download Protontricks if you have not already. This is located within Discovery.
     2. Launch Protontricks, and select Non-Steam Shortcut: pseudoregalia.exe.
