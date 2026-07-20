@@ -77,7 +77,8 @@ Just ignore anything that is Steam Deck specific or that doesn't apply to you.
     2. Launch Protontricks, and select Non-Steam Shortcut: pseudoregalia.exe.
     3. Select the default wineprefix > install a Windows DLL or component > scroll down and select vcrun2022.
     4. Wait and follow the prompts until it has installed twice.
-    5. You can go through this process twice if you are unsure, when you scroll down to vcrun2022 again, it should already be checked. It has installed correctly.
+    5. You can go through this process twice if you are unsure,
+       when you scroll down to vcrun2022 again, it should already be checked. It has installed correctly.
 7. Launch in Game Mode which should open Pseudoregalia. Select a new file.
 8. Enter the connect info and select Start. You will need to edit your controls to include show keyboard.
 
