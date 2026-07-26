@@ -1,65 +1,50 @@
 item_mapping:
   Dream Breaker: breaker
   Sun Greaves:
-    names:
-      - kick
-      - kick_or_plunge
+    names: [kick, kick_or_plunge]
     count: 3
     first_only: true
   Slide: slide
   Solar Wind: slide_jump
   Sunsetter:
-    names:
-      - plunge
-      - kick_or_plunge
+    names: [plunge, kick_or_plunge]
     first_only: true
   Strikebreak: strikebreak
   Cling Gem:
-    names:
-      - cling
+    names: [cling]
     count: 6
     first_only: true
   Ascendant Light: light
   Soul Cutter: cutter
   Heliacal Power:
-    names:
-      - kick
-      - kick_or_plunge
+    names: [kick, kick_or_plunge]
   Small Key: small_key
   Major Key - Empty Bailey:
-    names:
-      - major_key
+    names: [major_key]
     first_only: true
   Major Key - The Underbelly:
-    names:
-      - major_key
+    names: [major_key]
     first_only: true
   Major Key - Tower Remains:
-    names:
-      - major_key
+    names: [major_key]
     first_only: true
   Major Key - Sansa Keep:
-    names:
-      - major_key
+    names: [major_key]
     first_only: true
   Major Key - Twilight Theatre:
-    names:
-      - major_key
+    names: [major_key]
     first_only: true
   Progressive Slide:
     - slide
     - slide_jump
   Air Kick:
-    names:
-      - kick
-      - kick_or_plunge
+    names: [kick, kick_or_plunge]
   Progressive Dream Breaker:
     - breaker
     - strikebreak
     - cutter
   Cling Shard:
-    names:
-      - cling
+    names: [cling]
     count: 2
 
 tags:
@@ -76,9 +61,7 @@ tag_groups: []
 ref_rules:
   - name: can_slide_jump
     rule:
-      has:
-        - slide
-        - slide_jump
+      has: [slide, slide_jump]
   - name: can_gold_ultra
     rule:
       or:
@@ -101,20 +84,13 @@ ref_rules:
             old_obscure: 1
   - name: can_strikebreak
     rule:
-      has:
-        - breaker
-        - strikebreak
+      has: [breaker, strikebreak]
   - name: can_soul_cutter
     rule:
-      has:
-        - breaker
-        - strikebreak
-        - cutter
+      has: [breaker, strikebreak, cutter]
   - name: can_bounce
     rule:
-      has:
-        - breaker
-        - light
+      has: [breaker, light]
   - name: can_unlock_door
     rule:
       and:
@@ -195,9 +171,7 @@ regions:
                 - has: plunge
                   tags:
                     logic_level: 2
-                - has:
-                    - breaker
-                    - kick
+                - has: [breaker, kick]
                   tags:
                     logic_level: 2
                 - and:
@@ -223,17 +197,13 @@ regions:
             - ref: can_unlock_door
             - or:
                 - has: plunge
-                - has:
-                    - breaker
-                    - kick
+                - has: [breaker, kick]
                 - has:
                     breaker: 1
                     cling: 2
                   tags:
                     logic_level: 2
-                - has:
-                    - breaker
-                    - slide
+                - has: [breaker, slide]
                   tags:
                     logic_level: 3
               tags:
@@ -251,9 +221,7 @@ regions:
         rule:
           or:
             - ref: can_bounce
-            - has:
-                - kick
-                - plunge
+            - has: [kick, plunge]
             - has:
                 kick: 3
             - has:
@@ -345,9 +313,7 @@ regions:
             - ref: can_gold_ultra
               tags:
                 logic_level: 3
-            - has:
-                - slide
-                - kick_or_plunge
+            - has: [slide, kick_or_plunge]
               tags:
                 logic_level: 3
       - region: Keep (Northeast) => Castle
@@ -383,9 +349,7 @@ regions:
             - ref: can_gold_slide_ultra
               tags:
                 logic_level: 3
-            - has:
-                - slide
-                - kick_or_plunge
+            - has: [slide, kick_or_plunge]
               tags:
                 logic_level: 3
             - has:
@@ -431,18 +395,14 @@ regions:
                 kick: 2
                 plunge: 1
             - and:
-                - has:
-                    - kick
-                    - plunge
+                - has: [kick, plunge]
                 - ref: can_slide_jump
             - has:
                 kick: 3
                 breaker: 1
               tags:
                 logic_level: 2
-            - has:
-                - kick
-                - plunge
+            - has: [kick, plunge]
               tags:
                 logic_level: 2
             - has: slide
@@ -494,9 +454,7 @@ regions:
             - ref: can_gold_slide_ultra
               tags:
                 logic_level: 3
-            - has:
-                - slide
-                - kick
+            - has: [slide, kick]
               tags:
                 logic_level: 3
             - has:
@@ -534,9 +492,7 @@ regions:
             - ref: can_gold_slide_ultra
               tags:
                 logic_level: 3
-            - has:
-                - slide
-                - kick_or_plunge
+            - has: [slide, kick_or_plunge]
               tags:
                 logic_level: 3
   - name: Castle Moon Room
@@ -554,9 +510,7 @@ regions:
           or:
             - has:
                 kick_or_plunge: 4
-            - has:
-                - kick
-                - plunge
+            - has: [kick, plunge]
               tags:
                 old_obscure: 1
             - has:
@@ -638,9 +592,7 @@ regions:
                 logic_level: 3
             - and:
                 - ref: can_bounce
-                - has:
-                    - kick
-                    - plunge
+                - has: [kick, plunge]
               tags:
                 logic_level: 4
   - name: Library Back
@@ -679,9 +631,7 @@ regions:
             - ref: can_unlock_door
             - has:
                 kick: 3
-            - has:
-                - plunge
-                - kick
+            - has: [plunge, kick]
             - has:
                 cling: 2
                 plunge: 1
@@ -710,15 +660,9 @@ regions:
                     breaker: 1
                     cling: 6
                 - or:
-                    - has:
-                        - plunge
-                        - kick
-                    - has:
-                        - plunge
-                        - light
-                    - has:
-                        - kick
-                        - light
+                    - has: [plunge, kick]
+                    - has: [plunge, light]
+                    - has: [kick, light]
             - and:
                 - ref: can_bounce
                 - has:
@@ -793,9 +737,7 @@ regions:
                 - ref: can_gold_ultra
                 - ref: can_bounce
                 - ref: can_soul_cutter
-                - has:
-                    - kick
-                    - plunge
+                - has: [kick, plunge]
               tags:
                 logic_level: 4
       - region: Keep => Underbelly
@@ -892,9 +834,7 @@ regions:
                     - has:
                         kick_or_plunge: 4
                     - and:
-                        - has:
-                            - kick
-                            - plunge
+                        - has: [kick, plunge]
                         - ref: can_bounce
                       options:
                         game_version: map_patch
@@ -962,9 +902,7 @@ regions:
                 logic_level: 3
             - and:
                 - ref: can_gold_ultra
-                - has:
-                    - kick
-                    - plunge
+                - has: [kick, plunge]
               tags:
                 logic_level: 3
             - and:
@@ -972,10 +910,7 @@ regions:
                 - has: kick
               tags:
                 logic_level: 4
-            - has:
-                - slide
-                - kick
-                - plunge
+            - has: [slide, kick, plunge]
               tags:
                 logic_level: 4
             - has:
@@ -1009,9 +944,7 @@ regions:
                 cling: 2
               tags:
                 logic_level: 2
-            - has:
-                - kick
-                - slide
+            - has: [kick, slide]
               tags:
                 logic_level: 3
   - name: Underbelly Light Pillar
@@ -1030,9 +963,7 @@ regions:
                 logic_level: 3
             - and:
                 - ref: can_gold_ultra
-                - has:
-                    - kick
-                    - plunge
+                - has: [kick, plunge]
               tags:
                 logic_level: 3
             - has:
@@ -1046,9 +977,7 @@ regions:
         # Underbelly => Dungeon), the logic for this entrance is written assuming the player doesn't have AL
         rule:
           or:
-            - has:
-                - breaker
-                - plunge
+            - has: [breaker, plunge]
             - has:
                 breaker: 1
                 kick: 3
@@ -1067,9 +996,7 @@ regions:
               tags:
                 logic_level: 2
                 old_obscure: 1
-            - has:
-                - plunge
-                - kick
+            - has: [plunge, kick]
               tags:
                 logic_level: 3
             - and:
@@ -1097,14 +1024,10 @@ regions:
             - and:
                 - has: kick
                 - ref: can_slide_jump
-            - has:
-                - kick
-                - slide
+            - has: [kick, slide]
               tags:
                 logic_level: 3
-            - has:
-                - kick
-                - plunge
+            - has: [kick, plunge]
               tags:
                 logic_level: 3
   - name: Underbelly Main Lower
@@ -1127,9 +1050,7 @@ regions:
       - region: Underbelly By Heliacal
         rule:
           or:
-            - has:
-                - slide
-                - plunge
+            - has: [slide, plunge]
             - has:
                 slide: 1
                 kick: 2
@@ -1144,9 +1065,7 @@ regions:
             - has:
                 plunge: 1
                 kick: 2
-            - has:
-                - plunge
-                - kick
+            - has: [plunge, kick]
               tags:
                 logic_level: 2
             - has:
@@ -1175,9 +1094,7 @@ regions:
                 logic_level: 3
             - and:
                 - ref: can_gold_slide_ultra
-                - has:
-                    - breaker
-                    - kick
+                - has: [breaker, kick]
               tags:
                 logic_level: 3
             - has: kick
@@ -1191,9 +1108,7 @@ regions:
       - region: Underbelly Light Pillar
         rule:
           or:
-            - has:
-                - breaker
-                - plunge
+            - has: [breaker, plunge]
             - has:
                 breaker: 1
                 kick: 2
@@ -1212,21 +1127,15 @@ regions:
                 logic_level: 2
                 old_obscure: 1
             - and:
-                - has:
-                    - kick
-                    - plunge
+                - has: [kick, plunge]
                 - ref: can_slide_jump
               tags:
                 logic_level: 2
                 old_obscure: 1
-            - has:
-                - breaker
-                - slide
+            - has: [breaker, slide]
               tags:
                 logic_level: 3
-            - has:
-                - breaker
-                - kick
+            - has: [breaker, kick]
               tags:
                 logic_level: 3
             - has:
@@ -1250,9 +1159,7 @@ regions:
           and:
             - has: breaker
             - or:
-                - has:
-                    - light
-                    - kick
+                - has: [light, kick]
                 - and:
                     - ref: can_slide_jump
                     - has:
@@ -1291,12 +1198,8 @@ regions:
       - region: Underbelly Main Upper
         rule:
           or:
-            - has:
-                - breaker
-                - plunge
-            - has:
-                - plunge
-                - kick
+            - has: [breaker, plunge]
+            - has: [plunge, kick]
               tags:
                 old_obscure: 1
             - has:
@@ -1307,9 +1210,7 @@ regions:
             - has: plunge
               tags:
                 logic_level: 3
-            - has:
-                - breaker
-                - slide
+            - has: [breaker, slide]
               tags:
                 logic_level: 3
             - has:
@@ -1317,9 +1218,7 @@ regions:
                 cling: 2
               tags:
                 logic_level: 3
-            - has:
-                - breaker
-                - kick
+            - has: [breaker, kick]
               tags:
                 logic_level: 3
             - has:
@@ -1340,9 +1239,7 @@ regions:
           or:
             - tags:
                 old_obscure: 1
-            - has:
-                - plunge
-                - kick
+            - has: [plunge, kick]
             - has:
                 kick: 3
               tags:
@@ -1386,9 +1283,7 @@ regions:
                     - and:
                         - ref: can_slide_jump
                         - has: kick
-            - has:
-                - plunge
-                - kick
+            - has: [plunge, kick]
               tags:
                 logic_level: 2
             - has:
@@ -1398,9 +1293,7 @@ regions:
                 logic_level: 2
       - region: Underbelly => Keep
         rule:
-          has:
-            - plunge
-            - slide
+          has: [plunge, slide]
 
   - name: Theatre Main
     exits:
@@ -1424,9 +1317,7 @@ regions:
                 - ref: can_slide_jump
             - has:
                 cling: 2
-            - has:
-                - kick
-                - plunge
+            - has: [kick, plunge]
               tags:
                 old_obscure: 1
             - has: kick
@@ -1680,20 +1571,13 @@ locations:
           tags:
             logic_level: 2
             old_obscure: 1
-        - has:
-            - slide
-            - kick
+        - has: [slide, kick]
           tags:
             logic_level: 3
-        - has:
-            - kick
-            - plunge
+        - has: [kick, plunge]
           tags:
             logic_level: 4
-        - has:
-            - breaker
-            - plunge
-            - slide
+        - has: [breaker, plunge, slide]
           tags:
             logic_level: 4
   - name: Dilapidated Dungeon - Rafters
@@ -1712,9 +1596,7 @@ locations:
             cling: 6
           tags:
             logic_level: 2
-        - has:
-            - kick
-            - plunge
+        - has: [kick, plunge]
           tags:
             logic_level: 2
         - and:
@@ -1740,9 +1622,7 @@ locations:
         - ref: can_gold_ultra
           tags:
             logic_level: 4
-        - has:
-            - slide
-            - plunge
+        - has: [slide, plunge]
           tags:
             logic_level: 4
   - name: Dilapidated Dungeon - Strong Eyes
@@ -1783,16 +1663,12 @@ locations:
             logic_level: 3
           options:
             game_version: full_gold
-        - has:
-            - slide
-            - kick
+        - has: [slide, kick]
           tags:
             logic_level: 3
           options:
             game_version: full_gold
-        - has:
-            - slide
-            - plunge
+        - has: [slide, plunge]
           tags:
             logic_level: 4
           options:
@@ -1838,9 +1714,7 @@ locations:
             kick: 3
           tags:
             logic_level: 3
-        - has:
-            - plunge
-            - kick
+        - has: [plunge, kick]
           tags:
             logic_level: 3
         - has: slide
@@ -1869,10 +1743,7 @@ locations:
             - has: kick
           tags:
             logic_level: 4
-        - has:
-            - slide
-            - kick
-            - plunge
+        - has: [slide, kick, plunge]
           tags:
             logic_level: 4
   - name: Castle Sansa - Floater In Courtyard
@@ -1930,9 +1801,7 @@ locations:
             cling: 2
           tags:
             logic_level: 3
-        - has:
-            - slide
-            - kick
+        - has: [slide, kick]
           tags:
             logic_level: 4
   - name: Castle Sansa - Locked Door
@@ -2081,9 +1950,7 @@ locations:
             kick_or_plunge: 3
           tags:
             logic_level: 3
-        - has:
-            - slide
-            - kick
+        - has: [slide, kick]
           tags:
             logic_level: 3
         - and:
@@ -2113,9 +1980,7 @@ locations:
         - ref: can_gold_slide_ultra
           tags:
             logic_level: 3
-        - has:
-            - slide
-            - kick
+        - has: [slide, kick]
           tags:
             logic_level: 3
         - has:
@@ -2142,9 +2007,7 @@ locations:
         - or:
             - has:
                 cling: 2
-            - has:
-                - plunge
-                - kick
+            - has: [plunge, kick]
             - has:
                 kick: 3
             - has: kick
@@ -2251,9 +2114,7 @@ locations:
             kick_or_plunge: 2
           tags:
             logic_level: 3
-        - has:
-            - slide
-            - kick_or_plunge
+        - has: [slide, kick_or_plunge]
           tags:
             logic_level: 3
 
@@ -2418,9 +2279,7 @@ locations:
             cling: 6
           tags:
             logic_level: 2
-        - has:
-            - slide
-            - kick
+        - has: [slide, kick]
           tags:
             logic_level: 3
   - name: Empty Bailey - Guarded Hand
@@ -2476,9 +2335,7 @@ locations:
             - ref: can_slide_jump
           tags:
             logic_level: 2
-        - has:
-            - kick
-            - slide
+        - has: [kick, slide]
           tags:
             logic_level: 3
   - name: The Underbelly - Building Near Little Guy
@@ -2566,9 +2423,7 @@ locations:
                 kick_or_plunge: 3
               tags:
                 logic_level: 2
-            - has:
-                - kick
-                - plunge
+            - has: [kick, plunge]
               tags:
                 logic_level: 3
             - has:
@@ -2607,10 +2462,7 @@ locations:
             - has: slide
           tags:
             logic_level: 3
-        - has:
-            - slide
-            - kick
-            - plunge
+        - has: [slide, kick, plunge]
           tags:
             logic_level: 3
 
@@ -2901,9 +2753,7 @@ locations:
       or:
         - has:
             kick: 2
-        - has:
-            - kick
-            - plunge
+        - has: [kick, plunge]
           tags:
             old_obscure: 1
         - and:
