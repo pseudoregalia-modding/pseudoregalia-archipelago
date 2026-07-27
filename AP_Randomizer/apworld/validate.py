@@ -6,7 +6,7 @@ from Options import Choice, Toggle
 
 from .items import item_table
 from .logic import ExitData, ItemMappingData, LocationData, OptionData, OriginData, PseudoregaliaData, RefRuleData, \
-    RegionData, RuleData, TagGroupData, TagData
+    RegionData, RuleData, TagGroupData, TagData, TagLevel
 from .options import PseudoregaliaOptions, SpawnPoint
 from .rules import create_entrance_name
 
@@ -46,7 +46,7 @@ class Validator:
     path_parts: list[str]
     errors: list[str]
     pseudo_items: set[str]
-    tags: dict[str, set[int]]
+    tags: dict[str, set[TagLevel]]
     tag_groups: set[str]
     ref_rules: set[str]
     regions: set[str]
@@ -119,13 +119,13 @@ class Validator:
 
         self.tags[tag_data.name] = set()
         if tag_data.advanced:
-            self.tags[tag_data.name].add(1)
+            self.tags[tag_data.name].add("advanced")
         if tag_data.hard:
-            self.tags[tag_data.name].add(2)
+            self.tags[tag_data.name].add("hard")
         if tag_data.expert:
-            self.tags[tag_data.name].add(3)
+            self.tags[tag_data.name].add("expert")
         if tag_data.lunatic:
-            self.tags[tag_data.name].add(4)
+            self.tags[tag_data.name].add("lunatic")
 
         difficulties = len(self.tags[tag_data.name])
         # CHECK: tags have at least one of advanced/hard/expert/lunatic
@@ -414,12 +414,12 @@ class Validator:
             self.err("does not match the name of a ref rule")
 
     @validation_context(context_type="key", key="tags")
-    def validate_rule_tags(self, tags: dict[str, int]):
+    def validate_rule_tags(self, tags: dict[str, TagLevel]):
         for tag_name, tag_level in tags.items():
             self.validate_rule_tag(tag_name, tag_level)
 
     @validation_context(context_type="key")
-    def validate_rule_tag(self, name: str, level: int):
+    def validate_rule_tag(self, name: str, level: TagLevel):
         # CHECK: name matches a tag
         if name not in self.tags:
             self.err("key does not match the name of a tag")

@@ -1,10 +1,10 @@
 from dataclasses import dataclass
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, get_args
 from typing_extensions import override
 
 from rule_builder.rules import Rule, And, Or, Has, HasAll, HasAllCounts, CanReachRegion, True_, False_
 
-from .logic import OptionData, RuleData, PseudoregaliaData
+from .logic import OptionData, RuleData, PseudoregaliaData, TagLevel
 from .options import PseudoregaliaOptions
 
 if TYPE_CHECKING:
@@ -19,13 +19,16 @@ def check_tags(player_tags: dict[str, int], tags: dict[str, int] | None) -> bool
 def check_options(player_options: PseudoregaliaOptions, options: OptionData | None) -> bool:
     return options is None or all(getattr(player_options, op_name) == value for op_name, value in options.items())
 
+tag_level_to_int = {level: i+1 for i, level in enumerate(get_args(TagLevel))}
+
 class PseudoregaliaRule(Rule[PseudoregaliaWorld], game="Pseudoregalia"):
     rule: Rule
     tags: dict[str, int] | None
     option_data: OptionData | None
 
     def __init__(self, rule_data: RuleData, ref_rules: dict[str, "PseudoregaliaRule"]):
-        self.tags = rule_data.tags
+        self.tags = {tag: tag_level_to_int[level] for tag, level in rule_data.tags.items()} \
+            if rule_data.tags is not None else None
         self.option_data = rule_data.options
 
         if rule_data.and_ is not None:

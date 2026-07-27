@@ -81,7 +81,7 @@ ref_rules:
         - has: breaker
         - has: plunge
           tags:
-            old_obscure: 1
+            old_obscure: advanced
   - name: can_strikebreak
     rule:
       has: [breaker, strikebreak]
@@ -101,16 +101,16 @@ ref_rules:
             - has:
                 small_key: 6
               tags:
-                logic_level: 2
+                logic_level: hard
   - name: can_enter_dark_rooms
     rule:
       or:
         - has: light
         - has: breaker
           tags:
-            old_obscure: 1
+            old_obscure: advanced
         - tags:
-            logic_level: 3
+            logic_level: expert
   - name: can_get_cling_gem
     rule:
       or:
@@ -119,10 +119,10 @@ ref_rules:
         - has:
             cling: 2
           tags:
-            logic_level: 2
+            logic_level: hard
         - has: slide
           tags:
-            logic_level: 3
+            logic_level: expert
 
 regions:
   - name: Dungeon Mirror
@@ -145,7 +145,7 @@ regions:
                 - ref: can_attack
                 - ref: can_enter_dark_rooms
               tags:
-                old_obscure: 1
+                old_obscure: advanced
             - has: breaker
               options:
                 spawn_point: dungeon_mirror
@@ -170,22 +170,22 @@ regions:
                         cling: 2
                 - has: plunge
                   tags:
-                    logic_level: 2
+                    logic_level: hard
                 - has: [breaker, kick]
                   tags:
-                    logic_level: 2
+                    logic_level: hard
                 - and:
                     - has: breaker
                     - ref: can_slide_jump
                   tags:
-                    logic_level: 2
+                    logic_level: hard
                 - and:
                     - ref: can_attack
                     - has: slide
                   tags:
-                    logic_level: 3
+                    logic_level: expert
               tags:
-                old_obscure: 1
+                old_obscure: advanced
               options:
                 game_version: map_patch
   - name: Dungeon => Castle
@@ -202,12 +202,12 @@ regions:
                     breaker: 1
                     cling: 2
                   tags:
-                    logic_level: 2
+                    logic_level: hard
                 - has: [breaker, slide]
                   tags:
-                    logic_level: 3
+                    logic_level: expert
               tags:
-                old_obscure: 1
+                old_obscure: advanced
               options:
                 game_version: map_patch
       - region: Castle Main
@@ -227,21 +227,21 @@ regions:
             - has:
                 cling: 4
               tags:
-                logic_level: 2
+                logic_level: hard
             - has:
                 kick_or_plunge: 2
               tags:
-                logic_level: 2
+                logic_level: hard
             - and:
                 - ref: can_gold_ultra
                 - has: kick
               tags:
-                logic_level: 3
+                logic_level: expert
             - and:
                 - ref: can_gold_ultra
                 - has: plunge
               tags:
-                logic_level: 4
+                logic_level: lunatic
       - region: Underbelly => Dungeon
   - name: Dungeon Escape Upper
     exits:
@@ -255,10 +255,10 @@ regions:
                 cling: 2
             - has: plunge
               tags:
-                old_obscure: 1
+                old_obscure: advanced
             - has: slide
               tags:
-                logic_level: 3
+                logic_level: expert
 
   - name: Castle Main
     exits:
@@ -279,16 +279,16 @@ regions:
             - has:
                 cling: 2
               tags:
-                logic_level: 2
+                logic_level: hard
             - has: kick
               tags:
-                logic_level: 2
+                logic_level: hard
             - has: slide
               tags:
-                logic_level: 3
+                logic_level: expert
             - has: plunge
               tags:
-                logic_level: 4
+                logic_level: lunatic
       - region: Castle Spiral Climb
         rule:
           or:
@@ -300,28 +300,28 @@ regions:
             - has:
                 cling: 2
               tags:
-                logic_level: 2
+                logic_level: hard
             - has:
                 kick_or_plunge: 2
               tags:
-                logic_level: 2
+                logic_level: hard
             - and:
                 - ref: can_slide_jump
                 - has: plunge
               tags:
-                logic_level: 2
+                logic_level: hard
             - ref: can_gold_ultra
               tags:
-                logic_level: 3
+                logic_level: expert
             - has: [slide, kick_or_plunge]
               tags:
-                logic_level: 3
+                logic_level: expert
       - region: Keep (Northeast) => Castle
         rule:
           or:
             - ref: can_attack
             - tags:
-                old_obscure: 1
+                old_obscure: advanced
   - name: Castle Spiral Climb
     exits:
       - region: Castle Main
@@ -339,23 +339,23 @@ regions:
             - has:
                 kick_or_plunge: 3
               tags:
-                logic_level: 2
+                logic_level: hard
             - and:
                 - ref: can_attack
                 - ref: can_slide_jump
               tags:
-                logic_level: 2
-                old_obscure: 1
+                logic_level: hard
+                old_obscure: advanced
             - ref: can_gold_slide_ultra
               tags:
-                logic_level: 3
+                logic_level: expert
             - has: [slide, kick_or_plunge]
               tags:
-                logic_level: 3
+                logic_level: expert
             - has:
                 kick: 2
               tags:
-                logic_level: 3
+                logic_level: expert
       - region: Castle By Scythe Corridor
         rule:
           or:
@@ -364,11 +364,11 @@ regions:
             - has:
                 kick_or_plunge: 4
               tags:
-                logic_level: 3
+                logic_level: expert
             - has:
                 kick: 3
               tags:
-                logic_level: 4
+                logic_level: lunatic
   - name: Castle High Climb
   - name: Castle By Scythe Corridor
     exits:
@@ -383,7 +383,7 @@ regions:
             - has:
                 kick: 3
               tags:
-                logic_level: 2
+                logic_level: hard
       - region: Castle High Climb
         rule:
           or:
@@ -401,17 +401,17 @@ regions:
                 kick: 3
                 breaker: 1
               tags:
-                logic_level: 2
+                logic_level: hard
             - has: [kick, plunge]
               tags:
-                logic_level: 2
+                logic_level: hard
             - has: slide
               tags:
-                logic_level: 3
+                logic_level: expert
             - has:
                 kick_or_plunge: 2
               tags:
-                logic_level: 3
+                logic_level: expert
       - region: Castle => Theatre (Front)
         rule:
           or:
@@ -421,24 +421,24 @@ regions:
             - has:
                 cling: 6
               tags:
-                logic_level: 2
+                logic_level: hard
             - and:
                 - ref: can_gold_ultra
                 - has:
                     kick: 2
               tags:
-                logic_level: 3
+                logic_level: expert
             - has:
                 slide: 1
                 kick_or_plunge: 3
               tags:
-                logic_level: 3
+                logic_level: expert
             - and:
                 - ref: can_gold_ultra
                 - has:
                     kick_or_plunge: 2
               tags:
-                logic_level: 4
+                logic_level: lunatic
   - name: Castle => Theatre (Front)
     exits:
       - region: Castle By Scythe Corridor
@@ -453,17 +453,17 @@ regions:
                 kick: 4
             - ref: can_gold_slide_ultra
               tags:
-                logic_level: 3
+                logic_level: expert
             - has: [slide, kick]
               tags:
-                logic_level: 3
+                logic_level: expert
             - has:
                 kick: 3
               tags:
-                logic_level: 3
+                logic_level: expert
             - ref: can_slide_jump
               tags:
-                logic_level: 4
+                logic_level: lunatic
       - region: Castle Moon Room
         rule:
           or:
@@ -476,10 +476,10 @@ regions:
             - has:
                 kick: 4
               tags:
-                logic_level: 2
+                logic_level: hard
             - has: slide
               tags:
-                logic_level: 3
+                logic_level: expert
       - region: Theatre Main
         rule:
           or:
@@ -488,13 +488,13 @@ regions:
             - has:
                 cling: 4 # TODO double check for hard logic
               tags:
-                logic_level: 2
+                logic_level: hard
             - ref: can_gold_slide_ultra
               tags:
-                logic_level: 3
+                logic_level: expert
             - has: [slide, kick_or_plunge]
               tags:
-                logic_level: 3
+                logic_level: expert
   - name: Castle Moon Room
 
   - name: Library Main
@@ -512,29 +512,29 @@ regions:
                 kick_or_plunge: 4
             - has: [kick, plunge]
               tags:
-                old_obscure: 1
+                old_obscure: advanced
             - has:
                 cling: 4
               tags:
-                logic_level: 2
+                logic_level: hard
             - has:
                 kick_or_plunge: 2
               tags:
-                logic_level: 2
-                old_obscure: 1
+                logic_level: hard
+                old_obscure: advanced
             - has: plunge
               tags:
-                logic_level: 3
+                logic_level: expert
             - has: slide
               tags:
-                logic_level: 3
+                logic_level: expert
             - has: kick
               tags:
-                logic_level: 4
+                logic_level: lunatic
             - has:
                 cling: 2
               tags:
-                logic_level: 4
+                logic_level: lunatic
       - region: Castle Main
         rule:
           ref: can_attack
@@ -552,10 +552,10 @@ regions:
                     kick: 2
                 - has: kick
                   tags:
-                    logic_level: 2
+                    logic_level: hard
                 - has: slide
                   tags:
-                    logic_level: 3
+                    logic_level: expert
   - name: Library Top
     exits:
       - region: Library Back
@@ -574,27 +574,27 @@ regions:
             - has:
                 cling: 2
               tags:
-                logic_level: 2
+                logic_level: hard
             - has:
                 kick: 3
               tags:
-                logic_level: 2
+                logic_level: hard
             - and:
                 - has:
                     kick: 2
                     plunge: 1
                 - ref: can_bounce
               tags:
-                logic_level: 2
+                logic_level: hard
             - has:
                 kick: 2
               tags:
-                logic_level: 3
+                logic_level: expert
             - and:
                 - ref: can_bounce
                 - has: [kick, plunge]
               tags:
-                logic_level: 4
+                logic_level: lunatic
   - name: Library Back
     exits:
       - region: Library Greaves
@@ -614,14 +614,14 @@ regions:
                 kick: 2
             - has: kick
               tags:
-                logic_level: 2
+                logic_level: hard
             - has:
                 cling: 2
               tags:
-                logic_level: 2
+                logic_level: hard
             - has: slide
               tags:
-                logic_level: 2
+                logic_level: hard
 
   - name: Keep Main
     exits:
@@ -639,7 +639,7 @@ regions:
                 cling: 2
                 kick: 1
             - tags:
-                logic_level: 2
+                logic_level: hard
         # Note for trackers: This is accessible with nothing but not in logic.
         # Cutting the platform or hitting the lever make this harder and are irreversible.
         # On Hard and above, the player is expected to not do either.
@@ -651,7 +651,7 @@ regions:
                 # See "Keep Main -> Keep Locked Room".
                 # All other methods would go through Keep Locked Room instead.
             - tags:
-                logic_level: 2
+                logic_level: hard
       - region: Keep Throne Room
         rule:
           or:
@@ -677,69 +677,69 @@ regions:
                         kick: 2
                     - has: kick
                       tags:
-                        old_obscure: 1
+                        old_obscure: advanced
               tags:
-                logic_level: 2
+                logic_level: hard
             - has:
                 breaker: 1
                 plunge: 1
                 kick: 4
               tags:
-                logic_level: 2
+                logic_level: hard
             - and:
                 - ref: can_bounce
                 - has:
                     kick: 3
               tags:
-                logic_level: 2
+                logic_level: hard
             - has:
                 breaker: 1
                 cling: 4
               tags:
-                logic_level: 3
+                logic_level: expert
             - has:
                 breaker: 1
                 cling: 2
                 kick: 1
               tags:
-                logic_level: 3
+                logic_level: expert
             - has:
                 breaker: 1
                 cling: 2
                 slide: 1
               tags:
-                logic_level: 3
+                logic_level: expert
             - and:
                 - has:
                     kick_or_plunge: 3
                 - ref: can_bounce
               tags:
-                logic_level: 3
+                logic_level: expert
             - has:
                 breaker: 1
                 slide: 1
                 kick: 3
               tags:
-                logic_level: 3
+                logic_level: expert
             - has:
                 breaker: 1
                 slide: 1
                 kick: 2
                 plunge: 1
               tags:
-                logic_level: 4
+                logic_level: lunatic
             - has:
                 breaker: 1
                 cling: 2
               tags:
-                logic_level: 4
+                logic_level: lunatic
             - and:
                 - ref: can_gold_ultra
                 - ref: can_bounce
                 - ref: can_soul_cutter
                 - has: [kick, plunge]
               tags:
-                logic_level: 4
+                logic_level: lunatic
       - region: Keep => Underbelly
         rule:
           or:
@@ -748,7 +748,7 @@ regions:
                 cling: 2
             - has: slide
               tags:
-                logic_level: 3
+                logic_level: expert
       - region: Theatre Outside Scythe Corridor
         rule:
           or:
@@ -759,10 +759,10 @@ regions:
             - ref: can_slide_jump
             - has: plunge
               tags:
-                old_obscure: 1
+                old_obscure: advanced
             - has: slide
               tags:
-                logic_level: 3
+                logic_level: expert
       - region: Keep (Northeast) => Castle
         rule:
           or:
@@ -773,10 +773,10 @@ regions:
             - has: plunge
             - has: kick
               tags:
-                logic_level: 2
+                logic_level: hard
             - has: slide
               tags:
-                logic_level: 3
+                logic_level: expert
       - region: Castle Main
   - name: Keep Locked Room
     exits:
@@ -804,20 +804,20 @@ regions:
                 kick: 2
             - has: kick
               tags:
-                old_obscure: 1
+                old_obscure: advanced
             - has: plunge
               tags:
-                logic_level: 2
+                logic_level: hard
             - has:
                 cling: 2
               tags:
-                logic_level: 2
+                logic_level: hard
             - has: slide
               tags:
-                logic_level: 3
+                logic_level: expert
             - ref: can_bounce
               tags:
-                logic_level: 4
+                logic_level: lunatic
       - region: Castle Main
       - region: Theatre Pillar => Bailey
   - name: Bailey Upper
@@ -842,17 +842,17 @@ regions:
                     - ref: can_slide_jump
                     - has: plunge
                       tags:
-                        old_obscure: 1
+                        old_obscure: advanced
             - has:
                 kick_or_plunge: 3
               tags:
-                logic_level: 2
+                logic_level: hard
             - and:
                 - has:
                     kick: 2
                 - ref: can_bounce
               tags:
-                logic_level: 2
+                logic_level: hard
               options:
                 game_version: map_patch
             - and:
@@ -865,12 +865,12 @@ regions:
                     - options:
                         game_version: full_gold
               tags:
-                logic_level: 3
+                logic_level: expert
             - and:
                 - ref: can_slide_jump
                 - has: plunge
               tags:
-                logic_level: 4
+                logic_level: lunatic
               options:
                 game_version: map_patch
 
@@ -889,35 +889,35 @@ regions:
                 - has:
                     cling: 2
               tags:
-                logic_level: 2
+                logic_level: hard
             - has:
                 slide: 1
                 cling: 2
               tags:
-                logic_level: 3
+                logic_level: expert
             - has:
                 slide: 1
                 kick: 2
               tags:
-                logic_level: 3
+                logic_level: expert
             - and:
                 - ref: can_gold_ultra
                 - has: [kick, plunge]
               tags:
-                logic_level: 3
+                logic_level: expert
             - and:
                 - ref: can_gold_ultra
                 - has: kick
               tags:
-                logic_level: 4
+                logic_level: lunatic
             - has: [slide, kick, plunge]
               tags:
-                logic_level: 4
+                logic_level: lunatic
             - has:
                 plunge: 1
                 kick: 2
               tags:
-                logic_level: 4
+                logic_level: lunatic
 
   - name: Underbelly => Dungeon
     exits:
@@ -939,14 +939,14 @@ regions:
                 - has: kick
             - ref: can_attack
               tags:
-                old_obscure: 1
+                old_obscure: advanced
             - has:
                 cling: 2
               tags:
-                logic_level: 2
+                logic_level: hard
             - has: [kick, slide]
               tags:
-                logic_level: 3
+                logic_level: expert
   - name: Underbelly Light Pillar
     exits:
       - region: Underbelly Main Upper
@@ -960,17 +960,17 @@ regions:
                 slide: 1
                 kick: 2
               tags:
-                logic_level: 3
+                logic_level: expert
             - and:
                 - ref: can_gold_ultra
                 - has: [kick, plunge]
               tags:
-                logic_level: 3
+                logic_level: expert
             - has:
                 plunge: 1
                 kick: 2
               tags:
-                logic_level: 3
+                logic_level: expert
       - region: Underbelly Ascendant Light
         # this route is more difficult with ascendant light because of the long room with the switches, but
         # since it's possible to use AL to go up the pillar and get to the item that way (i.e. passing through
@@ -982,35 +982,35 @@ regions:
                 breaker: 1
                 kick: 3
               tags:
-                old_obscure: 1
+                old_obscure: advanced
             - and:
                 - ref: can_attack
                 - has:
                     kick: 2
               tags:
-                logic_level: 2
-                old_obscure: 1
+                logic_level: hard
+                old_obscure: advanced
             - has:
                 plunge: 1
                 cling: 2
               tags:
-                logic_level: 2
-                old_obscure: 1
+                logic_level: hard
+                old_obscure: advanced
             - has: [plunge, kick]
               tags:
-                logic_level: 3
+                logic_level: expert
             - and:
                 - ref: can_attack
                 - has: slide
               tags:
-                logic_level: 3
+                logic_level: expert
             - and:
                 - ref: can_gold_ultra
                 - has:
                     kick: 3
                     cling: 4
               tags:
-                logic_level: 3
+                logic_level: expert
   - name: Underbelly Ascendant Light
     exits:
       - region: Underbelly => Dungeon
@@ -1026,10 +1026,10 @@ regions:
                 - ref: can_slide_jump
             - has: [kick, slide]
               tags:
-                logic_level: 3
+                logic_level: expert
             - has: [kick, plunge]
               tags:
-                logic_level: 3
+                logic_level: expert
   - name: Underbelly Main Lower
     exits:
       - region: Underbelly => Bailey
@@ -1046,7 +1046,7 @@ regions:
                 plunge: 1
                 cling: 4
               tags:
-                logic_level: 2
+                logic_level: hard
       - region: Underbelly By Heliacal
         rule:
           or:
@@ -1055,10 +1055,10 @@ regions:
                 slide: 1
                 kick: 2
               tags:
-                logic_level: 2
+                logic_level: hard
             - has: slide
               tags:
-                logic_level: 3
+                logic_level: expert
       - region: Underbelly Main Upper
         rule:
           or:
@@ -1067,41 +1067,41 @@ regions:
                 kick: 2
             - has: [plunge, kick]
               tags:
-                logic_level: 2
+                logic_level: hard
             - has:
                 plunge: 1
                 cling: 4
               tags:
-                logic_level: 2
+                logic_level: hard
             - has:
                 kick: 2
                 cling: 2
               tags:
-                logic_level: 2
+                logic_level: hard
             - has:
                 kick: 2
               tags:
-                logic_level: 3
+                logic_level: expert
             - has:
                 kick: 1
                 cling: 2
               tags:
-                logic_level: 3
+                logic_level: expert
             - has:
                 slide: 1
                 cling: 4
               tags:
-                logic_level: 3
+                logic_level: expert
             - and:
                 - ref: can_gold_slide_ultra
                 - has: [breaker, kick]
               tags:
-                logic_level: 3
+                logic_level: expert
             - has: kick
               tags:
-                logic_level: 4
+                logic_level: lunatic
           tags:
-            old_obscure: 1
+            old_obscure: advanced
   - name: Underbelly Main Upper
     exits:
       - region: Underbelly Main Lower
@@ -1113,47 +1113,47 @@ regions:
                 breaker: 1
                 kick: 2
               tags:
-                old_obscure: 1
+                old_obscure: advanced
             - has:
                 breaker: 1
                 cling: 2
                 kick: 1
               tags:
-                old_obscure: 1
+                old_obscure: advanced
             - has:
                 breaker: 1
                 cling: 2
               tags:
-                logic_level: 2
-                old_obscure: 1
+                logic_level: hard
+                old_obscure: advanced
             - and:
                 - has: [kick, plunge]
                 - ref: can_slide_jump
               tags:
-                logic_level: 2
-                old_obscure: 1
+                logic_level: hard
+                old_obscure: advanced
             - has: [breaker, slide]
               tags:
-                logic_level: 3
+                logic_level: expert
             - has: [breaker, kick]
               tags:
-                logic_level: 3
+                logic_level: expert
             - has:
                 slide: 1
                 kick_or_plunge: 3
               tags:
-                logic_level: 3
+                logic_level: expert
             - has:
                 slide: 1
                 cling: 6
               tags:
-                logic_level: 3
+                logic_level: expert
             - and:
                 - ref: can_gold_ultra
                 - has:
                     kick_or_plunge: 2
               tags:
-                logic_level: 3
+                logic_level: expert
       - region: Underbelly By Heliacal
         rule:
           and:
@@ -1169,30 +1169,30 @@ regions:
                     kick: 2
                 - has: light
                   tags:
-                    logic_level: 2
+                    logic_level: hard
                 - has:
                     cling: 2
                     kick_or_plunge: 1
                   tags:
-                    logic_level: 2
+                    logic_level: hard
                 - has:
                     kick_or_plunge: 4
                   tags:
-                    logic_level: 2
+                    logic_level: hard
                 - tags:
-                    logic_level: 2
-                    old_obscure: 1
+                    logic_level: hard
+                    old_obscure: advanced
                   has:
                     cling: 4
                 - has:
                     slide: 1
                     kick: 2
                   tags:
-                    logic_level: 3
+                    logic_level: expert
                 - has:
                     kick: 3
                   tags:
-                    logic_level: 3
+                    logic_level: expert
   - name: Underbelly By Heliacal
     exits:
       - region: Underbelly Main Upper
@@ -1201,36 +1201,36 @@ regions:
             - has: [breaker, plunge]
             - has: [plunge, kick]
               tags:
-                old_obscure: 1
+                old_obscure: advanced
             - has:
                 plunge: 1
                 cling: 2
               tags:
-                old_obscure: 1
+                old_obscure: advanced
             - has: plunge
               tags:
-                logic_level: 3
+                logic_level: expert
             - has: [breaker, slide]
               tags:
-                logic_level: 3
+                logic_level: expert
             - has:
                 breaker: 1
                 cling: 2
               tags:
-                logic_level: 3
+                logic_level: expert
             - has: [breaker, kick]
               tags:
-                logic_level: 3
+                logic_level: expert
             - has:
                 slide: 1
                 cling: 2
               tags:
-                logic_level: 3
+                logic_level: expert
             - has:
                 slide: 1
                 kick: 2
               tags:
-                logic_level: 3
+                logic_level: expert
   - name: Underbelly => Bailey
     exits:
       - region: Bailey Lower
@@ -1238,17 +1238,17 @@ regions:
         rule:
           or:
             - tags:
-                old_obscure: 1
+                old_obscure: advanced
             - has: [plunge, kick]
             - has:
                 kick: 3
               tags:
-                logic_level: 2
+                logic_level: hard
             - and:
                 - ref: can_slide_jump
                 - has: kick
               tags:
-                logic_level: 2
+                logic_level: hard
       - region: Underbelly Main Lower
         rule:
           or:
@@ -1256,11 +1256,11 @@ regions:
             - has:
                 kick: 2
             - tags:
-                old_obscure: 1
+                old_obscure: advanced
             - has:
                 cling: 2
               tags:
-                logic_level: 2
+                logic_level: hard
   - name: Underbelly => Keep
     exits:
       - region: Keep => Underbelly
@@ -1285,12 +1285,12 @@ regions:
                         - has: kick
             - has: [plunge, kick]
               tags:
-                logic_level: 2
+                logic_level: hard
             - has:
                 plunge: 1
                 cling: 4
               tags:
-                logic_level: 2
+                logic_level: hard
       - region: Underbelly => Keep
         rule:
           has: [plunge, slide]
@@ -1306,7 +1306,7 @@ regions:
             - has:
                 cling: 4
               tags:
-                logic_level: 2
+                logic_level: hard
       - region: Theatre Pillar
         rule:
           or:
@@ -1319,10 +1319,10 @@ regions:
                 cling: 2
             - has: [kick, plunge]
               tags:
-                old_obscure: 1
+                old_obscure: advanced
             - has: kick
               tags:
-                logic_level: 2
+                logic_level: hard
       - region: Castle => Theatre (Front)
         rule:
           or:
@@ -1332,7 +1332,7 @@ regions:
             - ref: can_slide_jump
             - has: slide
               tags:
-                logic_level: 3
+                logic_level: expert
   - name: Theatre Pillar => Bailey
     exits:
       - region: Theatre Pillar
@@ -1343,20 +1343,20 @@ regions:
                 - ref: can_bounce
             - has: plunge
               tags:
-                old_obscure: 1
+                old_obscure: advanced
             - has: kick
               tags:
-                logic_level: 2
+                logic_level: hard
             - ref: can_slide_jump
               tags:
-                logic_level: 2
+                logic_level: hard
             - has: slide
               tags:
-                logic_level: 3
+                logic_level: expert
             - has:
                 cling: 2
               tags:
-                logic_level: 3
+                logic_level: expert
       - region: Bailey Lower
   - name: Castle => Theatre Pillar
     exits:
@@ -1366,17 +1366,17 @@ regions:
             - has: plunge
             - ref: can_slide_jump
               tags:
-                logic_level: 2
+                logic_level: hard
             - has: kick
               tags:
-                logic_level: 3
+                logic_level: expert
             - has:
                 cling: 2
               tags:
-                logic_level: 3
+                logic_level: expert
             - has: slide
               tags:
-                logic_level: 3
+                logic_level: expert
       - region: Castle Main
   - name: Theatre Pillar
     exits:
@@ -1393,16 +1393,16 @@ regions:
                 - has:
                     kick_or_plunge: 3
               tags:
-                logic_level: 2
+                logic_level: hard
             - has:
                 slide: 1
                 kick_or_plunge: 3
               tags:
-                logic_level: 3
+                logic_level: expert
             - has:
                 kick: 2
               tags:
-                logic_level: 4
+                logic_level: lunatic
       - region: Theatre Pillar => Bailey
       - region: Castle => Theatre Pillar
   - name: Theatre Outside Scythe Corridor
@@ -1420,7 +1420,7 @@ regions:
             - has:
                 cling: 4
               tags:
-                logic_level: 2
+                logic_level: hard
       - region: Dungeon Escape Upper
         rule:
           and:
@@ -1433,10 +1433,10 @@ regions:
                 - ref: can_slide_jump
                 - has: plunge
                   tags:
-                    old_obscure: 1
+                    old_obscure: advanced
                 - has: slide
                   tags:
-                    logic_level: 3
+                    logic_level: expert
       - region: Keep Main
         rule:
           or:
@@ -1447,10 +1447,10 @@ regions:
             - ref: can_slide_jump
             - has: plunge
               tags:
-                old_obscure: 1
+                old_obscure: advanced
             - has: slide
               tags:
-                logic_level: 3
+                logic_level: expert
 
   - name: The Great Door
 
@@ -1509,38 +1509,38 @@ locations:
         - has:
             cling: 6
           tags:
-            logic_level: 2
+            logic_level: hard
         - and:
             - has: kick
             - ref: can_bounce
           tags:
-            logic_level: 2
+            logic_level: hard
         - and:
             - ref: can_slide_jump
             - has: plunge
             - ref: can_bounce
           tags:
-            logic_level: 2
+            logic_level: hard
         - has:
             kick: 3
             plunge: 1
           tags:
-            logic_level: 2
+            logic_level: hard
         - and:
             - ref: can_gold_slide_ultra
             - has: kick
           tags:
-            logic_level: 3
+            logic_level: expert
         - and:
             - has: slide
             - ref: can_bounce
           tags:
-            logic_level: 3
+            logic_level: expert
         - has:
             slide: 1
             kick: 2
           tags:
-            logic_level: 3
+            logic_level: expert
   - name: Dilapidated Dungeon - Past Poles
     code: 5
     region: Dungeon Strong Eyes
@@ -1556,30 +1556,30 @@ locations:
             - has:
                 kick: 2
           tags:
-            old_obscure: 1
+            old_obscure: advanced
         - has:
             cling: 2
           tags:
-            logic_level: 2
+            logic_level: hard
         - has:
             kick: 2
           tags:
-            logic_level: 2
+            logic_level: hard
         - and:
             - ref: can_slide_jump
             - has: kick
           tags:
-            logic_level: 2
-            old_obscure: 1
+            logic_level: hard
+            old_obscure: advanced
         - has: [slide, kick]
           tags:
-            logic_level: 3
+            logic_level: expert
         - has: [kick, plunge]
           tags:
-            logic_level: 4
+            logic_level: lunatic
         - has: [breaker, plunge, slide]
           tags:
-            logic_level: 4
+            logic_level: lunatic
   - name: Dilapidated Dungeon - Rafters
     code: 6
     region: Dungeon Strong Eyes
@@ -1591,40 +1591,40 @@ locations:
             - ref: can_bounce
             - has: plunge
           tags:
-            old_obscure: 1
+            old_obscure: advanced
         - has:
             cling: 6
           tags:
-            logic_level: 2
+            logic_level: hard
         - has: [kick, plunge]
           tags:
-            logic_level: 2
+            logic_level: hard
         - and:
             - has: kick
             - ref: can_bounce
           tags:
-            logic_level: 2
+            logic_level: hard
         - has:
             kick_or_plunge: 2
           tags:
-            logic_level: 3
+            logic_level: expert
         - and:
             - ref: can_gold_ultra
             - has: kick_or_plunge
           tags:
-            logic_level: 3
+            logic_level: expert
         - and:
             - ref: can_bounce
             - has:
                 cling: 2
           tags:
-            logic_level: 3
+            logic_level: expert
         - ref: can_gold_ultra
           tags:
-            logic_level: 4
+            logic_level: lunatic
         - has: [slide, plunge]
           tags:
-            logic_level: 4
+            logic_level: lunatic
   - name: Dilapidated Dungeon - Strong Eyes
     code: 7
     region: Dungeon Strong Eyes
@@ -1637,7 +1637,7 @@ locations:
             - has: kick
             - has: plunge
           tags:
-            old_obscure: 1
+            old_obscure: advanced
           options:
             game_version: map_patch
         - or:
@@ -1649,28 +1649,28 @@ locations:
                 cling: 2
                 kick: 3
           tags:
-            old_obscure: 1
+            old_obscure: advanced
           options:
             game_version: full_gold
         - has: slide
           tags:
-            logic_level: 3
+            logic_level: expert
           options:
             game_version: map_patch
         - has:
             cling: 2
           tags:
-            logic_level: 3
+            logic_level: expert
           options:
             game_version: full_gold
         - has: [slide, kick]
           tags:
-            logic_level: 3
+            logic_level: expert
           options:
             game_version: full_gold
         - has: [slide, plunge]
           tags:
-            logic_level: 4
+            logic_level: lunatic
           options:
             game_version: full_gold
 
@@ -1688,10 +1688,10 @@ locations:
         - ref: can_slide_jump
         - has: plunge
           tags:
-            old_obscure: 1
+            old_obscure: advanced
         - has: slide
           tags:
-            logic_level: 3
+            logic_level: expert
   - name: Castle Sansa - Balcony
     code: 10
     region: Castle Main
@@ -1709,17 +1709,17 @@ locations:
             - ref: can_slide_jump
             - has: kick
           tags:
-            logic_level: 2
+            logic_level: hard
         - has:
             kick: 3
           tags:
-            logic_level: 3
+            logic_level: expert
         - has: [plunge, kick]
           tags:
-            logic_level: 3
+            logic_level: expert
         - has: slide
           tags:
-            logic_level: 3
+            logic_level: expert
   - name: Castle Sansa - Corner Corridor
     code: 11
     region: Castle Main
@@ -1732,20 +1732,20 @@ locations:
         - has:
             kick: 3
           tags:
-            logic_level: 2
+            logic_level: hard
         - has:
             kick: 2
             slide: 1
           tags:
-            logic_level: 3
+            logic_level: expert
         - and:
             - ref: can_gold_slide_ultra
             - has: kick
           tags:
-            logic_level: 4
+            logic_level: lunatic
         - has: [slide, kick, plunge]
           tags:
-            logic_level: 4
+            logic_level: lunatic
   - name: Castle Sansa - Floater In Courtyard
     code: 12
     region: Castle Main
@@ -1764,46 +1764,46 @@ locations:
             - ref: can_bounce
             - has: kick
           tags:
-            old_obscure: 1
+            old_obscure: advanced
         - has:
             kick_or_plunge: 4
           tags:
-            logic_level: 2
+            logic_level: hard
         - has:
             cling: 2
             plunge: 1
           tags:
-            logic_level: 2
+            logic_level: hard
         - has:
             cling: 4
           tags:
-            logic_level: 2
+            logic_level: hard
         - and:
             - ref: can_bounce
             - has: slide
           tags:
-            logic_level: 3
+            logic_level: expert
         - and:
             - ref: can_gold_ultra
             - has: kick
           tags:
-            logic_level: 3
+            logic_level: expert
         - has:
             slide: 1
             kick_or_plunge: 2
           tags:
-            logic_level: 3
+            logic_level: expert
         - has:
             kick: 3
           tags:
-            logic_level: 3
+            logic_level: expert
         - has:
             cling: 2
           tags:
-            logic_level: 3
+            logic_level: expert
         - has: [slide, kick]
           tags:
-            logic_level: 4
+            logic_level: lunatic
   - name: Castle Sansa - Locked Door
     code: 13
     region: Castle Main
@@ -1823,13 +1823,13 @@ locations:
             kick: 2
         - has: kick_or_plunge
           tags:
-            logic_level: 2
+            logic_level: hard
         - has: slide
           tags:
-            logic_level: 3
+            logic_level: expert
         - ref: can_bounce
           tags:
-            logic_level: 4
+            logic_level: lunatic
   - name: Castle Sansa - Tall Room Near Wheel Crawlers
     code: 15
     region: Castle Main
@@ -1843,19 +1843,19 @@ locations:
         - has:
             cling: 2
           tags:
-            logic_level: 2
+            logic_level: hard
         - has: kick
           tags:
-            logic_level: 2
+            logic_level: hard
         - tags:
-            logic_level: 2
-            old_obscure: 1
+            logic_level: hard
+            old_obscure: advanced
           and:
             - ref: can_slide_jump
             - has: plunge
         - ref: can_gold_ultra
           tags:
-            logic_level: 3
+            logic_level: expert
   - name: Castle Sansa - Wheel Crawlers
     code: 16
     region: Castle Main
@@ -1871,21 +1871,21 @@ locations:
             - ref: can_slide_jump
         - has: plunge
           tags:
-            old_obscure: 1
+            old_obscure: advanced
         - has: kick
           tags:
-            logic_level: 2
+            logic_level: hard
         - and:
             - ref: can_slide_jump
             - has: plunge
           tags:
-            logic_level: 2
+            logic_level: hard
         - has: kick_or_plunge
           tags:
-            logic_level: 3
+            logic_level: expert
         - has: slide
           tags:
-            logic_level: 3
+            logic_level: expert
   - name: Castle Sansa - High Climb From Courtyard
     code: 17
     region: Castle High Climb
@@ -1902,25 +1902,25 @@ locations:
         - has:
             cling: 6
           tags:
-            logic_level: 2
+            logic_level: hard
         - and:
             - has: plunge
             - ref: can_slide_jump
           tags:
-            logic_level: 2
+            logic_level: hard
         - and:
             - ref: can_attack
             - has: kick
           tags:
-            logic_level: 3
+            logic_level: expert
         - has:
             cling: 2
             kick: 1
           tags:
-            logic_level: 3
+            logic_level: expert
         - has: slide
           tags:
-            logic_level: 3
+            logic_level: expert
   - name: Castle Sansa - Alcove Near Scythe Corridor
     code: 18
     region: Castle By Scythe Corridor
@@ -1935,29 +1935,29 @@ locations:
         - has:
             cling: 4
           tags:
-            logic_level: 2
+            logic_level: hard
         - has:
             plunge: 1
             cling: 2
           tags:
-            logic_level: 2
+            logic_level: hard
         - has:
             kick: 2
             plunge: 1
           tags:
-            logic_level: 2
+            logic_level: hard
         - has:
             kick_or_plunge: 3
           tags:
-            logic_level: 3
+            logic_level: expert
         - has: [slide, kick]
           tags:
-            logic_level: 3
+            logic_level: expert
         - and:
             - ref: can_gold_ultra
             - has: plunge
           tags:
-            logic_level: 3
+            logic_level: expert
   - name: Castle Sansa - Near Theatre Front
     code: 19
     region: Castle Moon Room
@@ -1971,29 +1971,29 @@ locations:
         - has:
             cling: 6
           tags:
-            logic_level: 2
+            logic_level: hard
         - has:
             cling: 2
             kick: 1
           tags:
-            logic_level: 2
+            logic_level: hard
         - ref: can_gold_slide_ultra
           tags:
-            logic_level: 3
+            logic_level: expert
         - has: [slide, kick]
           tags:
-            logic_level: 3
+            logic_level: expert
         - has:
             cling: 4
           tags:
-            logic_level: 3
+            logic_level: expert
         - has: slide
           tags:
-            logic_level: 4
+            logic_level: lunatic
         - has:
             cling: 2
           tags:
-            logic_level: 4
+            logic_level: lunatic
 
   - name: Sansa Keep - Strikebreak
     code: 20
@@ -2012,13 +2012,13 @@ locations:
                 kick: 3
             - has: kick
               tags:
-                logic_level: 2
+                logic_level: hard
             - has: slide
               tags:
-                logic_level: 3
+                logic_level: expert
             - has: plunge
               tags:
-                logic_level: 3
+                logic_level: expert
   - name: Sansa Keep - Alcove Near Locked Door
     code: 21
     region: Keep Locked Room
@@ -2029,7 +2029,7 @@ locations:
       or:
         - ref: can_attack
         - tags:
-            logic_level: 4
+            logic_level: lunatic
   - name: Sansa Keep - Lonely Throne
     code: 23
     region: Keep Throne Room
@@ -2043,7 +2043,7 @@ locations:
             cling: 2
         - has: slide
           tags:
-            logic_level: 3
+            logic_level: expert
   - name: Sansa Keep - Sunsetter
     code: 25
     region: Keep Sunsetter
@@ -2072,13 +2072,13 @@ locations:
             - has:
                 cling: 4
               tags:
-                logic_level: 2
+                logic_level: hard
             - has: slide
               tags:
-                logic_level: 3
+                logic_level: expert
             - has: plunge
               tags:
-                logic_level: 4
+                logic_level: lunatic
   - name: Listless Library - Locked Door Across
     code: 28
     region: Library Locked
@@ -2090,10 +2090,10 @@ locations:
         - ref: can_slide_jump
         - has: kick_or_plunge
           tags:
-            logic_level: 2
+            logic_level: hard
         - has: slide
           tags:
-            logic_level: 3
+            logic_level: expert
   - name: Listless Library - Locked Door Left
     code: 29
     region: Library Locked
@@ -2109,14 +2109,14 @@ locations:
         - has:
             kick: 2
           tags:
-            logic_level: 2
+            logic_level: hard
         - has:
             kick_or_plunge: 2
           tags:
-            logic_level: 3
+            logic_level: expert
         - has: [slide, kick_or_plunge]
           tags:
-            logic_level: 3
+            logic_level: expert
 
   - name: Twilight Theatre - Soul Cutter
     code: 30
@@ -2131,10 +2131,10 @@ locations:
                 cling: 2
             - ref: can_slide_jump
               tags:
-                logic_level: 2
+                logic_level: hard
             - has: slide
               tags:
-                logic_level: 3
+                logic_level: expert
   - name: Twilight Theatre - Back Of Auditorium
     code: 31
     region: Theatre Main
@@ -2142,16 +2142,16 @@ locations:
       or:
         - has: plunge
           tags:
-            old_obscure: 1
+            old_obscure: advanced
         - has: kick
         - has:
             cling: 2
         - ref: can_slide_jump
           tags:
-            logic_level: 2
+            logic_level: hard
         - has: slide
           tags:
-            logic_level: 3
+            logic_level: expert
   - name: Twilight Theatre - Center Stage
     code: 32
     region: Theatre Main
@@ -2170,13 +2170,13 @@ locations:
                 cling: 6
                 kick: 1
           tags:
-            logic_level: 2
+            logic_level: hard
         - and:
             - ref: can_soul_cutter
             - has:
                 cling: 4
           tags:
-            logic_level: 3
+            logic_level: expert
   - name: Twilight Theatre - Locked Door
     code: 33
     region: Theatre Main
@@ -2189,10 +2189,10 @@ locations:
             - has:
                 cling: 4
               tags:
-                logic_level: 2
+                logic_level: hard
             - has: slide
               tags:
-                logic_level: 3
+                logic_level: expert
   - name: Twilight Theatre - Tucked Behind Boxes
     code: 34
     region: Theatre Main
@@ -2208,34 +2208,34 @@ locations:
             plunge: 1
             kick: 3
           tags:
-            old_obscure: 1 # use crouch backflip
+            old_obscure: advanced # use crouch backflip
         - has:
             kick: 4
         - has:
             cling: 2
             kick_or_plunge: 1
           tags:
-            logic_level: 2
+            logic_level: hard
         - and:
             - has:
                 cling: 2
             - ref: can_slide_jump
           tags:
-            logic_level: 2
+            logic_level: hard
         - has:
             kick: 3
           tags:
-            logic_level: 3
+            logic_level: expert
         - has:
             slide: 1
             kick_or_plunge: 2
           tags:
-            logic_level: 3
+            logic_level: expert
         - has:
             slide: 1
             cling: 2
           tags:
-            logic_level: 3
+            logic_level: expert
 
   - name: Empty Bailey - Solar Wind
     code: 36
@@ -2254,13 +2254,13 @@ locations:
             kick: 2
             breaker: 1
           tags:
-            logic_level: 2
+            logic_level: hard
         - has: kick
           tags:
-            logic_level: 3
+            logic_level: expert
         - has: slide
           tags:
-            logic_level: 3
+            logic_level: expert
   - name: Empty Bailey - Cheese Bell
     code: 38
     region: Bailey Upper
@@ -2274,14 +2274,14 @@ locations:
         - has:
             kick: 3
           tags:
-            logic_level: 2
+            logic_level: hard
         - has:
             cling: 6
           tags:
-            logic_level: 2
+            logic_level: hard
         - has: [slide, kick]
           tags:
-            logic_level: 3
+            logic_level: expert
   - name: Empty Bailey - Guarded Hand
     code: 39
     region: Bailey Lower
@@ -2295,7 +2295,7 @@ locations:
                 - has:
                     kick: 3
                 - tags:
-                    old_obscure: 1
+                    old_obscure: advanced
         - and:
             - has: breaker
             - or:
@@ -2328,16 +2328,16 @@ locations:
         - has:
             kick: 3
           tags:
-            logic_level: 2
+            logic_level: hard
         - and:
             - has:
                 kick: 2
             - ref: can_slide_jump
           tags:
-            logic_level: 2
+            logic_level: hard
         - has: [kick, slide]
           tags:
-            logic_level: 3
+            logic_level: expert
   - name: The Underbelly - Building Near Little Guy
     code: 43
     region: Underbelly => Bailey
@@ -2349,13 +2349,13 @@ locations:
         - has:
             kick: 2
           tags:
-            logic_level: 2
+            logic_level: hard
         - has: kick
           tags:
-            logic_level: 3
+            logic_level: expert
         - has: slide
           tags:
-            logic_level: 3
+            logic_level: expert
   - name: The Underbelly - Locked Door
     code: 44
     region: Underbelly By Heliacal
@@ -2373,20 +2373,20 @@ locations:
         - has:
             cling: 2
           tags:
-            old_obscure: 1
+            old_obscure: advanced
         - has:
             kick: 2
           tags:
-            old_obscure: 1
+            old_obscure: advanced
         - ref: can_slide_jump
           tags:
-            logic_level: 2
+            logic_level: hard
         - has: slide
           tags:
-            logic_level: 3
+            logic_level: expert
         - has: kick
           tags:
-            logic_level: 3
+            logic_level: expert
   - name: The Underbelly - Rafters Near Keep
     code: 46
     region: Underbelly => Keep
@@ -2398,14 +2398,14 @@ locations:
         - ref: can_bounce
         - has: kick_or_plunge
           tags:
-            logic_level: 2
+            logic_level: hard
         - has:
             cling: 2
           tags:
-            logic_level: 2
+            logic_level: hard
         - has: slide
           tags:
-            logic_level: 3
+            logic_level: expert
   - name: The Underbelly - Strikebreak Wall
     code: 47
     region: Underbelly Main Upper
@@ -2418,25 +2418,25 @@ locations:
                 - has: kick_or_plunge
             - ref: can_bounce
               tags:
-                logic_level: 2
+                logic_level: hard
             - has:
                 kick_or_plunge: 3
               tags:
-                logic_level: 2
+                logic_level: hard
             - has: [kick, plunge]
               tags:
-                logic_level: 3
+                logic_level: expert
             - has:
                 slide: 1
                 kick: 2
               tags:
-                logic_level: 3
+                logic_level: expert
             - and:
                 - ref: can_gold_ultra
                 - has:
                     cling: 2
               tags:
-                logic_level: 3
+                logic_level: expert
   - name: The Underbelly - Surrounded By Holes
     code: 48
     region: Underbelly Hole
@@ -2451,20 +2451,20 @@ locations:
                     kick: 2
                 - has: kick
                   tags:
-                    old_obscure: 1
+                    old_obscure: advanced
         - has:
             plunge: 1
             cling: 6
           tags:
-            logic_level: 2
+            logic_level: hard
         - and:
             - ref: can_soul_cutter
             - has: slide
           tags:
-            logic_level: 3
+            logic_level: expert
         - has: [slide, kick, plunge]
           tags:
-            logic_level: 3
+            logic_level: expert
 
   - name: Tower Remains - Cling Gem
     code: 49
@@ -2684,17 +2684,17 @@ locations:
                 - ref: can_bounce
                 - ref: can_slide_jump
                 - tags:
-                    old_obscure: 1
+                    old_obscure: advanced
         - has: kick
           tags:
-            logic_level: 2
+            logic_level: hard
         - has:
             cling: 2
           tags:
-            logic_level: 2
+            logic_level: hard
         - has: slide
           tags:
-            logic_level: 3
+            logic_level: expert
     can_create:
       randomize_goats: true
   - name: Castle Sansa - Trapped Goatling
@@ -2755,7 +2755,7 @@ locations:
             kick: 2
         - has: [kick, plunge]
           tags:
-            old_obscure: 1
+            old_obscure: advanced
         - and:
             - has: kick
             - ref: can_slide_jump
@@ -2763,7 +2763,7 @@ locations:
             cling: 2
         - has: kick
           tags:
-            logic_level: 2
+            logic_level: hard
     can_create:
       randomize_goats: true
   - name: Empty Bailey - Alley Goatling
@@ -2871,19 +2871,19 @@ locations:
                 - ref: can_slide_jump
                 - has: plunge
               tags:
-                old_obscure: 1
+                old_obscure: advanced
             - and:
                 - ref: can_slide_jump
                 - ref: can_bounce
               tags:
-                old_obscure: 1
+                old_obscure: advanced
             - ref: can_slide_jump
               tags:
-                logic_level: 2
-                old_obscure: 1
+                logic_level: hard
+                old_obscure: advanced
             - has: slide
               tags:
-                logic_level: 3
+                logic_level: expert
     can_create:
       randomize_chairs: true
 
@@ -2970,10 +2970,10 @@ locations:
         - ref: can_bounce
         - ref: can_slide_jump
           tags:
-            logic_level: 2
+            logic_level: hard
         - has: slide
           tags:
-            logic_level: 3
+            logic_level: expert
     can_create:
       randomize_notes: true
   - name: The Underbelly - Note in the Big Room
@@ -2991,19 +2991,19 @@ locations:
         - has:
             kick_or_plunge: 2
           tags:
-            logic_level: 2
+            logic_level: hard
         - has:
             cling: 6
             kick: 1
           tags:
-            logic_level: 2
+            logic_level: hard
         - has: slide
           tags:
-            logic_level: 3
+            logic_level: expert
         - has:
             cling: 6
           tags:
-            logic_level: 3
+            logic_level: expert
     can_create:
       randomize_notes: true
   - name: The Underbelly - Note Behind a Locked Door
