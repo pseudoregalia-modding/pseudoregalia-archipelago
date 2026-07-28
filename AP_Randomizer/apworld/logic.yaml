@@ -56,7 +56,12 @@ tags:
     expert: Old expert.
     lunatic: old lunatic.
 
-tag_groups: []
+tag_groups:
+  - name: old_logic
+    description: Groups the tags that comprise the old logic.
+    children:
+      - old_obscure
+      - logic_level
 
 ref_rules:
   - name: can_slide_jump
