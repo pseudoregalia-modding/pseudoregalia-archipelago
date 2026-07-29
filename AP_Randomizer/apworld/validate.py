@@ -95,7 +95,7 @@ class Validator:
 
     @validation_context(context_type="key")
     def validate_item_mapping_entry(self, item_name: str, mapping: str | list[str] | ItemMappingData):
-        # CHECK: keys in item_mapping match the name of a progression item
+        # CHECK: item mapping keys match the name of a progression item
         if not self.is_progression(item_name):
             self.err("item referenced by key does not exist or is not marked as progression")
 
@@ -167,12 +167,16 @@ class Validator:
 
     @validation_context(context_type="key", key="children")
     def validate_tag_group_children(self, children: list[str]):
+        # CHECK: tag groups have at least one child
+        if len(children) == 0:
+            self.err("tag group has no children")
+
         for i, child in enumerate(children):
-            self.validate_tag_groupy_child(i, child)
+            self.validate_tag_group_child(i, child)
 
     @validation_context(context_type="index")
-    def validate_tag_groupy_child(self, index: int, child: str):
-        # CHECK: tag group children are tags or other tag groups, and they don't have cycles
+    def validate_tag_group_child(self, index: int, child: str):
+        # CHECK: tag group children are tags or other tag groups, and they don't form cycles
         if child not in self.tags and child not in self.tag_groups:
             self.err("does not match a tag or previously defined tag group")
 
@@ -229,7 +233,7 @@ class Validator:
 
     @validation_context(context_type="key", key="region")
     def validate_region_exit_region(self, region: str):
-        # CHECK: region matches the name of a region
+        # CHECK: exit region matches the name of a region
         if region not in self.all_regions:
             self.err("does not match the name of a region")
 
@@ -392,6 +396,7 @@ class Validator:
                 self.validate_has_item_key(item)
 
     def check_has_item(self, item: str):
+        # CHECK: item reference in has rule matches a progression item or pseudo item
         if not self.is_progression(item) and item not in self.pseudo_items:
             self.err("does not match the name of a progression item or a pseudo item defined in item_mapping")
 
@@ -405,11 +410,13 @@ class Validator:
 
     @validation_context(context_type="key", key="can_reach_region")
     def validate_rule_can_reach_region(self, region: str):
+        # CHECK: can_reach_region value matches the name of a region
         if region not in self.all_regions:
             self.err("does not match the name of a region")
 
     @validation_context(context_type="key", key="ref")
     def validate_rule_ref(self, ref: str):
+        # CHECK: ref value matches the name of a ref rule
         if ref not in self.ref_rules:
             self.err("does not match the name of a ref rule")
 
@@ -420,13 +427,13 @@ class Validator:
 
     @validation_context(context_type="key")
     def validate_rule_tag(self, name: str, level: TagLevel):
-        # CHECK: name matches a tag
+        # CHECK: tag name matches a tag
         if name not in self.tags:
             self.err("key does not match the name of a tag")
             # return since we can't check tag levels of a tag that doesn't exist
             return
 
-        # CHECK: value matches a defined level for that tag
+        # CHECK: tag value matches a defined level for that tag
         if level not in self.tags[name]:
             self.err("value does not match a level defined for the tag")
 
@@ -440,24 +447,24 @@ class Validator:
 
     @validation_context(context_type="key")
     def validate_option(self, name: str, value: bool | str):
-        # CHECK: key corresponds to an option in PseudoregaliaOptions
+        # CHECK: option key corresponds to an option in PseudoregaliaOptions
         if name not in PseudoregaliaOptions.__annotations__:
             self.err("key does not match an option in PseudoregaliaOptions")
             return
 
         option_class = PseudoregaliaOptions.__annotations__[name]
         if isinstance(value, bool):
-            # CHECK: bool values corresponds to Toggle options
+            # CHECK: option bool values correspond to Toggle options
             if not issubclass(option_class, Toggle):
                 self.err("value is a bool but option is not a Toggle")
         elif isinstance(value, str):
-            # CHECK: str values correspond to Choice options
+            # CHECK: option str values correspond to Choice options
             if not issubclass(option_class, Choice):
                 self.err("value is a str but option is not a Choice")
                 return
 
             attr_name = f"option_{value}"
-            # CHECK: str values match an attribute on the Choice option object
+            # CHECK: option str values match an attribute on the Choice option object
             if not hasattr(option_class, attr_name):
                 self.err("option class has no option with this name")
 

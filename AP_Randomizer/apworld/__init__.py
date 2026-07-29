@@ -9,20 +9,13 @@ from .items import PseudoregaliaItem, item_table, item_groups
 from .options import PseudoregaliaOptions
 from .constants.difficulties import EXPERT, LUNATIC
 from .constants.versions import FULL_GOLD
-from .logic import ItemMappingData, PseudoregaliaData
-from .dacite import from_dict, Config
+from .logic import ItemMappingData, data_from_dict
 from .rules import create_rules, check_options
 
 
 yaml_bytes = pkgutil.get_data(__name__, "logic.yaml")
 yaml_dict = yaml.safe_load(yaml_bytes)
-config = Config(
-    strict=True,
-    strict_unions_match=True,
-    # we append an underscore to fields that would be reserved otherwise, so we have to undo that with convert_key
-    convert_key=lambda key: key[:-1] if key.endswith("_") else key,
-)
-pseudoregalia_data = from_dict(PseudoregaliaData, yaml_dict, config)
+pseudoregalia_data = data_from_dict(yaml_dict)
 pseudoregalia_rules = create_rules(pseudoregalia_data)
 
 

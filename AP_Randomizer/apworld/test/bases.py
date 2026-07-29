@@ -1,8 +1,11 @@
+from dataclasses import dataclass, field
 from test.bases import WorldTestBase
+import yaml
+
 from Fill import fast_fill
 
 from .. import PseudoregaliaWorld, pseudoregalia_data
-from ..logic import PseudoregaliaData
+from ..logic import PseudoregaliaData, data_from_dict
 from ..validate import Validator
 
 
@@ -45,14 +48,35 @@ class PseudoKeyHintsBase(PseudoTestBase):
 
 class PseudoValidationBase(PseudoTestBase):
     run_default_tests = False
-    data: PseudoregaliaData = pseudoregalia_data
-    expect_errors: bool = False
+    
+    @dataclass
+    class Case:
+        data: PseudoregaliaData | None = field(default=None)
+        raw_data: str | None = field(default=None)
+        expect_errors: bool = field(default=False)
+    
+    cases: dict[str, Case] = {
+        "real data": Case(data=pseudoregalia_data),
+    }
 
     def test_validate(self):
-        validator = Validator()
-        validator.validate_data(self.data)
-        num_errors = len(validator.errors)
-        if self.expect_errors:
-            assert num_errors != 0, "expected errors, got none"
-        else:
-            assert num_errors == 0, f"expected no errors, got {num_errors}\n{"\n".join(validator.errors)})"
+        for case_name, case_data in self.cases.items():
+            with self.subTest(case_name, case_data=case_data):
+                assert case_data.data is not None or case_data.raw_data is not None, "no data defined for subtest"
+
+                if case_data.data is not None:
+                    data = case_data.data
+                else:
+                    yaml_dict = yaml.safe_load(case_data.raw_data)
+                    raw = {"item_mapping": {}, "tags": [], "tag_groups": [], "ref_rules": [], "regions": [],
+                           "origins": [], "locations": [], "completion_rule": {}}
+                    raw.update(yaml_dict)
+                    data = data_from_dict(raw)
+
+                validator = Validator()
+                validator.validate_data(data)
+                num_errors = len(validator.errors)
+                if case_data.expect_errors:
+                    assert num_errors != 0, "expected errors, got none"
+                else:
+                    assert num_errors == 0, f"expected no errors, got {num_errors}\n{"\n".join(validator.errors)})"

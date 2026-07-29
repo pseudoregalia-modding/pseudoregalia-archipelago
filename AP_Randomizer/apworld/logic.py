@@ -1,6 +1,8 @@
 from __future__ import annotations
 from dataclasses import dataclass
-from typing import Literal, TypeAlias
+from typing import Any, Literal, TypeAlias
+
+from .dacite import Config, from_dict
 
 @dataclass
 class PseudoregaliaData:
@@ -168,3 +170,14 @@ option's class without the option_ prefix. For example, this dict could contain 
 During generation, this can be resolved to a boolean by checking the player's options. It resovles to True iff the value
 of each option is equal to the value in the dict.
 """
+
+
+def data_from_dict(raw: dict[str, Any]) -> PseudoregaliaData:
+    """Converts `raw` to its equivalent PseudoregaliaData."""
+    config = Config(
+        strict=True,
+        strict_unions_match=True,
+        # we append an underscore to fields that would be reserved otherwise, so we have to undo that with convert_key
+        convert_key=lambda key: key[:-1] if key.endswith("_") else key,
+    )
+    return from_dict(PseudoregaliaData, raw, config)
