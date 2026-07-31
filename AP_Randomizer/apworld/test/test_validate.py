@@ -4,14 +4,14 @@ from .bases import PseudoValidationBase
 class TestValidationItemMapping(PseudoValidationBase):
     cases = {
         "non existant item reference": PseudoValidationBase.Case(
-            raw_data="""
+            data="""
             item_mapping:
               non_existant_item: pseudo_item
             """,
             expect_errors=True,
         ),
         "non progression item reference": PseudoValidationBase.Case(
-            raw_data="""
+            data="""
             item_mapping:
               Good Graces: pseudo_item
             """,
@@ -23,7 +23,7 @@ class TestValidationItemMapping(PseudoValidationBase):
 class TestValidationTags(PseudoValidationBase):
     cases = {
         "tag with no level descriptions": PseudoValidationBase.Case(
-            raw_data="""
+            data="""
             tags:
               - name: tag
                 description: tag description
@@ -31,7 +31,7 @@ class TestValidationTags(PseudoValidationBase):
             expect_errors=True,
         ),
         "tag with advanced and a description": PseudoValidationBase.Case(
-            raw_data="""
+            data="""
             tags:
               - name: tag
                 description: tag description
@@ -40,7 +40,7 @@ class TestValidationTags(PseudoValidationBase):
             expect_errors=True,
         ),
         "tag with hard and a description": PseudoValidationBase.Case(
-            raw_data="""
+            data="""
             tags:
               - name: tag
                 description: tag description
@@ -49,7 +49,7 @@ class TestValidationTags(PseudoValidationBase):
             expect_errors=True,
         ),
         "tag with expert and a description": PseudoValidationBase.Case(
-            raw_data="""
+            data="""
             tags:
               - name: tag
                 description: tag description
@@ -58,7 +58,7 @@ class TestValidationTags(PseudoValidationBase):
             expect_errors=True,
         ),
         "tag with lunatic and a description": PseudoValidationBase.Case(
-            raw_data="""
+            data="""
             tags:
               - name: tag
                 description: tag description
@@ -67,7 +67,7 @@ class TestValidationTags(PseudoValidationBase):
             expect_errors=True,
         ),
         "tag with multiple levels but no description": PseudoValidationBase.Case(
-            raw_data="""
+            data="""
             tags:
               - name: tag
                 advanced: level description
@@ -78,7 +78,7 @@ class TestValidationTags(PseudoValidationBase):
             expect_errors=True,
         ),
         "non unique tag names": PseudoValidationBase.Case(
-            raw_data="""
+            data="""
             tags:
               - name: tag
                 advanced: level description
@@ -93,7 +93,7 @@ class TestValidationTags(PseudoValidationBase):
 class TestValidationTagGroups(PseudoValidationBase):
     cases = {
         "non unique tag group names": PseudoValidationBase.Case(
-            raw_data="""
+            data="""
             tags:
               - name: tag
                 advanced: tag description
@@ -108,7 +108,7 @@ class TestValidationTagGroups(PseudoValidationBase):
             expect_errors=True,
         ),
         "tag group with no children": PseudoValidationBase.Case(
-            raw_data="""
+            data="""
             tag_groups:
               - name: tag_group
                 description: a tag group
@@ -117,7 +117,7 @@ class TestValidationTagGroups(PseudoValidationBase):
             expect_errors=True,
         ),
         "child that is not a tag": PseudoValidationBase.Case(
-            raw_data="""
+            data="""
             tags:
               - name: tag
                 advanced: tag description
@@ -129,7 +129,7 @@ class TestValidationTagGroups(PseudoValidationBase):
             expect_errors=True,
         ),
         "child tag group not previously defined": PseudoValidationBase.Case(
-            raw_data="""
+            data="""
             tags:
               - name: tag
                 advanced: tag description
@@ -149,7 +149,7 @@ class TestValidationTagGroups(PseudoValidationBase):
 class TestValidationRefRules(PseudoValidationBase):
     cases = {
         "non unique ref rule names": PseudoValidationBase.Case(
-            raw_data="""
+            data="""
             ref_rules:
               - name: ref_rule
                 rule: {}
@@ -159,7 +159,7 @@ class TestValidationRefRules(PseudoValidationBase):
             expect_errors=True,
         ),
         "ref rule referenced before definition": PseudoValidationBase.Case(
-            raw_data="""
+            data="""
             ref_rules:
               - name: parent_rule
                 rule:
@@ -170,7 +170,7 @@ class TestValidationRefRules(PseudoValidationBase):
             expect_errors=True,
         ),
         "ref rule references itself": PseudoValidationBase.Case(
-            raw_data="""
+            data="""
             ref_rules:
               - name: ref_rule
                 rule:
@@ -184,9 +184,49 @@ class TestValidationRefRules(PseudoValidationBase):
 
 class TestValidationRegions(PseudoValidationBase):
     cases = {
-        # TODO: CHECK: region names are unique
-        # TODO: CHECK: exit region matches the name of a region
-        # TODO: CHECK: entrance names are unique
+        "non unique region names": PseudoValidationBase.Case(
+            data="""
+            regions:
+              - name: Region
+              - name: Region
+            """,
+            expect_errors=True,
+        ),
+        "non existant exit region": PseudoValidationBase.Case(
+            data="""
+            regions:
+              - name: Region A
+              - name: Region B
+                exits:
+                  - region: Region C
+            """,
+            expect_errors=True,
+        ),
+        "non unique entrance name with default name": PseudoValidationBase.Case(
+            data="""
+            regions:
+              - name: Region A
+              - name: Region B
+                exits:
+                  - region: Region A
+                  - region: Region A
+            """,
+            expect_errors=True,
+        ),
+        "non unique entrance name with explicit name": PseudoValidationBase.Case(
+            data="""
+            regions:
+              - name: Region A
+              - name: Region B
+              - name: Region C
+                exits:
+                  - region: Region A
+                    entrance_name: Entrance
+                  - region: Region B
+                    entrance_name: Entrance
+            """,
+            expect_errors=True,
+        ),
         # TODO: validate checks in entrance rules?
     }
 
@@ -201,26 +241,252 @@ class TestValidationOrigins(PseudoValidationBase):
 
 class TestValidationLocations(PseudoValidationBase):
     cases = {
-        # TODO: CHECK: locations have exactly one of {code, event_item} defined
-        # TODO: CHECK: location names are unique
-        # TODO: CHECK: location codes are unique
-        # TODO: CHECK: location regions match existing regions
-        # TODO: CHECK: event items match the name of a progression item
-        # TODO: CHECK: event items don't have a code
-        # TODO validate checks in location rules?
+        "location with no code or event item": PseudoValidationBase.Case(
+            data="""
+            regions:
+              - name: Region
+            locations:
+              - name: Location
+                region: Region
+            """,
+            expect_errors=True,
+        ),
+        "location with both code and event item": PseudoValidationBase.Case(
+            data="""
+            regions:
+              - name: Region
+            locations:
+              - name: Location
+                code: 1
+                region: Region
+                event_item: Something Worth Being Awake For
+            """,
+            expect_errors=True,
+        ),
+        "non unique location names": PseudoValidationBase.Case(
+            data="""
+            regions:
+              - name: Region
+            locations:
+              - name: Location
+                code: 1
+                region: Region
+              - name: Location
+                code: 2
+                region: Region
+            """,
+            expect_errors=True,
+        ),
+        "non unique location codes": PseudoValidationBase.Case(
+            data="""
+            regions:
+              - name: Region
+            locations:
+              - name: Location 1
+                code: 1
+                region: Region
+              - name: Location 2
+                code: 1
+                region: Region
+            """,
+            expect_errors=True,
+        ),
+        "location references non existant region": PseudoValidationBase.Case(
+            data="""
+            regions:
+              - name: Region
+            locations:
+              - name: Location
+                code: 1
+                region: Fake Region
+            """,
+            expect_errors=True,
+        ),        
+        "non progression event item": PseudoValidationBase.Case(
+            data="""
+            regions:
+              - name: Region
+            locations:
+              - name: Location
+                region: Region
+                event_item: Good Graces
+            """,
+            expect_errors=True,
+        ),
+        "progression event item with code": PseudoValidationBase.Case(
+            data="""
+            regions:
+              - name: Region
+            locations:
+              - name: Location
+                region: Region
+                event_item: Slide
+            """,
+            expect_errors=True,
+        ),        
+        # TODO: validate checks in location rules?
+        # TODO: validate can_create options?
     }
 
 
 class TestValidationCompletionRule(PseudoValidationBase):
     cases = {
-        # TODO: CHECK: at most one rule type is defined
-        # TODO: CHECK: item reference in has matches a progression item or pseudo item
-        # TODO: CHECK: can_reach_region value matches the name of a region
-        # TODO: CHECK: ref value matches the name of a ref rule
-        # TODO: CHECK: tag name matches a tag
-        # TODO: CHECK: tag value matches a defined level for that tag
-        # TODO: CHECK: option key corresponds to an option in PseudoregaliaOptions
-        # TODO: CHECK: option bool values correspond to Toggle options
-        # TODO: CHECK: option str values correspond to Choice options
-        # TODO: CHECK: option str values match an attribute on the Choice option object
+        "has and and both defined": PseudoValidationBase.Case(
+            data="""
+            completion_rule:
+              and:
+                - has: Slide
+                - has: Solar Wind
+              has: Sunsetter
+            """,
+            expect_errors=True,
+        ),
+        "error with an and": PseudoValidationBase.Case(
+            data="""
+            completion_rule:
+              and:
+                - ref: not_real
+            """,
+            expect_errors=True,
+        ),
+        "error with an or": PseudoValidationBase.Case(
+            data="""
+            completion_rule:
+              or:
+                - ref: not_real
+            """,
+            expect_errors=True,
+        ),
+        "has references non item": PseudoValidationBase.Case(
+            data="""
+            completion_rule:
+              has: Fake Item
+            """,
+            expect_errors=True,
+        ),
+        "has references non progression item": PseudoValidationBase.Case(
+            data="""
+            completion_rule:
+              has: Good Graces
+            """,
+            expect_errors=True,
+        ),
+        "has all references non item": PseudoValidationBase.Case(
+            data="""
+            completion_rule:
+              has: [Fake Item, Slide]
+            """,
+            expect_errors=True,
+        ),
+        "has all references non progression item": PseudoValidationBase.Case(
+            data="""
+            completion_rule:
+              has: [Good Graces, Slide]
+            """,
+            expect_errors=True,
+        ),
+        "has all counts references non item": PseudoValidationBase.Case(
+            data="""
+            completion_rule:
+              has:
+                Fake Item: 2
+            """,
+            expect_errors=True,
+        ),
+        "has all counts references non progression item": PseudoValidationBase.Case(
+            data="""
+            completion_rule:
+              has:
+                Good Graces: 2
+            """,
+            expect_errors=True,
+        ),
+        "can reach region references unknown region": PseudoValidationBase.Case(
+            data="""
+            regions:
+              - name: Region
+            completion_rule:
+              can_reach_region: Fake Region
+            """,
+            expect_errors=True,
+        ),
+        "unknown ref rule": PseudoValidationBase.Case(
+            data="""
+            completion_rule:
+              ref: unknown_ref
+            """,
+            expect_errors=True,
+        ),
+        "tags references unknown tag": PseudoValidationBase.Case(
+            data="""
+            tags:
+              - name: tag
+                advanced: tag description
+            completion_rule:
+              or:
+                - has: [Slide, Sunsetter]
+                - has: Slide
+                  tags:
+                    fake_tag: advanced
+            """,
+            expect_errors=True,
+        ),
+        "tag level is undefined (has no description)": PseudoValidationBase.Case(
+            data="""
+            tags:
+              - name: tag
+                advanced: tag description
+            completion_rule:
+              or:
+                - has: [Slide, Sunsetter]
+                - has: Slide
+                  tags:
+                    tag: hard
+            """,
+            expect_errors=True,
+        ),
+        "option referenced does not exist": PseudoValidationBase.Case(
+            data="""
+            completion_rule:
+              or:
+                - has: [Slide, Sunsetter]
+                - has: Slide
+                  options:
+                    fake_option: true
+            """,
+            expect_errors=True,
+        ),
+        "option with bool value but isn't a Toggle": PseudoValidationBase.Case(
+            data="""
+            completion_rule:
+              or:
+                - has: [Slide, Sunsetter]
+                - has: Slide
+                  options:
+                    game_version: true
+            """,
+            expect_errors=True,
+        ),
+        "option with str value but isn't a Choice": PseudoValidationBase.Case(
+            data="""
+            completion_rule:
+              or:
+                - has: [Slide, Sunsetter]
+                - has: Slide
+                  options:
+                    obscure_logic: yeah
+            """,
+            expect_errors=True,
+        ),
+        "option with str value but isn't an option in the Choice": PseudoValidationBase.Case(
+            data="""
+            completion_rule:
+              or:
+                - has: [Slide, Sunsetter]
+                - has: Slide
+                  options:
+                    spawn_point: fake_spawn
+            """,
+            expect_errors=True,
+        ),
     }

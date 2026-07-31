@@ -48,13 +48,12 @@ class PseudoKeyHintsBase(PseudoTestBase):
 
 class PseudoValidationBase(PseudoTestBase):
     run_default_tests = False
-    
+
     @dataclass
     class Case:
-        data: PseudoregaliaData | None = field(default=None)
-        raw_data: str | None = field(default=None)
+        data: PseudoregaliaData | str
         expect_errors: bool = field(default=False)
-    
+
     cases: dict[str, Case] = {
         "real data": Case(data=pseudoregalia_data),
     }
@@ -62,12 +61,10 @@ class PseudoValidationBase(PseudoTestBase):
     def test_validate(self):
         for case_name, case_data in self.cases.items():
             with self.subTest(case_name, case_data=case_data):
-                assert case_data.data is not None or case_data.raw_data is not None, "no data defined for subtest"
-
-                if case_data.data is not None:
+                if isinstance(case_data.data, PseudoregaliaData):
                     data = case_data.data
-                else:
-                    yaml_dict = yaml.safe_load(case_data.raw_data)
+                elif isinstance(case_data.data, str):
+                    yaml_dict = yaml.safe_load(case_data.data)
                     raw = {"item_mapping": {}, "tags": [], "tag_groups": [], "ref_rules": [], "regions": [],
                            "origins": [], "locations": [], "completion_rule": {}}
                     raw.update(yaml_dict)
