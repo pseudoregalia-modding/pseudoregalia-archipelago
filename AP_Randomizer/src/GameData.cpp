@@ -101,70 +101,70 @@ namespace GameData {
         // map -> actor name -> location id + actor class name
         unordered_map<Map, unordered_map<wstring, Interactable>> interactable_table = {
             {Map::Dungeon, {
-                {L"BP_NPC_C_1", {2365810066, L"BP_NPC_Child_C"}}, // Mirror Room Goatling
-                {L"BP_NPC_C_6", {2365810067, L"BP_NPC_C"}}, // Rambling Goatling
-                {L"BP_NPC_C_8", {2365810068, L"BP_NPC_C"}}, // Unwelcoming Goatling
-                {L"BP_NPC_C_2", {2365810069, L"BP_NPC_C"}}, // Repentant Goatling
-                {L"BP_NPC_C_4", {2365810070, L"BP_NPC_C"}}, // Defeatist Goatling
+                {L"BP_NPC_C_1", {66, L"BP_NPC_Child_C"}}, // Mirror Room Goatling
+                {L"BP_NPC_C_6", {67, L"BP_NPC_C"}}, // Rambling Goatling
+                {L"BP_NPC_C_8", {68, L"BP_NPC_C"}}, // Unwelcoming Goatling
+                {L"BP_NPC_C_2", {69, L"BP_NPC_C"}}, // Repentant Goatling
+                {L"BP_NPC_C_4", {70, L"BP_NPC_C"}}, // Defeatist Goatling
             }},
             {Map::Castle, {
-                {L"BP_NPC_C_2", {2365810071, L"BP_NPC_C"}}, // Crystal Licker Goatling
-                {L"BP_NPC_C_3", {2365810072, L"BP_NPC_C"}}, // Gazebo Goatling
-                {L"BP_NPC_C_1", {2365810073, L"BP_NPC_C"}}, // Bubblephobic Goatling
-                {L"BP_NPC_C_4", {2365810074, L"BP_NPC_C"}}, // Trapped Goatling
-                {L"BP_NPC_C_5", {2365810075, L"BP_NPC_C"}}, // Memento Goatling
-                {L"BP_NPC_Child_C_1", {2365810076, L"BP_NPC_Child_C"}}, // Goatling Near Library
-                {L"BP_RestChair_C_3", {2365810085, L"BP_RestChair_C"}}, // Stool Near Crystal 1
-                {L"BP_RestChair_C_1", {2365810086, L"BP_RestChair_C"}}, // Stool Near Crystal 2
-                {L"BP_RestChair_C_2", {2365810087, L"BP_RestChair_C"}}, // Stool Near Crystal 3
-                {L"BP_RestChair_C_4", {2365810088, L"BP_RestChair_C"}}, // Gazebo Stool
+                {L"BP_NPC_C_2", {71, L"BP_NPC_C"}}, // Crystal Licker Goatling
+                {L"BP_NPC_C_3", {72, L"BP_NPC_C"}}, // Gazebo Goatling
+                {L"BP_NPC_C_1", {73, L"BP_NPC_C"}}, // Bubblephobic Goatling
+                {L"BP_NPC_C_4", {74, L"BP_NPC_C"}}, // Trapped Goatling
+                {L"BP_NPC_C_5", {75, L"BP_NPC_C"}}, // Memento Goatling
+                {L"BP_NPC_Child_C_1", {76, L"BP_NPC_Child_C"}}, // Goatling Near Library
+                {L"BP_RestChair_C_3", {85, L"BP_RestChair_C"}}, // Stool Near Crystal 1
+                {L"BP_RestChair_C_1", {86, L"BP_RestChair_C"}}, // Stool Near Crystal 2
+                {L"BP_RestChair_C_2", {87, L"BP_RestChair_C"}}, // Stool Near Crystal 3
+                {L"BP_RestChair_C_4", {88, L"BP_RestChair_C"}}, // Gazebo Stool
             }},
             {Map::Keep, {
-                {L"BP_NPC_C_1", {2365810077, L"BP_NPC_C"}}, // Furniture-less Goatling
-                {L"BP_NPC_C_2", {2365810078, L"BP_NPC_C"}}, // Distorted Goatling
-                {L"BP_RestChair_C_1", {2365810089, L"BP_RestChair_C"}}, // Distorted Stool
-                {L"BP_RestChair_C_3", {2365810090, L"BP_RestChair_C"}}, // Path to Throne Stool
-                {L"BP_RestChair_C_4", {2365810091, L"BP_RestChair_C"}}, // The Throne
+                {L"BP_NPC_C_1", {77, L"BP_NPC_C"}}, // Furniture-less Goatling
+                {L"BP_NPC_C_2", {78, L"BP_NPC_C"}}, // Distorted Goatling
+                {L"BP_RestChair_C_1", {89, L"BP_RestChair_C"}}, // Distorted Stool
+                {L"BP_RestChair_C_3", {90, L"BP_RestChair_C"}}, // Path to Throne Stool
+                {L"BP_RestChair_C_4", {91, L"BP_RestChair_C"}}, // The Throne
             }},
             {Map::Library, {
-                {L"BP_RestChair_C_2", {2365810092, L"BP_RestChair_C"}}, // Hay Bale Near Entrance
-                {L"BP_RestChair_C_3", {2365810093, L"BP_RestChair_C"}}, // Hay Bale Near Eggs
-                {L"BP_RestChair_C_4", {2365810094, L"BP_RestChair_C"}}, // Hay Bale in the Back
-                {L"BP_ExamineTextPopup_C_2", {2365810101, L"BP_ExamineTextPopup_C"}}, // A Book About a Princess
-                {L"BP_ExamineTextPopup_C_3", {2365810102, L"BP_ExamineTextPopup_C"}}, // A Book About Cooking
-                {L"BP_ExamineTextPopup_C_4", {2365810103, L"BP_ExamineTextPopup_C"}}, // A Book Full of Plays
-                {L"BP_ExamineTextPopup_C_5", {2365810104, L"BP_ExamineTextPopup_C"}}, // A Book About Reading
-                {L"BP_ExamineTextPopup_C_1", {2365810105, L"BP_ExamineTextPopup_C"}}, // A Book About Aquatic Life
-                {L"BP_ExamineTextPopup_C_9", {2365810106, L"BP_ExamineTextPopup_C"}}, // A Book About a Jester
-                {L"BP_ExamineTextPopup_C_0", {2365810107, L"BP_ExamineTextPopup_C"}}, // A Book About Loss
-                {L"BP_ExamineTextPopup_C_7", {2365810108, L"BP_ExamineTextPopup_C"}}, // A Book on Musical Theory
-                {L"BP_ExamineTextPopup_C_6", {2365810109, L"BP_ExamineTextPopup_C"}}, // A Book About a Girl
-                {L"BP_ExamineTextPopup_C_8", {2365810110, L"BP_ExamineTextPopup_C"}}, // A Book About a Thimble
-                {L"BP_Note_C_2", {2365810111, L"BP_ExamineTextPopup_C"}}, // A Book About a Monster
-                {L"BP_Note_C_5", {2365810112, L"BP_ExamineTextPopup_C"}}, // A Book About Revenge
-                {L"BP_ExamineTextPopup_C_10", {2365810113, L"BP_ExamineTextPopup_C"}}, // A Book About a Restaurant
-                {L"BP_Note_C_3", {2365810114, L"BP_Note_C"}}, // Note Near Eggs
+                {L"BP_RestChair_C_2", {92, L"BP_RestChair_C"}}, // Hay Bale Near Entrance
+                {L"BP_RestChair_C_3", {93, L"BP_RestChair_C"}}, // Hay Bale Near Eggs
+                {L"BP_RestChair_C_4", {94, L"BP_RestChair_C"}}, // Hay Bale in the Back
+                {L"BP_ExamineTextPopup_C_2", {101, L"BP_ExamineTextPopup_C"}}, // A Book About a Princess
+                {L"BP_ExamineTextPopup_C_3", {102, L"BP_ExamineTextPopup_C"}}, // A Book About Cooking
+                {L"BP_ExamineTextPopup_C_4", {103, L"BP_ExamineTextPopup_C"}}, // A Book Full of Plays
+                {L"BP_ExamineTextPopup_C_5", {104, L"BP_ExamineTextPopup_C"}}, // A Book About Reading
+                {L"BP_ExamineTextPopup_C_1", {105, L"BP_ExamineTextPopup_C"}}, // A Book About Aquatic Life
+                {L"BP_ExamineTextPopup_C_9", {106, L"BP_ExamineTextPopup_C"}}, // A Book About a Jester
+                {L"BP_ExamineTextPopup_C_0", {107, L"BP_ExamineTextPopup_C"}}, // A Book About Loss
+                {L"BP_ExamineTextPopup_C_7", {108, L"BP_ExamineTextPopup_C"}}, // A Book on Musical Theory
+                {L"BP_ExamineTextPopup_C_6", {109, L"BP_ExamineTextPopup_C"}}, // A Book About a Girl
+                {L"BP_ExamineTextPopup_C_8", {110, L"BP_ExamineTextPopup_C"}}, // A Book About a Thimble
+                {L"BP_Note_C_2", {111, L"BP_ExamineTextPopup_C"}}, // A Book About a Monster
+                {L"BP_Note_C_5", {112, L"BP_ExamineTextPopup_C"}}, // A Book About Revenge
+                {L"BP_ExamineTextPopup_C_10", {113, L"BP_ExamineTextPopup_C"}}, // A Book About a Restaurant
+                {L"BP_Note_C_3", {114, L"BP_Note_C"}}, // Note Near Eggs
             }},
             {Map::Theatre, {
-                {L"BP_NPC_C_10", {2365810079, L"BP_NPC_C"}}, // 20 Bean Casserole Goatling
-                {L"BP_NPC_C_3", {2365810080, L"BP_NPC_C"}}, // Theatre Goer Goatling 1
-                {L"BP_NPC_C_8", {2365810081, L"BP_NPC_C"}}, // Theatre Goer Goatling 2
-                {L"BP_NPC_C_9", {2365810082, L"BP_NPC_C"}}, // Theatre Manager Goatling
-                {L"BP_NPC_C_0", {2365810083, L"BP_NPC_C"}}, // Murderous Goatling
-                {L"BP_RestChair_C_7", {2365810095, L"BP_RestChair_C"}}, // Stool Near Bookcase
-                {L"BP_RestChair_C_4", {2365810096, L"BP_RestChair_C"}}, // Stool Around a Table 1
-                {L"BP_RestChair_C_5", {2365810097, L"BP_RestChair_C"}}, // Stool Around a Table 2
-                {L"BP_RestChair_C_1", {2365810098, L"BP_RestChair_C"}}, // Stool Around a Table 3
-                {L"BP_RestChair_C_2", {2365810099, L"BP_RestChair_C"}}, // Stage Left Stool
-                {L"BP_RestChair_C_3", {2365810100, L"BP_RestChair_C"}}, // Stage Right Stool
+                {L"BP_NPC_C_10", {79, L"BP_NPC_C"}}, // 20 Bean Casserole Goatling
+                {L"BP_NPC_C_3", {80, L"BP_NPC_C"}}, // Theatre Goer Goatling 1
+                {L"BP_NPC_C_8", {81, L"BP_NPC_C"}}, // Theatre Goer Goatling 2
+                {L"BP_NPC_C_9", {82, L"BP_NPC_C"}}, // Theatre Manager Goatling
+                {L"BP_NPC_C_0", {83, L"BP_NPC_C"}}, // Murderous Goatling
+                {L"BP_RestChair_C_7", {95, L"BP_RestChair_C"}}, // Stool Near Bookcase
+                {L"BP_RestChair_C_4", {96, L"BP_RestChair_C"}}, // Stool Around a Table 1
+                {L"BP_RestChair_C_5", {97, L"BP_RestChair_C"}}, // Stool Around a Table 2
+                {L"BP_RestChair_C_1", {98, L"BP_RestChair_C"}}, // Stool Around a Table 3
+                {L"BP_RestChair_C_2", {99, L"BP_RestChair_C"}}, // Stage Left Stool
+                {L"BP_RestChair_C_3", {100, L"BP_RestChair_C"}}, // Stage Right Stool
             }},
             {Map::Bailey, {
-                {L"BP_NPC_C_1", {2365810084, L"BP_NPC_C"}}, // Alley Goatling
+                {L"BP_NPC_C_1", {84, L"BP_NPC_C"}}, // Alley Goatling
             }},
             {Map::Underbelly, {
-                {L"BP_Note_C_7", {2365810115, L"BP_Note_C"}}, // Note on a Ledge
-                {L"BP_Note_C_3", {2365810116, L"BP_Note_C"}}, // Note in the Big Room
-                {L"BP_Note_C_5", {2365810117, L"BP_Note_C"}}, // Note Behind a Locked Door
+                {L"BP_Note_C_7", {115, L"BP_Note_C"}}, // Note on a Ledge
+                {L"BP_Note_C_3", {116, L"BP_Note_C"}}, // Note in the Big Room
+                {L"BP_Note_C_5", {117, L"BP_Note_C"}}, // Note Behind a Locked Door
             }},
         };
 
@@ -206,95 +206,95 @@ namespace GameData {
         // The two lookup tables below could be combined into one table with something like an ItemIdInfo struct,
         // and should be if a third table would be added.
         const unordered_map<int64_t, ItemType> lookup_item_id_to_type = {
-            {2365810001, ItemType::MajorAbility},
-            {2365810002, ItemType::MajorAbility},
-            {2365810003, ItemType::MajorAbility},
-            {2365810004, ItemType::MajorAbility},
-            {2365810005, ItemType::MajorAbility},
-            {2365810006, ItemType::MajorAbility},
-            {2365810007, ItemType::MajorAbility},
-            {2365810008, ItemType::MajorAbility},
-            {2365810009, ItemType::MajorAbility},
-            {2365810010, ItemType::MajorAbility},
-            {2365810011, ItemType::MinorAbility},
-            {2365810012, ItemType::MinorAbility},
-            {2365810013, ItemType::MinorAbility},
-            {2365810014, ItemType::MinorAbility},
-            {2365810015, ItemType::MinorAbility},
-            {2365810016, ItemType::MinorAbility},
-            {2365810017, ItemType::MinorAbility},
-            {2365810018, ItemType::MinorAbility},
+            {1, ItemType::MajorAbility},
+            {2, ItemType::MajorAbility},
+            {3, ItemType::MajorAbility},
+            {4, ItemType::MajorAbility},
+            {5, ItemType::MajorAbility},
+            {6, ItemType::MajorAbility},
+            {7, ItemType::MajorAbility},
+            {8, ItemType::MajorAbility},
+            {9, ItemType::MajorAbility},
+            {10, ItemType::MajorAbility},
+            {11, ItemType::MinorAbility},
+            {12, ItemType::MinorAbility},
+            {13, ItemType::MinorAbility},
+            {14, ItemType::MinorAbility},
+            {15, ItemType::MinorAbility},
+            {16, ItemType::MinorAbility},
+            {17, ItemType::MinorAbility},
+            {18, ItemType::MinorAbility},
 
-            {2365810026, ItemType::MajorAbility},
-            {2365810027, ItemType::MinorAbility},
-            {2365810028, ItemType::MajorAbility},
+            {26, ItemType::MajorAbility},
+            {27, ItemType::MinorAbility},
+            {28, ItemType::MajorAbility},
 
-            {2365810021, ItemType::MajorKey},
-            {2365810022, ItemType::MajorKey},
-            {2365810023, ItemType::MajorKey},
-            {2365810024, ItemType::MajorKey},
-            {2365810025, ItemType::MajorKey},
+            {21, ItemType::MajorKey},
+            {22, ItemType::MajorKey},
+            {23, ItemType::MajorKey},
+            {24, ItemType::MajorKey},
+            {25, ItemType::MajorKey},
 
-            {2365810019, ItemType::HealthPiece},
-            {2365810020, ItemType::SmallKey},
+            {19, ItemType::HealthPiece},
+            {20, ItemType::SmallKey},
 
-            {2365810029, ItemType::MinorAbility},
-            {2365810030, ItemType::MinorAbility},
-            {2365810031, ItemType::MinorAbility},
-            {2365810032, ItemType::MinorAbility},
-            {2365810033, ItemType::MinorAbility},
-            {2365810034, ItemType::MinorAbility},
-            {2365810035, ItemType::MinorAbility},
+            {29, ItemType::MinorAbility},
+            {30, ItemType::MinorAbility},
+            {31, ItemType::MinorAbility},
+            {32, ItemType::MinorAbility},
+            {33, ItemType::MinorAbility},
+            {34, ItemType::MinorAbility},
+            {35, ItemType::MinorAbility},
 
-            {2365810036, ItemType::MinorAbility},
+            {36, ItemType::MinorAbility},
 
-            {2365810037, ItemType::MajorAbility},
+            {37, ItemType::MajorAbility},
 
-            {2365810038, ItemType::Filler},
-            {2365810039, ItemType::Filler},
+            {38, ItemType::Filler},
+            {39, ItemType::Filler},
         };
 
         // Upgrades starting with ~ don't actually exist in the game but are used to track AP items and are handled by
         // AP_SetUpgrades.
         const unordered_map<int64_t, wstring> lookup_item_id_to_upgrade = {
-            {2365810001, L"attack"},
-            {2365810002, L"powerBoost"},
-            {2365810003, L"airKick"},
-            {2365810004, L"slide"},
+            {1, L"attack"},
+            {2, L"powerBoost"},
+            {3, L"airKick"},
+            {4, L"slide"},
             // Maps to SlideJump. The set upgrades function may set SlideJump to 0 if solar wind is toggled off. By
             // tracking it separately, we can properly display whether solar wind has been obtained on file select.
-            {2365810005, L"~solar"},
-            {2365810006, L"plunge"},
-            {2365810007, L"chargeAttack"},
+            {5, L"~solar"},
+            {6, L"plunge"},
+            {7, L"chargeAttack"},
             // Maps to wallRide. The wallRide upgrade grants the ability to cling, but the max number of clings is
             // stored in a separate variable, wallRideClingLimit. The set upgrades function will set wallRide to 1 if
             // any clings have been obtained, so we need to track cling gem separately.
-            {2365810008, L"~cling6"},
-            {2365810009, L"Light"},
-            {2365810010, L"projectile"},
-            {2365810011, L"extraKick"},
-            {2365810012, L"airRecovery"},
-            {2365810013, L"mobileHeal"},
-            {2365810014, L"magicHaste"},
-            {2365810015, L"healBoost"},
-            {2365810016, L"damageBoost"},
-            {2365810017, L"magicPiece"},
-            {2365810018, L"outfitPro"},
+            {8, L"~cling6"},
+            {9, L"Light"},
+            {10, L"projectile"},
+            {11, L"extraKick"},
+            {12, L"airRecovery"},
+            {13, L"mobileHeal"},
+            {14, L"magicHaste"},
+            {15, L"healBoost"},
+            {16, L"damageBoost"},
+            {17, L"magicPiece"},
+            {18, L"outfitPro"},
             // Maps to slide and SlideJump based on the value of ~progressiveSlide. 
-            {2365810026, L"~progressiveSlide"},
-            {2365810027, L"extraKick"},
+            {26, L"~progressiveSlide"},
+            {27, L"extraKick"},
             // Maps to attack, chargeAttack, and projectile based on the value of ~progressiveBreaker.
-            {2365810028, L"~progressiveBreaker"},
-            {2365810029, L"outfitFaith"},
-            {2365810030, L"outfitShoujo"},
-            {2365810031, L"outfitSweater"},
-            {2365810032, L"outfitClassy"},
-            {2365810033, L"outfitKnight"},
-            {2365810034, L"outfitJam"},
-            {2365810035, L"outfitPast"},
-            {2365810036, L"map"},
+            {28, L"~progressiveBreaker"},
+            {29, L"outfitFaith"},
+            {30, L"outfitShoujo"},
+            {31, L"outfitSweater"},
+            {32, L"outfitClassy"},
+            {33, L"outfitKnight"},
+            {34, L"outfitJam"},
+            {35, L"outfitPast"},
+            {36, L"map"},
             // Maps to wallRide. See note about ~cling6 above.
-            {2365810037, L"~cling2"},
+            {37, L"~cling2"},
         };
     } // End private members
 
@@ -414,161 +414,161 @@ namespace GameData {
         collectible_table = {
             {Map::Dungeon, unordered_map<int64_t, Collectible>{
             // Dream Breaker
-                {2365810001, Collectible(FVector(-3500.0, 4950.0, -50.0))},
+                {1, Collectible(FVector(-3500.0, 4950.0, -50.0))},
             // Slide
-                {2365810002, Collectible(FVector(16650, 2600, 2350))},
+                {2, Collectible(FVector(16650, 2600, 2350))},
             // Alcove Near Mirror
-                {2365810003, Collectible(FVector(1150, -400, 1050))},
+                {3, Collectible(FVector(1150, -400, 1050))},
             // Dark Orbs
-                {2365810004, Collectible(FVector(18250, -9750, 4200))},
+                {4, Collectible(FVector(18250, -9750, 4200))},
             // Past Poles
-                {2365810005, Collectible(FVector(6800, 8850, 3850))},
+                {5, Collectible(FVector(6800, 8850, 3850))},
             // Rafters
-                {2365810006, Collectible(FVector(7487, 1407, 4250))},
+                {6, Collectible(FVector(7487, 1407, 4250))},
             // Strong Eyes
-                {2365810007, Collectible(FVector(750, 8850, 2650))},
+                {7, Collectible(FVector(750, 8850, 2650))},
                     }},
             {Map::Castle, unordered_map<int64_t, Collectible> {
             // Indignation
-                {2365810008, Collectible(FVector(5400, 2100, -550))},
+                {8, Collectible(FVector(5400, 2100, -550))},
             // Alcove Near Dungeon
-                {2365810009, Collectible(FVector(1600, 8000, -1400))},
+                {9, Collectible(FVector(1600, 8000, -1400))},
             // Balcony
-                {2365810010, Collectible(FVector(16400, 3800, 1200))},
+                {10, Collectible(FVector(16400, 3800, 1200))},
             // Corner Corridor
-                {2365810011, Collectible(FVector(11850, 1000, -300))},
+                {11, Collectible(FVector(11850, 1000, -300))},
             // Floater In Courtyard
-                {2365810012, Collectible(FVector(-5000, -600, 2050))},
+                {12, Collectible(FVector(-5000, -600, 2050))},
             // Locked Door
-                {2365810013, Collectible(FVector(2700, -1700, -500))},
+                {13, Collectible(FVector(2700, -1700, -500))},
             // Platform In Main Halls
-                {2365810014, Collectible(FVector(7950, 2750, -200))},
+                {14, Collectible(FVector(7950, 2750, -200))},
             // Tall Room Near Wheel Crawlers
-                {2365810015, Collectible(FVector(-4100, -8200, 2950))},
+                {15, Collectible(FVector(-4100, -8200, 2950))},
             // Wheel Crawlers
-                {2365810016, Collectible(FVector(-10050, -3700, 1000))},
+                {16, Collectible(FVector(-10050, -3700, 1000))},
             // High Climb From Courtyard
-                {2365810017, Collectible(FVector(-3150, 11500, 6300))},
+                {17, Collectible(FVector(-3150, 11500, 6300))},
             // Alcove Near Scythe Corridor
-                {2365810018, Collectible(FVector(-9600, 21750, 5400))},
+                {18, Collectible(FVector(-9600, 21750, 5400))},
             // Near Theatre Front
-                {2365810019, Collectible(FVector(3390, 21150, 6600))},
+                {19, Collectible(FVector(3390, 21150, 6600))},
             // Memento
-                {2365810062, Collectible(FVector(8950, 6450, -175))},
+                {62, Collectible(FVector(8950, 6450, -175))},
                     }},
             {Map::Keep, unordered_map<int64_t, Collectible> {
             // Strikebreak
-                {2365810020, Collectible(FVector(10050, 1800, 1000))},
+                {20, Collectible(FVector(10050, 1800, 1000))},
             // Alcove Near Locked Door
-                {2365810021, Collectible(FVector(800, 2500, 1200))},
+                {21, Collectible(FVector(800, 2500, 1200))},
             // Levers Room
-                {2365810022, Collectible(FVector(1050, 15700, 1300))},
+                {22, Collectible(FVector(1050, 15700, 1300))},
             // Lonely Throne
-                {2365810023, Collectible(FVector(14350, -50, 1350))},
+                {23, Collectible(FVector(14350, -50, 1350))},
             // Near Theatre
-                {2365810024, Collectible(FVector(-3900, -6109, -450))},
+                {24, Collectible(FVector(-3900, -6109, -450))},
             // Sunsetter
-                {2365810025, Collectible(FVector(-3000, 4900, -400))},
+                {25, Collectible(FVector(-3000, 4900, -400))},
                     }},
             {Map::Library, unordered_map<int64_t, Collectible> {
             // Sun Greaves
-                {2365810026, Collectible(FVector(-4150, 9200, -100))},
+                {26, Collectible(FVector(-4150, 9200, -100))},
             // Upper Back
-                {2365810027, Collectible(FVector(-9250, -1850, 1250))},
+                {27, Collectible(FVector(-9250, -1850, 1250))},
             // Locked Door Across
-                {2365810028, Collectible(FVector(-1300, -6750, -700))},
+                {28, Collectible(FVector(-1300, -6750, -700))},
             // Locked Door Left
-                {2365810029, Collectible(FVector(-3750, -4170, -700))},
+                {29, Collectible(FVector(-3750, -4170, -700))},
             // Split Greaves 1
-                {2365810051, Collectible(FVector(-4150, 9160, 0))},
+                {51, Collectible(FVector(-4150, 9160, 0))},
             // Split Greaves 2
-                {2365810052, Collectible(FVector(-4100, 9250, -100))},
+                {52, Collectible(FVector(-4100, 9250, -100))},
             // Split Greaves 3
-                {2365810053, Collectible(FVector(-4200, 9250, -100))},
+                {53, Collectible(FVector(-4200, 9250, -100))},
                     }},
             {Map::Theatre, unordered_map<int64_t, Collectible> {
             // Soul Cutter
-                {2365810030, Collectible(FVector(8500, 7850, -1400))},
+                {30, Collectible(FVector(8500, 7850, -1400))},
             // Back Of Auditorium
-                {2365810031, Collectible(FVector(-1600, 1500, 2600))},
+                {31, Collectible(FVector(-1600, 1500, 2600))},
             // Center Stage
-                {2365810032, Collectible(FVector(5200, 1550, 700))},
+                {32, Collectible(FVector(5200, 1550, 700))},
             // Locked Door
-                {2365810033, Collectible(FVector(-1460, -2550, 2240))},
+                {33, Collectible(FVector(-1460, -2550, 2240))},
             // Tucked Behind Boxes
-                {2365810034, Collectible(FVector(255, 1150, 50))},
+                {34, Collectible(FVector(255, 1150, 50))},
             // Corner Beam
-                {2365810035, Collectible(FVector(-14100, -150, 1950))},
+                {35, Collectible(FVector(-14100, -150, 1950))},
                     }},
             {Map::Bailey, unordered_map<int64_t, Collectible> {
             // Solar Wind
-                {2365810036, Collectible(FVector(-1100, 10850, 150))},
+                {36, Collectible(FVector(-1100, 10850, 150))},
             // Center Steeple
-                {2365810037, Collectible(FVector(2350, 7260, 2110))},
+                {37, Collectible(FVector(2350, 7260, 2110))},
             // Cheese Bell
-                {2365810038, Collectible(FVector(5040, 7150, 2500))},
+                {38, Collectible(FVector(5040, 7150, 2500))},
             // Guarded Hand
-                {2365810039, Collectible(FVector(-1787, 5236, 650))},
+                {39, Collectible(FVector(-1787, 5236, 650))},
             // Inside Building
-                {2365810040, Collectible(FVector(3007, 3457, 300))},
+                {40, Collectible(FVector(3007, 3457, 300))},
                     }},
             {Map::Underbelly, unordered_map<int64_t, Collectible> {
             // Ascendant Light
-                {2365810041, Collectible(FVector(-5400, 6650, 6750))},
+                {41, Collectible(FVector(-5400, 6650, 6750))},
             // Alcove Near Light
-                {2365810042, Collectible(FVector(-2550, 12300, 4400))},
+                {42, Collectible(FVector(-2550, 12300, 4400))},
             // Building Near Little Guy
-                {2365810043, Collectible(FVector(-4350, 28350, 1850))},
+                {43, Collectible(FVector(-4350, 28350, 1850))},
             // Locked Door
-                {2365810044, Collectible(FVector(18896, 7937, 1200))},
+                {44, Collectible(FVector(18896, 7937, 1200))},
             // Main Room
-                {2365810045, Collectible(FVector(-726, 19782, 3200))},
+                {45, Collectible(FVector(-726, 19782, 3200))},
             // Rafters Near Keep
-                {2365810046, Collectible(FVector(19600, 17750, 5700))},
+                {46, Collectible(FVector(19600, 17750, 5700))},
             // Strikebreak Wall
-                {2365810047, Collectible(FVector(11300, 12700, 3107))},
+                {47, Collectible(FVector(11300, 12700, 3107))},
             // Surrounded By Holes
-                {2365810048, Collectible(FVector(33050, 24100, 3850), tuple<FVector, string, int>{FVector(31900, 26250, 3850), "game_version", FULL_GOLD})},
+                {48, Collectible(FVector(33050, 24100, 3850), tuple<FVector, string, int>{FVector(31900, 26250, 3850), "game_version", FULL_GOLD})},
                     }},
             {Map::Tower, unordered_map<int64_t, Collectible> {
             // Cling Gem
-                {2365810049, Collectible(FVector(13350, 5250, 4150))},
+                {49, Collectible(FVector(13350, 5250, 4150))},
             // Atop The Tower
-                {2365810050, Collectible(FVector(9650, 5250, 7100))},
+                {50, Collectible(FVector(9650, 5250, 7100))},
             // Cling Gem 1
-                {2365810063, Collectible(FVector(13350, 4750, 4150))},
+                {63, Collectible(FVector(13350, 4750, 4150))},
             // Cling Gem 2
-                {2365810064, Collectible(FVector(13350, 5250, 4150))},
+                {64, Collectible(FVector(13350, 5250, 4150))},
             // Cling Gem 3
-                {2365810065, Collectible(FVector(13350, 5750, 4150))},
+                {65, Collectible(FVector(13350, 5750, 4150))},
                     }},
         };
 
         // map -> time trial actor name -> location id + position
         time_trial_table = {
             {Map::Dungeon, {
-                {L"BP_TimeTrial_C_1", {2365810054, FVector(-3350, -4300, 850)}},
+                {L"BP_TimeTrial_C_1", {54, FVector(-3350, -4300, 850)}},
             }},
             {Map::Castle, {
-                {L"BP_TimeTrial_C_1", {2365810055, FVector(3200, -1700, -500)}},
+                {L"BP_TimeTrial_C_1", {55, FVector(3200, -1700, -500)}},
             }},
             {Map::Keep, {
-                {L"BP_TimeTrial_C_3", {2365810056, FVector(14350, 400, 1250)}},
+                {L"BP_TimeTrial_C_3", {56, FVector(14350, 400, 1250)}},
             }},
             {Map::Library, {
-                {L"BP_TimeTrial_C_2", {2365810057, FVector(-2850, 3600, 900)}},
+                {L"BP_TimeTrial_C_2", {57, FVector(-2850, 3600, 900)}},
             }},
             {Map::Theatre, {
-                {L"BP_TimeTrial_C_1", {2365810058, FVector(-14750, 3900, 100)}},
+                {L"BP_TimeTrial_C_1", {58, FVector(-14750, 3900, 100)}},
             }},
             {Map::Bailey, {
-                {L"BP_TimeTrial_C_1", {2365810059, FVector(1150, 5250, -600)}},
+                {L"BP_TimeTrial_C_1", {59, FVector(1150, 5250, -600)}},
             }},
             {Map::Underbelly, {
-                {L"BP_TimeTrial_C_1", {2365810060, FVector(1250, 18000, 3000)}},
+                {L"BP_TimeTrial_C_1", {60, FVector(1250, 18000, 3000)}},
             }},
             {Map::Tower, {
-                {L"BP_TimeTrial_C_3", {2365810061, FVector(10750, 3050, 4000)}},
+                {L"BP_TimeTrial_C_3", {61, FVector(10750, 3050, 4000)}},
             }},
         };
     }
@@ -612,7 +612,7 @@ namespace GameData {
             break;
         case ItemType::MajorKey:
             // Remove prefix digits from id to assign directly to major_keys array
-            major_keys[id - 2365810021] = true;
+            major_keys[id - 21] = true;
             break;
         case ItemType::Filler:
             // filler does something immediate, so it should only be handled when receiving a PrintJSON with the item
@@ -717,10 +717,10 @@ namespace GameData {
 
     void ReceiveItemOnce(int64_t item_id) {
         switch (item_id) {
-        case 2365810038: // Healing
+        case 38: // Healing
             Engine::HealPlayer();
             break;
-        case 2365810039: // Magic Power
+        case 39: // Magic Power
             Engine::GivePlayerPower();
             break;
         }
@@ -728,7 +728,7 @@ namespace GameData {
 
     bool IsInteractable(int64_t location_id) {
         // this works for now since locations are separated by collectible/interactable at this location id
-        return location_id >= 2365810066;
+        return location_id >= 66;
     }
 
     void AddMajorKeyHint(int key_index, MultiworldLocation hint) {
@@ -747,7 +747,7 @@ namespace GameData {
         }
 
         int index = major_key_tombstones_map.at(tombstone_actor_name);
-        int64_t item_id = index + 2365810021;
+        int64_t item_id = index + 21;
         bool found = major_keys[index];
         vector<MultiworldLocation> hints = major_key_hints[index];
         return MajorKeyInfo{ item_id, found, hints };
