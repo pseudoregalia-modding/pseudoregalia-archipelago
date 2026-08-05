@@ -1459,26 +1459,92 @@ regions:
 
   - name: The Great Door
 
-origins:
-  - spawn_point: castle_main
+enums:
+  player_start:
+    - DungeonMirror
+    - DungeonMirrorSave
+    - DungeonSlideSave
+    - DungeonStrongEyesSave
+    - DungeonStrongEyesExit
+    - DungeonEscapeLowerExit
+    - DungeonEscapeUpperExit
+    - CastleWestSave
+    - CastleGazeboSave
+    - CastleEastSave
+    - CastleNorthwestSave
+    - CastleWestLowerExit
+    - CastleWestUpperExit
+    - CastleSouthLowerExit
+    - CastleSouthUpperExit
+    - CastleLockedExit
+    - CastleEastExit
+    - CastleNorthExit
+    - CastleNorthwestExit
+    - KeepCentralSave
+    - KeepNorthSave
+    - KeepSouthExit
+    - KeepSouthwestExit
+    - KeepLockedExit
+    - KeepNortheastExit
+    - KeepNorthExit
+    - LibraryMainSave
+    - LibraryBackSave
+    - LibraryExit
+    - TheatreSave
+    - TheatrePillarWestExit
+    - TheatrePillarEastExit
+    - TheatreFrontExit
+    - TheatreScythesNorthExit
+    - TheatreScythesSouthExit
+    - BaileySave
+    - BaileyNorthExit
+    - BaileyWestExit
+    - BaileyShackExit
+    - BaileyEastExit
+    - UnderbellySouthSave
+    - UnderbellyCentralSave
+    - UnderbellyEastSave
+    - UnderbellyPreLightSave
+    - UnderbellyPostLightSave
+    - UnderbellySouthExit
+    - UnderbellyHoleExit
+    - UnderbellyLightPillarExit
+    - TowerSave
+    - TowerSouthExit
+    - TowerTopExit
+    - ChambersExit
+
+spawn_points:
+  - name: castle_main
+    player_start: CastleWestSave
     region: Castle Main
-  - spawn_point: castle_gazebo
+    default: True
+  - name: castle_gazebo
+    player_start: CastleGazeboSave
     region: Castle Main
-  - spawn_point: dungeon_mirror
+  - name: dungeon_mirror
+    player_start: DungeonMirror
     region: Dungeon Mirror
-  - spawn_point: library
+  - name: library
+    player_start: LibraryMainSave
     region: Library Main
-  - spawn_point: underbelly_south
+  - name: underbelly_south
+    player_start: UnderbellySouthSave
     region: Underbelly => Bailey
-  - spawn_point: underbelly_big_room
+  - name: underbelly_big_room
+    player_start: UnderbellyCentralSave
     region: Underbelly Main Upper
-  - spawn_point: bailey_main
+  - name: bailey_main
+    player_start: BaileySave
     region: Bailey Lower
-  - spawn_point: keep_main
+  - name: keep_main
+    player_start: KeepCentralSave
     region: Keep Main
-  - spawn_point: keep_north
+  - name: keep_north
+    player_start: KeepNorthSave
     region: Keep Main
-  - spawn_point: theatre_main
+  - name: theatre_main
+    player_start: TheatreSave
     region: Theatre Main
 
 locations:

@@ -4,8 +4,8 @@ import yaml
 
 from Fill import fast_fill
 
-from .. import PseudoregaliaWorld, pseudoregalia_data
-from ..logic import PseudoregaliaData, data_from_dict
+from .. import PseudoregaliaWorld
+from ..logic import PseudoregaliaData, data_from_dict, pseudoregalia_data
 from ..validate import Validator
 
 
@@ -52,7 +52,7 @@ class PseudoValidationBase(PseudoTestBase):
     @dataclass
     class Case:
         data: PseudoregaliaData | str
-        expect_errors: bool = field(default=False)
+        expected_errors: int = field(default=0)
 
     cases: dict[str, Case] = {
         "real data": Case(data=pseudoregalia_data),
@@ -66,14 +66,12 @@ class PseudoValidationBase(PseudoTestBase):
                 elif isinstance(case_data.data, str):
                     yaml_dict = yaml.safe_load(case_data.data)
                     raw = {"item_mapping": {}, "tags": [], "tag_groups": [], "ref_rules": [], "regions": [],
-                           "origins": [], "locations": [], "completion_rule": {}}
+                           "enums": {"player_start": []}, "spawn_points": [], "locations": [], "completion_rule": {}}
                     raw.update(yaml_dict)
                     data = data_from_dict(raw)
 
                 validator = Validator()
                 validator.validate_data(data)
                 num_errors = len(validator.errors)
-                if case_data.expect_errors:
-                    assert num_errors != 0, "expected errors, got none"
-                else:
-                    assert num_errors == 0, f"expected no errors, got {num_errors}\n{"\n".join(validator.errors)})"
+                assert case_data.expected_errors == num_errors, \
+                    f"expected {case_data.expected_errors} errors, got {num_errors}\n{"\n".join(validator.errors)}"

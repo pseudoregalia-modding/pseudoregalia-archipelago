@@ -18,7 +18,7 @@ class PseudoregaliaItemData(NamedTuple):
 
 def precollect_if_theatre_start(precollect_if_normal: bool) -> Callable[[PseudoregaliaOptions], int]:
     def precollect(options: PseudoregaliaOptions) -> int:
-        is_theatre_start = options.spawn_point == options.spawn_point.option_theatre_main
+        is_theatre_start = options.spawn_point == "theatre_main"
         is_normal = options.logic_level == options.logic_level.option_normal
         matches_difficulty = precollect_if_normal == is_normal
         return 1 if is_theatre_start and matches_difficulty else 0

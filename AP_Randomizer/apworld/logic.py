@@ -1,6 +1,8 @@
 from __future__ import annotations
 from dataclasses import dataclass
+import pkgutil
 from typing import Any, Literal, TypeAlias
+import yaml
 
 from .dacite import Config, from_dict
 
@@ -36,8 +38,13 @@ class PseudoregaliaData:
     """
     regions: list[RegionData]
     """Defines the world's regions and entrances."""
-    origins: list[OriginData]
-    """Defines origin data, which is used for setting the world origin_region_name field based on the SpawnPoint option."""
+    enums: Enums
+    """Defines enums."""
+    spawn_points: list[SpawnPointData]
+    """
+    Defines possible spawn points, which is used for creating the SpawnPoint option and setting the world
+    origin_region_name field.
+    """
     locations: list[LocationData]
     """Defines the world's locations."""
     completion_rule: RuleData
@@ -95,13 +102,23 @@ class RegionData:
     """A list of all entrances starting from this region."""
 
 @dataclass
-class OriginData:
-    spawn_point: str
-    """
-    The SpawnPoint option corresponding to this origin without the option_ prefix. Must be unique across all origins.
-    """
+class Enums:
+    player_start: list[str]
+    """Lists all player starts in the game, which correspond to game start, save points and transitions."""
+
+@dataclass
+class SpawnPointData:
+    name: str
+    """The name of the spawn. Must be unique across all origins."""
+    player_start: str
+    """The player start associated with this spawn point. Must match a value in the player_start enum."""
     region: str
     """The region associated with this origin. Must be the name of a region in the regions list."""
+    default: bool | None
+    """
+    Whether this spawn point should be used as the default in the SpawnPoint option. At most one spawn point can be
+    marked as default.
+    """
 
 @dataclass
 class LocationData:
@@ -181,3 +198,11 @@ def data_from_dict(raw: dict[str, Any]) -> PseudoregaliaData:
         convert_key=lambda key: key[:-1] if key.endswith("_") else key,
     )
     return from_dict(PseudoregaliaData, raw, config)
+
+
+yaml_bytes = pkgutil.get_data(__name__, "logic.yaml")
+yaml_dict = yaml.safe_load(yaml_bytes)
+pseudoregalia_data = data_from_dict(yaml_dict)
+del yaml_bytes, yaml_dict
+
+player_start_enum = {player_start: i for i, player_start in enumerate(pseudoregalia_data.enums.player_start)}

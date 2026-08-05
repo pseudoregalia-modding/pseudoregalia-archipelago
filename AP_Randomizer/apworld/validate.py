@@ -5,8 +5,8 @@ from BaseClasses import ItemClassification
 from Options import Choice, Toggle
 
 from .items import item_table
-from .logic import ExitData, ItemMappingData, LocationData, OptionData, OriginData, PseudoregaliaData, RefRuleData, \
-    RegionData, RuleData, TagGroupData, TagData, TagLevel
+from .logic import Enums, ExitData, ItemMappingData, LocationData, OptionData, PseudoregaliaData, RefRuleData, \
+    RegionData, RuleData, SpawnPointData, TagGroupData, TagData, TagLevel
 from .options import PseudoregaliaOptions, SpawnPoint
 from .rules import create_entrance_name
 
@@ -51,6 +51,7 @@ class Validator:
     ref_rules: set[str]
     regions: set[str]
     entrances: set[str]
+    player_starts: set[str]
     spawn_points: set[str]
     locations: set[str]
     location_codes: set[int]
@@ -67,6 +68,7 @@ class Validator:
         self.ref_rules = set()
         self.regions = set()
         self.entrances = set()
+        self.player_starts = set()
         self.spawn_points = set()
         self.locations = set()
         self.location_codes = set()
@@ -84,7 +86,8 @@ class Validator:
         self.validate_tag_groups(data.tag_groups)
         self.validate_ref_rules(data.ref_rules)
         self.validate_regions(data.regions)
-        self.validate_origins(data.origins)
+        self.validate_enums(data.enums)
+        self.validate_spawn_points(data.spawn_points)
         self.validate_locations(data.locations)
         self.validate_completion_rule(data.completion_rule)
 
@@ -245,32 +248,61 @@ class Validator:
         else:
             self.entrances.add(entrance_name)
 
-    @validation_context(context_type="key", key="origins")
-    def validate_origins(self, origins: list[OriginData]):
-        for i, origin_data in enumerate(origins):
-            self.validate_origin(i, origin_data)
+    @validation_context(context_type="key", key="enums")
+    def validate_enums(self, enums: Enums):
+        self.validate_player_start_enum(enums.player_start)
+
+    @validation_context(context_type="key", key="player_start")
+    def validate_player_start_enum(self, player_start_enum: list[str]):
+        for i, player_start in enumerate(player_start_enum):
+            self.validate_player_start_enum_item(i, player_start)
 
     @validation_context(context_type="index")
-    def validate_origin(self, index: int, origin_data: OriginData):
-        self.validate_origin_spawn_point(origin_data.spawn_point)
-        self.validate_origin_region(origin_data.region)
-
-    @validation_context(context_type="key", key="spawn_point")
-    def validate_origin_spawn_point(self, spawn_point: str):
-        # CHECK: origin spawn points are unique
-        if spawn_point in self.spawn_points:
-            self.err("not unique across origins")
+    def validate_player_start_enum_item(self, index: int, player_start: str):
+        # CHECK: player start enum entry is unique
+        if player_start in self.player_starts:
+            self.err("not unique across player starts")
         else:
-            self.spawn_points.add(spawn_point)
+            self.player_starts.add(player_start)
 
-        attr_name = f"option_{spawn_point}"
-        # CHECK: origin names match an attribute on the SpawnPoint object
-        if not hasattr(SpawnPoint, attr_name):
-            self.err("SpawnPoint has no option with this name")
+    @validation_context(context_type="key", key="origins")
+    def validate_spawn_points(self, spawn_points: list[SpawnPointData]):
+        # building the SpawnPoint class will fail if no defaults are defined, but that is untestable as that error would
+        # happen when loading the world and tests couldn't be run. forcing exactly one default to be defined would also
+        # make some things annoying for tests, so we can just check that no more than one default is defined.
+        defaults = 0
+        for i, spawn_point_data in enumerate(spawn_points):
+            self.validate_spawn_point(i, spawn_point_data)
+            if spawn_point_data.default:
+                defaults += 1
+        # CHECK: no more than one spawn point is marked default
+        if defaults > 1:
+            self.err("more than one spawn point marked default")
+
+    @validation_context(context_type="index")
+    def validate_spawn_point(self, index: int, spawn_point_data: SpawnPointData):
+        self.validate_spawn_point_name(spawn_point_data.name)
+        self.validate_spawn_point_player_start(spawn_point_data.player_start)
+        self.validate_spawn_point_region(spawn_point_data.region)
+
+    @validation_context(context_type="key", key="name")
+    def validate_spawn_point_name(self, name: str):
+        # CHECK: spawn point names are unique
+        if name in self.spawn_points:
+            self.err("not unique across spawn points")
+        else:
+            self.spawn_points.add(name)
+
+    @validation_context(context_type="key", key="player_start")
+    def validate_spawn_point_player_start(self, player_start: str):
+        # CHECK: spawn point player starts are valid enum values
+        if player_start not in self.player_starts:
+            self.err("value not in player_start enum")
+        # TODO should player starts be unique across spawn points?
 
     @validation_context(context_type="key", key="region")
-    def validate_origin_region(self, region: str):
-        # CHECK: origin regions match existing regions
+    def validate_spawn_point_region(self, region: str):
+        # CHECK: spawn point regions match existing regions
         if region not in self.all_regions:
             self.err("does not match the name of a region")
 

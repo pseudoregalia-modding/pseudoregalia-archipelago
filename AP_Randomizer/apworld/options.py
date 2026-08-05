@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from Options import Toggle, Choice, DefaultOnToggle, PerGameCommonOptions
 from .constants.difficulties import NORMAL, HARD, EXPERT, LUNATIC
 from .constants.versions import MAP_PATCH, FULL_GOLD
-from .constants.player_starts import PlayerStarts
+from .logic import pseudoregalia_data, player_start_enum
 
 
 class LogicLevel(Choice):
@@ -31,25 +31,16 @@ class ObscureLogic(Toggle):
     display_name = "Obscure Logic"
 
 
-class SpawnPoint(Choice):
-    """
-    Determines where you will spawn into the game when creating a new file.
-    
-    Some spawns have special behaviors if they are selected or randomly chosen which can affect starting inventory and
-    logic. Refer to the game page or the readme in the github repo for more information.
-    """
-    display_name = "Spawn Point"
-    option_castle_main = PlayerStarts.CastleWestSave.value
-    option_castle_gazebo = PlayerStarts.CastleGazeboSave.value
-    option_dungeon_mirror = PlayerStarts.DungeonMirror.value
-    option_library = PlayerStarts.LibraryMainSave.value
-    option_underbelly_south = PlayerStarts.UnderbellySouthSave.value
-    option_underbelly_big_room = PlayerStarts.UnderbellyCentralSave.value
-    option_bailey_main = PlayerStarts.BaileySave.value
-    option_keep_main = PlayerStarts.KeepCentralSave.value
-    option_keep_north = PlayerStarts.KeepNorthSave.value
-    option_theatre_main = PlayerStarts.TheatreSave.value
-    default = PlayerStarts.CastleWestSave.value
+SpawnPoint = type("SpawnPoint", (Choice,), {
+    "__module__": __name__,
+    "auto_display_name": False,
+    "display_name": "Spawn Point",
+    "__doc__": "Determines where you will spawn into the game when creating a new file.\n\n"
+               "Some spawns have special behaviors if they are selected or randomly chosen which can affect starting "
+               "inventory and logic. Refer to the game page or the readme in the github repo for more information.",
+    **{f"option_{data.name}": player_start_enum[data.player_start] for data in pseudoregalia_data.spawn_points},
+    "default": next(player_start_enum[data.player_start] for data in pseudoregalia_data.spawn_points if data.default),
+})
 
 
 class SafeSmallKeys(DefaultOnToggle):

@@ -1,6 +1,4 @@
-import pkgutil
 from typing import Any
-import yaml
 
 from worlds.AutoWorld import World, WebWorld
 from BaseClasses import Location, Region, CollectionState, Tutorial
@@ -9,14 +7,12 @@ from .items import PseudoregaliaItem, item_table, item_groups
 from .options import PseudoregaliaOptions
 from .constants.difficulties import EXPERT, LUNATIC
 from .constants.versions import FULL_GOLD
-from .logic import ItemMappingData, data_from_dict
+from .logic import ItemMappingData, pseudoregalia_data, player_start_enum
 from .rules import create_rules, check_options
 
 
-yaml_bytes = pkgutil.get_data(__name__, "logic.yaml")
-yaml_dict = yaml.safe_load(yaml_bytes)
-pseudoregalia_data = data_from_dict(yaml_dict)
 pseudoregalia_rules = create_rules(pseudoregalia_data)
+spawn_point_regions = {player_start_enum[data.player_start]: data.region for data in pseudoregalia_data.spawn_points}
 
 
 class PseudoregaliaLocation(Location):
@@ -153,10 +149,10 @@ class PseudoregaliaWorld(World):
             self.options.start_with_map.value = 0
             self.options.randomize_time_trials.value = 0
         spawn_point = self.options.spawn_point
-        if spawn_point == spawn_point.option_dungeon_mirror:
+        if spawn_point == "dungeon_mirror":
             # start_with_breaker is forced on for dungeon start to help with sphere 1 size
             self.options.start_with_breaker.value = 1
-        elif spawn_point == spawn_point.option_library:
+        elif spawn_point == "library":
             if not self.options.start_with_breaker and not self.options.randomize_books:
                 # start_with_breaker is forced on if otherwise player wouldn't have enough checks
                 self.options.start_with_breaker.value = 1
@@ -167,10 +163,7 @@ class PseudoregaliaWorld(World):
         }
 
     def create_regions(self):
-        for origin_data in pseudoregalia_data.origins:
-            if check_options(self.options, {"spawn_point": origin_data.spawn_point}):
-                self.origin_region_name = origin_data.region
-                break
+        self.origin_region_name = spawn_point_regions[self.options.spawn_point.value]
 
         for region_data in pseudoregalia_data.regions:
             self.multiworld.regions.append(Region(region_data.name, self.player, self.multiworld))
