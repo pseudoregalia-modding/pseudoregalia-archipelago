@@ -73,9 +73,9 @@ class PseudoregaliaWorld(World):
             if not location.item or not location.item.code or not location.address:
                 # guard against optional fields being None
                 continue
-            # this implementation assumes major key item codes are all in a row starting at 2365810021 and will
-            # break if that ever changes
-            index = location.item.code - 2365810021
+            # this implementation assumes major key item codes are all in a row starting at 21 and will break if that
+            # ever changes
+            index = location.item.code - 21
             if index not in range(5):
                 # guard against index being out of bounds
                 continue
@@ -173,8 +173,7 @@ class PseudoregaliaWorld(World):
             if not check_options(self.options, loc_data.can_create):
                 continue
             region = self.get_region(loc_data.region)
-            loc_id = None if loc_data.code is None else 2365810000 + loc_data.code
-            new_loc = PseudoregaliaLocation(self.player, loc_data.name, loc_id, region)
+            new_loc = PseudoregaliaLocation(self.player, loc_data.name, loc_data.code, region)
             region.locations.append(new_loc)
             rule = pseudoregalia_rules.location_rules.get(loc_data.name)
             if rule is not None:
