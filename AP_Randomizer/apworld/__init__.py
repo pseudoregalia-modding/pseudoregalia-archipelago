@@ -66,6 +66,26 @@ class PseudoregaliaWorld(World):
 
     tags: dict[str, int]
 
+    def get_pseudo_item_counts(self, state: CollectionState, item: PseudoregaliaItem) -> dict[str, int]:
+        """
+        Returns pseudo items to be collected/removed when `item` is collected/removed, based on `state`. Logic works
+        correctly if called before `item` is collected but after `item` is removed.
+        """
+        if item.name not in pseudoregalia_data.item_mapping:
+            return {}
+
+        mapping = pseudoregalia_data.item_mapping[item.name]
+        if isinstance(mapping, str):
+            return {mapping: 1}
+        elif isinstance(mapping, list):
+            index = state.count(item.name, self.player)
+            if index < len(mapping):
+                return {mapping[index]: 1}
+        elif not mapping.first_only or state.count(item.name, self.player) == 0:
+            count = mapping.count if mapping.count is not None else 1
+            return {name: count for name in mapping.names}
+        return {}
+
     def create_key_hints(self) -> Any:
         key_hints = [[] for _ in range(5)]
         key_locations = self.multiworld.find_items_in_locations(set(item_groups["major keys"]), self.player, True)
@@ -97,45 +117,14 @@ class PseudoregaliaWorld(World):
         return PseudoregaliaItem(name, data.classification, data.code, self.player)
 
     def collect(self, state: CollectionState, item: PseudoregaliaItem) -> bool:
-        # this function waits to call super().collect() until after the item mapping so that the mapping logic is done
-        # in a similar state to remove(), i.e. mapping happens before the item is collected here but after the item is
-        # removed in remove()
-        if item.name not in pseudoregalia_data.item_mapping:
-            return super().collect(state, item)
-
-        mapping = pseudoregalia_data.item_mapping[item.name]
-        if isinstance(mapping, str):
-            state.add_item(mapping, self.player)
-        elif isinstance(mapping, list):
-            index = state.count(item.name, self.player)
-            if index < len(mapping):
-                state.add_item(mapping[index], self.player)
-        elif isinstance(mapping, ItemMappingData):
-            first_only = mapping.first_only if mapping.first_only is not None else False
-            if not first_only or state.count(item.name, self.player) == 0:
-                count = mapping.count if mapping.count is not None else 1
-                for name in mapping.names:
-                    state.add_item(name, self.player, count)
+        for pseudo_item, count in self.get_pseudo_item_counts(state, item).items():
+            state.add_item(pseudo_item, self.player, count)
         return super().collect(state, item)
 
     def remove(self, state: CollectionState, item: PseudoregaliaItem) -> bool:
         ret = super().remove(state, item)
-        if item.name not in pseudoregalia_data.item_mapping:
-            return ret
-
-        mapping = pseudoregalia_data.item_mapping[item.name]
-        if isinstance(mapping, str):
-            state.remove_item(mapping, self.player)
-        elif isinstance(mapping, list):
-            index = state.count(item.name, self.player)
-            if index < len(mapping):
-                state.remove_item(mapping[index], self.player)
-        elif isinstance(mapping, ItemMappingData):
-            first_only = mapping.first_only if mapping.first_only is not None else False
-            if not first_only or state.count(item.name, self.player) == 0:
-                count = mapping.count if mapping.count is not None else 1
-                for name in mapping.names:
-                    state.remove_item(name, self.player, count)
+        for pseudo_item, count in self.get_pseudo_item_counts(state, item).items():
+            state.remove_item(pseudo_item, self.player, count)
         return ret
 
     # generation overrides
