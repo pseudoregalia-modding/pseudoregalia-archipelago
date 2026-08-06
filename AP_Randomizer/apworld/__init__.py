@@ -71,10 +71,10 @@ class PseudoregaliaWorld(World):
         Returns pseudo items to be collected/removed when `item` is collected/removed, based on `state`. Logic works
         correctly if called before `item` is collected but after `item` is removed.
         """
-        if item.name not in pseudoregalia_data.item_mapping:
+        mapping = pseudoregalia_data.item_mapping.get(item.name)
+        if mapping is None:
             return {}
 
-        mapping = pseudoregalia_data.item_mapping[item.name]
         if isinstance(mapping, str):
             return {mapping: 1}
         elif isinstance(mapping, list):
@@ -148,7 +148,7 @@ class PseudoregaliaWorld(World):
 
         self.tags = {
             "logic_level": self.options.logic_level.value,
-            "old_obscure": 1 if self.options.obscure_logic else 0,
+            "old_obscure": int(self.options.obscure_logic),
         }
 
     def create_regions(self):

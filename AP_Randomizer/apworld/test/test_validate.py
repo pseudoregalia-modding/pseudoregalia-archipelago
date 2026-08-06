@@ -143,6 +143,15 @@ class TestValidationTagGroups(PseudoValidationBase):
             """,
             expected_errors=1,
         ),
+        "tag group that references itself as child": PseudoValidationBase.Case(
+            data="""
+            tag_groups:
+              - name: tag_group
+                description: a tag group
+                children: [tag_group]
+            """,
+            expected_errors=1,
+        ),
     }
 
 

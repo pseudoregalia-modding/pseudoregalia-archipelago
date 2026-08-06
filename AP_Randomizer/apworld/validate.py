@@ -7,7 +7,7 @@ from Options import Choice, Toggle
 from .items import item_table
 from .logic import Enums, ExitData, ItemMappingData, LocationData, OptionData, PseudoregaliaData, RefRuleData, \
     RegionData, RuleData, SpawnPointData, TagGroupData, TagData, TagLevel
-from .options import PseudoregaliaOptions, SpawnPoint
+from .options import PseudoregaliaOptions
 from .rules import create_entrance_name
 
 # TODO: improve validation_context when context_type="key" by using this regex

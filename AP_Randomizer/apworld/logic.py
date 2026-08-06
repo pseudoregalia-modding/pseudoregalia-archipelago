@@ -26,8 +26,8 @@ class PseudoregaliaData:
     Defines groups that bundle tags together to help make customization simpler.
     
     Entries in this list can contain tags as well as other tag groups as children. Child relationships should not form
-    cycles, but for documentation purpose, this list should be sorted from more general to less general. To validate
-    this, groups should only reference other groups as children that are defined below them in the list.
+    cycles, so groups should only reference other groups as children that are defined above them in the list. In other
+    words, this list should be sorted from less general to more general.
     """
     ref_rules: list[RefRuleData]
     """
@@ -104,7 +104,7 @@ class RegionData:
 @dataclass
 class Enums:
     player_start: list[str]
-    """Lists all player starts in the game, which correspond to game start, save points and transitions."""
+    """Lists all player starts in the game, including game start, save points and transitions."""
 
 @dataclass
 class SpawnPointData:
