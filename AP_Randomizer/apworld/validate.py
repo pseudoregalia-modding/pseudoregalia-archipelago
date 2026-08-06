@@ -376,26 +376,16 @@ class Validator:
         self.check_rule(rule)
 
     def check_rule(self, rule: RuleData):
-        rule_types = 0
         if rule.and_ is not None:
             self.validate_rule_and(rule.and_)
-            rule_types += 1
         if rule.or_ is not None:
             self.validate_rule_or(rule.or_)
-            rule_types += 1
         if rule.has is not None:
             self.validate_rule_has(rule.has)
-            rule_types += 1
         if rule.can_reach_region is not None:
             self.validate_rule_can_reach_region(rule.can_reach_region)
-            rule_types += 1
         if rule.ref is not None:
             self.validate_rule_ref(rule.ref)
-            rule_types += 1
-
-        # CHECK: at most one rule type is defined
-        if rule_types > 1:
-            self.err("more than one rule type defined")
 
         if rule.tags is not None:
             self.validate_rule_tags(rule.tags)
@@ -447,7 +437,18 @@ class Validator:
             self.err("does not match the name of a region")
 
     @validation_context(context_type="key", key="ref")
-    def validate_rule_ref(self, ref: str):
+    def validate_rule_ref(self, ref: list[str] | str):
+        if isinstance(ref, list):
+            for i, ref_item in enumerate(ref):
+                self.validate_rule_ref_item(i, ref_item)
+        else:
+            self.check_ref(ref)
+
+    @validation_context(context_type="index")
+    def validate_rule_ref_item(self, index: int, ref: str):
+        self.check_ref(ref)
+
+    def check_ref(self, ref: str):
         # CHECK: ref value matches the name of a ref rule
         if ref not in self.ref_rules:
             self.err("does not match the name of a ref rule")

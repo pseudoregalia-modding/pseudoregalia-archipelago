@@ -139,8 +139,9 @@ class LocationData:
 @dataclass
 class RuleData:
     """
-    A rule on an entrance or location. Aside from the tags and options fields (which provide filtering), at most one
-    field can be not None. If all fields are None, the rule is built using the True_ RuleBuilder object.
+    A rule on an entrance or location. Fields aside from tags and options represent different RuleBuilder objects, which
+    are chained together in an And RuleBuilder object if multiple are defined. If all fields are None, the rule is built
+    using the True_ RuleBuilder object.
 
     Each key in the tags and options fields acts as a filter, and all filters must be satisfied or the rule resolves to
     False_. For tags, the player must have the tag at a level greater than or equal to the level indicated by the
@@ -158,8 +159,8 @@ class RuleData:
     """
     can_reach_region: str | None
     """Maps to the CanReachRegion RuleBuilder object."""
-    ref: str | None
-    """Maps to a ref_rule by name."""
+    ref: list[str] | str | None
+    """Maps to one or more ref_rules by name. A list[str] value combines all ref_rules in an And RuleBuilder object."""
     tags: dict[str, TagLevel] | None
     """Provides filtering. The keys are required tags and the values are the minimum logic level for the tag."""
     options: OptionData | None

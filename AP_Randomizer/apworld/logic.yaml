@@ -98,15 +98,14 @@ ref_rules:
       has: [breaker, light]
   - name: can_unlock_door
     rule:
-      and:
-        - ref: can_attack
-        - or:
-            - has:
-                small_key: 7
-            - has:
-                small_key: 6
-              tags:
-                logic_level: hard
+      ref: can_attack
+      or:
+        - has:
+            small_key: 7
+        - has:
+            small_key: 6
+          tags:
+            logic_level: hard
   - name: can_enter_dark_rooms
     rule:
       or:
@@ -146,9 +145,7 @@ regions:
       - region: Dungeon Escape Lower
         rule:
           or:
-            - and:
-                - ref: can_attack
-                - ref: can_enter_dark_rooms
+            - ref: [can_attack, can_enter_dark_rooms]
               tags:
                 old_obscure: advanced
             - has: breaker
@@ -165,28 +162,24 @@ regions:
             - ref: can_unlock_door
             - or:
                 - ref: can_bounce
-                - and:
-                    - ref: can_attack
-                    - has:
-                        kick: 2
-                - and:
-                    - ref: can_attack
-                    - has:
-                        cling: 2
+                - ref: can_attack
+                  has:
+                    kick: 2
+                - ref: can_attack
+                  has:
+                    cling: 2
                 - has: plunge
                   tags:
                     logic_level: hard
                 - has: [breaker, kick]
                   tags:
                     logic_level: hard
-                - and:
-                    - has: breaker
-                    - ref: can_slide_jump
+                - has: breaker
+                  ref: can_slide_jump
                   tags:
                     logic_level: hard
-                - and:
-                    - ref: can_attack
-                    - has: slide
+                - ref: can_attack
+                  has: slide
                   tags:
                     logic_level: expert
               tags:
@@ -237,14 +230,12 @@ regions:
                 kick_or_plunge: 2
               tags:
                 logic_level: hard
-            - and:
-                - ref: can_gold_ultra
-                - has: kick
+            - ref: can_gold_ultra
+              has: kick
               tags:
                 logic_level: expert
-            - and:
-                - ref: can_gold_ultra
-                - has: plunge
+            - ref: can_gold_ultra
+              has: plunge
               tags:
                 logic_level: lunatic
       - region: Underbelly => Dungeon
@@ -310,9 +301,8 @@ regions:
                 kick_or_plunge: 2
               tags:
                 logic_level: hard
-            - and:
-                - ref: can_slide_jump
-                - has: plunge
+            - ref: can_slide_jump
+              has: plunge
               tags:
                 logic_level: hard
             - ref: can_gold_ultra
@@ -338,16 +328,13 @@ regions:
             - has:
                 kick: 3
                 plunge: 1
-            - and:
-                - ref: can_attack
-                - has: kick
+            - ref: can_attack
+              has: kick
             - has:
                 kick_or_plunge: 3
               tags:
                 logic_level: hard
-            - and:
-                - ref: can_attack
-                - ref: can_slide_jump
+            - ref: [can_attack, can_slide_jump]
               tags:
                 logic_level: hard
                 old_obscure: advanced
@@ -399,9 +386,8 @@ regions:
             - has:
                 kick: 2
                 plunge: 1
-            - and:
-                - has: [kick, plunge]
-                - ref: can_slide_jump
+            - has: [kick, plunge]
+              ref: can_slide_jump
             - has:
                 kick: 3
                 breaker: 1
@@ -427,10 +413,9 @@ regions:
                 cling: 6
               tags:
                 logic_level: hard
-            - and:
-                - ref: can_gold_ultra
-                - has:
-                    kick: 2
+            - ref: can_gold_ultra
+              has:
+                kick: 2
               tags:
                 logic_level: expert
             - has:
@@ -438,10 +423,9 @@ regions:
                 kick_or_plunge: 3
               tags:
                 logic_level: expert
-            - and:
-                - ref: can_gold_ultra
-                - has:
-                    kick_or_plunge: 2
+            - ref: can_gold_ultra
+              has:
+                kick_or_plunge: 2
               tags:
                 logic_level: lunatic
   - name: Castle => Theatre (Front)
@@ -451,9 +435,8 @@ regions:
           or:
             - has:
                 cling: 2
-            - and:
-                - ref: can_slide_jump
-                - has: kick
+            - ref: can_slide_jump
+              has: kick
             - has:
                 kick: 4
             - ref: can_gold_slide_ultra
@@ -474,10 +457,9 @@ regions:
           or:
             - has:
                 cling: 2
-            - and:
-                - ref: can_slide_jump
-                - has:
-                    kick_or_plunge: 2
+            - ref: can_slide_jump
+              has:
+                kick_or_plunge: 2
             - has:
                 kick: 4
               tags:
@@ -548,19 +530,18 @@ regions:
     exits:
       - region: Library Back
         rule:
-          and:
-            - ref: can_attack
-            - or:
-                - has:
-                    cling: 2
-                - has:
-                    kick: 2
-                - has: kick
-                  tags:
-                    logic_level: hard
-                - has: slide
-                  tags:
-                    logic_level: expert
+          ref: can_attack
+          or:
+            - has:
+                cling: 2
+            - has:
+                kick: 2
+            - has: kick
+              tags:
+                logic_level: hard
+            - has: slide
+              tags:
+                logic_level: expert
   - name: Library Top
     exits:
       - region: Library Back
@@ -572,10 +553,9 @@ regions:
             - has:
                 kick: 3
                 plunge: 1
-            - and:
-                - has:
-                    kick: 3
-                - ref: can_bounce
+            - has:
+                kick: 3
+              ref: can_bounce
             - has:
                 cling: 2
               tags:
@@ -584,32 +564,29 @@ regions:
                 kick: 3
               tags:
                 logic_level: hard
-            - and:
-                - has:
-                    kick: 2
-                    plunge: 1
-                - ref: can_bounce
+            - has:
+                kick: 2
+                plunge: 1
+              ref: can_bounce
               tags:
                 logic_level: hard
             - has:
                 kick: 2
               tags:
                 logic_level: expert
-            - and:
-                - ref: can_bounce
-                - has: [kick, plunge]
+            - ref: can_bounce
+              has: [kick, plunge]
               tags:
                 logic_level: lunatic
   - name: Library Back
     exits:
       - region: Library Greaves
         rule:
-          and:
-            - ref: can_attack
-            - or:
-                - has:
-                    cling: 2
-                - has: kick
+          ref: can_attack
+          or:
+            - has:
+                cling: 2
+            - has: kick
       - region: Library Top
         rule:
           or:
@@ -660,29 +637,26 @@ regions:
       - region: Keep Throne Room
         rule:
           or:
-            - and:
+            - has:
+                breaker: 1
+                cling: 6
+              or:
+                - has: [plunge, kick]
+                - has: [plunge, light]
+                - has: [kick, light]
+            - ref: can_bounce
+              has:
+                kick_or_plunge: 4
+            - has:
+                breaker: 1
+                cling: 6
+              or:
+                - has: plunge
                 - has:
-                    breaker: 1
-                    cling: 6
-                - or:
-                    - has: [plunge, kick]
-                    - has: [plunge, light]
-                    - has: [kick, light]
-            - and:
-                - ref: can_bounce
-                - has:
-                    kick_or_plunge: 4
-            - and:
-                - has:
-                    breaker: 1
-                    cling: 6
-                - or:
-                    - has: plunge
-                    - has:
-                        kick: 2
-                    - has: kick
-                      tags:
-                        old_obscure: advanced
+                    kick: 2
+                - has: kick
+                  tags:
+                    old_obscure: advanced
               tags:
                 logic_level: hard
             - has:
@@ -691,10 +665,9 @@ regions:
                 kick: 4
               tags:
                 logic_level: hard
-            - and:
-                - ref: can_bounce
-                - has:
-                    kick: 3
+            - ref: can_bounce
+              has:
+                kick: 3
               tags:
                 logic_level: hard
             - has:
@@ -714,10 +687,9 @@ regions:
                 slide: 1
               tags:
                 logic_level: expert
-            - and:
-                - has:
-                    kick_or_plunge: 3
-                - ref: can_bounce
+            - has:
+                kick_or_plunge: 3
+              ref: can_bounce
               tags:
                 logic_level: expert
             - has:
@@ -738,11 +710,11 @@ regions:
                 cling: 2
               tags:
                 logic_level: lunatic
-            - and:
-                - ref: can_gold_ultra
-                - ref: can_bounce
-                - ref: can_soul_cutter
-                - has: [kick, plunge]
+            - ref:
+                - can_gold_ultra
+                - can_bounce
+                - can_soul_cutter
+              has: [kick, plunge]
               tags:
                 logic_level: lunatic
       - region: Keep => Underbelly
@@ -802,9 +774,8 @@ regions:
       - region: Bailey Upper
         rule:
           or:
-            - and:
-                - has: slide
-                - ref: can_attack
+            - has: slide
+              ref: can_attack
             - has:
                 kick: 2
             - has: kick
@@ -838,9 +809,8 @@ regions:
                 - or:
                     - has:
                         kick_or_plunge: 4
-                    - and:
-                        - has: [kick, plunge]
-                        - ref: can_bounce
+                    - has: [kick, plunge]
+                      ref: can_bounce
                       options:
                         game_version: map_patch
                 - or: # get onto the bridge
@@ -852,28 +822,25 @@ regions:
                 kick_or_plunge: 3
               tags:
                 logic_level: hard
-            - and:
-                - has:
-                    kick: 2
-                - ref: can_bounce
+            - has:
+                kick: 2
+              ref: can_bounce
               tags:
                 logic_level: hard
               options:
                 game_version: map_patch
-            - and:
-                - has: slide
-                - or:
-                    - ref: can_bounce
-                    - has: kick
-                    - has:
-                        cling: 2
-                    - options:
-                        game_version: full_gold
+            - has: slide
+              or:
+                - ref: can_bounce
+                - has: kick
+                - has:
+                    cling: 2
+                - options:
+                    game_version: full_gold
               tags:
                 logic_level: expert
-            - and:
-                - ref: can_slide_jump
-                - has: plunge
+            - ref: can_slide_jump
+              has: plunge
               tags:
                 logic_level: lunatic
               options:
@@ -884,15 +851,13 @@ regions:
       - region: The Great Door
         rule:
           or:
-            - and:
-                - ref: can_attack
-                - has:
-                    cling: 2
-                    kick_or_plunge: 1
-            - and:
-                - ref: can_attack
-                - has:
-                    cling: 2
+            - ref: can_attack
+              has:
+                cling: 2
+                kick_or_plunge: 1
+            - ref: can_attack
+              has:
+                cling: 2
               tags:
                 logic_level: hard
             - has:
@@ -905,14 +870,12 @@ regions:
                 kick: 2
               tags:
                 logic_level: expert
-            - and:
-                - ref: can_gold_ultra
-                - has: [kick, plunge]
+            - ref: can_gold_ultra
+              has: [kick, plunge]
               tags:
                 logic_level: expert
-            - and:
-                - ref: can_gold_ultra
-                - has: kick
+            - ref: can_gold_ultra
+              has: kick
               tags:
                 logic_level: lunatic
             - has: [slide, kick, plunge]
@@ -939,9 +902,8 @@ regions:
                 kick: 1
             - has:
                 kick: 2
-            - and:
-                - ref: can_slide_jump
-                - has: kick
+            - ref: can_slide_jump
+              has: kick
             - ref: can_attack
               tags:
                 old_obscure: advanced
@@ -966,9 +928,8 @@ regions:
                 kick: 2
               tags:
                 logic_level: expert
-            - and:
-                - ref: can_gold_ultra
-                - has: [kick, plunge]
+            - ref: can_gold_ultra
+              has: [kick, plunge]
               tags:
                 logic_level: expert
             - has:
@@ -988,10 +949,9 @@ regions:
                 kick: 3
               tags:
                 old_obscure: advanced
-            - and:
-                - ref: can_attack
-                - has:
-                    kick: 2
+            - ref: can_attack
+              has:
+                kick: 2
               tags:
                 logic_level: hard
                 old_obscure: advanced
@@ -1004,16 +964,14 @@ regions:
             - has: [plunge, kick]
               tags:
                 logic_level: expert
-            - and:
-                - ref: can_attack
-                - has: slide
+            - ref: can_attack
+              has: slide
               tags:
                 logic_level: expert
-            - and:
-                - ref: can_gold_ultra
-                - has:
-                    kick: 3
-                    cling: 4
+            - ref: can_gold_ultra
+              has:
+                kick: 3
+                cling: 4
               tags:
                 logic_level: expert
   - name: Underbelly Ascendant Light
@@ -1026,9 +984,8 @@ regions:
                 cling: 2
             - has:
                 kick: 2
-            - and:
-                - has: kick
-                - ref: can_slide_jump
+            - has: kick
+              ref: can_slide_jump
             - has: [kick, slide]
               tags:
                 logic_level: expert
@@ -1041,12 +998,11 @@ regions:
       - region: Underbelly Hole
         rule:
           or:
-            - and:
-                - has: plunge
-                - or:
-                    - has: kick
-                    - ref: can_slide_jump
-                    - ref: can_attack
+            - has: plunge
+              or:
+                - has: kick
+                - ref: can_slide_jump
+                - ref: can_attack
             - has:
                 plunge: 1
                 cling: 4
@@ -1097,9 +1053,8 @@ regions:
                 cling: 4
               tags:
                 logic_level: expert
-            - and:
-                - ref: can_gold_slide_ultra
-                - has: [breaker, kick]
+            - ref: can_gold_slide_ultra
+              has: [breaker, kick]
               tags:
                 logic_level: expert
             - has: kick
@@ -1131,9 +1086,8 @@ regions:
               tags:
                 logic_level: hard
                 old_obscure: advanced
-            - and:
-                - has: [kick, plunge]
-                - ref: can_slide_jump
+            - has: [kick, plunge]
+              ref: can_slide_jump
               tags:
                 logic_level: hard
                 old_obscure: advanced
@@ -1153,51 +1107,48 @@ regions:
                 cling: 6
               tags:
                 logic_level: expert
-            - and:
-                - ref: can_gold_ultra
-                - has:
-                    kick_or_plunge: 2
+            - ref: can_gold_ultra
+              has:
+                kick_or_plunge: 2
               tags:
                 logic_level: expert
       - region: Underbelly By Heliacal
         rule:
-          and:
-            - has: breaker
-            - or:
-                - has: [light, kick]
-                - and:
-                    - ref: can_slide_jump
-                    - has:
-                        kick: 3
-                - has:
-                    cling: 2
-                    kick: 2
-                - has: light
-                  tags:
-                    logic_level: hard
-                - has:
-                    cling: 2
-                    kick_or_plunge: 1
-                  tags:
-                    logic_level: hard
-                - has:
-                    kick_or_plunge: 4
-                  tags:
-                    logic_level: hard
-                - tags:
-                    logic_level: hard
-                    old_obscure: advanced
-                  has:
-                    cling: 4
-                - has:
-                    slide: 1
-                    kick: 2
-                  tags:
-                    logic_level: expert
-                - has:
-                    kick: 3
-                  tags:
-                    logic_level: expert
+          has: breaker
+          or:
+            - has: [light, kick]
+            - ref: can_slide_jump
+              has:
+                kick: 3
+            - has:
+                cling: 2
+                kick: 2
+            - has: light
+              tags:
+                logic_level: hard
+            - has:
+                cling: 2
+                kick_or_plunge: 1
+              tags:
+                logic_level: hard
+            - has:
+                kick_or_plunge: 4
+              tags:
+                logic_level: hard
+            - tags:
+                logic_level: hard
+                old_obscure: advanced
+              has:
+                cling: 4
+            - has:
+                slide: 1
+                kick: 2
+              tags:
+                logic_level: expert
+            - has:
+                kick: 3
+              tags:
+                logic_level: expert
   - name: Underbelly By Heliacal
     exits:
       - region: Underbelly Main Upper
@@ -1249,9 +1200,8 @@ regions:
                 kick: 3
               tags:
                 logic_level: hard
-            - and:
-                - ref: can_slide_jump
-                - has: kick
+            - ref: can_slide_jump
+              has: kick
               tags:
                 logic_level: hard
       - region: Underbelly Main Lower
@@ -1277,17 +1227,14 @@ regions:
       - region: Underbelly Main Lower
         rule:
           or:
-            - and:
-                - has: plunge
-                - or:
-                    - ref: can_attack
-                    - and:
-                        - ref: can_slide_jump
-                        - has:
-                            cling: 2
-                    - and:
-                        - ref: can_slide_jump
-                        - has: kick
+            - has: plunge
+              or:
+                - ref: can_attack
+                - ref: can_slide_jump
+                  has:
+                    cling: 2
+                - ref: can_slide_jump
+                  has: kick
             - has: [plunge, kick]
               tags:
                 logic_level: hard
@@ -1317,9 +1264,8 @@ regions:
           or:
             - has:
                 kick: 2
-            - and:
-                - has: kick
-                - ref: can_slide_jump
+            - has: kick
+              ref: can_slide_jump
             - has:
                 cling: 2
             - has: [kick, plunge]
@@ -1343,9 +1289,8 @@ regions:
       - region: Theatre Pillar
         rule:
           or:
-            - and:
-                - has: kick
-                - ref: can_bounce
+            - has: kick
+              ref: can_bounce
             - has: plunge
               tags:
                 old_obscure: advanced
@@ -1393,10 +1338,9 @@ regions:
             - has:
                 plunge: 1
                 kick: 3
-            - and:
-                - ref: can_slide_jump
-                - has:
-                    kick_or_plunge: 3
+            - ref: can_slide_jump
+              has:
+                kick_or_plunge: 3
               tags:
                 logic_level: hard
             - has:
@@ -1418,30 +1362,28 @@ regions:
             - has:
                 cling: 6
                 kick_or_plunge: 3
-            - and:
-                - has:
-                    cling: 6
-                - ref: can_slide_jump
+            - has:
+                cling: 6
+              ref: can_slide_jump
             - has:
                 cling: 4
               tags:
                 logic_level: hard
       - region: Dungeon Escape Upper
         rule:
-          and:
-            - ref: can_enter_dark_rooms
-            - or:
-                - ref: can_bounce
-                - has: kick
-                - has:
-                    cling: 2
-                - ref: can_slide_jump
-                - has: plunge
-                  tags:
-                    old_obscure: advanced
-                - has: slide
-                  tags:
-                    logic_level: expert
+          ref: can_enter_dark_rooms
+          or:
+            - ref: can_bounce
+            - has: kick
+            - has:
+                cling: 2
+            - ref: can_slide_jump
+            - has: plunge
+              tags:
+                old_obscure: advanced
+            - has: slide
+              tags:
+                logic_level: expert
       - region: Keep Main
         rule:
           or:
@@ -1562,34 +1504,27 @@ locations:
     region: Dungeon Escape Upper
     rule:
       or:
-        - and:
-            - has:
-                cling: 2
-            - ref: can_bounce
+        - has:
+            cling: 2
+          ref: can_bounce
         - has:
             cling: 2
             kick_or_plunge: 3
-        - and:
-            - has:
-                kick: 2
-            - ref: can_bounce
-        - and:
-            - ref: can_slide_jump
-            - ref: can_bounce
-            - has: kick
+        - has:
+            kick: 2
+          ref: can_bounce
+        - ref: [can_slide_jump, can_bounce]
+          has: kick
         - has:
             cling: 6
           tags:
             logic_level: hard
-        - and:
-            - has: kick
-            - ref: can_bounce
+        - has: kick
+          ref: can_bounce
           tags:
             logic_level: hard
-        - and:
-            - ref: can_slide_jump
-            - has: plunge
-            - ref: can_bounce
+        - ref: [can_slide_jump, can_bounce]
+          has: plunge
           tags:
             logic_level: hard
         - has:
@@ -1597,14 +1532,12 @@ locations:
             plunge: 1
           tags:
             logic_level: hard
-        - and:
-            - ref: can_gold_slide_ultra
-            - has: kick
+        - ref: can_gold_slide_ultra
+          has: kick
           tags:
             logic_level: expert
-        - and:
-            - has: slide
-            - ref: can_bounce
+        - has: slide
+          ref: can_bounce
           tags:
             logic_level: expert
         - has:
@@ -1622,10 +1555,9 @@ locations:
             kick_or_plunge: 1
         - has:
             kick: 3
-        - and:
-            - ref: can_slide_jump
-            - has:
-                kick: 2
+        - ref: can_slide_jump
+          has:
+            kick: 2
           tags:
             old_obscure: advanced
         - has:
@@ -1636,9 +1568,8 @@ locations:
             kick: 2
           tags:
             logic_level: hard
-        - and:
-            - ref: can_slide_jump
-            - has: kick
+        - ref: can_slide_jump
+          has: kick
           tags:
             logic_level: hard
             old_obscure: advanced
@@ -1658,9 +1589,8 @@ locations:
       or:
         - has:
             kick_or_plunge: 3
-        - and:
-            - ref: can_bounce
-            - has: plunge
+        - ref: can_bounce
+          has: plunge
           tags:
             old_obscure: advanced
         - has:
@@ -1670,24 +1600,21 @@ locations:
         - has: [kick, plunge]
           tags:
             logic_level: hard
-        - and:
-            - has: kick
-            - ref: can_bounce
+        - has: kick
+          ref: can_bounce
           tags:
             logic_level: hard
         - has:
             kick_or_plunge: 2
           tags:
             logic_level: expert
-        - and:
-            - ref: can_gold_ultra
-            - has: kick_or_plunge
+        - ref: can_gold_ultra
+          has: kick_or_plunge
           tags:
             logic_level: expert
-        - and:
-            - ref: can_bounce
-            - has:
-                cling: 2
+        - ref: can_bounce
+          has:
+            cling: 2
           tags:
             logic_level: expert
         - ref: can_gold_ultra
@@ -1772,13 +1699,11 @@ locations:
             cling: 2
         - has:
             kick_or_plunge: 3
-        - and:
-            - ref: can_slide_jump
-            - has:
-                kick_or_plunge: 2
-        - and:
-            - ref: can_slide_jump
-            - has: kick
+        - ref: can_slide_jump
+          has:
+            kick_or_plunge: 2
+        - ref: can_slide_jump
+          has: kick
           tags:
             logic_level: hard
         - has:
@@ -1809,9 +1734,8 @@ locations:
             slide: 1
           tags:
             logic_level: expert
-        - and:
-            - ref: can_gold_slide_ultra
-            - has: kick
+        - ref: can_gold_slide_ultra
+          has: kick
           tags:
             logic_level: lunatic
         - has: [slide, kick, plunge]
@@ -1822,18 +1746,15 @@ locations:
     region: Castle Main
     rule:
       or:
-        - and:
-            - ref: can_bounce
-            - has: plunge
-        - and:
-            - ref: can_bounce
-            - has:
-                kick: 2
+        - ref: can_bounce
+          has: plunge
+        - ref: can_bounce
+          has:
+            kick: 2
         - has:
             kick: 4
-        - and:
-            - ref: can_bounce
-            - has: kick
+        - ref: can_bounce
+          has: kick
           tags:
             old_obscure: advanced
         - has:
@@ -1849,14 +1770,12 @@ locations:
             cling: 4
           tags:
             logic_level: hard
-        - and:
-            - ref: can_bounce
-            - has: slide
+        - ref: can_bounce
+          has: slide
           tags:
             logic_level: expert
-        - and:
-            - ref: can_gold_ultra
-            - has: kick
+        - ref: can_gold_ultra
+          has: kick
           tags:
             logic_level: expert
         - has:
@@ -1918,12 +1837,11 @@ locations:
         - has: kick
           tags:
             logic_level: hard
-        - tags:
+        - ref: can_slide_jump
+          has: plunge
+          tags:
             logic_level: hard
             old_obscure: advanced
-          and:
-            - ref: can_slide_jump
-            - has: plunge
         - ref: can_gold_ultra
           tags:
             logic_level: expert
@@ -1937,18 +1855,16 @@ locations:
             cling: 2
         - has:
             kick: 2
-        - and:
-            - has: kick
-            - ref: can_slide_jump
+        - has: kick
+          ref: can_slide_jump
         - has: plunge
           tags:
             old_obscure: advanced
         - has: kick
           tags:
             logic_level: hard
-        - and:
-            - ref: can_slide_jump
-            - has: plunge
+        - ref: can_slide_jump
+          has: plunge
           tags:
             logic_level: hard
         - has: kick_or_plunge
@@ -1967,21 +1883,18 @@ locations:
         - has:
             cling: 2
             plunge: 1
-        - and:
-            - has: kick
-            - ref: can_attack
+        - has: kick
+          ref: can_attack
         - has:
             cling: 6
           tags:
             logic_level: hard
-        - and:
-            - has: plunge
-            - ref: can_slide_jump
+        - has: plunge
+          ref: can_slide_jump
           tags:
             logic_level: hard
-        - and:
-            - ref: can_attack
-            - has: kick
+        - ref: can_attack
+          has: kick
           tags:
             logic_level: expert
         - has:
@@ -2024,9 +1937,8 @@ locations:
         - has: [slide, kick]
           tags:
             logic_level: expert
-        - and:
-            - ref: can_gold_ultra
-            - has: plunge
+        - ref: can_gold_ultra
+          has: plunge
           tags:
             logic_level: expert
   - name: Castle Sansa - Near Theatre Front
@@ -2132,24 +2044,23 @@ locations:
     code: 27
     region: Library Top
     rule:
-      and:
-        - ref: can_attack
-        - or:
-            - has:
-                cling: 2
-                kick_or_plunge: 1
-            - has:
-                kick_or_plunge: 2
-            - has:
-                cling: 4
-              tags:
-                logic_level: hard
-            - has: slide
-              tags:
-                logic_level: expert
-            - has: plunge
-              tags:
-                logic_level: lunatic
+      ref: can_attack
+      or:
+        - has:
+            cling: 2
+            kick_or_plunge: 1
+        - has:
+            kick_or_plunge: 2
+        - has:
+            cling: 4
+          tags:
+            logic_level: hard
+        - has: slide
+          tags:
+            logic_level: expert
+        - has: plunge
+          tags:
+            logic_level: lunatic
   - name: Listless Library - Locked Door Across
     code: 28
     region: Library Locked
@@ -2172,9 +2083,8 @@ locations:
       or:
         - has:
             cling: 2
-        - and:
-            - ref: can_slide_jump
-            - has: kick
+        - ref: can_slide_jump
+          has: kick
         - has:
             kick_or_plunge: 3
         - has:
@@ -2193,19 +2103,18 @@ locations:
     code: 30
     region: Theatre Main
     rule:
-      and:
-        - ref: can_strikebreak
-        - or:
-            - ref: can_bounce
-            - has: kick_or_plunge
-            - has:
-                cling: 2
-            - ref: can_slide_jump
-              tags:
-                logic_level: hard
-            - has: slide
-              tags:
-                logic_level: expert
+      ref: can_strikebreak
+      or:
+        - ref: can_bounce
+        - has: kick_or_plunge
+        - has:
+            cling: 2
+        - ref: can_slide_jump
+          tags:
+            logic_level: hard
+        - has: slide
+          tags:
+            logic_level: expert
   - name: Twilight Theatre - Back Of Auditorium
     code: 31
     region: Theatre Main
@@ -2228,42 +2137,36 @@ locations:
     region: Theatre Main
     rule:
       or:
-        - and:
-            - ref: can_soul_cutter
-            - ref: can_slide_jump
-            - has:
-                cling: 6
-                plunge: 1
-        - and:
-            - ref: can_soul_cutter
-            - ref: can_slide_jump
-            - has:
-                cling: 6
-                kick: 1
+        - ref: [can_soul_cutter, can_slide_jump]
+          has:
+            cling: 6
+            plunge: 1
+        - ref: [can_soul_cutter, can_slide_jump]
+          has:
+            cling: 6
+            kick: 1
           tags:
             logic_level: hard
-        - and:
-            - ref: can_soul_cutter
-            - has:
-                cling: 4
+        - ref: can_soul_cutter
+          has:
+            cling: 4
           tags:
             logic_level: expert
   - name: Twilight Theatre - Locked Door
     code: 33
     region: Theatre Main
     rule:
-      and:
-        - ref: can_unlock_door
-        - or:
-            - ref: can_bounce
-            - has: kick
-            - has:
-                cling: 4
-              tags:
-                logic_level: hard
-            - has: slide
-              tags:
-                logic_level: expert
+      ref: can_unlock_door
+      or:
+        - ref: can_bounce
+        - has: kick
+        - has:
+            cling: 4
+          tags:
+            logic_level: hard
+        - has: slide
+          tags:
+            logic_level: expert
   - name: Twilight Theatre - Tucked Behind Boxes
     code: 34
     region: Theatre Main
@@ -2287,10 +2190,9 @@ locations:
             kick_or_plunge: 1
           tags:
             logic_level: hard
-        - and:
-            - has:
-                cling: 2
-            - ref: can_slide_jump
+        - has:
+            cling: 2
+          ref: can_slide_jump
           tags:
             logic_level: hard
         - has:
@@ -2358,21 +2260,19 @@ locations:
     region: Bailey Lower
     rule:
       or:
-        - and:
-            - can_reach_region: Bailey Upper
-            - or:
-                - has:
-                    cling: 2
-                - has:
-                    kick: 3
-                - tags:
-                    old_obscure: advanced
-        - and:
-            - has: breaker
-            - or:
-                - has: plunge
-                - has:
-                    kick: 2
+        - can_reach_region: Bailey Upper
+          or:
+            - has:
+                cling: 2
+            - has:
+                kick: 3
+            - tags:
+                old_obscure: advanced
+        - has: breaker
+          or:
+            - has: plunge
+            - has:
+                kick: 2
   - name: Empty Bailey - Inside Building
     code: 40
     region: Bailey Lower
@@ -2392,18 +2292,16 @@ locations:
             cling: 2
         - has:
             kick: 4
-        - and:
-            - has:
-                kick: 3
-            - ref: can_slide_jump
+        - has:
+            kick: 3
+          ref: can_slide_jump
         - has:
             kick: 3
           tags:
             logic_level: hard
-        - and:
-            - has:
-                kick: 2
-            - ref: can_slide_jump
+        - has:
+            kick: 2
+          ref: can_slide_jump
           tags:
             logic_level: hard
         - has: [kick, slide]
@@ -2438,9 +2336,8 @@ locations:
     rule:
       or:
         - has: plunge
-        - and:
-            - ref: can_slide_jump
-            - has: kick
+        - ref: can_slide_jump
+          has: kick
         - has:
             cling: 2
           tags:
@@ -2481,56 +2378,51 @@ locations:
     code: 47
     region: Underbelly Main Upper
     rule:
-      and:
-        - ref: can_strikebreak
-        - or:
-            - and:
-                - ref: can_bounce
-                - has: kick_or_plunge
-            - ref: can_bounce
-              tags:
-                logic_level: hard
-            - has:
-                kick_or_plunge: 3
-              tags:
-                logic_level: hard
-            - has: [kick, plunge]
-              tags:
-                logic_level: expert
-            - has:
-                slide: 1
-                kick: 2
-              tags:
-                logic_level: expert
-            - and:
-                - ref: can_gold_ultra
-                - has:
-                    cling: 2
-              tags:
-                logic_level: expert
+      ref: can_strikebreak
+      or:
+        - ref: can_bounce
+          has: kick_or_plunge
+        - ref: can_bounce
+          tags:
+            logic_level: hard
+        - has:
+            kick_or_plunge: 3
+          tags:
+            logic_level: hard
+        - has: [kick, plunge]
+          tags:
+            logic_level: expert
+        - has:
+            slide: 1
+            kick: 2
+          tags:
+            logic_level: expert
+        - ref: can_gold_ultra
+          has:
+            cling: 2
+          tags:
+            logic_level: expert
   - name: The Underbelly - Surrounded By Holes
     code: 48
     region: Underbelly Hole
     rule:
       or:
-        - and:
-            - ref: can_soul_cutter
-            - has: plunge
-            - or:
-                - ref: can_bounce
-                - has:
-                    kick: 2
-                - has: kick
-                  tags:
-                    old_obscure: advanced
+        - ref: can_soul_cutter
+          has: plunge
+          or:
+            - ref: can_bounce
+            - has:
+                kick: 2
+            - has: kick
+              tags:
+                old_obscure: advanced
         - has:
             plunge: 1
             cling: 6
           tags:
             logic_level: hard
-        - and:
-            - ref: can_soul_cutter
-            - has: slide
+        - ref: can_soul_cutter
+          has: slide
           tags:
             logic_level: expert
         - has: [slide, kick, plunge]
@@ -2574,13 +2466,12 @@ locations:
     code: 54
     region: Dungeon Mirror
     rule:
-      and:
-        - has:
-            breaker: 1
-            plunge: 1
-            kick: 3
-            cling: 6
-        - ref: can_slide_jump
+      has:
+        breaker: 1
+        plunge: 1
+        kick: 3
+        cling: 6
+      ref: can_slide_jump
     can_create:
       game_version: map_patch
       randomize_time_trials: true
@@ -2596,13 +2487,11 @@ locations:
     code: 56
     region: Keep Throne Room
     rule:
-      and:
-        - has:
-            plunge: 1
-            kick: 3
-            cling: 6
-        - ref: can_slide_jump
-        - ref: can_bounce
+      has:
+        plunge: 1
+        kick: 3
+        cling: 6
+      ref: [can_slide_jump, can_bounce]
     can_create:
       game_version: map_patch
       randomize_time_trials: true
@@ -2621,13 +2510,12 @@ locations:
     code: 58
     region: Theatre Pillar
     rule:
-      and:
-        - has:
-            breaker: 1
-            plunge: 1
-            kick: 3
-            cling: 6
-        - ref: can_slide_jump
+      has:
+        breaker: 1
+        plunge: 1
+        kick: 3
+        cling: 6
+      ref: can_slide_jump
     can_create:
       game_version: map_patch
       randomize_time_trials: true
@@ -2635,13 +2523,12 @@ locations:
     code: 59
     region: Bailey Upper
     rule:
-      and:
-        - has:
-            breaker: 1
-            plunge: 1
-            kick: 3
-            cling: 6
-        - ref: can_slide_jump
+      has:
+        breaker: 1
+        plunge: 1
+        kick: 3
+        cling: 6
+      ref: can_slide_jump
     can_create:
       game_version: map_patch
       randomize_time_trials: true
@@ -2649,13 +2536,12 @@ locations:
     code: 60
     region: Underbelly Main Upper
     rule:
-      and:
-        - has:
-            breaker: 1
-            plunge: 1
-            kick: 3
-            cling: 6
-        - ref: can_slide_jump
+      has:
+        breaker: 1
+        plunge: 1
+        kick: 3
+        cling: 6
+      ref: can_slide_jump
     can_create:
       game_version: map_patch
       randomize_time_trials: true
@@ -2663,13 +2549,12 @@ locations:
     code: 61
     region: The Great Door
     rule:
-      and:
-        - has:
-            breaker: 1
-            plunge: 1
-            kick: 3
-            cling: 6
-        - ref: can_slide_jump
+      has:
+        breaker: 1
+        plunge: 1
+        kick: 3
+        cling: 6
+      ref: can_slide_jump
     can_create:
       game_version: map_patch
       randomize_time_trials: true
@@ -2746,16 +2631,15 @@ locations:
       or:
         - has:
             kick: 2
-        - and:
-            - has: plunge
-            - or:
-                - has:
-                    cling: 2
-                - has: kick
-                - ref: can_bounce
-                - ref: can_slide_jump
-                - tags:
-                    old_obscure: advanced
+        - has: plunge
+          or:
+            - has:
+                cling: 2
+            - has: kick
+            - ref: can_bounce
+            - ref: can_slide_jump
+            - tags:
+                old_obscure: advanced
         - has: kick
           tags:
             logic_level: hard
@@ -2827,9 +2711,8 @@ locations:
         - has: [kick, plunge]
           tags:
             old_obscure: advanced
-        - and:
-            - has: kick
-            - ref: can_slide_jump
+        - has: kick
+          ref: can_slide_jump
         - has:
             cling: 2
         - has: kick
@@ -2932,29 +2815,25 @@ locations:
     code: 100
     region: Theatre Main
     rule:
-      and:
-        - ref: can_soul_cutter
-        - or:
-            - has: kick
-            - has:
-                cling: 2
-            - and:
-                - ref: can_slide_jump
-                - has: plunge
-              tags:
-                old_obscure: advanced
-            - and:
-                - ref: can_slide_jump
-                - ref: can_bounce
-              tags:
-                old_obscure: advanced
-            - ref: can_slide_jump
-              tags:
-                logic_level: hard
-                old_obscure: advanced
-            - has: slide
-              tags:
-                logic_level: expert
+      ref: can_soul_cutter
+      or:
+        - has: kick
+        - has:
+            cling: 2
+        - ref: can_slide_jump
+          has: plunge
+          tags:
+            old_obscure: advanced
+        - ref: [can_slide_jump, can_bounce]
+          tags:
+            old_obscure: advanced
+        - ref: can_slide_jump
+          tags:
+            logic_level: hard
+            old_obscure: advanced
+        - has: slide
+          tags:
+            logic_level: expert
     can_create:
       randomize_chairs: true
 
@@ -3055,10 +2934,9 @@ locations:
         - has:
             kick: 4
             plunge: 1
-        - and:
-            - has:
-                kick: 2
-            - ref: can_slide_jump
+        - has:
+            kick: 2
+          ref: can_slide_jump
         - has:
             kick_or_plunge: 2
           tags:

@@ -31,23 +31,32 @@ class PseudoregaliaRule(Rule[PseudoregaliaWorld], game="Pseudoregalia"):
             if rule_data.tags is not None else None
         self.option_data = rule_data.options
 
+        clauses: list[Rule] = []
         if rule_data.and_ is not None:
-            self.rule = And(*(PseudoregaliaRule(child_rule_data, ref_rules) for child_rule_data in rule_data.and_))
-        elif rule_data.or_ is not None:
-            self.rule = Or(*(PseudoregaliaRule(child_rule_data, ref_rules) for child_rule_data in rule_data.or_))
-        elif rule_data.has is not None:
+            clauses.extend(PseudoregaliaRule(child_rule_data, ref_rules) for child_rule_data in rule_data.and_)
+        if rule_data.or_ is not None:
+            clauses.append(Or(*(PseudoregaliaRule(child_rule_data, ref_rules) for child_rule_data in rule_data.or_)))
+        if rule_data.has is not None:
             if isinstance(rule_data.has, str):
-                self.rule = Has(rule_data.has)
+                clauses.append(Has(rule_data.has))
             elif isinstance(rule_data.has, list):
-                self.rule = HasAll(*rule_data.has)
+                clauses.append(HasAll(*rule_data.has))
             else:
-                self.rule = HasAllCounts(rule_data.has)
-        elif rule_data.can_reach_region is not None:
-            self.rule = CanReachRegion(rule_data.can_reach_region)
-        elif rule_data.ref is not None:
-            self.rule = ref_rules[rule_data.ref]
-        else:
+                clauses.append(HasAllCounts(rule_data.has))
+        if rule_data.can_reach_region is not None:
+            clauses.append(CanReachRegion(rule_data.can_reach_region))
+        if rule_data.ref is not None:
+            if isinstance(rule_data.ref, list):
+                clauses.extend(ref_rules[ref] for ref in rule_data.ref)
+            else:
+                clauses.append(ref_rules[rule_data.ref])
+
+        if len(clauses) == 0:
             self.rule = True_()
+        elif len(clauses) == 1:
+            self.rule = clauses[0]
+        else:
+            self.rule = And(*clauses)
 
     @override
     def _instantiate(self, world: PseudoregaliaWorld) -> Rule.Resolved:

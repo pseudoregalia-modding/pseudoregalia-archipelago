@@ -169,6 +169,21 @@ class TestValidationRefRules(PseudoValidationBase):
             """,
             expected_errors=1,
         ),
+        "ref rule referenced before definition in list": PseudoValidationBase.Case(
+            data="""
+            ref_rules:
+              - name: grandparent_rule
+                rule: {}
+              - name: parent_rule
+                rule:
+                  ref:
+                    - grandparent_rule
+                    - child_rule
+              - name: child_rule
+                rule: {}
+            """,
+            expected_errors=1,
+        ),
         "ref rule references itself": PseudoValidationBase.Case(
             data="""
             ref_rules:
@@ -413,17 +428,7 @@ class TestValidationLocations(PseudoValidationBase):
 
 class TestValidationCompletionRule(PseudoValidationBase):
     cases = {
-        "has and and both defined": PseudoValidationBase.Case(
-            data="""
-            completion_rule:
-              and:
-                - has: Slide
-                - has: Solar Wind
-              has: Sunsetter
-            """,
-            expected_errors=1,
-        ),
-        "error with an and": PseudoValidationBase.Case(
+        "error within and": PseudoValidationBase.Case(
             data="""
             completion_rule:
               and:
@@ -431,7 +436,7 @@ class TestValidationCompletionRule(PseudoValidationBase):
             """,
             expected_errors=1,
         ),
-        "error with an or": PseudoValidationBase.Case(
+        "error within or": PseudoValidationBase.Case(
             data="""
             completion_rule:
               or:
@@ -496,6 +501,16 @@ class TestValidationCompletionRule(PseudoValidationBase):
             data="""
             completion_rule:
               ref: unknown_ref
+            """,
+            expected_errors=1,
+        ),
+        "unknown ref rule in list": PseudoValidationBase.Case(
+            data="""
+            ref_rules:
+              - name: real_ref
+                rule: {}
+            completion_rule:
+              ref: [real_ref, unknown_ref]
             """,
             expected_errors=1,
         ),
