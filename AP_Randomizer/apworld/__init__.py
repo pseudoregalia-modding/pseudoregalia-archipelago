@@ -6,7 +6,7 @@ from worlds.AutoWorld import WebWorld, World
 from .constants.difficulties import EXPERT, LUNATIC
 from .constants.versions import FULL_GOLD
 from .items import PseudoregaliaItem, item_groups, item_table
-from .logic import ItemMappingData, player_start_enum, pseudoregalia_data
+from .logic import player_start_enum, pseudoregalia_data
 from .options import PseudoregaliaOptions
 from .rules import check_options, create_rules
 
@@ -83,7 +83,7 @@ class PseudoregaliaWorld(World):
                 return {mapping[index]: 1}
         elif not mapping.first_only or state.count(item.name, self.player) == 0:
             count = mapping.count if mapping.count is not None else 1
-            return {name: count for name in mapping.names}
+            return dict.fromkeys(mapping.names, count)
         return {}
 
     def create_key_hints(self) -> Any:

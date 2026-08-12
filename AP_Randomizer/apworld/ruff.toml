@@ -18,5 +18,6 @@ ignore = [
 
 
     "RUF012",  # annoying to manage all the mutable classvars required in ap
+    "RET505",  # in no way is the visual distinction that they are exclusive elifs worse performance or something
 #    "I001",  # import sorting, just annoying to see while fixing other things
 ]
