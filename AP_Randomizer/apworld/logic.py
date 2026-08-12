@@ -12,7 +12,7 @@ class PseudoregaliaData:
     """
     Defines how to map progression items to pseudo items in world collect and remove functions. All keys must match the
     name of a progression item.
-    
+
     A str value is a simple mapping, so one of this item maps to one of the pseudo item.
     A list[str] value is for progressive items: the first of this item maps to the pseudo item at index 0, the second
       maps to the pseudo item at index 1, etc.
@@ -24,7 +24,7 @@ class PseudoregaliaData:
     tag_groups: list[TagGroupData]
     """
     Defines groups that bundle tags together to help make customization simpler.
-    
+
     Entries in this list can contain tags as well as other tag groups as children. Child relationships should not form
     cycles, so groups should only reference other groups as children that are defined above them in the list. In other
     words, this list should be sorted from less general to more general.
@@ -32,7 +32,7 @@ class PseudoregaliaData:
     ref_rules: list[RefRuleData]
     """
     Defines some common rules that can be referenced in any other rule.
-    
+
     Entries in this list can even reference each other, but they should not form cycles. To validate this, references in
     this list can only refer to rules defined above them.
     """
@@ -154,7 +154,7 @@ class RuleData:
     has: str | list[str] | dict[str, int] | None
     """
     Maps to the Has, HasAll, or HasAllCounts RuleBuilder objects depending on the type.
-    
+
     All string values in this type must be the name of a progression item or a pseudo item defined in item_mapping.
     """
     can_reach_region: str | None

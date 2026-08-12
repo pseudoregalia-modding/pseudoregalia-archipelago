@@ -21,10 +21,10 @@ class Validator:
         """
         Manages the path for validation errors. Keeping track of the path helps to describe exactly where in the data
         the error occured.
-        
+
         Context type `"start"` should be used only at the start of validation. Context type `"key"` should be used when
         descending into an object. Context type `"index"` should be used when descending into an array.
-        
+
         If `context_type="key"` and `key=None` or if `context_type="index"`, the first argument after the validator will
         be added to the path and should be a `str` or `int` respectively.
         """

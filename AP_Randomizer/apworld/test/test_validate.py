@@ -139,7 +139,7 @@ class TestValidationTagGroups(PseudoValidationBase):
                 children: [tag_group_2]
               - name: tag_group_2
                 description: another tag group
-                children: [tag]            
+                children: [tag]
             """,
             expected_errors=1,
         ),
