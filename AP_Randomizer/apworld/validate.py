@@ -1,12 +1,26 @@
 from __future__ import annotations
+
 from typing import Literal
 
 from BaseClasses import ItemClassification
 from Options import Choice, Toggle
 
 from .items import item_table
-from .logic import Enums, ExitData, ItemMappingData, LocationData, OptionData, PseudoregaliaData, RefRuleData, \
-    RegionData, RuleData, SpawnPointData, TagGroupData, TagData, TagLevel
+from .logic import (
+    Enums,
+    ExitData,
+    ItemMappingData,
+    LocationData,
+    OptionData,
+    PseudoregaliaData,
+    RefRuleData,
+    RegionData,
+    RuleData,
+    SpawnPointData,
+    TagData,
+    TagGroupData,
+    TagLevel,
+)
 from .options import PseudoregaliaOptions
 from .rules import create_entrance_name
 
@@ -16,15 +30,16 @@ from .rules import create_entrance_name
 # escape quotes?? probably not necessary but would be "correct"
 # r"^[a-zA-Z_][a-zA-Z0-9_]*$"u
 
+
 class Validator:
     def validation_context(*, context_type: Literal["start", "key", "index"], key: str | None = None):
         """
         Manages the path for validation errors. Keeping track of the path helps to describe exactly where in the data
         the error occured.
-        
+
         Context type `"start"` should be used only at the start of validation. Context type `"key"` should be used when
         descending into an object. Context type `"index"` should be used when descending into an array.
-        
+
         If `context_type="key"` and `key=None` or if `context_type="index"`, the first argument after the validator will
         be added to the path and should be a `str` or `int` respectively.
         """
@@ -229,7 +244,7 @@ class Validator:
     @validation_context(context_type="index")
     def validate_region_exit(self, index: int, region_name: str, exit_data: ExitData):
         self.validate_region_exit_region(exit_data.region)
-        entrance_name = create_entrance_name(region_name, exit_data.region, exit_data.entrance_name)            
+        entrance_name = create_entrance_name(region_name, exit_data.region, exit_data.entrance_name)
         self.validate_region_exit_entrance_name(entrance_name)
         if exit_data.rule is not None:
             self.validate_rule(exit_data.rule)

@@ -1,10 +1,13 @@
 from __future__ import annotations
-from dataclasses import dataclass
+
 import pkgutil
+from dataclasses import dataclass
 from typing import Any, Literal, TypeAlias
+
 import yaml
 
 from .dacite import Config, from_dict
+
 
 @dataclass
 class PseudoregaliaData:
@@ -12,7 +15,7 @@ class PseudoregaliaData:
     """
     Defines how to map progression items to pseudo items in world collect and remove functions. All keys must match the
     name of a progression item.
-    
+
     A str value is a simple mapping, so one of this item maps to one of the pseudo item.
     A list[str] value is for progressive items: the first of this item maps to the pseudo item at index 0, the second
       maps to the pseudo item at index 1, etc.
@@ -24,7 +27,7 @@ class PseudoregaliaData:
     tag_groups: list[TagGroupData]
     """
     Defines groups that bundle tags together to help make customization simpler.
-    
+
     Entries in this list can contain tags as well as other tag groups as children. Child relationships should not form
     cycles, so groups should only reference other groups as children that are defined above them in the list. In other
     words, this list should be sorted from less general to more general.
@@ -32,7 +35,7 @@ class PseudoregaliaData:
     ref_rules: list[RefRuleData]
     """
     Defines some common rules that can be referenced in any other rule.
-    
+
     Entries in this list can even reference each other, but they should not form cycles. To validate this, references in
     this list can only refer to rules defined above them.
     """
@@ -50,6 +53,7 @@ class PseudoregaliaData:
     completion_rule: RuleData
     """Defines the completion condition for the world."""
 
+
 @dataclass
 class ItemMappingData:
     names: list[str]
@@ -58,6 +62,7 @@ class ItemMappingData:
     """The amount of the pseudo item that one of this item maps to. None defaults to 1."""
     first_only: bool | None
     """Whether only the first of the item contributes to the pseudo item. None defaults to False."""
+
 
 @dataclass
 class TagData:
@@ -80,6 +85,7 @@ class TagData:
     lunatic: str | None
     """Description for what the tag does at logic level 4."""
 
+
 @dataclass
 class TagGroupData:
     name: str
@@ -89,10 +95,12 @@ class TagGroupData:
     children: list[str]
     """A list of tags and tag groups that are children of this tag group."""
 
+
 @dataclass
 class RefRuleData:
     name: str
     rule: RuleData
+
 
 @dataclass
 class RegionData:
@@ -101,10 +109,12 @@ class RegionData:
     exits: list[ExitData] | None
     """A list of all entrances starting from this region."""
 
+
 @dataclass
 class Enums:
     player_start: list[str]
     """Lists all player starts in the game, including game start, save points and transitions."""
+
 
 @dataclass
 class SpawnPointData:
@@ -119,6 +129,7 @@ class SpawnPointData:
     Whether this spawn point should be used as the default in the SpawnPoint option. At most one spawn point can be
     marked as default.
     """
+
 
 @dataclass
 class LocationData:
@@ -135,6 +146,7 @@ class LocationData:
     """Provides a set of options to determined whether the location should be created."""
     event_item: str | None
     """Name of the event item to lock to this location. Must reference a progression item with no code."""
+
 
 @dataclass
 class RuleData:
@@ -154,7 +166,7 @@ class RuleData:
     has: str | list[str] | dict[str, int] | None
     """
     Maps to the Has, HasAll, or HasAllCounts RuleBuilder objects depending on the type.
-    
+
     All string values in this type must be the name of a progression item or a pseudo item defined in item_mapping.
     """
     can_reach_region: str | None
@@ -166,7 +178,9 @@ class RuleData:
     options: OptionData | None
     """Provides additional filtering based on other options."""
 
+
 TagLevel: TypeAlias = Literal["advanced", "hard", "expert", "lunatic"]
+
 
 @dataclass
 class ExitData:
@@ -176,6 +190,7 @@ class ExitData:
     """Overrides the default entrance name. If None, the default of '{from} -> {to}' is used."""
     rule: RuleData | None
     """The rule for this entrance."""
+
 
 OptionData: TypeAlias = dict[str, bool | str]
 """

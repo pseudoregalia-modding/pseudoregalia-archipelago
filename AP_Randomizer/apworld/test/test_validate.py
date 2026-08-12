@@ -139,7 +139,7 @@ class TestValidationTagGroups(PseudoValidationBase):
                 children: [tag_group_2]
               - name: tag_group_2
                 description: another tag group
-                children: [tag]            
+                children: [tag]
             """,
             expected_errors=1,
         ),
@@ -407,7 +407,7 @@ class TestValidationLocations(PseudoValidationBase):
                 region: Fake Region
             """,
             expected_errors=1,
-        ),        
+        ),
         "non progression event item": PseudoValidationBase.Case(
             data="""
             regions:
@@ -429,7 +429,7 @@ class TestValidationLocations(PseudoValidationBase):
                 event_item: Slide
             """,
             expected_errors=1,
-        ),        
+        ),
         # TODO: validate checks in location rules?
         # TODO: validate can_create options?
     }

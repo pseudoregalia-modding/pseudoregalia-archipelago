@@ -1,15 +1,14 @@
 from typing import Any
 
-from worlds.AutoWorld import World, WebWorld
-from BaseClasses import Location, Region, CollectionState, Tutorial
+from BaseClasses import CollectionState, Location, Region, Tutorial
+from worlds.AutoWorld import WebWorld, World
 
-from .items import PseudoregaliaItem, item_table, item_groups
-from .options import PseudoregaliaOptions
 from .constants.difficulties import EXPERT, LUNATIC
 from .constants.versions import FULL_GOLD
-from .logic import ItemMappingData, pseudoregalia_data, player_start_enum
-from .rules import create_rules, check_options
-
+from .items import PseudoregaliaItem, item_groups, item_table
+from .logic import player_start_enum, pseudoregalia_data
+from .options import PseudoregaliaOptions
+from .rules import check_options, create_rules
 
 pseudoregalia_rules = create_rules(pseudoregalia_data)
 spawn_point_regions = {player_start_enum[data.player_start]: data.region for data in pseudoregalia_data.spawn_points}
@@ -17,6 +16,7 @@ spawn_point_regions = {player_start_enum[data.player_start]: data.region for dat
 
 class PseudoregaliaLocation(Location):
     game = "Pseudoregalia"
+
 
 zones = (
     "Dilapidated Dungeon",
@@ -51,7 +51,7 @@ class PseudoregaliaWorld(World):
 
     game = "Pseudoregalia"
     required_client_version = (0, 7, 0)
- 
+
     item_name_to_id = {name: data.code for name, data in item_table.items() if data.code is not None}
     location_name_to_id = {data.name: data.code for data in pseudoregalia_data.locations if data.code is not None}
     item_name_groups = item_groups
@@ -83,7 +83,7 @@ class PseudoregaliaWorld(World):
                 return {mapping[index]: 1}
         elif not mapping.first_only or state.count(item.name, self.player) == 0:
             count = mapping.count if mapping.count is not None else 1
-            return {name: count for name in mapping.names}
+            return dict.fromkeys(mapping.names, count)
         return {}
 
     def create_key_hints(self) -> Any:
@@ -157,7 +157,8 @@ class PseudoregaliaWorld(World):
         for region_data in pseudoregalia_data.regions:
             self.multiworld.regions.append(Region(region_data.name, self.player, self.multiworld))
 
-        locations = sorted(pseudoregalia_data.locations, key=lambda loc_data: zones.index(loc_data.name.split(" - ")[0]))
+        locations = sorted(pseudoregalia_data.locations,
+                           key=lambda loc_data: zones.index(loc_data.name.split(" - ")[0]))
         for loc_data in locations:
             if not check_options(self.options, loc_data.can_create):
                 continue

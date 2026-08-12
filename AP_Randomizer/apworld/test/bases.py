@@ -1,8 +1,9 @@
 from dataclasses import dataclass, field
-from test.bases import WorldTestBase
-import yaml
 
+import yaml
 from Fill import fast_fill
+
+from test.bases import WorldTestBase
 
 from .. import PseudoregaliaWorld
 from ..logic import PseudoregaliaData, data_from_dict, pseudoregalia_data
@@ -41,7 +42,7 @@ class PseudoKeyHintsBase(PseudoTestBase):
                 for location in locations
             ]
             assert slot_data["key_hints"] == expected_key_hints, \
-                   f"Expected {expected_key_hints} but found {slot_data["key_hints"]}"
+                   f"Expected {expected_key_hints} but found {slot_data['key_hints']}"
         else:
             assert "key_hints" not in slot_data, "Expected no key_hints in slot_data"
 
@@ -73,5 +74,6 @@ class PseudoValidationBase(PseudoTestBase):
                 validator = Validator()
                 validator.validate_data(data)
                 num_errors = len(validator.errors)
+                nl = "\n"  # py<3.12 escape characters didn't work in fstrings ig
                 assert case_data.expected_errors == num_errors, \
-                    f"expected {case_data.expected_errors} errors, got {num_errors}\n{"\n".join(validator.errors)}"
+                    f"expected {case_data.expected_errors} errors, got {num_errors}{nl}{nl.join(validator.errors)}"

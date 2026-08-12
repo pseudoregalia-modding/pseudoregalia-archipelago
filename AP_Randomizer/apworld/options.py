@@ -1,8 +1,10 @@
 from dataclasses import dataclass
-from Options import Toggle, Choice, DefaultOnToggle, PerGameCommonOptions
-from .constants.difficulties import NORMAL, HARD, EXPERT, LUNATIC
-from .constants.versions import MAP_PATCH, FULL_GOLD
-from .logic import pseudoregalia_data, player_start_enum
+
+from Options import Choice, DefaultOnToggle, PerGameCommonOptions, Toggle
+
+from .constants.difficulties import EXPERT, HARD, LUNATIC, NORMAL
+from .constants.versions import FULL_GOLD, MAP_PATCH
+from .logic import player_start_enum, pseudoregalia_data
 
 
 class LogicLevel(Choice):
@@ -25,7 +27,8 @@ class LogicLevel(Choice):
 
 class ObscureLogic(Toggle):
     """
-    Enables logic for obscure knowledge and creative pathing that isn't difficult to execute but may not be obvious or commonly known.
+    Enables logic for obscure knowledge and creative pathing that isn't difficult to execute
+    but may not be obvious or commonly known.
     This option is forced on if logic level is set to Expert or Lunatic.
     """
     display_name = "Obscure Logic"
@@ -84,7 +87,8 @@ class SplitClingGem(Toggle):
 
 class GameVersion(Choice):
     """
-    The version of Pseudoregalia you will use when playing the game. Different versions have different logic, locations, and items.
+    The version of Pseudoregalia you will use when playing the game.
+    Different versions have different logic, locations, and items.
     After you connect, the game will warn you if the version you are playing doesn't match this option.
 
     map_patch: The latest version of the game. Includes time trials and new outfits.
@@ -184,4 +188,3 @@ class PseudoregaliaOptions(PerGameCommonOptions):
     randomize_books: RandomizeBooks
     randomize_notes: RandomizeNotes
     major_key_hints: MajorKeyHints
-
