@@ -68,16 +68,19 @@ Just ignore anything that is Steam Deck specific or that doesn't apply to you.
    You should notice no change to the root folder, but the mod files will be added to the subfolders.
 4. Open the Steam Client, Add a Non-Steam Game,
    then go to Pseudoregalia_AP folder and select `pseudoregalia.exe`.
-5. Open Properties, then ensure that you check compatibility to Force Proton Experimental.
-    * If Experimental doesn't work, try a different version (8.0-5 was verified to work)
+5. Open Properties. You will need to change:
+    * `Shortcut` > `Launch Options` > Copy in `WINEDLLOVERRIDES="dwmapi=n,b" %command%`
+    * `Compatibility` > Check `Force the use of a specific Steam Play compatibility tool`
+      > Select `Proton 8.0-5` in the dropdown.
+    * (Optional) `Shortcut` > The field at the top that is by default `pseudoregalia.exe` to something more distinct
+      (Necessary for having multiple Non-Steam Games with the same .exe name).
 6. Lastly, Pseudoregalia utilizes Visual C++ Runtime 2022.
-   Download Protontricks if you have not already.
-   This is located within Discovery.
-   After launching Protontricks, select Non-Steam Shortcut: pseudoregalia.exe.
-   Select the default wineprefix, install a Windows DLL or component, then scroll down and select vcrun2022.
-   Wait and follow the prompts until it has installed twice.
-   You can go through this process twice if you are unsure.
-   When you scroll down to vcrun2022 again, it should already be checked. It has installed correctly.
+    1. Download Protontricks if you have not already. This is located within Discovery.
+    2. Launch Protontricks, and select Non-Steam Shortcut: pseudoregalia.exe.
+    3. Select the default wineprefix > install a Windows DLL or component > scroll down and select vcrun2022.
+    4. Wait and follow the prompts until it has installed twice.
+    5. You can go through this process twice if you are unsure,
+       when you scroll down to vcrun2022 again, it should already be checked. It has installed correctly.
 7. Launch in Game Mode which should open Pseudoregalia. Select a new file.
 8. Enter the connect info and select Start. You will need to edit your controls to include show keyboard.
 
