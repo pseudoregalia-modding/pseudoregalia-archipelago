@@ -1,10 +1,10 @@
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, get_args
+
+from rule_builder.rules import And, CanReachRegion, False_, Has, HasAll, HasAllCounts, Or, Rule, True_
 from typing_extensions import override
 
-from rule_builder.rules import Rule, And, Or, Has, HasAll, HasAllCounts, CanReachRegion, True_, False_
-
-from .logic import OptionData, RuleData, PseudoregaliaData, TagLevel
+from .logic import OptionData, PseudoregaliaData, RuleData, TagLevel
 from .options import PseudoregaliaOptions
 
 if TYPE_CHECKING:

@@ -1,8 +1,9 @@
 from dataclasses import dataclass, field
-from test.bases import WorldTestBase
-import yaml
 
+import yaml
 from Fill import fast_fill
+
+from test.bases import WorldTestBase
 
 from .. import PseudoregaliaWorld
 from ..logic import PseudoregaliaData, data_from_dict, pseudoregalia_data

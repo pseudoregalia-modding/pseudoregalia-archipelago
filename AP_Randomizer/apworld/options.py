@@ -1,8 +1,10 @@
 from dataclasses import dataclass
-from Options import Toggle, Choice, DefaultOnToggle, PerGameCommonOptions
-from .constants.difficulties import NORMAL, HARD, EXPERT, LUNATIC
-from .constants.versions import MAP_PATCH, FULL_GOLD
-from .logic import pseudoregalia_data, player_start_enum
+
+from Options import Choice, DefaultOnToggle, PerGameCommonOptions, Toggle
+
+from .constants.difficulties import EXPERT, HARD, LUNATIC, NORMAL
+from .constants.versions import FULL_GOLD, MAP_PATCH
+from .logic import player_start_enum, pseudoregalia_data
 
 
 class LogicLevel(Choice):

@@ -1,12 +1,26 @@
 from __future__ import annotations
+
 from typing import Literal
 
 from BaseClasses import ItemClassification
 from Options import Choice, Toggle
 
 from .items import item_table
-from .logic import Enums, ExitData, ItemMappingData, LocationData, OptionData, PseudoregaliaData, RefRuleData, \
-    RegionData, RuleData, SpawnPointData, TagGroupData, TagData, TagLevel
+from .logic import (
+    Enums,
+    ExitData,
+    ItemMappingData,
+    LocationData,
+    OptionData,
+    PseudoregaliaData,
+    RefRuleData,
+    RegionData,
+    RuleData,
+    SpawnPointData,
+    TagData,
+    TagGroupData,
+    TagLevel,
+)
 from .options import PseudoregaliaOptions
 from .rules import create_entrance_name
 

@@ -1,10 +1,13 @@
 from __future__ import annotations
-from dataclasses import dataclass
+
 import pkgutil
+from dataclasses import dataclass
 from typing import Any, Literal, TypeAlias
+
 import yaml
 
 from .dacite import Config, from_dict
+
 
 @dataclass
 class PseudoregaliaData:

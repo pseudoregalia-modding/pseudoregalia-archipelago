@@ -1,6 +1,8 @@
-from BaseClasses import Item, ItemClassification
-from typing import NamedTuple
 from collections.abc import Callable
+from typing import NamedTuple
+
+from BaseClasses import Item, ItemClassification
+
 from .constants.versions import MAP_PATCH
 from .options import PseudoregaliaOptions
 

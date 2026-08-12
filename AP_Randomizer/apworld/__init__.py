@@ -1,15 +1,14 @@
 from typing import Any
 
-from worlds.AutoWorld import World, WebWorld
-from BaseClasses import Location, Region, CollectionState, Tutorial
+from BaseClasses import CollectionState, Location, Region, Tutorial
+from worlds.AutoWorld import WebWorld, World
 
-from .items import PseudoregaliaItem, item_table, item_groups
-from .options import PseudoregaliaOptions
 from .constants.difficulties import EXPERT, LUNATIC
 from .constants.versions import FULL_GOLD
-from .logic import ItemMappingData, pseudoregalia_data, player_start_enum
-from .rules import create_rules, check_options
-
+from .items import PseudoregaliaItem, item_groups, item_table
+from .logic import ItemMappingData, player_start_enum, pseudoregalia_data
+from .options import PseudoregaliaOptions
+from .rules import check_options, create_rules
 
 pseudoregalia_rules = create_rules(pseudoregalia_data)
 spawn_point_regions = {player_start_enum[data.player_start]: data.region for data in pseudoregalia_data.spawn_points}
