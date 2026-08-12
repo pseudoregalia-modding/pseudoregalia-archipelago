@@ -27,6 +27,7 @@ def precollect_if_theatre_start(precollect_if_normal: bool) -> Callable[[Pseudor
         return 1 if is_theatre_start and matches_difficulty else 0
     return precollect
 
+
 precollect_if_theatre_start_normal = precollect_if_theatre_start(True)
 precollect_if_theatre_start_hard_plus = precollect_if_theatre_start(False)
 
@@ -248,16 +249,16 @@ item_groups: dict[str, set[str]] = {
                  "Cling Gem"},
     "collectables": {"Health Piece",
                      "Small Key"},
-    #"weapon": {"Dream Breaker",
-    #           "Progressive Dream Breaker",
-    #           "Strikebreak",
-    #           "Soul Cutter"},
-    #"attire": {"Professional", # Castle Sansa trial
-    #           "Soldier", # Empty Bailey trial
-    #           "Guardian", # Sansa Keep trial
-    #           "Sol Sister", # Dilapidated Dungeon trial
-    #           "Classy", # Twilight Theatre trial
-    #           "XIX", # Underbelly trial
-    #           "Sleepytime", # Listless Library trial
-    #           "Bleeding Heart}, # Tower Remains trial
+    # "weapon": {"Dream Breaker",
+    #            "Progressive Dream Breaker",
+    #            "Strikebreak",
+    #            "Soul Cutter"},
+    # "attire": {"Professional", # Castle Sansa trial
+    #            "Soldier", # Empty Bailey trial
+    #            "Guardian", # Sansa Keep trial
+    #            "Sol Sister", # Dilapidated Dungeon trial
+    #            "Classy", # Twilight Theatre trial
+    #            "XIX", # Underbelly trial
+    #            "Sleepytime", # Listless Library trial
+    #            "Bleeding Heart}, # Tower Remains trial
 }

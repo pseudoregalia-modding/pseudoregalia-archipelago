@@ -53,6 +53,7 @@ class PseudoregaliaData:
     completion_rule: RuleData
     """Defines the completion condition for the world."""
 
+
 @dataclass
 class ItemMappingData:
     names: list[str]
@@ -61,6 +62,7 @@ class ItemMappingData:
     """The amount of the pseudo item that one of this item maps to. None defaults to 1."""
     first_only: bool | None
     """Whether only the first of the item contributes to the pseudo item. None defaults to False."""
+
 
 @dataclass
 class TagData:
@@ -83,6 +85,7 @@ class TagData:
     lunatic: str | None
     """Description for what the tag does at logic level 4."""
 
+
 @dataclass
 class TagGroupData:
     name: str
@@ -92,10 +95,12 @@ class TagGroupData:
     children: list[str]
     """A list of tags and tag groups that are children of this tag group."""
 
+
 @dataclass
 class RefRuleData:
     name: str
     rule: RuleData
+
 
 @dataclass
 class RegionData:
@@ -104,10 +109,12 @@ class RegionData:
     exits: list[ExitData] | None
     """A list of all entrances starting from this region."""
 
+
 @dataclass
 class Enums:
     player_start: list[str]
     """Lists all player starts in the game, including game start, save points and transitions."""
+
 
 @dataclass
 class SpawnPointData:
@@ -122,6 +129,7 @@ class SpawnPointData:
     Whether this spawn point should be used as the default in the SpawnPoint option. At most one spawn point can be
     marked as default.
     """
+
 
 @dataclass
 class LocationData:
@@ -138,6 +146,7 @@ class LocationData:
     """Provides a set of options to determined whether the location should be created."""
     event_item: str | None
     """Name of the event item to lock to this location. Must reference a progression item with no code."""
+
 
 @dataclass
 class RuleData:
@@ -169,7 +178,9 @@ class RuleData:
     options: OptionData | None
     """Provides additional filtering based on other options."""
 
+
 TagLevel: TypeAlias = Literal["advanced", "hard", "expert", "lunatic"]
+
 
 @dataclass
 class ExitData:
@@ -179,6 +190,7 @@ class ExitData:
     """Overrides the default entrance name. If None, the default of '{from} -> {to}' is used."""
     rule: RuleData | None
     """The rule for this entrance."""
+
 
 OptionData: TypeAlias = dict[str, bool | str]
 """

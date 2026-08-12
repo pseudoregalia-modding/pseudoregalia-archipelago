@@ -17,6 +17,7 @@ spawn_point_regions = {player_start_enum[data.player_start]: data.region for dat
 class PseudoregaliaLocation(Location):
     game = "Pseudoregalia"
 
+
 zones = (
     "Dilapidated Dungeon",
     "Castle Sansa",

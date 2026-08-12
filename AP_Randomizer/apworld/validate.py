@@ -30,6 +30,7 @@ from .rules import create_entrance_name
 # escape quotes?? probably not necessary but would be "correct"
 # r"^[a-zA-Z_][a-zA-Z0-9_]*$"u
 
+
 class Validator:
     def validation_context(*, context_type: Literal["start", "key", "index"], key: str | None = None):
         """

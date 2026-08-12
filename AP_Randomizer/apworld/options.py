@@ -188,4 +188,3 @@ class PseudoregaliaOptions(PerGameCommonOptions):
     randomize_books: RandomizeBooks
     randomize_notes: RandomizeNotes
     major_key_hints: MajorKeyHints
-

@@ -16,10 +16,13 @@ else:
 def check_tags(player_tags: dict[str, int], tags: dict[str, int] | None) -> bool:
     return tags is None or all(level <= player_tags[tag] for tag, level in tags.items())
 
+
 def check_options(player_options: PseudoregaliaOptions, options: OptionData | None) -> bool:
     return options is None or all(getattr(player_options, op_name) == value for op_name, value in options.items())
 
+
 tag_level_to_int = {level: i+1 for i, level in enumerate(get_args(TagLevel))}
+
 
 class PseudoregaliaRule(Rule[PseudoregaliaWorld], game="Pseudoregalia"):
     rule: Rule
@@ -63,8 +66,10 @@ class PseudoregaliaRule(Rule[PseudoregaliaWorld], game="Pseudoregalia"):
         passes_filter = check_tags(world.tags, self.tags) and check_options(world.options, self.option_data)
         return self.rule.resolve(world) if passes_filter else False_().resolve(world)
 
+
 def create_entrance_name(start: str, end: str, entrance_name: str | None) -> str:
     return entrance_name if entrance_name is not None else f"{start} -> {end}"
+
 
 @dataclass
 class PseudoregaliaRules:
@@ -75,6 +80,7 @@ class PseudoregaliaRules:
     def get_entrance_rule(self, start: str, end: str, entrance_name: str | None) -> PseudoregaliaRule | None:
         """Helper to resolve entrance name and get rule if it exists."""
         return self.entrance_rules.get(create_entrance_name(start, end, entrance_name))
+
 
 def create_rules(pseudoregalia_data: PseudoregaliaData) -> PseudoregaliaRules:
     ref_rules: dict[str, PseudoregaliaRule] = {}
