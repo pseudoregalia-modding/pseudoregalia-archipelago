@@ -25,7 +25,8 @@ class LogicLevel(Choice):
 
 class ObscureLogic(Toggle):
     """
-    Enables logic for obscure knowledge and creative pathing that isn't difficult to execute but may not be obvious or commonly known.
+    Enables logic for obscure knowledge and creative pathing that isn't difficult to execute
+    but may not be obvious or commonly known.
     This option is forced on if logic level is set to Expert or Lunatic.
     """
     display_name = "Obscure Logic"
@@ -84,7 +85,8 @@ class SplitClingGem(Toggle):
 
 class GameVersion(Choice):
     """
-    The version of Pseudoregalia you will use when playing the game. Different versions have different logic, locations, and items.
+    The version of Pseudoregalia you will use when playing the game.
+    Different versions have different logic, locations, and items.
     After you connect, the game will warn you if the version you are playing doesn't match this option.
 
     map_patch: The latest version of the game. Includes time trials and new outfits.

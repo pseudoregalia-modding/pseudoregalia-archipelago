@@ -225,7 +225,9 @@ item_groups: dict[str, set[str]] = {
     "pogo": {"Ascendant Light"},
     "floof": {"Professionalism"},
     "heliacal power": {"Air Kick"},
-    "aspects": {"Indignation",  # some nice to have groups when sorting local/non local items in yaml etc, does not include "Memento" aka new map powerup
+    # some nice to have groups when sorting local/non local items in yaml etc,
+    # does not include "Memento" aka new map powerup
+    "aspects": {"Indignation",
                 "Aerial Finesse",
                 "Pilgrimage",
                 "Empathy",

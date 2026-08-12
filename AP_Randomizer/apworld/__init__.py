@@ -157,7 +157,8 @@ class PseudoregaliaWorld(World):
         for region_data in pseudoregalia_data.regions:
             self.multiworld.regions.append(Region(region_data.name, self.player, self.multiworld))
 
-        locations = sorted(pseudoregalia_data.locations, key=lambda loc_data: zones.index(loc_data.name.split(" - ")[0]))
+        locations = sorted(pseudoregalia_data.locations,
+                           key=lambda loc_data: zones.index(loc_data.name.split(" - ")[0]))
         for loc_data in locations:
             if not check_options(self.options, loc_data.can_create):
                 continue
