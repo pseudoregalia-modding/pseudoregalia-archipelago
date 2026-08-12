@@ -51,7 +51,7 @@ class PseudoregaliaWorld(World):
 
     game = "Pseudoregalia"
     required_client_version = (0, 7, 0)
- 
+
     item_name_to_id = {name: data.code for name, data in item_table.items() if data.code is not None}
     location_name_to_id = {data.name: data.code for data in pseudoregalia_data.locations if data.code is not None}
     item_name_groups = item_groups

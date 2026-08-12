@@ -1,5 +1,6 @@
 from BaseClasses import Item, ItemClassification
-from typing import NamedTuple, Dict, Set, Callable
+from typing import NamedTuple
+from collections.abc import Callable
 from .constants.versions import MAP_PATCH
 from .options import PseudoregaliaOptions
 
@@ -28,7 +29,7 @@ precollect_if_theatre_start_normal = precollect_if_theatre_start(True)
 precollect_if_theatre_start_hard_plus = precollect_if_theatre_start(False)
 
 
-item_table: Dict[str, PseudoregaliaItemData] = {
+item_table: dict[str, PseudoregaliaItemData] = {
     "Dream Breaker": PseudoregaliaItemData(
         code=1,
         classification=ItemClassification.progression,
@@ -208,7 +209,7 @@ item_table: Dict[str, PseudoregaliaItemData] = {
         classification=ItemClassification.progression),
 }
 
-item_groups: Dict[str, Set[str]] = {
+item_groups: dict[str, set[str]] = {
     "major keys": {"Major Key - Empty Bailey",
                    "Major Key - The Underbelly",
                    "Major Key - Tower Remains",
@@ -254,5 +255,5 @@ item_groups: Dict[str, Set[str]] = {
     #           "Classy", # Twilight Theatre trial
     #           "XIX", # Underbelly trial
     #           "Sleepytime", # Listless Library trial
-    #           "Bleeding Heart}, # Tower Remains trial  
+    #           "Bleeding Heart}, # Tower Remains trial
 }

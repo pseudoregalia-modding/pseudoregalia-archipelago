@@ -229,7 +229,7 @@ class Validator:
     @validation_context(context_type="index")
     def validate_region_exit(self, index: int, region_name: str, exit_data: ExitData):
         self.validate_region_exit_region(exit_data.region)
-        entrance_name = create_entrance_name(region_name, exit_data.region, exit_data.entrance_name)            
+        entrance_name = create_entrance_name(region_name, exit_data.region, exit_data.entrance_name)
         self.validate_region_exit_entrance_name(entrance_name)
         if exit_data.rule is not None:
             self.validate_rule(exit_data.rule)
