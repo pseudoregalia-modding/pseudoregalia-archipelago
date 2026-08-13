@@ -1,16 +1,35 @@
-from worlds.AutoWorld import World, WebWorld
-from BaseClasses import Region, CollectionState, Tutorial
-from .items import PseudoregaliaItem, item_table, item_groups
-from .locations import PseudoregaliaLocation, location_table, zones
-from .regions import region_table, origin_region_names
-from .options import PseudoregaliaOptions
-from .rules_normal import PseudoregaliaNormalRules
-from .rules_hard import PseudoregaliaHardRules
-from .rules_expert import PseudoregaliaExpertRules
-from .rules_lunatic import PseudoregaliaLunaticRules
-from typing import Dict, Any
-from .constants.difficulties import NORMAL, HARD, EXPERT, LUNATIC
+from typing import Any
+
+from BaseClasses import CollectionState, Location, Region, Tutorial
+
+from worlds.AutoWorld import WebWorld, World
+
+from .constants.difficulties import EXPERT, LUNATIC
 from .constants.versions import FULL_GOLD
+from .items import PseudoregaliaItem, item_groups, item_table
+from .logic import player_start_enum, pseudoregalia_data
+from .options import PseudoregaliaOptions
+from .rules import check_options, create_rules
+
+pseudoregalia_rules = create_rules(pseudoregalia_data)
+spawn_point_regions = {player_start_enum[data.player_start]: data.region for data in pseudoregalia_data.spawn_points}
+
+
+class PseudoregaliaLocation(Location):
+    game = "Pseudoregalia"
+
+
+zones = (
+    "Dilapidated Dungeon",
+    "Castle Sansa",
+    "Sansa Keep",
+    "Listless Library",
+    "Twilight Theatre",
+    "Empty Bailey",
+    "The Underbelly",
+    "Tower Remains",
+    "D S T RT ED M M O   Y",
+)
 
 
 class PseudoregaliaWebWorld(WebWorld):
@@ -23,7 +42,7 @@ class PseudoregaliaWebWorld(WebWorld):
         ["highrow623"]
     )
     tutorials = [setup_en]
-    
+
 
 class PseudoregaliaWorld(World):
     """
@@ -33,18 +52,61 @@ class PseudoregaliaWorld(World):
 
     game = "Pseudoregalia"
     required_client_version = (0, 7, 0)
- 
+
     item_name_to_id = {name: data.code for name, data in item_table.items() if data.code is not None}
-    location_name_to_id = {name: data.code for name, data in location_table.items() if data.code is not None}
+    location_name_to_id = {data.name: data.code for data in pseudoregalia_data.locations if data.code is not None}
     item_name_groups = item_groups
 
     options_dataclass = PseudoregaliaOptions
     options: PseudoregaliaOptions
-    
+
     web = PseudoregaliaWebWorld()
 
     filler = ("Healing", "Magic Power")
     filler_index = 0
+
+    tags: dict[str, int]
+
+    def get_pseudo_item_counts(self, state: CollectionState, item: PseudoregaliaItem) -> dict[str, int]:
+        """
+        Returns pseudo items to be collected/removed when `item` is collected/removed, based on `state`. Logic works
+        correctly if called before `item` is collected but after `item` is removed.
+        """
+        mapping = pseudoregalia_data.item_mapping.get(item.name)
+        if mapping is None:
+            return {}
+
+        if isinstance(mapping, str):
+            return {mapping: 1}
+        elif isinstance(mapping, list):
+            index = state.count(item.name, self.player)
+            if index < len(mapping):
+                return {mapping[index]: 1}
+        elif not mapping.first_only or state.count(item.name, self.player) == 0:
+            count = mapping.count if mapping.count is not None else 1
+            return dict.fromkeys(mapping.names, count)
+        return {}
+
+    def create_key_hints(self) -> Any:
+        key_hints = [[] for _ in range(5)]
+        key_locations = self.multiworld.find_items_in_locations(set(item_groups["major keys"]), self.player, True)
+        for location in key_locations:
+            if not location.item or not location.item.code or not location.address:
+                # guard against optional fields being None
+                continue
+            # this implementation assumes major key item codes are all in a row starting at 21 and will break if that
+            # ever changes
+            index = location.item.code - 21
+            if index not in range(5):
+                # guard against index being out of bounds
+                continue
+            key_hints[index].append({
+                "player": location.player,
+                "location": location.address,
+            })
+        return key_hints
+
+    # world overrides
 
     def get_filler_item_name(self) -> str:
         filler_item_name = self.filler[self.filler_index]
@@ -56,34 +118,68 @@ class PseudoregaliaWorld(World):
         return PseudoregaliaItem(name, data.classification, data.code, self.player)
 
     def collect(self, state: CollectionState, item: PseudoregaliaItem) -> bool:
-        ret = super().collect(state, item)
-        name = item.name
-        # only adding the first Sun Greaves or Cling Gem actually matters
-        # to match how the game interprets these items
-        if name == "Sun Greaves" and state.count(name, self.player) == 1:
-            state.add_item("Kick Count", self.player, 3)
-        elif name in ("Heliacal Power", "Air Kick"):
-            state.add_item("Kick Count", self.player, 1)
-        elif name == "Cling Gem" and state.count(name, self.player) == 1:
-            state.add_item("Cling Count", self.player, 6)
-        elif name == "Cling Shard":
-            state.add_item("Cling Count", self.player, 2)
-        return ret
+        for pseudo_item, count in self.get_pseudo_item_counts(state, item).items():
+            state.add_item(pseudo_item, self.player, count)
+        return super().collect(state, item)
 
     def remove(self, state: CollectionState, item: PseudoregaliaItem) -> bool:
         ret = super().remove(state, item)
-        name = item.name
-        # only removing the last Sun Greaves or Cling Gem actually matters
-        # to match how the game interprets these items
-        if name == "Sun Greaves" and state.count(name, self.player) == 0:
-            state.remove_item("Kick Count", self.player, 3)
-        elif name in ("Heliacal Power", "Air Kick"):
-            state.remove_item("Kick Count", self.player, 1)
-        elif name == "Cling Gem" and state.count(name, self.player) == 0:
-            state.remove_item("Cling Count", self.player, 6)
-        elif name == "Cling Shard":
-            state.remove_item("Cling Count", self.player, 2)
+        for pseudo_item, count in self.get_pseudo_item_counts(state, item).items():
+            state.remove_item(pseudo_item, self.player, count)
         return ret
+
+    # generation overrides
+
+    def generate_early(self):
+        if self.options.logic_level in (EXPERT, LUNATIC):
+            # obscure is forced on for expert/lunatic difficulties
+            self.options.obscure_logic.value = 1
+        if self.options.game_version == FULL_GOLD:
+            # zero out options that don't do anything on full gold
+            self.options.start_with_map.value = 0
+            self.options.randomize_time_trials.value = 0
+        spawn_point = self.options.spawn_point
+        if spawn_point == "dungeon_mirror":
+            # start_with_breaker is forced on for dungeon start to help with sphere 1 size
+            self.options.start_with_breaker.value = 1
+        elif spawn_point == "library":
+            if not self.options.start_with_breaker and not self.options.randomize_books:
+                # start_with_breaker is forced on if otherwise player wouldn't have enough checks
+                self.options.start_with_breaker.value = 1
+
+        self.tags = {
+            "logic_level": self.options.logic_level.value,
+            "old_obscure": int(self.options.obscure_logic),
+        }
+
+    def create_regions(self):
+        self.origin_region_name = spawn_point_regions[self.options.spawn_point.value]
+
+        for region_data in pseudoregalia_data.regions:
+            self.multiworld.regions.append(Region(region_data.name, self.player, self.multiworld))
+
+        locations = sorted(pseudoregalia_data.locations,
+                           key=lambda loc_data: zones.index(loc_data.name.split(" - ")[0]))
+        for loc_data in locations:
+            if not check_options(self.options, loc_data.can_create):
+                continue
+            region = self.get_region(loc_data.region)
+            new_loc = PseudoregaliaLocation(self.player, loc_data.name, loc_data.code, region)
+            region.locations.append(new_loc)
+            rule = pseudoregalia_rules.location_rules.get(loc_data.name)
+            if rule is not None:
+                self.set_rule(new_loc, rule)
+            if loc_data.event_item:
+                new_loc.place_locked_item(self.create_item(loc_data.event_item))
+
+        for region_data in pseudoregalia_data.regions:
+            if region_data.exits is None:
+                continue
+            region = self.get_region(region_data.name)
+            for exit_data in region_data.exits:
+                exit_region = self.get_region(exit_data.region)
+                rule = pseudoregalia_rules.get_entrance_rule(region.name, exit_region.name, exit_data.entrance_name)
+                self.create_entrance(region, exit_region, rule, exit_data.entrance_name)
 
     def create_items(self):
         itempool = []
@@ -98,63 +194,10 @@ class PseudoregaliaWorld(World):
         itempool += [self.create_filler() for _ in range(total_locations - len(itempool))]
         self.multiworld.itempool += itempool
 
-    def generate_early(self):
-        if self.options.logic_level in (EXPERT, LUNATIC):
-            # obscure is forced on for expert/lunatic difficulties
-            self.options.obscure_logic.value = 1
-        if self.options.game_version == FULL_GOLD:
-            # zero out options that don't do anything on full gold
-            self.options.start_with_map.value = 0
-            self.options.randomize_time_trials.value = 0
-        spawn_point = self.options.spawn_point
-        if spawn_point == spawn_point.option_dungeon_mirror:
-            # start_with_breaker is forced on for dungeon start to help with sphere 1 size
-            self.options.start_with_breaker.value = 1
-        elif spawn_point == spawn_point.option_library:
-            if not self.options.start_with_breaker and not self.options.randomize_books:
-                # start_with_breaker is forced on if otherwise player wouldn't have enough checks
-                self.options.start_with_breaker.value = 1
+    def set_rules(self):
+        self.set_completion_rule(pseudoregalia_rules.completion_rule)
 
-    def create_regions(self):
-        self.origin_region_name = origin_region_names[self.options.spawn_point.value]
-
-        for region_name in region_table.keys():
-            self.multiworld.regions.append(Region(region_name, self.player, self.multiworld))
-
-        locations = sorted(location_table.items(), key=lambda loc_pair: zones.index(loc_pair[0].split(" - ")[0]))
-        for loc_name, loc_data in locations:
-            if not loc_data.can_create(self.options):
-                continue
-            region = self.multiworld.get_region(loc_data.region, self.player)
-            new_loc = PseudoregaliaLocation(self.player, loc_name, loc_data.code, region)
-            region.locations.append(new_loc)
-            if loc_data.locked_item:
-                new_loc.place_locked_item(self.create_item(loc_data.locked_item))
-
-        for region_name, exit_list in region_table.items():
-            region = self.multiworld.get_region(region_name, self.player)
-            region.add_exits(exit_list)
-
-    def create_key_hints(self) -> Any:
-        key_hints = [[] for _ in range(5)]
-        key_locations = self.multiworld.find_items_in_locations(set(item_groups["major keys"]), self.player, True)
-        for location in key_locations:
-            if not location.item or not location.item.code or not location.address:
-                # guard against optional fields being None
-                continue
-            # this implementation assumes major key item codes are all in a row starting at 2365810021 and will
-            # break if that ever changes
-            index = location.item.code - 2365810021
-            if index not in range(5):
-                # guard against index being out of bounds
-                continue
-            key_hints[index].append({
-                "player": location.player,
-                "location": location.address,
-            })
-        return key_hints
-
-    def fill_slot_data(self) -> Dict[str, Any]:
+    def fill_slot_data(self) -> dict[str, Any]:
         slot_data = {
             "apworld_version": self.world_version,
             "game_version": self.options.game_version.value,
@@ -174,14 +217,3 @@ class PseudoregaliaWorld(World):
         if self.options.major_key_hints:
             slot_data["key_hints"] = self.create_key_hints()
         return slot_data
-
-    def set_rules(self):
-        difficulty = self.options.logic_level
-        if difficulty == NORMAL:
-            PseudoregaliaNormalRules(self).set_pseudoregalia_rules()
-        elif difficulty == HARD:
-            PseudoregaliaHardRules(self).set_pseudoregalia_rules()
-        elif difficulty == EXPERT:
-            PseudoregaliaExpertRules(self).set_pseudoregalia_rules()
-        elif difficulty == LUNATIC:
-            PseudoregaliaLunaticRules(self).set_pseudoregalia_rules()

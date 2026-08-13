@@ -1,8 +1,10 @@
 from dataclasses import dataclass
-from Options import Toggle, Choice, DefaultOnToggle, PerGameCommonOptions
-from .constants.difficulties import NORMAL, HARD, EXPERT, LUNATIC
-from .constants.versions import MAP_PATCH, FULL_GOLD
-from .constants.player_starts import PlayerStarts
+
+from Options import Choice, DefaultOnToggle, PerGameCommonOptions, Toggle
+
+from .constants.difficulties import EXPERT, HARD, LUNATIC, NORMAL
+from .constants.versions import FULL_GOLD, MAP_PATCH
+from .logic import player_start_enum, pseudoregalia_data
 
 
 class LogicLevel(Choice):
@@ -25,31 +27,23 @@ class LogicLevel(Choice):
 
 class ObscureLogic(Toggle):
     """
-    Enables logic for obscure knowledge and creative pathing that isn't difficult to execute but may not be obvious or commonly known.
+    Enables logic for obscure knowledge and creative pathing that isn't difficult to execute
+    but may not be obvious or commonly known.
     This option is forced on if logic level is set to Expert or Lunatic.
     """
     display_name = "Obscure Logic"
 
 
-class SpawnPoint(Choice):
-    """
-    Determines where you will spawn into the game when creating a new file.
-    
-    Some spawns have special behaviors if they are selected or randomly chosen which can affect starting inventory and
-    logic. Refer to the game page or the readme in the github repo for more information.
-    """
-    display_name = "Spawn Point"
-    option_castle_main = PlayerStarts.CastleWestSave.value
-    option_castle_gazebo = PlayerStarts.CastleGazeboSave.value
-    option_dungeon_mirror = PlayerStarts.DungeonMirror.value
-    option_library = PlayerStarts.LibraryMainSave.value
-    option_underbelly_south = PlayerStarts.UnderbellySouthSave.value
-    option_underbelly_big_room = PlayerStarts.UnderbellyCentralSave.value
-    option_bailey_main = PlayerStarts.BaileySave.value
-    option_keep_main = PlayerStarts.KeepCentralSave.value
-    option_keep_north = PlayerStarts.KeepNorthSave.value
-    option_theatre_main = PlayerStarts.TheatreSave.value
-    default = PlayerStarts.CastleWestSave.value
+SpawnPoint = type("SpawnPoint", (Choice,), {
+    "__module__": __name__,
+    "auto_display_name": False,
+    "display_name": "Spawn Point",
+    "__doc__": "Determines where you will spawn into the game when creating a new file.\n\n"
+               "Some spawns have special behaviors if they are selected or randomly chosen which can affect starting "
+               "inventory and\nlogic. Refer to the game page or the readme in the github repo for more information.",
+    **{f"option_{data.name}": player_start_enum[data.player_start] for data in pseudoregalia_data.spawn_points},
+    "default": next(player_start_enum[data.player_start] for data in pseudoregalia_data.spawn_points if data.default),
+})
 
 
 class SafeSmallKeys(DefaultOnToggle):
@@ -93,7 +87,8 @@ class SplitClingGem(Toggle):
 
 class GameVersion(Choice):
     """
-    The version of Pseudoregalia you will use when playing the game. Different versions have different logic, locations, and items.
+    The version of Pseudoregalia you will use when playing the game.
+    Different versions have different logic, locations, and items.
     After you connect, the game will warn you if the version you are playing doesn't match this option.
 
     map_patch: The latest version of the game. Includes time trials and new outfits.
@@ -193,4 +188,3 @@ class PseudoregaliaOptions(PerGameCommonOptions):
     randomize_books: RandomizeBooks
     randomize_notes: RandomizeNotes
     major_key_hints: MajorKeyHints
-

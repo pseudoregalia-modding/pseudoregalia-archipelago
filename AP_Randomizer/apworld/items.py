@@ -1,5 +1,8 @@
+from collections.abc import Callable
+from typing import NamedTuple
+
 from BaseClasses import Item, ItemClassification
-from typing import NamedTuple, Dict, Set, Callable
+
 from .constants.versions import MAP_PATCH
 from .options import PseudoregaliaOptions
 
@@ -18,175 +21,176 @@ class PseudoregaliaItemData(NamedTuple):
 
 def precollect_if_theatre_start(precollect_if_normal: bool) -> Callable[[PseudoregaliaOptions], int]:
     def precollect(options: PseudoregaliaOptions) -> int:
-        is_theatre_start = options.spawn_point == options.spawn_point.option_theatre_main
+        is_theatre_start = options.spawn_point == "theatre_main"
         is_normal = options.logic_level == options.logic_level.option_normal
         matches_difficulty = precollect_if_normal == is_normal
         return 1 if is_theatre_start and matches_difficulty else 0
     return precollect
 
+
 precollect_if_theatre_start_normal = precollect_if_theatre_start(True)
 precollect_if_theatre_start_hard_plus = precollect_if_theatre_start(False)
 
 
-item_table: Dict[str, PseudoregaliaItemData] = {
+item_table: dict[str, PseudoregaliaItemData] = {
     "Dream Breaker": PseudoregaliaItemData(
-        code=2365810001,
+        code=1,
         classification=ItemClassification.progression,
         precollect=lambda options: 1 if options.start_with_breaker else 0,
         can_create=lambda options: not bool(options.progressive_breaker)),
     "Indignation": PseudoregaliaItemData(
-        code=2365810002,
+        code=2,
         classification=ItemClassification.useful),
     "Sun Greaves": PseudoregaliaItemData(
-        code=2365810003,
+        code=3,
         classification=ItemClassification.progression,
         can_create=lambda options: not bool(options.split_sun_greaves)),
     "Slide": PseudoregaliaItemData(
-        code=2365810004,
+        code=4,
         classification=ItemClassification.progression,
         can_create=lambda options: not bool(options.progressive_slide)),
     "Solar Wind": PseudoregaliaItemData(
-        code=2365810005,
+        code=5,
         classification=ItemClassification.progression,
         can_create=lambda options: not bool(options.progressive_slide)),
     "Sunsetter": PseudoregaliaItemData(
-        code=2365810006,
+        code=6,
         classification=ItemClassification.progression),
     "Strikebreak": PseudoregaliaItemData(
-        code=2365810007,
+        code=7,
         classification=ItemClassification.progression,
         can_create=lambda options: not bool(options.progressive_breaker)),
     "Cling Gem": PseudoregaliaItemData(
-        code=2365810008,
+        code=8,
         classification=ItemClassification.progression,
         precollect=precollect_if_theatre_start_normal,
         can_create=lambda options: not options.split_cling_gem),
     "Ascendant Light": PseudoregaliaItemData(
-        code=2365810009,
+        code=9,
         classification=ItemClassification.progression),
     "Soul Cutter": PseudoregaliaItemData(
-        code=2365810010,
+        code=10,
         classification=ItemClassification.progression,
         can_create=lambda options: not bool(options.progressive_breaker)),
 
     "Heliacal Power": PseudoregaliaItemData(
-        code=2365810011,
+        code=11,
         classification=ItemClassification.progression,
         precollect=precollect_if_theatre_start_hard_plus,
         can_create=lambda options: not bool(options.split_sun_greaves)),
     "Aerial Finesse": PseudoregaliaItemData(
-        code=2365810012,
+        code=12,
         classification=ItemClassification.filler),
     "Pilgrimage": PseudoregaliaItemData(
-        code=2365810013,
+        code=13,
         classification=ItemClassification.filler),
     "Empathy": PseudoregaliaItemData(
-        code=2365810014,
+        code=14,
         frequency=2,
         classification=ItemClassification.filler),
     "Good Graces": PseudoregaliaItemData(
-        code=2365810015,
+        code=15,
         frequency=2,
         classification=ItemClassification.useful),
     "Martial Prowess": PseudoregaliaItemData(
-        code=2365810016,
+        code=16,
         classification=ItemClassification.useful),
     "Clear Mind": PseudoregaliaItemData(
-        code=2365810017,
+        code=17,
         frequency=3,
         classification=ItemClassification.filler),
     "Professionalism": PseudoregaliaItemData(
-        code=2365810018,
+        code=18,
         precollect=lambda options: 1 if options.game_version == MAP_PATCH and not options.randomize_time_trials else 0,
         classification=ItemClassification.filler),
 
     "Health Piece": PseudoregaliaItemData(
-        code=2365810019,
+        code=19,
         frequency=16,
         classification=ItemClassification.useful),
     "Small Key": PseudoregaliaItemData(
-        code=2365810020,
+        code=20,
         frequency=7,
         classification=ItemClassification.progression),
 
     "Major Key - Empty Bailey": PseudoregaliaItemData(
-        code=2365810021,
+        code=21,
         classification=ItemClassification.progression),
     "Major Key - The Underbelly": PseudoregaliaItemData(
-        code=2365810022,
+        code=22,
         classification=ItemClassification.progression),
     "Major Key - Tower Remains": PseudoregaliaItemData(
-        code=2365810023,
+        code=23,
         classification=ItemClassification.progression),
     "Major Key - Sansa Keep": PseudoregaliaItemData(
-        code=2365810024,
+        code=24,
         classification=ItemClassification.progression),
     "Major Key - Twilight Theatre": PseudoregaliaItemData(
-        code=2365810025,
+        code=25,
         classification=ItemClassification.progression),
 
     "Progressive Slide": PseudoregaliaItemData(
-        code=2365810026,
+        code=26,
         frequency=2,
         classification=ItemClassification.progression,
         can_create=lambda options: bool(options.progressive_slide)),
     "Air Kick": PseudoregaliaItemData(
-        code=2365810027,
+        code=27,
         frequency=4,
         classification=ItemClassification.progression,
         precollect=precollect_if_theatre_start_hard_plus,
         can_create=lambda options: bool(options.split_sun_greaves)),
     "Progressive Dream Breaker": PseudoregaliaItemData(
-        code=2365810028,
+        code=28,
         frequency=3,
         classification=ItemClassification.progression,
         precollect=lambda options: 1 if options.start_with_breaker else 0,
         can_create=lambda options: bool(options.progressive_breaker)),
 
     "Devotion": PseudoregaliaItemData(
-        code=2365810029,
+        code=29,
         classification=ItemClassification.filler,
         precollect=lambda options: 1 if not options.randomize_time_trials else 0,
         can_create=lambda options: options.game_version == MAP_PATCH),
     "A Guardian": PseudoregaliaItemData(
-        code=2365810030,
+        code=30,
         classification=ItemClassification.filler,
         precollect=lambda options: 1 if not options.randomize_time_trials else 0,
         can_create=lambda options: options.game_version == MAP_PATCH),
     "Sweater": PseudoregaliaItemData(
-        code=2365810031,
+        code=31,
         classification=ItemClassification.filler,
         precollect=lambda options: 1 if not options.randomize_time_trials else 0,
         can_create=lambda options: options.game_version == MAP_PATCH),
     "Class": PseudoregaliaItemData(
-        code=2365810032,
+        code=32,
         classification=ItemClassification.filler,
         precollect=lambda options: 1 if not options.randomize_time_trials else 0,
         can_create=lambda options: options.game_version == MAP_PATCH),
     "Chivalry": PseudoregaliaItemData(
-        code=2365810033,
+        code=33,
         classification=ItemClassification.filler,
         precollect=lambda options: 1 if not options.randomize_time_trials else 0,
         can_create=lambda options: options.game_version == MAP_PATCH),
     "Nostalgia": PseudoregaliaItemData(
-        code=2365810034,
+        code=34,
         classification=ItemClassification.filler,
         precollect=lambda options: 1 if not options.randomize_time_trials else 0,
         can_create=lambda options: options.game_version == MAP_PATCH),
     "A Bleeding Heart": PseudoregaliaItemData(
-        code=2365810035,
+        code=35,
         classification=ItemClassification.filler,
         precollect=lambda options: 1 if not options.randomize_time_trials else 0,
         can_create=lambda options: options.game_version == MAP_PATCH),
 
     "Memento": PseudoregaliaItemData(
-        code=2365810036,
+        code=36,
         classification=ItemClassification.useful,
         precollect=lambda options: 1 if options.start_with_map else 0,
         can_create=lambda options: options.game_version == MAP_PATCH),
 
     "Cling Shard": PseudoregaliaItemData(
-        code=2365810037,
+        code=37,
         classification=ItemClassification.progression,
         frequency=3,
         precollect=precollect_if_theatre_start_normal,
@@ -194,12 +198,12 @@ item_table: Dict[str, PseudoregaliaItemData] = {
     ),
 
     "Healing": PseudoregaliaItemData(
-        code=2365810038,
+        code=38,
         frequency=0,
         classification=ItemClassification.filler,
     ),
     "Magic Power": PseudoregaliaItemData(
-        code=2365810039,
+        code=39,
         frequency=0,
         classification=ItemClassification.filler,
     ),
@@ -208,7 +212,7 @@ item_table: Dict[str, PseudoregaliaItemData] = {
         classification=ItemClassification.progression),
 }
 
-item_groups: Dict[str, Set[str]] = {
+item_groups: dict[str, set[str]] = {
     "major keys": {"Major Key - Empty Bailey",
                    "Major Key - The Underbelly",
                    "Major Key - Tower Remains",
@@ -224,7 +228,9 @@ item_groups: Dict[str, Set[str]] = {
     "pogo": {"Ascendant Light"},
     "floof": {"Professionalism"},
     "heliacal power": {"Air Kick"},
-    "aspects": {"Indignation",  # some nice to have groups when sorting local/non local items in yaml etc, does not include "Memento" aka new map powerup
+    # some nice to have groups when sorting local/non local items in yaml etc,
+    # does not include "Memento" aka new map powerup
+    "aspects": {"Indignation",
                 "Aerial Finesse",
                 "Pilgrimage",
                 "Empathy",
@@ -243,16 +249,16 @@ item_groups: Dict[str, Set[str]] = {
                  "Cling Gem"},
     "collectables": {"Health Piece",
                      "Small Key"},
-    #"weapon": {"Dream Breaker",
-    #           "Progressive Dream Breaker",
-    #           "Strikebreak",
-    #           "Soul Cutter"},
-    #"attire": {"Professional", # Castle Sansa trial
-    #           "Soldier", # Empty Bailey trial
-    #           "Guardian", # Sansa Keep trial
-    #           "Sol Sister", # Dilapidated Dungeon trial
-    #           "Classy", # Twilight Theatre trial
-    #           "XIX", # Underbelly trial
-    #           "Sleepytime", # Listless Library trial
-    #           "Bleeding Heart}, # Tower Remains trial  
+    # "weapon": {"Dream Breaker",
+    #            "Progressive Dream Breaker",
+    #            "Strikebreak",
+    #            "Soul Cutter"},
+    # "attire": {"Professional", # Castle Sansa trial
+    #            "Soldier", # Empty Bailey trial
+    #            "Guardian", # Sansa Keep trial
+    #            "Sol Sister", # Dilapidated Dungeon trial
+    #            "Classy", # Twilight Theatre trial
+    #            "XIX", # Underbelly trial
+    #            "Sleepytime", # Listless Library trial
+    #            "Bleeding Heart}, # Tower Remains trial
 }
