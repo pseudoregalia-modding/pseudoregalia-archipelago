@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Literal
 
 from BaseClasses import ItemClassification
+
 from Options import Choice, Toggle
 
 from .items import item_table
@@ -517,4 +518,4 @@ class Validator:
                 self.err("option class has no option with this name")
 
     def is_progression(self, item: str) -> bool:
-        return item in item_table and item_table[item].classification & ItemClassification.progression != 0
+        return item in item_table and ItemClassification.progression in item_table[item].classification

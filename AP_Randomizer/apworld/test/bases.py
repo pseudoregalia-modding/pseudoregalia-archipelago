@@ -1,3 +1,4 @@
+import unittest
 from dataclasses import dataclass, field
 
 import yaml
@@ -47,9 +48,7 @@ class PseudoKeyHintsBase(PseudoTestBase):
             assert "key_hints" not in slot_data, "Expected no key_hints in slot_data"
 
 
-class PseudoValidationBase(PseudoTestBase):
-    run_default_tests = False
-
+class PseudoValidationBase(unittest.TestCase):
     @dataclass
     class Case:
         data: PseudoregaliaData | str

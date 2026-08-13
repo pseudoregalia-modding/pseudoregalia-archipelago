@@ -40,7 +40,7 @@ SpawnPoint = type("SpawnPoint", (Choice,), {
     "display_name": "Spawn Point",
     "__doc__": "Determines where you will spawn into the game when creating a new file.\n\n"
                "Some spawns have special behaviors if they are selected or randomly chosen which can affect starting "
-               "inventory and logic. Refer to the game page or the readme in the github repo for more information.",
+               "inventory and\nlogic. Refer to the game page or the readme in the github repo for more information.",
     **{f"option_{data.name}": player_start_enum[data.player_start] for data in pseudoregalia_data.spawn_points},
     "default": next(player_start_enum[data.player_start] for data in pseudoregalia_data.spawn_points if data.default),
 })

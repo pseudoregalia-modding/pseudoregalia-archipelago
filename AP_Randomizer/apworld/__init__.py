@@ -1,6 +1,7 @@
 from typing import Any
 
 from BaseClasses import CollectionState, Location, Region, Tutorial
+
 from worlds.AutoWorld import WebWorld, World
 
 from .constants.difficulties import EXPERT, LUNATIC

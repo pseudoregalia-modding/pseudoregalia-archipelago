@@ -21,7 +21,7 @@ def check_options(player_options: PseudoregaliaOptions, options: OptionData | No
     return options is None or all(getattr(player_options, op_name) == value for op_name, value in options.items())
 
 
-tag_level_to_int = {level: i+1 for i, level in enumerate(get_args(TagLevel))}
+tag_level_to_int = {level: i for i, level in enumerate(get_args(TagLevel), 1)}
 
 
 class PseudoregaliaRule(Rule[PseudoregaliaWorld], game="Pseudoregalia"):
