@@ -132,7 +132,7 @@ namespace Client {
                     if (key == "key_hints") {
                         ParseKeyHints(iter.value());
                     }
-                    else if (key == "apworld_version") {
+                    else if (key == "apworld_version" || key == "tags") {
                         continue;
                     }
                     else {

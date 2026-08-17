@@ -201,9 +201,8 @@ class PseudoregaliaWorld(World):
         slot_data = {
             "apworld_version": self.world_version,
             "game_version": self.options.game_version.value,
-            "logic_level": self.options.logic_level.value,
+            "tags": {tag: level for tag, level in self.tags.items() if level},
             "spawn_point": self.options.spawn_point.value,
-            "obscure_logic": bool(self.options.obscure_logic),
             "progressive_breaker": bool(self.options.progressive_breaker),
             "progressive_slide": bool(self.options.progressive_slide),
             "split_sun_greaves": bool(self.options.split_sun_greaves),
