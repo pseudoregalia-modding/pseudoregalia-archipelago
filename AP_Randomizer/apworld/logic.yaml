@@ -358,9 +358,15 @@ regions:
               tags:
                 logic_level: expert
             - has:
-                kick: 3
-              tags:
-                logic_level: lunatic
+                kick_or_plunge: 3
+              or:
+                # expert needs AL to get to the first bubble
+                - ref: can_bounce
+                  tags:
+                    logic_level: expert
+                # lunatic can use the bubble in the previous room
+                - tags:
+                    logic_level: lunatic
   - name: Castle High Climb
   - name: Castle By Scythe Corridor
     exits:
@@ -376,6 +382,11 @@ regions:
                 kick: 3
               tags:
                 logic_level: hard
+            - has:
+                kick: 2
+                plunge: 1
+              tags:
+                logic_level: expert
       - region: Castle High Climb
         rule:
           or:
@@ -839,6 +850,16 @@ regions:
                     game_version: full_gold
               tags:
                 logic_level: expert
+            - has:
+                cling: 2
+                kick: 1
+              or:
+                - tags:
+                    logic_level: expert
+                  options:
+                    game_version: full_gold
+                - tags:
+                    logic_level: lunatic
             - ref: can_slide_jump
               has: plunge
               tags:
@@ -874,11 +895,7 @@ regions:
               has: [kick, plunge]
               tags:
                 logic_level: expert
-            - ref: can_gold_ultra
-              has: kick
-              tags:
-                logic_level: lunatic
-            - has: [slide, kick, plunge]
+            - has: [slide, kick]
               tags:
                 logic_level: lunatic
             - has:
@@ -1252,13 +1269,21 @@ regions:
       - region: Theatre Outside Scythe Corridor
         rule:
           or:
-            # TODO: routes with bounce
             - has:
                 cling: 6
             - has:
                 cling: 4
               tags:
                 logic_level: hard
+            - ref: can_bounce
+              has:
+                kick_or_plunge: 3
+              tags:
+                logic_level: expert
+            - ref: can_bounce
+              has: [slide, kick]
+              tags:
+                logic_level: expert
       - region: Theatre Pillar
         rule:
           or:
@@ -1369,6 +1394,15 @@ regions:
                 cling: 4
               tags:
                 logic_level: hard
+            - ref: can_bounce
+              has:
+                kick_or_plunge: 3
+              tags:
+                logic_level: expert
+            - ref: can_bounce
+              has: [slide, kick]
+              tags:
+                logic_level: expert
       - region: Dungeon Escape Upper
         rule:
           ref: can_enter_dark_rooms
@@ -1542,9 +1576,23 @@ locations:
             logic_level: expert
         - has:
             slide: 1
+            cling: 4
+          tags:
+            logic_level: expert
+        - has:
+            slide: 1
+            kick: 1
+            cling: 2
+          tags:
+            logic_level: expert
+        - has:
+            slide: 1
             kick: 2
           tags:
             logic_level: expert
+        - has: [slide, kick, plunge]
+          tags:
+            logic_level: lunatic
   - name: Dilapidated Dungeon - Past Poles
     code: 5
     region: Dungeon Strong Eyes
@@ -1604,12 +1652,15 @@ locations:
           ref: can_bounce
           tags:
             logic_level: hard
-        - has:
-            kick_or_plunge: 2
+        - has: [kick, plunge]
           tags:
             logic_level: expert
         - ref: can_gold_ultra
           has: kick_or_plunge
+          tags:
+            logic_level: expert
+        - has:
+            cling: 4
           tags:
             logic_level: expert
         - ref: can_bounce
@@ -1617,6 +1668,10 @@ locations:
             cling: 2
           tags:
             logic_level: expert
+        - has:
+            kick: 2
+          tags:
+            logic_level: lunatic
         - ref: can_gold_ultra
           tags:
             logic_level: lunatic
@@ -1842,6 +1897,9 @@ locations:
           tags:
             logic_level: hard
             old_obscure: advanced
+        - has: plunge
+          tags:
+            logic_level: expert
         - ref: can_gold_ultra
           tags:
             logic_level: expert
@@ -1931,6 +1989,12 @@ locations:
           tags:
             logic_level: hard
         - has:
+            cling: 2
+            kick: 1
+          tags:
+            logic_level: hard
+            old_obscure: advanced
+        - has:
             kick_or_plunge: 3
           tags:
             logic_level: expert
@@ -1941,6 +2005,10 @@ locations:
           has: plunge
           tags:
             logic_level: expert
+        - has:
+            cling: 2
+          tags:
+            logic_level: lunatic
   - name: Castle Sansa - Near Theatre Front
     code: 19
     region: Castle Moon Room
@@ -2056,6 +2124,10 @@ locations:
           tags:
             logic_level: hard
         - has: slide
+          tags:
+            logic_level: expert
+        - has:
+            cling: 2
           tags:
             logic_level: expert
         - has: plunge
@@ -2237,7 +2309,7 @@ locations:
   - name: Empty Bailey - Cheese Bell
     code: 38
     region: Bailey Upper
-    rule: # TODO consider to/from center steeple
+    rule:
       or:
         - has:
             kick: 4
@@ -2255,6 +2327,14 @@ locations:
         - has: [slide, kick]
           tags:
             logic_level: expert
+        - has:
+            slide: 1
+            cling: 2
+          tags:
+            logic_level: expert
+        - has: slide
+          tags:
+            logic_level: lunatic
   - name: Empty Bailey - Guarded Hand
     code: 39
     region: Bailey Lower
@@ -2419,6 +2499,12 @@ locations:
         - has:
             plunge: 1
             cling: 6
+          tags:
+            logic_level: hard
+        - has:
+            kick: 1
+            plunge: 1
+            cling: 4
           tags:
             logic_level: hard
         - ref: can_soul_cutter
@@ -2807,8 +2893,14 @@ locations:
     code: 99
     region: Theatre Main
     rule:
-      has:
-        cling: 4
+      or:
+        - has:
+            cling: 4
+        - has:
+            cling: 2
+            kick: 1
+          tags:
+            logic_level: expert
     can_create:
       randomize_chairs: true
   - name: Twilight Theatre - Stage Right Stool
