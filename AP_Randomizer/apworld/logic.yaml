@@ -805,11 +805,27 @@ regions:
             - ref: can_bounce
               tags:
                 logic_level: lunatic
+      - region: Bailey Guarded Hand
+        rule:
+          has: breaker
+          or:
+            - has: plunge
+            - has:
+                kick: 2
       - region: Castle Main
       - region: Theatre Pillar => Bailey
   - name: Bailey Upper
     exits:
       - region: Bailey Lower
+      - region: Bailey Guarded Hand
+        rule:
+          or:
+            - has:
+                cling: 2
+            - has:
+                kick: 3
+            - tags:
+                old_obscure: advanced
       - region: Underbelly => Bailey
         rule:
           has: plunge
@@ -866,6 +882,7 @@ regions:
                 logic_level: lunatic
               options:
                 game_version: map_patch
+  - name: Bailey Guarded Hand
 
   - name: Tower Remains
     exits:
@@ -2337,22 +2354,7 @@ locations:
             logic_level: lunatic
   - name: Empty Bailey - Guarded Hand
     code: 39
-    region: Bailey Lower
-    rule:
-      or:
-        - can_reach_region: Bailey Upper
-          or:
-            - has:
-                cling: 2
-            - has:
-                kick: 3
-            - tags:
-                old_obscure: advanced
-        - has: breaker
-          or:
-            - has: plunge
-            - has:
-                kick: 2
+    region: Bailey Guarded Hand
   - name: Empty Bailey - Inside Building
     code: 40
     region: Bailey Lower
