@@ -66,6 +66,14 @@ class PseudoregaliaRule(Rule[PseudoregaliaWorld], game="Pseudoregalia"):
         passes_filter = check_tags(world.tags, self.tags) and check_options(world.options, self.option_data)
         return self.rule.resolve(world) if passes_filter else False_().resolve(world)
 
+    def __repr__(self):
+        return str(self)
+
+    def __str__(self):
+        if not self.tags and not self.option_data:
+            return str(self.rule)
+        return f"PseudoregaliaRule({self.rule}, tags={self.tags}, option_data={self.option_data})"
+
 
 def create_entrance_name(start: str, end: str, entrance_name: str | None) -> str:
     return entrance_name if entrance_name is not None else f"{start} -> {end}"
