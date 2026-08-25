@@ -2349,7 +2349,7 @@ locations:
             cling: 2
           tags:
             logic_level: expert
-        - has: slide
+        - has: slide # chained slide ultra from center steeple
           tags:
             logic_level: lunatic
   - name: Empty Bailey - Guarded Hand
