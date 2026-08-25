@@ -72,6 +72,10 @@ class PseudoregaliaRule(Rule[PseudoregaliaWorld], game="Pseudoregalia"):
     def __str__(self):
         if not self.tags and not self.option_data:
             return str(self.rule)
+        if not self.tags:
+            return f"PseudoregaliaRule({self.rule}, option_data={self.option_data})"
+        if not self.option_data:
+            return f"PseudoregaliaRule({self.rule}, tags={self.tags})"
         return f"PseudoregaliaRule({self.rule}, tags={self.tags}, option_data={self.option_data})"
 
 
