@@ -36,6 +36,8 @@ namespace Engine {
 		void SpawnInteractableAura(wstring, GameData::Interactable);
 		void AddMessages(UObject*);
 		void ShowQueuedPopup(UObject*);
+		void QueuePlayerModifiers(UObject*);
+		void ClearPlayerModifiers();
 		void CreateOverlay(UObject*);
 		void VerifyGameVersion(GameData::Map);
 		
@@ -81,6 +83,10 @@ namespace Engine {
 		optional<UObject*> file_object;
 		mutex file_object_mutex;
 
+		optional<double> queued_heal_amount;
+		optional<double> queued_magic_amount;
+		mutex player_controller_modifier_mutex;
+
 		bool verified_version = false;
 	} // End private members
 
@@ -109,6 +115,7 @@ namespace Engine {
 		QueueItemSync();
 		AddMessages(ap_object);
 		ShowQueuedPopup(ap_object);
+		QueuePlayerModifiers(ap_object);
 
 		// Engine tick runs in a separate thread from the client so it needs to be locked.
 		lock_guard<mutex> guard(blueprint_function_mutex);
@@ -164,6 +171,7 @@ namespace Engine {
             // day I will figure out why tf that happens.
 			ExecuteBlueprintFunction(ap_object, L"AP_CreateConsoleHacky", nullptr);
 			verified_version = false;
+			ClearPlayerModifiers();
 			lock_guard<mutex> guard(popups_mutex);
 			queued_popup = {};
 			return;
@@ -304,30 +312,13 @@ namespace Engine {
 	}
 
 	void HealPlayer() {
-		GameData::Map map = GetCurrentMap();
-		if (map == GameData::Map::TitleScreen || map == GameData::Map::EndScreen) {
-			// don't try to heal unless in a gameplay level
-			return;
-		}
-
-		shared_ptr<void> Amount(new double(10));
-		ExecuteBlueprintFunction(L"BP_PlayerGoatMain_C", L"healPlayer", Amount);
+		lock_guard<mutex> guard(player_controller_modifier_mutex);
+		queued_heal_amount = queued_heal_amount.value_or(0.) + 10.;
 	}
 
 	void GivePlayerPower() {
-		GameData::Map map = GetCurrentMap();
-		if (map == GameData::Map::TitleScreen || map == GameData::Map::EndScreen) {
-			// don't try to give power unless in a gameplay level
-			return;
-		}
-
-		struct ChangePowerAmountInfo {
-			double A;
-			bool forceUpdatePowerLevel;
-		};
-		shared_ptr<void> power_params(new ChangePowerAmountInfo{ 10, false });
-		ExecuteBlueprintFunction(L"BP_PlayerGoatMain_C", L"changePowerAmount", power_params);
-		ExecuteBlueprintFunction(L"BP_PlayerGoatMain_C", L"updatePlayerCurrentStatValues", nullptr);
+		lock_guard<mutex> guard(player_controller_modifier_mutex);
+		queued_magic_amount = queued_magic_amount.value_or(0.) + 10.;
 	}
 
 	void WarpToSpawn() {
@@ -684,6 +675,36 @@ namespace Engine {
 
 			queued_popup = {};
 			Timer::RunTimerRealTime(popup_debounce_delay, &popup_debounce_locked);
+		}
+
+		void QueuePlayerModifiers(UObject* ap_object) {
+			auto map = GetCurrentMap(ap_object);
+			if (map == GameData::Map::TitleScreen || map == GameData::Map::EndScreen) {
+				return;
+			}
+
+			lock_guard<mutex> guard(player_controller_modifier_mutex);
+			if (queued_heal_amount) {
+				shared_ptr<void> Amount(new double(*queued_heal_amount));
+				ExecuteBlueprintFunction(L"BP_PlayerGoatMain_C", L"healPlayer", Amount);
+				queued_heal_amount = {};
+			}
+			if (queued_magic_amount) {
+				struct ChangePowerAmountInfo {
+					double A;
+					bool forceUpdatePowerLevel;
+				};
+				shared_ptr<void> power_params(new ChangePowerAmountInfo{ 10, false });
+				ExecuteBlueprintFunction(L"BP_PlayerGoatMain_C", L"changePowerAmount", power_params);
+				ExecuteBlueprintFunction(L"BP_PlayerGoatMain_C", L"updatePlayerCurrentStatValues", nullptr);
+				queued_magic_amount = {};
+			}
+		}
+
+		void ClearPlayerModifiers() {
+			lock_guard<mutex> guard(player_controller_modifier_mutex);
+			queued_heal_amount = {};
+			queued_magic_amount = {};
 		}
 
 		void CreateOverlay(UObject* ap_object) {
