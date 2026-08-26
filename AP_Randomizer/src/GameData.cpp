@@ -19,6 +19,7 @@ namespace GameData {
     namespace {
         ItemType GetItemType(int64_t);
         optional<Interactable> GetInteractable(wstring);
+        void ReceiveFiller(int64_t);
 
         optional<wstring> note_being_read = {};
 
@@ -615,7 +616,7 @@ namespace GameData {
             major_keys[id - 21] = true;
             break;
         case ItemType::Filler:
-            // filler does something immediate, so it should only be handled when receiving a PrintJSON with the item
+            ReceiveFiller(id);
             break;
         default:
             Log(L"You were sent an item, but its id wasn't recognized. Verify that you're playing on the same version this seed was generated on.");
@@ -715,17 +716,6 @@ namespace GameData {
         return note_text_table.at(map).at(note_actor_name);
     }
 
-    void ReceiveItemOnce(int64_t item_id) {
-        switch (item_id) {
-        case 38: // Healing
-            Engine::HealPlayer();
-            break;
-        case 39: // Magic Power
-            Engine::GivePlayerPower();
-            break;
-        }
-    }
-
     bool IsInteractable(int64_t location_id) {
         // this works for now since locations are separated by collectible/interactable at this location id
         return location_id >= 66;
@@ -777,6 +767,17 @@ namespace GameData {
                 return {};
             }
             return interactable_table.at(map).at(interactable_actor_name);
+        }
+
+        void ReceiveFiller(int64_t item_id) {
+            switch (item_id) {
+            case 38: // Healing
+                Engine::HealPlayer();
+                break;
+            case 39: // Magic Power
+                Engine::GivePlayerPower();
+                break;
+            }
         }
     }
 }

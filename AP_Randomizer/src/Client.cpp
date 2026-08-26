@@ -44,7 +44,6 @@ namespace Client {
         string ProcessMessageText(const APClient::PrintJSONArgs&);
         optional<Engine::ItemPopup> BuildItemPopup(const APClient::PrintJSONArgs&);
         void ReceiveDeathLink(const json&);
-        void ReceiveItemOnce(const APClient::PrintJSONArgs&);
         void Despawn(int64_t);
         void ParseKeyHints(const json&);
         void PrintHintsToConsole(int64_t, int, list<int64_t>);
@@ -235,7 +234,6 @@ namespace Client {
                 }
 
                 if (args.type == "ItemSend") {
-                    ReceiveItemOnce(args);
                     optional<Engine::ItemPopup> item_popup = BuildItemPopup(args);
                     if (item_popup) {
                         Engine::ShowPopup(*item_popup);
@@ -538,18 +536,6 @@ namespace Client {
                 item_popup.preamble = finder_name + L" found your ";
             }
             return item_popup;
-        }
-
-        void ReceiveItemOnce(const APClient::PrintJSONArgs& args) {
-            if (args.receiving == nullptr || args.item == nullptr) {
-                return;
-            }
-
-            if (!ap->slot_concerns_self(*args.receiving)) {
-                return;
-            }
-
-            GameData::ReceiveItemOnce(args.item->item);
         }
 
         void ReceiveDeathLink(const json& data) {

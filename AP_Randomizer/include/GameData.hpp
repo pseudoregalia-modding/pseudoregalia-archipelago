@@ -92,7 +92,6 @@ namespace GameData {
 	void ReadNote(std::wstring);
 	void FinishNote();
 	std::optional<std::wstring> GetNoteText(std::wstring);
-	void ReceiveItemOnce(int64_t);
 	bool IsInteractable(int64_t);
 	void AddMajorKeyHint(int, MultiworldLocation);
 	std::optional<MajorKeyInfo> GetMajorKeyInfo(std::wstring);
