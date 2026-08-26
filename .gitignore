@@ -15,3 +15,9 @@ Release
 .vs/
 out/
 Output/
+
+# extra folders created from opening/cooking unreal project
+pseudoregalia/Build/
+pseudoregalia/DerivedDataCache/
+pseudoregalia/Intermediate/
+pseudoregalia/Saved/

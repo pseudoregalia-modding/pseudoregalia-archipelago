@@ -163,6 +163,9 @@ namespace ModHooks {
 			{L"UI_HUD_C", [](UObject* object) {
 				Engine::ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_CreateConsole", nullptr);
 			}},
+			{L"AP_FileSelectMenu_C", [](UObject* object) {
+				Engine::ExecuteBlueprintFunction(object, L"Initialize", nullptr);
+			}},
 		};
 
 		void RegisterModHook(UObject*, ModHook&);
