@@ -19,7 +19,7 @@ namespace GameData {
     namespace {
         ItemType GetItemType(int64_t);
         optional<Interactable> GetInteractable(wstring);
-        void ReceiveFiller(int64_t);
+        void ReceiveOneTime(int64_t, bool);
 
         optional<wstring> note_being_read = {};
 
@@ -251,8 +251,8 @@ namespace GameData {
 
             {37, ItemType::MajorAbility},
 
-            {38, ItemType::Filler},
-            {39, ItemType::Filler},
+            {38, ItemType::OneTime},
+            {39, ItemType::OneTime},
         };
 
         // Upgrades starting with ~ don't actually exist in the game but are used to track AP items and are handled by
@@ -385,7 +385,7 @@ namespace GameData {
         case ItemType::SmallKey:
             lookup_location_id_to_classification[location_id] = Classification::SmallKey;
             break;
-        case ItemType::Filler:
+        case ItemType::OneTime:
             lookup_location_id_to_classification[location_id] = Classification::GenericFiller;
             break;
         }
@@ -594,7 +594,7 @@ namespace GameData {
         upgrade_table = {};
     }
 
-    ItemType GameData::ReceiveItem(int64_t id) {
+    ItemType GameData::ReceiveItem(int64_t id, bool is_reset) {
         ItemType type = lookup_item_id_to_type.at(id);
         switch (type) {
         case ItemType::MajorAbility:
@@ -615,8 +615,8 @@ namespace GameData {
             // Remove prefix digits from id to assign directly to major_keys array
             major_keys[id - 21] = true;
             break;
-        case ItemType::Filler:
-            ReceiveFiller(id);
+        case ItemType::OneTime:
+            ReceiveOneTime(id, is_reset);
             break;
         default:
             Log(L"You were sent an item, but its id wasn't recognized. Verify that you're playing on the same version this seed was generated on.");
@@ -769,7 +769,9 @@ namespace GameData {
             return interactable_table.at(map).at(interactable_actor_name);
         }
 
-        void ReceiveFiller(int64_t item_id) {
+        void ReceiveOneTime(int64_t item_id, bool is_reset) {
+            if (is_reset) return;
+
             switch (item_id) {
             case 38: // Healing
                 Engine::HealPlayer();

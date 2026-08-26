@@ -212,12 +212,13 @@ namespace Client {
 
             // Executes whenever items are received from the server.
             ap->set_items_received_handler([](const list<APClient::NetworkItem>& items) {
+                bool is_reset = !items.empty() && items.front().index == 0;
+                if (is_reset) {
+                    GameData::ResetItems();
+                }
                 for (const auto& item : items) {
                     Log(L"Receiving item with id " + std::to_wstring(item.item));
-                    if (item.index == 0) {
-                        GameData::ResetItems();
-                    }
-                    GameData::ReceiveItem(item.item);
+                    GameData::ReceiveItem(item.item, is_reset);
                     Engine::SyncItems();
                 }
                 });

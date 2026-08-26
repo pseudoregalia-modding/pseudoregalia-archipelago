@@ -13,7 +13,7 @@ namespace GameData {
 		HealthPiece,
 		SmallKey,
 		MajorKey,
-		Filler,
+		OneTime,
 		Unknown
 	};
 
@@ -82,7 +82,7 @@ namespace GameData {
 	void SetOffWorldItemClassification(int64_t, Classification);
 	Classification GetClassification(int64_t);
 	void ResetItems();
-	ItemType ReceiveItem(int64_t);
+	ItemType ReceiveItem(int64_t, bool);
 	Map MapNameToEnum(std::wstring);
 	bool ToggleSlideJump();
 	bool SlideJumpDisabled();
