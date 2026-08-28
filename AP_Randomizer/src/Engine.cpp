@@ -38,6 +38,7 @@ namespace Engine {
 		void ShowQueuedPopup(UObject*);
 		void QueuePlayerModifiers(UObject*);
 		void ClearPlayerModifiers();
+		void ClearQueuedPopup();
 		void CreateOverlay(UObject*);
 		void VerifyGameVersion(GameData::Map);
 		
@@ -172,8 +173,7 @@ namespace Engine {
 			ExecuteBlueprintFunction(ap_object, L"AP_CreateConsoleHacky", nullptr);
 			verified_version = false;
 			ClearPlayerModifiers();
-			lock_guard<mutex> guard(popups_mutex);
-			queued_popup = {};
+			ClearQueuedPopup();
 			return;
 		}
 		VerifyGameVersion(map);
@@ -705,6 +705,11 @@ namespace Engine {
 			lock_guard<mutex> guard(player_controller_modifier_mutex);
 			queued_heal_amount = {};
 			queued_magic_amount = {};
+		}
+
+		void ClearQueuedPopup() {
+			lock_guard<mutex> guard(popups_mutex);
+			queued_popup = {};
 		}
 
 		void CreateOverlay(UObject* ap_object) {
