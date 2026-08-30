@@ -9,6 +9,7 @@
 #include "Engine.hpp"
 #include "UnrealConsole.hpp"
 #include "StringOps.hpp"
+#include "Settings.hpp"
 
 namespace ModHooks {
 	using namespace RC::Unreal;
@@ -142,6 +143,11 @@ namespace ModHooks {
 			ModHook(L"AP_ExistingFileMenu_C", L"CheckVersionCompatibility",
 				[](UnrealScriptFunctionCallableContext& context, void* customdata) {
 					Engine::CheckVersionCompatibility(context);
+				}),
+			ModHook(L"WBP_APOptions_C", L"Apply",
+				[](UnrealScriptFunctionCallableContext& context, void* customdata) {
+					auto options = context.Context->GetValuePtrByPropertyName<FF_APOptions>(L"Options");
+					Settings::Update(options);
 				}),
 		};
 

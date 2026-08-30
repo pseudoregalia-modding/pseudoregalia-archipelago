@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <unordered_map>
+#include "Client.hpp"
 #include "Logger.hpp"
 #include "Settings.hpp"
 #include "toml++/toml.hpp"
@@ -31,6 +32,8 @@ namespace Settings {
 
 		template<class E> void ParseSetting(E&, toml::table, string, unordered_map<string, E>);
 		void ParseSetting(bool&, toml::table, string);
+
+		bool settings_loaded = false;
 	}
 
 	void Load() {
@@ -116,6 +119,25 @@ namespace Settings {
 
 	Filters::ItemSend GetItemSendFilter() {
 		return item_send_filter;
+	}
+
+	void Load_New(FF_APOptions* options) {
+		if (settings_loaded) return;
+
+		death_link = options->DeathLink;
+		settings_loaded = true;
+	}
+
+	void Update(FF_APOptions* options) {
+		bool updated = false;
+		if (options->DeathLink != death_link) {
+			death_link = options->DeathLink;
+			Client::UpdateTags(death_link);
+			updated = true;
+		}
+		if (updated) {
+			Log(L"settings updated");
+		}
 	}
 
 	namespace {

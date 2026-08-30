@@ -360,6 +360,16 @@ namespace Client {
         ap->Say(input);
     }
 
+    void Client::UpdateTags(bool death_link) {
+        if (ap == nullptr) return;
+
+        list<string> tags;
+        if (death_link) {
+            tags.push_back("DeathLink");
+        }
+        ap->ConnectUpdate({}, tags);
+    }
+
     // returns true if the id param is a "missing location", ie a location that has an item and hasn't been checked. the
     // function returns false if not connected to indicate that there are no locations to check yet.
     bool Client::IsMissingLocation(int64_t id) {

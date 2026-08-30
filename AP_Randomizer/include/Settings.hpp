@@ -1,5 +1,7 @@
 #pragma once
 
+#include "APOptions.hpp"
+
 namespace Settings {
     enum class ItemDisplay {
         Full,
@@ -34,4 +36,7 @@ namespace Settings {
     PopupsInitialState GetPopupsInitialState();
     bool GetPopupsSimplifyItemFont();
     Filters::ItemSend GetItemSendFilter();
+
+    void Load_New(FF_APOptions*);
+    void Update(FF_APOptions*);
 }
