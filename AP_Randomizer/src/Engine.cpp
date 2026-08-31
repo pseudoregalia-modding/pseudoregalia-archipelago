@@ -64,8 +64,6 @@ namespace Engine {
 		mutex messages_mutex;
 
 		const auto popup_debounce_delay = std::chrono::milliseconds(500);
-		bool popups_muted;
-		bool popups_hidden;
 		optional<variant<wstring, ItemPopup>> queued_popup;
 		bool popup_debounce_locked;
 		mutex popups_mutex;
@@ -272,30 +270,14 @@ namespace Engine {
 
 	void ShowPopup(variant<wstring, ItemPopup> popup) {
 		lock_guard<mutex> guard(popups_mutex);
-		if (popups_hidden) return;
+		if (Settings::GetPopupDisplay() == EPopupDisplay::Type::Hidden) return;
 		queued_popup = popup;
 	}
 
-	void TogglePopupsMute() {
+	void UpdatePopupDisplay(EPopupDisplay::Type popup_display) {
 		lock_guard<mutex> guard(popups_mutex);
-		popups_muted = !popups_muted;
-		if (popups_muted) {
-			Log(L"Popup sounds are now muted.", LogType::System);
-		}
-		else {
-			Log(L"Popup sounds are no longer muted.", LogType::System);
-		}
-	}
-
-	void TogglePopupsHide() {
-		lock_guard<mutex> guard(popups_mutex);
-		popups_hidden = !popups_hidden;
-		if (popups_hidden) {
-			queued_popup = {};
-			Log(L"Popups are now hidden.", LogType::System);
-		}
-		else {
-			Log(L"Popups are no longer hidden.", LogType::System);
+		if (popup_display == EPopupDisplay::Type::Hidden) {
+			queued_popup.reset();
 		}
 	}
 
@@ -364,17 +346,6 @@ namespace Engine {
 		}
 
 		Client::CreateMajorKeyHints(*info);
-	}
-
-	void Init() {
-		switch (Settings::GetPopupsInitialState()) {
-		case Settings::PopupsInitialState::ShowMuted:
-			popups_muted = true;
-			break;
-		case Settings::PopupsInitialState::Hide:
-			popups_hidden = true;
-			break;
-		}
 	}
 
 	void StartConnectHandshake(UObject* object) {
@@ -633,6 +604,7 @@ namespace Engine {
 			bool* console_exists = ap_object->GetValuePtrByPropertyName<bool>(L"console_exists");
 			if (!*console_exists) return;
 
+			bool popups_muted = Settings::GetPopupDisplay() == EPopupDisplay::Type::VisibleMuted;
 			if (holds_alternative<wstring>(*queued_popup)) {
 				wstring popup_text = get<wstring>(*queued_popup);
 				Log(popup_text, LogType::Popup);
@@ -641,7 +613,7 @@ namespace Engine {
 					bool mute_sound;
 				};
 				FText new_text(popup_text);
-				shared_ptr<void> params(new PrintMessageInfo{ new_text, popups_muted });
+				shared_ptr<void> params = std::make_shared<PrintMessageInfo>(new_text, popups_muted);
 				ExecuteBlueprintFunction(ap_object, L"AP_PrintMessage", params);
 			}
 			else {

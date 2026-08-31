@@ -4,6 +4,7 @@
 #include <fstream>
 #include <unordered_map>
 #include "Client.hpp"
+#include "Engine.hpp"
 #include "Logger.hpp"
 #include "Settings.hpp"
 #include "toml++/toml.hpp"
@@ -24,7 +25,7 @@ namespace Settings {
 
 		// settings, set to their defaults
 		bool death_link = false;
-		PopupsInitialState popups_initial_state = PopupsInitialState::ShowWithSound;
+		EPopupDisplay::Type popup_display = EPopupDisplay::Type::VisibleWithSound;
 		bool popups_simplify_item_font = false;
 		Filters::ItemSend item_send_filter = Filters::ItemSend::All;
 
@@ -56,15 +57,6 @@ namespace Settings {
 
 		Log("Loading settings");
 		ParseSetting(death_link, settings_table, "settings.death_link");
-		ParseSetting(
-			popups_initial_state,
-			settings_table,
-			"settings.popups.initial_state",
-			unordered_map<string, PopupsInitialState>{
-				{ "show_with_sound", PopupsInitialState::ShowWithSound },
-				{ "show_muted", PopupsInitialState::ShowMuted },
-				{ "hide", PopupsInitialState::Hide },
-			});
 		ParseSetting(popups_simplify_item_font, settings_table, "settings.popups.simplify_item_font");
 		ParseSetting(
 			item_send_filter,
@@ -81,8 +73,8 @@ namespace Settings {
 		return death_link;
 	}
 
-	PopupsInitialState GetPopupsInitialState() {
-		return popups_initial_state;
+	EPopupDisplay::Type GetPopupDisplay() {
+		return popup_display;
 	}
 
 	bool GetPopupsSimplifyItemFont() {
@@ -105,6 +97,11 @@ namespace Settings {
 		if (options->DeathLink != death_link) {
 			death_link = options->DeathLink;
 			Client::UpdateTags(death_link);
+			updated = true;
+		}
+		if (options->PopupDisplay != popup_display) {
+			popup_display = options->PopupDisplay.GetValue();
+			Engine::UpdatePopupDisplay(popup_display);
 			updated = true;
 		}
 		if (updated) {

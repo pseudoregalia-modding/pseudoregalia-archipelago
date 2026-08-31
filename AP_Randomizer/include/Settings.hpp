@@ -19,7 +19,7 @@ namespace Settings {
 
     void Load();
     bool GetDeathLink();
-    PopupsInitialState GetPopupsInitialState();
+    EPopupDisplay::Type GetPopupDisplay();
     bool GetPopupsSimplifyItemFont();
     Filters::ItemSend GetItemSendFilter();
 

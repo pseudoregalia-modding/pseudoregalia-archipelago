@@ -4,35 +4,7 @@
 
 [settings]
 
-# How items are displayed in your game.
-#
-# "full": Pseudoregalia items look vanilla, items from other games look different based on their classification.
-# "generic_non_pseudo": Pseudoregalia items look vanilla, items from other games all look the same.
-# "generic_all": All items look the same.
-item_display = "full"
-
-# How auras around interactables are displayed in your game.
-#
-# "classification": Unchecked interactables have a different aura based on their classification.
-# "generic": Unchecked interactables all have the same aura.
-# "none": Unchecked interactables have no aura.
-interactable_aura_display = "classification"
-
-# Whether to opt in to the death link system.
-#
-# true: When you die, everyone dies. Of course the reverse is true too.
-# false: Your deaths are yours alone. There is no one else to blame.
-death_link = false
-
 [settings.popups]
-
-# The initial state of item and death link popups.
-# This can be changed at any time with the /popups command.
-#
-# "show_with_sound": Popups are displayed with an accompanying sound.
-# "show_muted": Popups are displayed with no sound.
-# "hide": Popups are not displayed.
-initial_state = "show_with_sound"
 
 # Whether to use a simpler font for the item text in item popups.
 simplify_item_font = false
