@@ -156,7 +156,7 @@ namespace Engine {
 
 	// Performs actions that should be done at the start of a new scene
 	void OnSceneLoad(UObject* ap_object) {
-		auto options = ap_object->GetValuePtrByPropertyName<FF_APOptions>(L"Options");
+		auto options = ap_object->GetValuePtrByPropertyName<Settings::FF_APOptions>(L"Options");
 		Settings::Load(options);
 
 		GameData::Map map = GetCurrentMap(ap_object);
@@ -270,13 +270,13 @@ namespace Engine {
 
 	void ShowPopup(variant<wstring, ItemPopup> popup) {
 		lock_guard<mutex> guard(popups_mutex);
-		if (Settings::GetPopupDisplay() == EPopupDisplay::Type::Hidden) return;
+		if (Settings::GetPopupDisplay() == Settings::EPopupDisplay::Type::Hidden) return;
 		queued_popup = popup;
 	}
 
-	void UpdatePopupDisplay(EPopupDisplay::Type popup_display) {
+	void UpdatePopupDisplay(Settings::EPopupDisplay::Type popup_display) {
 		lock_guard<mutex> guard(popups_mutex);
-		if (popup_display == EPopupDisplay::Type::Hidden) {
+		if (popup_display == Settings::EPopupDisplay::Type::Hidden) {
 			queued_popup.reset();
 		}
 	}
@@ -604,7 +604,7 @@ namespace Engine {
 			bool* console_exists = ap_object->GetValuePtrByPropertyName<bool>(L"console_exists");
 			if (!*console_exists) return;
 
-			bool popups_muted = Settings::GetPopupDisplay() == EPopupDisplay::Type::VisibleMuted;
+			bool popups_muted = Settings::GetPopupDisplay() == Settings::EPopupDisplay::Type::VisibleMuted;
 			if (holds_alternative<wstring>(*queued_popup)) {
 				wstring popup_text = get<wstring>(*queued_popup);
 				Log(popup_text, LogType::Popup);

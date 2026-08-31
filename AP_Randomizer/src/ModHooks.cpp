@@ -146,7 +146,7 @@ namespace ModHooks {
 				}),
 			ModHook(L"WBP_APOptions_C", L"Apply",
 				[](UnrealScriptFunctionCallableContext& context, void* customdata) {
-					auto options = context.Context->GetValuePtrByPropertyName<FF_APOptions>(L"Options");
+					auto options = context.Context->GetValuePtrByPropertyName<Settings::FF_APOptions>(L"Options");
 					Settings::Update(options);
 				}),
 		};

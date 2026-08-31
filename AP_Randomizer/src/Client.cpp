@@ -444,9 +444,9 @@ namespace Client {
         bool ShouldPrintToConsole(const APClient::PrintJSONArgs& args) {
             if (args.type == "ItemSend") {
                 switch (Settings::GetItemSendFilter()) {
-                case EConsoleMessageFilter::Type::All:
+                case Settings::EConsoleMessageFilter::Type::All:
                     return true;
-                case EConsoleMessageFilter::Type::Relevant:
+                case Settings::EConsoleMessageFilter::Type::Relevant:
                     if (args.receiving == nullptr || args.item == nullptr) {
                         // don't filter out ill-formed messages just in case
                         return true;
