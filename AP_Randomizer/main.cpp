@@ -32,8 +32,6 @@ public:
         ModDescription = STR("archipelago randomizer for pseudoregalia");
         ModAuthors = STR("littlemeowmeow0134");
         //ModIntendedSDKVersion = STR("2.6");
-
-        Settings::Load();
     }
 
     ~AP_Randomizer()

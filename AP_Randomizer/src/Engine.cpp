@@ -157,7 +157,7 @@ namespace Engine {
 	// Performs actions that should be done at the start of a new scene
 	void OnSceneLoad(UObject* ap_object) {
 		auto options = ap_object->GetValuePtrByPropertyName<FF_APOptions>(L"Options");
-		Settings::Load_New(options);
+		Settings::Load(options);
 
 		GameData::Map map = GetCurrentMap(ap_object);
 		if (map == GameData::Map::EndScreen) {

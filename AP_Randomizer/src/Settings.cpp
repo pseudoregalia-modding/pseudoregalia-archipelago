@@ -1,70 +1,20 @@
 #pragma once
 
-#include <iostream>
-#include <fstream>
-#include <unordered_map>
+#include "Settings.hpp"
+
 #include "Client.hpp"
 #include "Engine.hpp"
 #include "Logger.hpp"
-#include "Settings.hpp"
-#include "toml++/toml.hpp"
 
 namespace Settings {
-	using std::optional;
-	using std::string;
-	using std::ifstream;
-	using std::unordered_map;
-	using std::pair;
-	using std::list;
-
 	namespace {
-		// if you run from the executable directory
-		const string settings_filename1 = "ue4ss/Mods/AP_Randomizer/settings.toml";
-		// if you run from the game directory
-		const string settings_filename2 = "pseudoregalia/Binaries/Win64/ue4ss/Mods/AP_Randomizer/settings.toml";
-
 		// settings, set to their defaults
 		bool death_link = false;
 		EPopupDisplay::Type popup_display = EPopupDisplay::Type::VisibleWithSound;
 		bool popups_simplify_item_font = false;
-		Filters::ItemSend item_send_filter = Filters::ItemSend::All;
-
-		template<class E> void ParseSetting(E&, toml::table, string, unordered_map<string, E>);
-		void ParseSetting(bool&, toml::table, string);
+		EConsoleMessageFilter::Type item_send_filter = EConsoleMessageFilter::Type::All;
 
 		bool settings_loaded = false;
-	}
-
-	void Load() {
-		ifstream settings_file(settings_filename1);
-		if (!settings_file.good()) {
-			settings_file = ifstream(settings_filename2);
-			if (!settings_file.good()) {
-				Log("Settings file not found, using default settings");
-				return;
-			}
-		}
-
-		toml::table settings_table;
-		try {
-			settings_table = toml::parse(settings_file);
-		}
-		catch (const toml::parse_error& err) {
-			Log("Failed to parse settings: " + string(err.description()));
-			Log("Using default settings");
-			return;
-		}
-
-		Log("Loading settings");
-		ParseSetting(
-			item_send_filter,
-			settings_table,
-			"settings.console.filters.item_send",
-			unordered_map<string, Filters::ItemSend> {
-				{ "all", Filters::ItemSend::All },
-				{ "relevant", Filters::ItemSend::Relevant },
-				{ "none", Filters::ItemSend::None },
-			});
 	}
 
 	bool GetDeathLink() {
@@ -79,11 +29,11 @@ namespace Settings {
 		return popups_simplify_item_font;
 	}
 
-	Filters::ItemSend GetItemSendFilter() {
+	EConsoleMessageFilter::Type GetItemSendFilter() {
 		return item_send_filter;
 	}
 
-	void Load_New(FF_APOptions* options) {
+	void Load(FF_APOptions* options) {
 		if (settings_loaded) return;
 
 		death_link = options->DeathLink;
@@ -97,6 +47,10 @@ namespace Settings {
 			Client::UpdateTags(death_link);
 			updated = true;
 		}
+		if (options->ItemSendFilter != item_send_filter) {
+			item_send_filter = options->ItemSendFilter.GetValue();
+			updated = true;
+		}
 		if (options->PopupDisplay != popup_display) {
 			popup_display = options->PopupDisplay.GetValue();
 			Engine::UpdatePopupDisplay(popup_display);
@@ -107,42 +61,7 @@ namespace Settings {
 			updated = true;
 		}
 		if (updated) {
-			Log(L"settings updated");
-		}
-	}
-
-	namespace {
-		template<class E> void ParseSetting(
-			E& setting,
-			toml::table settings_table,
-			string setting_path,
-			unordered_map<string, E> option_map
-		) {
-			optional<string> option = settings_table.at_path(setting_path).value<string>();
-			if (option) {
-				if (option_map.contains(*option)) {
-					Log(setting_path + " = " + *option);
-					setting = option_map.at(*option);
-					return;
-				}
-
-				Log(setting_path + " = default (unknown option " + *option + ")");
-				return;
-			}
-
-			Log(setting_path + " = default (setting missing or not a string)");
-			return;
-		}
-
-		void ParseSetting(bool& setting, toml::table settings_table, string setting_path) {
-			optional<bool> option = settings_table.at_path(setting_path).value<bool>();
-			if (option) {
-				string option_string = *option ? "true" : "false";
-				Log(setting_path + " = " + option_string);
-				setting = *option;
-				return;
-			}
-			Log(setting_path + " = default (setting missing or not a bool)");
+			Log(L"backend relevant settings updated");
 		}
 	}
 }
