@@ -56,8 +56,6 @@ namespace Settings {
 		}
 
 		Log("Loading settings");
-		ParseSetting(death_link, settings_table, "settings.death_link");
-		ParseSetting(popups_simplify_item_font, settings_table, "settings.popups.simplify_item_font");
 		ParseSetting(
 			item_send_filter,
 			settings_table,
@@ -102,6 +100,10 @@ namespace Settings {
 		if (options->PopupDisplay != popup_display) {
 			popup_display = options->PopupDisplay.GetValue();
 			Engine::UpdatePopupDisplay(popup_display);
+			updated = true;
+		}
+		if (options->SimplifyItemPopupFont != popups_simplify_item_font) {
+			popups_simplify_item_font = options->SimplifyItemPopupFont;
 			updated = true;
 		}
 		if (updated) {
