@@ -23,8 +23,6 @@ namespace Settings {
 		const string settings_filename2 = "pseudoregalia/Binaries/Win64/ue4ss/Mods/AP_Randomizer/settings.toml";
 
 		// settings, set to their defaults
-		ItemDisplay item_display = ItemDisplay::Full;
-		InteractableAuraDisplay interactable_aura_display = InteractableAuraDisplay::Classification;
 		bool death_link = false;
 		PopupsInitialState popups_initial_state = PopupsInitialState::ShowWithSound;
 		bool popups_simplify_item_font = false;
@@ -57,24 +55,6 @@ namespace Settings {
 		}
 
 		Log("Loading settings");
-		ParseSetting(
-			item_display,
-			settings_table,
-			"settings.item_display",
-			unordered_map<string, ItemDisplay>{
-				{ "full", ItemDisplay::Full },
-				{ "generic_non_pseudo", ItemDisplay::GenericNonPseudo },
-				{ "generic_all", ItemDisplay::GenericAll },
-			});
-		ParseSetting(
-			interactable_aura_display,
-			settings_table,
-			"settings.interactable_aura_display",
-			unordered_map<string, InteractableAuraDisplay>{
-				{ "classification", InteractableAuraDisplay::Classification },
-				{ "generic", InteractableAuraDisplay::Generic },
-				{ "none", InteractableAuraDisplay::None },
-			});
 		ParseSetting(death_link, settings_table, "settings.death_link");
 		ParseSetting(
 			popups_initial_state,
@@ -95,14 +75,6 @@ namespace Settings {
 				{ "relevant", Filters::ItemSend::Relevant },
 				{ "none", Filters::ItemSend::None },
 			});
-	}
-
-	ItemDisplay GetItemDisplay() {
-		return item_display;
-	}
-
-	InteractableAuraDisplay GetInteractableAuraDisplay() {
-		return interactable_aura_display;
 	}
 
 	bool GetDeathLink() {

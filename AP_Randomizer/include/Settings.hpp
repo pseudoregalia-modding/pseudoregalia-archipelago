@@ -3,18 +3,6 @@
 #include "APOptions.hpp"
 
 namespace Settings {
-    enum class ItemDisplay {
-        Full,
-        GenericNonPseudo,
-        GenericAll,
-    };
-
-    enum class InteractableAuraDisplay {
-        Classification,
-        Generic,
-        None,
-    };
-
     enum class PopupsInitialState {
         ShowWithSound,
         ShowMuted,
@@ -30,8 +18,6 @@ namespace Settings {
     }
 
     void Load();
-    ItemDisplay GetItemDisplay();
-    InteractableAuraDisplay GetInteractableAuraDisplay();
     bool GetDeathLink();
     PopupsInitialState GetPopupsInitialState();
     bool GetPopupsSimplifyItemFont();

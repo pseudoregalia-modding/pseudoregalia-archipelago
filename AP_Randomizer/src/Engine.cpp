@@ -198,9 +198,6 @@ namespace Engine {
 			SpawnCollectible(id, collectible.GetPosition(GameData::GetOptions()));
 		}
 
-		if (Settings::GetInteractableAuraDisplay() == Settings::InteractableAuraDisplay::None) {
-			return;
-		}
 		std::unordered_map<wstring, GameData::Interactable> interactable_map = GameData::GetInteractablesOfZone(map);
 		for (const auto& [name, interactable] : interactable_map) {
 			SpawnInteractableAura(name, interactable);
@@ -226,32 +223,19 @@ namespace Engine {
 	}
 
 	void Engine::DespawnCollectible(const int64_t id) {
-		std::vector<UObject*> collectibles{};
-		UObjectGlobals::FindAllOf(STR("BP_APCollectible_C"), collectibles);
-		for (auto const collectible : collectibles) {
-			void* property_ptr = collectible->GetValuePtrByPropertyName(STR("id"));
-			int64_t* new_id = static_cast<int64_t*>(property_ptr);
-			if (*new_id == id) {
-				Log(L"Manually despawning collectible with id " + to_wstring(id));
-				ExecuteBlueprintFunction(collectible, L"Despawn", nullptr);
-				break;
-			}
-			// It's fine if we don't find the collectible, it could just be in another map or already despawned
-		}
+		struct DespawnInfo {
+			int64_t id;
+		};
+		shared_ptr<void> params = std::make_shared<DespawnInfo>(id);
+		ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_DespawnCollectible", params);
 	}
 
 	void DespawnInteractable(const int64_t id) {
-		std::vector<UObject*> collectibles{};
-		UObjectGlobals::FindAllOf(STR("BP_APInteractableAura_C"), collectibles);
-		for (auto const collectible : collectibles) {
-			void* property_ptr = collectible->GetValuePtrByPropertyName(STR("interactableId"));
-			int64_t* new_id = static_cast<int64_t*>(property_ptr);
-			if (*new_id == id) {
-				Log(L"Manually despawning interactable aura with id " + to_wstring(id));
-				ExecuteBlueprintFunction(collectible, L"Despawn", nullptr);
-				break;
-			}
-		}
+		struct DespawnInfo {
+			int64_t id;
+		};
+		shared_ptr<void> params = std::make_shared<DespawnInfo>(id);
+		ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_DespawnInteractableAura", params);
 	}
 
 	void SpawnTimeTrialCollectibleIfBeaten(UObject* obj) {
@@ -563,9 +547,15 @@ namespace Engine {
 			struct CollectibleSpawnInfo {
 				int64_t new_id;
 				FVector new_position;
-				int32_t classification;
+				TEnumAsByte<GameData::EPseudoType::Type> pseudo_type;
+				TEnumAsByte<GameData::EClassification::Type> classification;
 			};
-			shared_ptr<void> collectible_info(new CollectibleSpawnInfo{ id, position, GameData::GetClassification(id) });
+			auto item_type = GameData::GetItemType(id);
+			shared_ptr<void> collectible_info = std::make_shared<CollectibleSpawnInfo>(
+				id,
+				position,
+				TEnumAsByte(item_type.first),
+				TEnumAsByte(item_type.second));
 			ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SpawnCollectible", collectible_info);
 			spawned_collectibles.insert(id);
 		}
@@ -585,9 +575,13 @@ namespace Engine {
 			struct InteractableAuraSpawnInfo {
 				UObject* follow;
 				int64_t interactableId;
-				int32_t classification;
+				TEnumAsByte<GameData::EClassification::Type> classification;
 			};
-			shared_ptr<void> interactable_aura_info(new InteractableAuraSpawnInfo{ object, id, GameData::GetClassification(id) });
+			auto item_type = GameData::GetItemType(id);
+			shared_ptr<void> interactable_aura_info = std::make_shared<InteractableAuraSpawnInfo>(
+				object,
+				id,
+				TEnumAsByte(item_type.second));
 			ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SpawnInteractableAura", interactable_aura_info);
 		}
 

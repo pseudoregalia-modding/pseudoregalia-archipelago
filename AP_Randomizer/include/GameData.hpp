@@ -7,16 +7,6 @@ namespace GameData {
 	const int MAP_PATCH = 1;
 	const int FULL_GOLD = 2;
 
-	enum class ItemType {
-		MajorAbility,
-		MinorAbility,
-		HealthPiece,
-		SmallKey,
-		MajorKey,
-		OneTime,
-		Unknown
-	};
-
 	enum class Map {
 		TitleScreen,
 		Dungeon,
@@ -31,19 +21,27 @@ namespace GameData {
 		EndScreen,
 	};
 
-	// this is an enum instead of an enum class because we cast to an int when
-	// calling the spawn collectible blueprint
-	enum Classification {
-		Generic,
-		GenericProgression,
-		GenericUsefulOrTrap,
-		GenericFiller,
-		MajorAbility,
-		MinorAbility,
-		HealthPiece,
-		MajorKey,
-		SmallKey,
-	};
+	namespace EPseudoType {
+		enum Type {
+			MajorAbility = 0,
+			MinorAbility = 1,
+			HealthPiece = 2,
+			MajorKey = 3,
+			SmallKey = 4,
+			OffWorld = 5,
+			EPseudoType_MAX = 6,
+		};
+	}
+
+	namespace EClassification {
+		enum Type {
+			Progression = 0,
+			Useful = 1,
+			Filler = 2,
+			Unknown = 3,
+			EClassification_MAX = 4,
+		};
+	}
 
 	struct MultiworldLocation {
 		int player_id;
@@ -66,6 +64,8 @@ namespace GameData {
 	typedef std::pair<int64_t, FVector> TimeTrial;
 	// encodes the location id and actor class name of an interactable location
 	typedef std::pair<int64_t, std::wstring> Interactable;
+	// encodes item type data
+	typedef std::pair<EPseudoType::Type, EClassification::Type> ItemType;
 
 	void Initialize();
 	void Close();
@@ -78,11 +78,11 @@ namespace GameData {
 	std::unordered_map<int64_t, Collectible> GetCollectiblesOfZone(Map);
 	std::unordered_map<std::wstring, Interactable> GetInteractablesOfZone(Map);
 	std::list<int64_t> GetMissingSpawnableLocations();
-	void SetPseudoItemClassification(int64_t, int64_t);
-	void SetOffWorldItemClassification(int64_t, Classification);
-	Classification GetClassification(int64_t);
+	void SetPseudoItemType(int64_t, int64_t, EClassification::Type);
+	void SetOffWorldItemType(int64_t, EClassification::Type);
+	ItemType GetItemType(int64_t);
 	void ResetItems();
-	ItemType ReceiveItem(int64_t, bool);
+	void ReceiveItem(int64_t, bool);
 	Map MapNameToEnum(std::wstring);
 	bool ToggleSlideJump();
 	bool SlideJumpDisabled();

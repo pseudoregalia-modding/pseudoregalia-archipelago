@@ -181,18 +181,19 @@ namespace Client {
                 if (!Engine::IsInConnectHandshake()) return;
 
                 for (const auto& item : items) {
-                    if (ap->get_player_game(item.player) == ap->get_game() && !GameData::IsInteractable(item.location)) {
-                        // interactable locations should have classification set by item classification only
-                        GameData::SetPseudoItemClassification(item.location, item.item);
-                    }
-                    else if (item.flags & APClient::FLAG_ADVANCEMENT) {
-                        GameData::SetOffWorldItemClassification(item.location, GameData::Classification::GenericProgression);
+                    GameData::EClassification::Type classification = GameData::EClassification::Type::Filler;
+                    if (item.flags & APClient::FLAG_ADVANCEMENT) {
+                        classification = GameData::EClassification::Type::Progression;
                     }
                     else if (item.flags & (APClient::FLAG_NEVER_EXCLUDE | APClient::FLAG_TRAP)) {
-                        GameData::SetOffWorldItemClassification(item.location, GameData::Classification::GenericUsefulOrTrap);
+                        classification = GameData::EClassification::Type::Useful;
+                    }
+
+                    if (ap->get_player_game(item.player) == ap->get_game()) {
+                        GameData::SetPseudoItemType(item.location, item.item, classification);
                     }
                     else {
-                        GameData::SetOffWorldItemClassification(item.location, GameData::Classification::GenericFiller);
+                        GameData::SetOffWorldItemType(item.location, classification);
                     }
                 }
 
