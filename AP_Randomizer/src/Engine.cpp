@@ -36,6 +36,9 @@ namespace Engine {
 		void SpawnInteractableAura(wstring, GameData::Interactable);
 		void AddMessages(UObject*);
 		void ShowQueuedPopup(UObject*);
+		void QueuePlayerModifiers(UObject*);
+		void ClearPlayerModifiers();
+		void ClearQueuedPopup();
 		void CreateOverlay(UObject*);
 		void VerifyGameVersion(GameData::Map);
 		
@@ -61,8 +64,6 @@ namespace Engine {
 		mutex messages_mutex;
 
 		const auto popup_debounce_delay = std::chrono::milliseconds(500);
-		bool popups_muted;
-		bool popups_hidden;
 		optional<variant<wstring, ItemPopup>> queued_popup;
 		bool popup_debounce_locked;
 		mutex popups_mutex;
@@ -80,6 +81,10 @@ namespace Engine {
 
 		optional<UObject*> file_object;
 		mutex file_object_mutex;
+
+		optional<double> queued_heal_amount;
+		optional<double> queued_magic_amount;
+		mutex player_controller_modifier_mutex;
 
 		bool verified_version = false;
 	} // End private members
@@ -109,6 +114,7 @@ namespace Engine {
 		QueueItemSync();
 		AddMessages(ap_object);
 		ShowQueuedPopup(ap_object);
+		QueuePlayerModifiers(ap_object);
 
 		// Engine tick runs in a separate thread from the client so it needs to be locked.
 		lock_guard<mutex> guard(blueprint_function_mutex);
@@ -150,6 +156,9 @@ namespace Engine {
 
 	// Performs actions that should be done at the start of a new scene
 	void OnSceneLoad(UObject* ap_object) {
+		auto options = ap_object->GetValuePtrByPropertyName<Settings::FF_APOptions>(L"Options");
+		Settings::Load(options);
+
 		GameData::Map map = GetCurrentMap(ap_object);
 		if (map == GameData::Map::EndScreen) {
 			ExecuteBlueprintFunction(ap_object, L"AP_MarkGameCompleted", nullptr);
@@ -164,10 +173,11 @@ namespace Engine {
             // day I will figure out why tf that happens.
 			ExecuteBlueprintFunction(ap_object, L"AP_CreateConsoleHacky", nullptr);
 			verified_version = false;
-			lock_guard<mutex> guard(popups_mutex);
-			queued_popup = {};
+			ClearPlayerModifiers();
+			ClearQueuedPopup();
 			return;
 		}
+
 		VerifyGameVersion(map);
 		Engine::SpawnCollectibles(map);
 		Engine::SyncItems();
@@ -186,9 +196,6 @@ namespace Engine {
 			SpawnCollectible(id, collectible.GetPosition(GameData::GetOptions()));
 		}
 
-		if (Settings::GetInteractableAuraDisplay() == Settings::InteractableAuraDisplay::None) {
-			return;
-		}
 		std::unordered_map<wstring, GameData::Interactable> interactable_map = GameData::GetInteractablesOfZone(map);
 		for (const auto& [name, interactable] : interactable_map) {
 			SpawnInteractableAura(name, interactable);
@@ -214,32 +221,19 @@ namespace Engine {
 	}
 
 	void Engine::DespawnCollectible(const int64_t id) {
-		std::vector<UObject*> collectibles{};
-		UObjectGlobals::FindAllOf(STR("BP_APCollectible_C"), collectibles);
-		for (auto const collectible : collectibles) {
-			void* property_ptr = collectible->GetValuePtrByPropertyName(STR("id"));
-			int64_t* new_id = static_cast<int64_t*>(property_ptr);
-			if (*new_id == id) {
-				Log(L"Manually despawning collectible with id " + to_wstring(id));
-				ExecuteBlueprintFunction(collectible, L"Despawn", nullptr);
-				break;
-			}
-			// It's fine if we don't find the collectible, it could just be in another map or already despawned
-		}
+		struct DespawnInfo {
+			int64_t id;
+		};
+		shared_ptr<void> params = std::make_shared<DespawnInfo>(id);
+		ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_DespawnCollectible", params);
 	}
 
 	void DespawnInteractable(const int64_t id) {
-		std::vector<UObject*> collectibles{};
-		UObjectGlobals::FindAllOf(STR("BP_APInteractableAura_C"), collectibles);
-		for (auto const collectible : collectibles) {
-			void* property_ptr = collectible->GetValuePtrByPropertyName(STR("interactableId"));
-			int64_t* new_id = static_cast<int64_t*>(property_ptr);
-			if (*new_id == id) {
-				Log(L"Manually despawning interactable aura with id " + to_wstring(id));
-				ExecuteBlueprintFunction(collectible, L"Despawn", nullptr);
-				break;
-			}
-		}
+		struct DespawnInfo {
+			int64_t id;
+		};
+		shared_ptr<void> params = std::make_shared<DespawnInfo>(id);
+		ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_DespawnInteractableAura", params);
 	}
 
 	void SpawnTimeTrialCollectibleIfBeaten(UObject* obj) {
@@ -276,58 +270,25 @@ namespace Engine {
 
 	void ShowPopup(variant<wstring, ItemPopup> popup) {
 		lock_guard<mutex> guard(popups_mutex);
-		if (popups_hidden) return;
+		if (Settings::GetPopupDisplay() == Settings::EPopupDisplay::Type::Hidden) return;
 		queued_popup = popup;
 	}
 
-	void TogglePopupsMute() {
+	void UpdatePopupDisplay(Settings::EPopupDisplay::Type popup_display) {
 		lock_guard<mutex> guard(popups_mutex);
-		popups_muted = !popups_muted;
-		if (popups_muted) {
-			Log(L"Popup sounds are now muted.", LogType::System);
-		}
-		else {
-			Log(L"Popup sounds are no longer muted.", LogType::System);
-		}
-	}
-
-	void TogglePopupsHide() {
-		lock_guard<mutex> guard(popups_mutex);
-		popups_hidden = !popups_hidden;
-		if (popups_hidden) {
-			queued_popup = {};
-			Log(L"Popups are now hidden.", LogType::System);
-		}
-		else {
-			Log(L"Popups are no longer hidden.", LogType::System);
+		if (popup_display == Settings::EPopupDisplay::Type::Hidden) {
+			queued_popup.reset();
 		}
 	}
 
 	void HealPlayer() {
-		GameData::Map map = GetCurrentMap();
-		if (map == GameData::Map::TitleScreen || map == GameData::Map::EndScreen) {
-			// don't try to heal unless in a gameplay level
-			return;
-		}
-
-		shared_ptr<void> Amount(new double(10));
-		ExecuteBlueprintFunction(L"BP_PlayerGoatMain_C", L"healPlayer", Amount);
+		lock_guard<mutex> guard(player_controller_modifier_mutex);
+		queued_heal_amount = queued_heal_amount.value_or(0.) + 10.;
 	}
 
 	void GivePlayerPower() {
-		GameData::Map map = GetCurrentMap();
-		if (map == GameData::Map::TitleScreen || map == GameData::Map::EndScreen) {
-			// don't try to give power unless in a gameplay level
-			return;
-		}
-
-		struct ChangePowerAmountInfo {
-			double A;
-			bool forceUpdatePowerLevel;
-		};
-		shared_ptr<void> power_params(new ChangePowerAmountInfo{ 10, false });
-		ExecuteBlueprintFunction(L"BP_PlayerGoatMain_C", L"changePowerAmount", power_params);
-		ExecuteBlueprintFunction(L"BP_PlayerGoatMain_C", L"updatePlayerCurrentStatValues", nullptr);
+		lock_guard<mutex> guard(player_controller_modifier_mutex);
+		queued_magic_amount = queued_magic_amount.value_or(0.) + 10.;
 	}
 
 	void WarpToSpawn() {
@@ -385,17 +346,6 @@ namespace Engine {
 		}
 
 		Client::CreateMajorKeyHints(*info);
-	}
-
-	void Init() {
-		switch (Settings::GetPopupsInitialState()) {
-		case Settings::PopupsInitialState::ShowMuted:
-			popups_muted = true;
-			break;
-		case Settings::PopupsInitialState::Hide:
-			popups_hidden = true;
-			break;
-		}
 	}
 
 	void StartConnectHandshake(UObject* object) {
@@ -568,9 +518,15 @@ namespace Engine {
 			struct CollectibleSpawnInfo {
 				int64_t new_id;
 				FVector new_position;
-				int32_t classification;
+				TEnumAsByte<GameData::EPseudoType::Type> pseudo_type;
+				TEnumAsByte<GameData::EClassification::Type> classification;
 			};
-			shared_ptr<void> collectible_info(new CollectibleSpawnInfo{ id, position, GameData::GetClassification(id) });
+			auto item_type = GameData::GetItemType(id);
+			shared_ptr<void> collectible_info = std::make_shared<CollectibleSpawnInfo>(
+				id,
+				position,
+				TEnumAsByte(item_type.first),
+				TEnumAsByte(item_type.second));
 			ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SpawnCollectible", collectible_info);
 			spawned_collectibles.insert(id);
 		}
@@ -590,9 +546,13 @@ namespace Engine {
 			struct InteractableAuraSpawnInfo {
 				UObject* follow;
 				int64_t interactableId;
-				int32_t classification;
+				TEnumAsByte<GameData::EClassification::Type> classification;
 			};
-			shared_ptr<void> interactable_aura_info(new InteractableAuraSpawnInfo{ object, id, GameData::GetClassification(id) });
+			auto item_type = GameData::GetItemType(id);
+			shared_ptr<void> interactable_aura_info = std::make_shared<InteractableAuraSpawnInfo>(
+				object,
+				id,
+				TEnumAsByte(item_type.second));
 			ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SpawnInteractableAura", interactable_aura_info);
 		}
 
@@ -644,6 +604,7 @@ namespace Engine {
 			bool* console_exists = ap_object->GetValuePtrByPropertyName<bool>(L"console_exists");
 			if (!*console_exists) return;
 
+			bool popups_muted = Settings::GetPopupDisplay() == Settings::EPopupDisplay::Type::VisibleMuted;
 			if (holds_alternative<wstring>(*queued_popup)) {
 				wstring popup_text = get<wstring>(*queued_popup);
 				Log(popup_text, LogType::Popup);
@@ -652,7 +613,7 @@ namespace Engine {
 					bool mute_sound;
 				};
 				FText new_text(popup_text);
-				shared_ptr<void> params(new PrintMessageInfo{ new_text, popups_muted });
+				shared_ptr<void> params = std::make_shared<PrintMessageInfo>(new_text, popups_muted);
 				ExecuteBlueprintFunction(ap_object, L"AP_PrintMessage", params);
 			}
 			else {
@@ -684,6 +645,41 @@ namespace Engine {
 
 			queued_popup = {};
 			Timer::RunTimerRealTime(popup_debounce_delay, &popup_debounce_locked);
+		}
+
+		void QueuePlayerModifiers(UObject* ap_object) {
+			auto map = GetCurrentMap(ap_object);
+			if (map == GameData::Map::TitleScreen || map == GameData::Map::EndScreen) {
+				return;
+			}
+
+			lock_guard<mutex> guard(player_controller_modifier_mutex);
+			if (queued_heal_amount) {
+				shared_ptr<void> Amount(new double(*queued_heal_amount));
+				ExecuteBlueprintFunction(L"BP_PlayerGoatMain_C", L"healPlayer", Amount);
+				queued_heal_amount = {};
+			}
+			if (queued_magic_amount) {
+				struct ChangePowerAmountInfo {
+					double A;
+					bool forceUpdatePowerLevel;
+				};
+				shared_ptr<void> power_params(new ChangePowerAmountInfo{ 10, false });
+				ExecuteBlueprintFunction(L"BP_PlayerGoatMain_C", L"changePowerAmount", power_params);
+				ExecuteBlueprintFunction(L"BP_PlayerGoatMain_C", L"updatePlayerCurrentStatValues", nullptr);
+				queued_magic_amount = {};
+			}
+		}
+
+		void ClearPlayerModifiers() {
+			lock_guard<mutex> guard(player_controller_modifier_mutex);
+			queued_heal_amount = {};
+			queued_magic_amount = {};
+		}
+
+		void ClearQueuedPopup() {
+			lock_guard<mutex> guard(popups_mutex);
+			queued_popup = {};
 		}
 
 		void CreateOverlay(UObject* ap_object) {

@@ -2,6 +2,7 @@
 #include <variant>
 #include "Unreal/UObject.hpp"
 #include "GameData.hpp"
+#include "Settings.hpp"
 
 namespace Engine {
 	using RC::Unreal::UObject;
@@ -32,14 +33,12 @@ namespace Engine {
 	void PrintToConsole(std::wstring, std::wstring);
 	void PrintToConsole(std::wstring);
 	void ShowPopup(std::variant<std::wstring, ItemPopup>);
-	void TogglePopupsMute();
-	void TogglePopupsHide();
+	void UpdatePopupDisplay(Settings::EPopupDisplay::Type);
 	void HealPlayer();
 	void GivePlayerPower();
 	void WarpToSpawn();
 	void SetTombstoneText(UObject*);
 	void CreateMajorKeyHints(UObject*);
-	void Init();
 	void StartConnectHandshake(UObject*);
 	bool IsInConnectHandshake();
 	void UpdateConnectHandshakeStatus(std::wstring, bool);

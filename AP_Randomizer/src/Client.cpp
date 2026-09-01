@@ -44,7 +44,6 @@ namespace Client {
         string ProcessMessageText(const APClient::PrintJSONArgs&);
         optional<Engine::ItemPopup> BuildItemPopup(const APClient::PrintJSONArgs&);
         void ReceiveDeathLink(const json&);
-        void ReceiveItemOnce(const APClient::PrintJSONArgs&);
         void Despawn(int64_t);
         void ParseKeyHints(const json&);
         void PrintHintsToConsole(int64_t, int, list<int64_t>);
@@ -182,18 +181,19 @@ namespace Client {
                 if (!Engine::IsInConnectHandshake()) return;
 
                 for (const auto& item : items) {
-                    if (ap->get_player_game(item.player) == ap->get_game() && !GameData::IsInteractable(item.location)) {
-                        // interactable locations should have classification set by item classification only
-                        GameData::SetPseudoItemClassification(item.location, item.item);
-                    }
-                    else if (item.flags & APClient::FLAG_ADVANCEMENT) {
-                        GameData::SetOffWorldItemClassification(item.location, GameData::Classification::GenericProgression);
+                    GameData::EClassification::Type classification = GameData::EClassification::Type::Filler;
+                    if (item.flags & APClient::FLAG_ADVANCEMENT) {
+                        classification = GameData::EClassification::Type::Progression;
                     }
                     else if (item.flags & (APClient::FLAG_NEVER_EXCLUDE | APClient::FLAG_TRAP)) {
-                        GameData::SetOffWorldItemClassification(item.location, GameData::Classification::GenericUsefulOrTrap);
+                        classification = GameData::EClassification::Type::Useful;
+                    }
+
+                    if (ap->get_player_game(item.player) == ap->get_game()) {
+                        GameData::SetPseudoItemType(item.location, item.item, classification);
                     }
                     else {
-                        GameData::SetOffWorldItemClassification(item.location, GameData::Classification::GenericFiller);
+                        GameData::SetOffWorldItemType(item.location, classification);
                     }
                 }
 
@@ -213,12 +213,13 @@ namespace Client {
 
             // Executes whenever items are received from the server.
             ap->set_items_received_handler([](const list<APClient::NetworkItem>& items) {
+                bool is_reset = !items.empty() && items.front().index == 0;
+                if (is_reset) {
+                    GameData::ResetItems();
+                }
                 for (const auto& item : items) {
                     Log(L"Receiving item with id " + std::to_wstring(item.item));
-                    if (item.index == 0) {
-                        GameData::ResetItems();
-                    }
-                    GameData::ReceiveItem(item.item);
+                    GameData::ReceiveItem(item.item, is_reset);
                     Engine::SyncItems();
                 }
                 });
@@ -235,7 +236,6 @@ namespace Client {
                 }
 
                 if (args.type == "ItemSend") {
-                    ReceiveItemOnce(args);
                     optional<Engine::ItemPopup> item_popup = BuildItemPopup(args);
                     if (item_popup) {
                         Engine::ShowPopup(*item_popup);
@@ -361,6 +361,16 @@ namespace Client {
         ap->Say(input);
     }
 
+    void Client::UpdateTags(bool death_link) {
+        if (ap == nullptr) return;
+
+        list<string> tags;
+        if (death_link) {
+            tags.push_back("DeathLink");
+        }
+        ap->ConnectUpdate({}, tags);
+    }
+
     // returns true if the id param is a "missing location", ie a location that has an item and hasn't been checked. the
     // function returns false if not connected to indicate that there are no locations to check yet.
     bool Client::IsMissingLocation(int64_t id) {
@@ -432,13 +442,11 @@ namespace Client {
     // Private functions
     namespace {
         bool ShouldPrintToConsole(const APClient::PrintJSONArgs& args) {
-            using namespace Settings::Filters;
-
             if (args.type == "ItemSend") {
                 switch (Settings::GetItemSendFilter()) {
-                case ItemSend::All:
+                case Settings::EConsoleMessageFilter::Type::All:
                     return true;
-                case ItemSend::Relevant:
+                case Settings::EConsoleMessageFilter::Type::Relevant:
                     if (args.receiving == nullptr || args.item == nullptr) {
                         // don't filter out ill-formed messages just in case
                         return true;
@@ -538,18 +546,6 @@ namespace Client {
                 item_popup.preamble = finder_name + L" found your ";
             }
             return item_popup;
-        }
-
-        void ReceiveItemOnce(const APClient::PrintJSONArgs& args) {
-            if (args.receiving == nullptr || args.item == nullptr) {
-                return;
-            }
-
-            if (!ap->slot_concerns_self(*args.receiving)) {
-                return;
-            }
-
-            GameData::ReceiveItemOnce(args.item->item);
         }
 
         void ReceiveDeathLink(const json& data) {

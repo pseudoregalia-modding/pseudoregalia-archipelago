@@ -17,8 +17,8 @@ namespace GameData {
 
     // Private members
     namespace {
-        ItemType GetItemType(int64_t);
         optional<Interactable> GetInteractable(wstring);
+        void ReceiveOneTime(int64_t, bool);
 
         optional<wstring> note_being_read = {};
 
@@ -29,7 +29,7 @@ namespace GameData {
         unordered_map<wstring, int> upgrade_table;
         unordered_map<Map, unordered_map<int64_t, Collectible>> collectible_table;
         unordered_map<Map, unordered_map<wstring, TimeTrial>> time_trial_table;
-        unordered_map<int64_t, Classification> lookup_location_id_to_classification;
+        unordered_map<int64_t, ItemType> lookup_location_id_to_item_type;
         unordered_map<string, int> options;
         bool slidejump_owned;
         bool slidejump_disabled;
@@ -205,53 +205,53 @@ namespace GameData {
 
         // The two lookup tables below could be combined into one table with something like an ItemIdInfo struct,
         // and should be if a third table would be added.
-        const unordered_map<int64_t, ItemType> lookup_item_id_to_type = {
-            {1, ItemType::MajorAbility},
-            {2, ItemType::MajorAbility},
-            {3, ItemType::MajorAbility},
-            {4, ItemType::MajorAbility},
-            {5, ItemType::MajorAbility},
-            {6, ItemType::MajorAbility},
-            {7, ItemType::MajorAbility},
-            {8, ItemType::MajorAbility},
-            {9, ItemType::MajorAbility},
-            {10, ItemType::MajorAbility},
-            {11, ItemType::MinorAbility},
-            {12, ItemType::MinorAbility},
-            {13, ItemType::MinorAbility},
-            {14, ItemType::MinorAbility},
-            {15, ItemType::MinorAbility},
-            {16, ItemType::MinorAbility},
-            {17, ItemType::MinorAbility},
-            {18, ItemType::MinorAbility},
+        const unordered_map<int64_t, EPseudoType::Type> lookup_item_id_to_type = {
+            {1, EPseudoType::Type::MajorAbility},
+            {2, EPseudoType::Type::MajorAbility},
+            {3, EPseudoType::Type::MajorAbility},
+            {4, EPseudoType::Type::MajorAbility},
+            {5, EPseudoType::Type::MajorAbility},
+            {6, EPseudoType::Type::MajorAbility},
+            {7, EPseudoType::Type::MajorAbility},
+            {8, EPseudoType::Type::MajorAbility},
+            {9, EPseudoType::Type::MajorAbility},
+            {10, EPseudoType::Type::MajorAbility},
+            {11, EPseudoType::Type::MinorAbility},
+            {12, EPseudoType::Type::MinorAbility},
+            {13, EPseudoType::Type::MinorAbility},
+            {14, EPseudoType::Type::MinorAbility},
+            {15, EPseudoType::Type::MinorAbility},
+            {16, EPseudoType::Type::MinorAbility},
+            {17, EPseudoType::Type::MinorAbility},
+            {18, EPseudoType::Type::MinorAbility},
 
-            {26, ItemType::MajorAbility},
-            {27, ItemType::MinorAbility},
-            {28, ItemType::MajorAbility},
+            {26, EPseudoType::Type::MajorAbility},
+            {27, EPseudoType::Type::MinorAbility},
+            {28, EPseudoType::Type::MajorAbility},
 
-            {21, ItemType::MajorKey},
-            {22, ItemType::MajorKey},
-            {23, ItemType::MajorKey},
-            {24, ItemType::MajorKey},
-            {25, ItemType::MajorKey},
+            {21, EPseudoType::Type::MajorKey},
+            {22, EPseudoType::Type::MajorKey},
+            {23, EPseudoType::Type::MajorKey},
+            {24, EPseudoType::Type::MajorKey},
+            {25, EPseudoType::Type::MajorKey},
 
-            {19, ItemType::HealthPiece},
-            {20, ItemType::SmallKey},
+            {19, EPseudoType::Type::HealthPiece},
+            {20, EPseudoType::Type::SmallKey},
 
-            {29, ItemType::MinorAbility},
-            {30, ItemType::MinorAbility},
-            {31, ItemType::MinorAbility},
-            {32, ItemType::MinorAbility},
-            {33, ItemType::MinorAbility},
-            {34, ItemType::MinorAbility},
-            {35, ItemType::MinorAbility},
+            {29, EPseudoType::Type::MinorAbility},
+            {30, EPseudoType::Type::MinorAbility},
+            {31, EPseudoType::Type::MinorAbility},
+            {32, EPseudoType::Type::MinorAbility},
+            {33, EPseudoType::Type::MinorAbility},
+            {34, EPseudoType::Type::MinorAbility},
+            {35, EPseudoType::Type::MinorAbility},
 
-            {36, ItemType::MinorAbility},
+            {36, EPseudoType::Type::MinorAbility},
 
-            {37, ItemType::MajorAbility},
+            {37, EPseudoType::Type::MajorAbility},
 
-            {38, ItemType::Filler},
-            {39, ItemType::Filler},
+            {38, EPseudoType::Type::OffWorld},
+            {39, EPseudoType::Type::OffWorld},
         };
 
         // Upgrades starting with ~ don't actually exist in the game but are used to track AP items and are handled by
@@ -349,62 +349,31 @@ namespace GameData {
                 }
             }
         }
-        if (Settings::GetInteractableAuraDisplay() == Settings::InteractableAuraDisplay::Classification) {
-            for (const auto& [_, zone_map] : interactable_table) {
-                for (const auto& [_, interactable] : zone_map) {
-                    const int64_t location_id = interactable.first;
-                    if (Client::IsMissingLocation(location_id)) {
-                        location_ids.push_back(location_id);
-                    }
+        for (const auto& [_, zone_map] : interactable_table) {
+            for (const auto& [_, interactable] : zone_map) {
+                const int64_t location_id = interactable.first;
+                if (Client::IsMissingLocation(location_id)) {
+                    location_ids.push_back(location_id);
                 }
             }
         }
         return location_ids;
     }
 
-    void GameData::SetPseudoItemClassification(int64_t location_id, int64_t item_id) {
-        if (Settings::GetItemDisplay() == Settings::ItemDisplay::GenericAll) {
-            return;
-        }
-
-        ItemType type = lookup_item_id_to_type.at(item_id);
-        switch (type) {
-        case ItemType::MajorAbility:
-            lookup_location_id_to_classification[location_id] = Classification::MajorAbility;
-            break;
-        case ItemType::MinorAbility:
-            lookup_location_id_to_classification[location_id] = Classification::MinorAbility;
-            break;
-        case ItemType::HealthPiece:
-            lookup_location_id_to_classification[location_id] = Classification::HealthPiece;
-            break;
-        case ItemType::MajorKey:
-            lookup_location_id_to_classification[location_id] = Classification::MajorKey;
-            break;
-        case ItemType::SmallKey:
-            lookup_location_id_to_classification[location_id] = Classification::SmallKey;
-            break;
-        case ItemType::Filler:
-            lookup_location_id_to_classification[location_id] = Classification::GenericFiller;
-            break;
-        }
+    void GameData::SetPseudoItemType(int64_t location_id, int64_t item_id, EClassification::Type classification) {
+        lookup_location_id_to_item_type[location_id] = { lookup_item_id_to_type.at(item_id), classification };
     }
 
-    void GameData::SetOffWorldItemClassification(int64_t location_id, Classification classification) {
-        if (Settings::GetItemDisplay() == Settings::ItemDisplay::GenericNonPseudo ||
-            Settings::GetItemDisplay() == Settings::ItemDisplay::GenericAll) {
-            return;
-        }
-
-        lookup_location_id_to_classification[location_id] = classification;
+    void GameData::SetOffWorldItemType(int64_t location_id, EClassification::Type classification) {
+        lookup_location_id_to_item_type[location_id] = { EPseudoType::Type::OffWorld, classification };
     }
 
-    Classification GameData::GetClassification(int64_t location_id) {
-        if (lookup_location_id_to_classification.contains(location_id)) {
-            return lookup_location_id_to_classification[location_id];
+    ItemType GameData::GetItemType(int64_t location_id) {
+        if (lookup_location_id_to_item_type.contains(location_id)) {
+            return lookup_location_id_to_item_type[location_id];
         }
         else {
-            return Classification::Generic;
+            return { EPseudoType::Type::OffWorld, EClassification::Unknown };
         }
     }
 
@@ -593,35 +562,34 @@ namespace GameData {
         upgrade_table = {};
     }
 
-    ItemType GameData::ReceiveItem(int64_t id) {
-        ItemType type = lookup_item_id_to_type.at(id);
+    void GameData::ReceiveItem(int64_t id, bool is_reset) {
+        EPseudoType::Type type = lookup_item_id_to_type.at(id);
         switch (type) {
-        case ItemType::MajorAbility:
-        case ItemType::MinorAbility:
+        case EPseudoType::Type::MajorAbility:
+        case EPseudoType::Type::MinorAbility:
             upgrade_table[lookup_item_id_to_upgrade.at(id)]++;
             if (!slidejump_owned && (upgrade_table[L"slide"] && upgrade_table[L"~solar"]
                                      || upgrade_table[L"~progressiveSlide"] >= 2)) {
                 slidejump_owned = true;
             }
             break;
-        case ItemType::HealthPiece:
+        case EPseudoType::Type::HealthPiece:
             health_pieces++;
             break;
-        case ItemType::SmallKey:
+        case EPseudoType::Type::SmallKey:
             small_keys++;
             break;
-        case ItemType::MajorKey:
+        case EPseudoType::Type::MajorKey:
             // Remove prefix digits from id to assign directly to major_keys array
             major_keys[id - 21] = true;
             break;
-        case ItemType::Filler:
-            // filler does something immediate, so it should only be handled when receiving a PrintJSON with the item
+        case EPseudoType::Type::OffWorld:
+            ReceiveOneTime(id, is_reset);
             break;
         default:
             Log(L"You were sent an item, but its id wasn't recognized. Verify that you're playing on the same version this seed was generated on.");
             break;
         }
-        return type;
     }
 
     Map GameData::MapNameToEnum(wstring map_name) {
@@ -715,17 +683,6 @@ namespace GameData {
         return note_text_table.at(map).at(note_actor_name);
     }
 
-    void ReceiveItemOnce(int64_t item_id) {
-        switch (item_id) {
-        case 38: // Healing
-            Engine::HealPlayer();
-            break;
-        case 39: // Magic Power
-            Engine::GivePlayerPower();
-            break;
-        }
-    }
-
     bool IsInteractable(int64_t location_id) {
         // this works for now since locations are separated by collectible/interactable at this location id
         return location_id >= 66;
@@ -777,6 +734,19 @@ namespace GameData {
                 return {};
             }
             return interactable_table.at(map).at(interactable_actor_name);
+        }
+
+        void ReceiveOneTime(int64_t item_id, bool is_reset) {
+            if (is_reset) return;
+
+            switch (item_id) {
+            case 38: // Healing
+                Engine::HealPlayer();
+                break;
+            case 39: // Magic Power
+                Engine::GivePlayerPower();
+                break;
+            }
         }
     }
 }
