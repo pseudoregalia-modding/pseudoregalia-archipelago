@@ -16,6 +16,7 @@
   (the `pseudoregalia.apworld` file)
   for local generation with the [Archipelago](https://github.com/ArchipelagoMW/Archipelago/releases/latest) software.
   Refer to the Archipelago setup guide for more information, in particular the "Playing with custom worlds" section.
+* [Custom Options Framework mod](https://www.nexusmods.com/pseudoregalia/mods/66) for modifying [client settings](#client-customization).
 
 
 ## Mod Installation
@@ -130,16 +131,21 @@ This will result in the Pseudoregalia folder only having the vanilla game files.
 
 ## Client Customization
 
-Client settings can be found here:
-`Pseudoregalia_AP/pseudoregalia/Binaries/Win64/ue4ss/Mods/AP_Randomizer/settings.toml`.
-The mod zip includes a file called `settings.tmpl.toml` in that location,
-so you'll have to rename it by removing the `.tmpl` before any changes will take effect.
-(The settings file is included as a template in releases
-so that you don't overwrite your settings when installing updates.)
-
 Client settings allow you to customize how certain things behave in the mod.
-The death link option is also configured here.
-The template file explains what each option does.
+Adjustable settings include:
 
-The settings file is only read when starting the executable,
-so any changes you make require closing and reopening the game.
+* Death link
+* The solar wind toggle input
+* How items are displayed
+* Popup behavior
+* Console messages filters
+
+To see the client settings in the options menu,
+you will need the [Custom Options Framework mod](https://www.nexusmods.com/pseudoregalia/mods/66).
+This mod adds a new "Mods" tab to the options menu, accessible from the main menu or when the game is paused.
+Make sure to click Apply or your changes will not be saved!
+
+Installation steps:
+
+1. Download the latest version of `custom_options_framework.zip`.
+2. Extract and move `custom_options_framework_p.pak` to the `Pseudoregalia_AP/pseudoregalia/Content/Paks/` folder.
