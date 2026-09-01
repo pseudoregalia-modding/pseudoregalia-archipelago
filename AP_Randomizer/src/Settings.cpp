@@ -37,6 +37,10 @@ namespace Settings {
 		if (settings_loaded) return;
 
 		death_link = options->DeathLink;
+		popup_display = options->PopupDisplay.GetValue();
+		popups_simplify_item_font = options->SimplifyItemPopupFont;
+		item_send_filter = options->ItemSendFilter.GetValue();
+
 		settings_loaded = true;
 	}
 
