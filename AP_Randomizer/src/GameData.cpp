@@ -18,7 +18,6 @@ namespace GameData {
     // Private members
     namespace {
         optional<Interactable> GetInteractable(wstring);
-        void ReceiveOneTime(int64_t, bool);
 
         optional<wstring> note_being_read = {};
 
@@ -562,7 +561,9 @@ namespace GameData {
         upgrade_table = {};
     }
 
-    void GameData::ReceiveItem(int64_t id, bool is_reset) {
+    void GameData::ReceiveItem(int64_t id) {
+        Log(L"Receiving item with id " + std::to_wstring(id));
+
         EPseudoType::Type type = lookup_item_id_to_type.at(id);
         switch (type) {
         case EPseudoType::Type::MajorAbility:
@@ -584,7 +585,14 @@ namespace GameData {
             major_keys[id - 21] = true;
             break;
         case EPseudoType::Type::OffWorld:
-            ReceiveOneTime(id, is_reset);
+            switch (id) {
+            case 38: // Healing
+                Engine::HealPlayer();
+                break;
+            case 39: // Magic Power
+                Engine::GivePlayerPower();
+                break;
+            }
             break;
         default:
             Log(L"You were sent an item, but its id wasn't recognized. Verify that you're playing on the same version this seed was generated on.");
@@ -734,19 +742,6 @@ namespace GameData {
                 return {};
             }
             return interactable_table.at(map).at(interactable_actor_name);
-        }
-
-        void ReceiveOneTime(int64_t item_id, bool is_reset) {
-            if (is_reset) return;
-
-            switch (item_id) {
-            case 38: // Healing
-                Engine::HealPlayer();
-                break;
-            case 39: // Magic Power
-                Engine::GivePlayerPower();
-                break;
-            }
         }
     }
 }

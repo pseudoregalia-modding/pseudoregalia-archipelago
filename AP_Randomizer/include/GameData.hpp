@@ -82,7 +82,7 @@ namespace GameData {
 	void SetOffWorldItemType(int64_t, EClassification::Type);
 	ItemType GetItemType(int64_t);
 	void ResetItems();
-	void ReceiveItem(int64_t, bool);
+	void ReceiveItem(int64_t);
 	Map MapNameToEnum(std::wstring);
 	bool ToggleSlideJump();
 	bool SlideJumpDisabled();
