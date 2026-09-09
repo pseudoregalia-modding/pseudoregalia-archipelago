@@ -3,7 +3,6 @@ from dataclasses import dataclass
 from Options import Choice, DefaultOnToggle, PerGameCommonOptions, Toggle
 
 from .constants.difficulties import EXPERT, HARD, LUNATIC, NORMAL
-from .constants.versions import FULL_GOLD, MAP_PATCH
 from .logic import player_start_enum, pseudoregalia_data
 
 
@@ -85,19 +84,17 @@ class SplitClingGem(Toggle):
     display_name = "Split Cling Gem"
 
 
-class GameVersion(Choice):
+class UltraCap(Choice):
     """
-    The version of Pseudoregalia you will use when playing the game.
-    Different versions have different logic, locations, and items.
-    After you connect, the game will warn you if the version you are playing doesn't match this option.
+    Determines how the ultra height cap behaves. This only matters for expert+ logic.
 
-    map_patch: The latest version of the game. Includes time trials and new outfits.
-    full_gold: Previous version, accessible using the "fullgoldjump" beta code in Steam.
+    vanilla: Ultras have the lower blue cap unless Solar Wind has been obtained and is active.
+    full_gold: Ultras always have the higher gold cap.
     """
     display_name = "Game Version"
-    option_map_patch = MAP_PATCH
-    option_full_gold = FULL_GOLD
-    default = MAP_PATCH
+    option_vanilla = 0
+    option_full_gold = 1
+    default = 0
 
 
 class StartWithBreaker(Toggle):
@@ -110,8 +107,6 @@ class StartWithBreaker(Toggle):
 class StartWithMap(Toggle):
     """
     Places the map item (Memento) in the starting inventory.
-
-    If Full Gold version is selected, this option has no effect.
     """
     display_name = "Start With Map"
 
@@ -120,8 +115,6 @@ class RandomizeTimeTrials(Toggle):
     """
     Opens the time trials for randomization and puts the outfits in the item pool.
     If turned off, the time trials will not have items and the outfits are placed in the starting inventory.
-
-    If Full Gold version is selected, this option has no effect.
     """
     display_name = "Randomize Time Trials"
 
@@ -129,7 +122,7 @@ class RandomizeTimeTrials(Toggle):
 class RandomizeGoats(Toggle):
     """
     Adds goatlings as locations. Talk to the goatling to get the item.
-    This option adds 19 locations on map patch and 17 locations on full gold.
+    This option adds 19 locations.
     For each location added, an essentially useless filler item is also added to the item pool.
     """
     display_name = "Randomize Goats"
@@ -172,10 +165,10 @@ class MajorKeyHints(DefaultOnToggle):
 
 @dataclass
 class PseudoregaliaOptions(PerGameCommonOptions):
-    game_version: GameVersion
     logic_level: LogicLevel
     obscure_logic: ObscureLogic
     spawn_point: SpawnPoint
+    ultra_cap: UltraCap
     progressive_breaker: ProgressiveBreaker
     progressive_slide: ProgressiveSlide
     split_sun_greaves: SplitSunGreaves

@@ -5,7 +5,6 @@ from BaseClasses import CollectionState, Location, Region, Tutorial
 from worlds.AutoWorld import WebWorld, World
 
 from .constants.difficulties import EXPERT, LUNATIC
-from .constants.versions import FULL_GOLD
 from .items import PseudoregaliaItem, item_groups, item_table
 from .logic import player_start_enum, pseudoregalia_data
 from .options import PseudoregaliaOptions
@@ -134,10 +133,6 @@ class PseudoregaliaWorld(World):
         if self.options.logic_level in (EXPERT, LUNATIC):
             # obscure is forced on for expert/lunatic difficulties
             self.options.obscure_logic.value = 1
-        if self.options.game_version == FULL_GOLD:
-            # zero out options that don't do anything on full gold
-            self.options.start_with_map.value = 0
-            self.options.randomize_time_trials.value = 0
         spawn_point = self.options.spawn_point
         if spawn_point == "dungeon_mirror":
             # start_with_breaker is forced on for dungeon start to help with sphere 1 size
@@ -200,9 +195,9 @@ class PseudoregaliaWorld(World):
     def fill_slot_data(self) -> dict[str, Any]:
         slot_data = {
             "apworld_version": self.world_version,
-            "game_version": self.options.game_version.value,
             "tags": {tag: level for tag, level in self.tags.items() if level},
             "spawn_point": self.options.spawn_point.value,
+            "ultra_cap": self.options.ultra_cap.value,
             "progressive_breaker": bool(self.options.progressive_breaker),
             "progressive_slide": bool(self.options.progressive_slide),
             "split_sun_greaves": bool(self.options.split_sun_greaves),

@@ -22,8 +22,6 @@
 
 Before installing:
 
-* If you want to play on full gold instead of map patch,
-  read the [Playing on Full Gold](#playing-on-full-gold) section below.
 * If you already have any other mods installed,
   read the [Compatibility with Other Mods](#compatibility-with-other-mods) section below.
 * If you are playing on Steam Deck or Linux, use the next section instead.
@@ -86,25 +84,6 @@ Just ignore anything that is Steam Deck specific or that doesn't apply to you.
 
 Note: In order to use the in-game console once you've loaded into the game,
 you'll also need to add `enter` to your controls.
-
-
-## Playing on Full Gold
-
-The full gold patch is a previous version of the game that is also supported by the randomizer.
-The game was updated after release to add the map item and other significant changes,
-but the randomizer supports the earlier version for people who prefer it.
-
-To play on full gold, switch the Steam version of Pseudoregalia before following the installation steps:
-
-1. Right click Pseudoregalia in Steam and select Properties.
-2. Click Game Versions & Betas.
-3. In the Private Versions box, enter `fullgoldjump` and click Check Code.
-4. Click Opt into: fullgold.
-
-You will then be able to switch back and forth between both versions in Steam.
-If you want to be able to play both versions with the randomizer,
-follow the installation steps for each version and make two separate folders,
-e.g. Pseudoregalia_AP_MapPatch and Pseudoregalia_AP_FullGold.
 
 
 ## Compatibility with Other Mods
