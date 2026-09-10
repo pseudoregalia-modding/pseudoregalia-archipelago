@@ -91,7 +91,7 @@ class UltraCap(Choice):
     vanilla: Ultras have the lower blue cap unless Solar Wind has been obtained and is active.
     full_gold: Ultras always have the higher gold cap.
     """
-    display_name = "Game Version"
+    display_name = "Ultra Cap"
     option_vanilla = 0
     option_full_gold = 1
     default = 0
