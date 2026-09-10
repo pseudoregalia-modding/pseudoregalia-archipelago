@@ -1,14 +1,14 @@
 from typing import Any
 
 from BaseClasses import CollectionState, Location, Region, Tutorial
-from Options import OptionGroup
 
+from Options import OptionGroup
 from worlds.AutoWorld import WebWorld, World
 
+from . import options
 from .constants.difficulties import EXPERT, LUNATIC
 from .items import PseudoregaliaItem, item_groups, item_table
 from .logic import player_start_enum, pseudoregalia_data
-from . import options
 from .options import PseudoregaliaOptions
 from .rules import check_options, create_rules
 
