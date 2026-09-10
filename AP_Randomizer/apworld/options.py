@@ -35,7 +35,6 @@ class ObscureLogic(Toggle):
 
 SpawnPoint = type("SpawnPoint", (Choice,), {
     "__module__": __name__,
-    "auto_display_name": False,
     "display_name": "Spawn Point",
     "__doc__": "Determines where you will spawn into the game when creating a new file.\n\n"
                "Some spawns have special behaviors if they are selected or randomly chosen which can affect starting "

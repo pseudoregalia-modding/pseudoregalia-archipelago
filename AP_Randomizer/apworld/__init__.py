@@ -1,12 +1,14 @@
 from typing import Any
 
 from BaseClasses import CollectionState, Location, Region, Tutorial
+from Options import OptionGroup
 
 from worlds.AutoWorld import WebWorld, World
 
 from .constants.difficulties import EXPERT, LUNATIC
 from .items import PseudoregaliaItem, item_groups, item_table
 from .logic import player_start_enum, pseudoregalia_data
+from . import options
 from .options import PseudoregaliaOptions
 from .rules import check_options, create_rules
 
@@ -41,6 +43,29 @@ class PseudoregaliaWebWorld(WebWorld):
         ["highrow623"]
     )
     tutorials = [setup_en]
+    option_groups = [
+        OptionGroup("Logic Options", [
+            options.LogicLevel,
+            options.ObscureLogic,
+            options.SpawnPoint,
+            options.UltraCap,
+        ]),
+        OptionGroup("Item Options", [
+            options.ProgressiveBreaker,
+            options.ProgressiveSlide,
+            options.SplitSunGreaves,
+            options.SplitClingGem,
+            options.StartWithBreaker,
+            options.StartWithMap,
+        ]),
+        OptionGroup("Location Options", [
+            options.RandomizeTimeTrials,
+            options.RandomizeGoats,
+            options.RandomizeChairs,
+            options.RandomizeBooks,
+            options.RandomizeNotes,
+        ]),
+    ]
 
 
 class PseudoregaliaWorld(World):
