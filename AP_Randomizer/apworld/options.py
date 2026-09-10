@@ -86,10 +86,10 @@ class SplitClingGem(Toggle):
 
 class UltraCap(Choice):
     """
-    Determines how the ultra height cap behaves. This only matters for expert+ logic.
+    Determines how the ultra height cap behaves. This only matters for Expert+ logic.
 
-    vanilla: Ultras have the lower blue cap unless Solar Wind has been obtained and is active.
-    full_gold: Ultras always have the higher gold cap.
+    Vanilla: Ultras have the lower blue cap unless Solar Wind has been obtained and is active.
+    Full Gold: Ultras always have the higher gold cap.
     """
     display_name = "Ultra Cap"
     option_vanilla = 0
