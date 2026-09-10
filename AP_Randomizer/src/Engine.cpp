@@ -32,7 +32,7 @@ namespace Engine {
 		void SyncHealthPieces();
 		void SyncSmallKeys();
 		void SyncAbilities();
-		void SpawnCollectible(int64_t, FVector);
+		void SpawnCollectible(int64_t, GameData::Position);
 		void SpawnInteractableAura(wstring, GameData::Interactable);
 		void AddMessages(UObject*);
 		void ShowQueuedPopup(UObject*);
@@ -40,7 +40,6 @@ namespace Engine {
 		void ClearPlayerModifiers();
 		void ClearQueuedPopup();
 		void CreateOverlay(UObject*);
-		void VerifyGameVersion(GameData::Map);
 		
 		// version compatibility stuff
 		const size_t MAJOR = 0;
@@ -85,8 +84,6 @@ namespace Engine {
 		optional<double> queued_heal_amount;
 		optional<double> queued_magic_amount;
 		mutex player_controller_modifier_mutex;
-
-		bool verified_version = false;
 	} // End private members
 
 
@@ -172,16 +169,22 @@ namespace Engine {
             // reason, if we don't create the console on the title screen, it causes issues with the map item. Maybe one
             // day I will figure out why tf that happens.
 			ExecuteBlueprintFunction(ap_object, L"AP_CreateConsoleHacky", nullptr);
-			verified_version = false;
 			ClearPlayerModifiers();
 			ClearQueuedPopup();
 			return;
 		}
 
-		VerifyGameVersion(map);
 		Engine::SpawnCollectibles(map);
 		Engine::SyncItems();
 		Client::SetZoneData(map);
+	}
+
+	void InitPlayer(UObject* player_obj) {
+		if (GameData::GetOptions()["ultra_cap"] == GameData::UltraCap::FULL_GOLD) {
+			auto capped_ultra_modifier = player_obj->GetValuePtrByPropertyName<double>(L"cappedUltraModifier");
+			auto full_ultra_modifier = player_obj->GetValuePtrByPropertyName<double>(L"fullUltraModifier");
+			*capped_ultra_modifier = *full_ultra_modifier;
+		}
 	}
 
 	// Calls blueprint's AP_SpawnCollectible function for each unchecked collectible in a map.
@@ -191,9 +194,9 @@ namespace Engine {
 		// as of 10/11/23 the params struct method I use can't easily represent FVectors or FTransforms in C++.
 		// This might be worked around by storing positions as three separate numbers instead and constructing the vectors in BP,
 		// but I don't think it's worth changing right now since this is just called once each map load.
-		std::unordered_map<int64_t, GameData::Collectible> collectible_map = GameData::GetCollectiblesOfZone(map);
-		for (const auto& [id, collectible] : collectible_map) {
-			SpawnCollectible(id, collectible.GetPosition(GameData::GetOptions()));
+		std::unordered_map<int64_t, GameData::Position> collectible_map = GameData::GetCollectiblesOfZone(map);
+		for (const auto& [id, position] : collectible_map) {
+			SpawnCollectible(id, position);
 		}
 
 		std::unordered_map<wstring, GameData::Interactable> interactable_map = GameData::GetInteractablesOfZone(map);
@@ -505,7 +508,7 @@ namespace Engine {
 			ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SetUpgrades", upgrade_params);
 		}
 
-		void SpawnCollectible(int64_t id, FVector position) {
+		void SpawnCollectible(int64_t id, GameData::Position position) {
 			if (!Client::IsMissingLocation(id)) {
 				Log(L"Collectible with id " + to_wstring(id) + L" was not spawned because it is not a missing location.");
 				return;
@@ -524,7 +527,7 @@ namespace Engine {
 			auto item_type = GameData::GetItemType(id);
 			shared_ptr<void> collectible_info = std::make_shared<CollectibleSpawnInfo>(
 				id,
-				position,
+				FVector(position.x, position.y, position.z),
 				TEnumAsByte(item_type.first),
 				TEnumAsByte(item_type.second));
 			ExecuteBlueprintFunction(L"BP_APRandomizerInstance_C", L"AP_SpawnCollectible", collectible_info);
@@ -688,27 +691,6 @@ namespace Engine {
 			};
 			shared_ptr<void> params = std::make_shared<CreateOverlayInfo>(FText(client_version_text));
 			ExecuteBlueprintFunction(ap_object, L"AP_CreateOverlay", params);
-		}
-
-		void VerifyGameVersion(GameData::Map map) {
-			if (verified_version || !GameData::CanHaveTimeTrial(map)) return;
-
-			int game_version = GameData::GetOptions().at("game_version");
-			std::vector<UObject*> time_trials{};
-			UObjectGlobals::FindAllOf(L"BP_TimeTrial_C", time_trials);
-			bool time_trials_found = time_trials.size() != 0;
-			if (game_version == GameData::MAP_PATCH && !time_trials_found) {
-				Log("Game version map_patch was chosen in the player options, but it seems like you are playing on full gold. "
-					"Switch to map patch for the intended experience.", LogType::Error);
-			}
-			else if (game_version == GameData::FULL_GOLD && time_trials_found) {
-				Log("Game version full_gold was chosen in the player options, but it seems like you are playing on map patch. "
-					"Switch to full gold for the intended experience.", LogType::Error);
-			}
-			else {
-				Log("Verified that game version matches slot data.");
-			}
-			verified_version = true;
 		}
 	} // End private functions
 }

@@ -162,6 +162,9 @@ namespace ModHooks {
 				FText* inText = actor->GetValuePtrByPropertyName<FText>(L"inText");
 				inText->SetString(FString(note_text->c_str()));
 			}},
+			{L"BP_PlayerGoatMain_C", [](AActor* actor) {
+				Engine::InitPlayer(actor);
+			}},
 		};
 
 		typedef function<void(UObject*)> ObjectCallback;

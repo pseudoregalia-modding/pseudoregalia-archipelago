@@ -1,11 +1,16 @@
 #pragma once
+
 #include <map>
+#include <optional>
+#include <string>
+#include <unordered_map>
 #include <vector>
-#include "Collectible.hpp"
 
 namespace GameData {
-	const int MAP_PATCH = 1;
-	const int FULL_GOLD = 2;
+	namespace UltraCap {
+		const int VANILLA = 0;
+		const int FULL_GOLD = 1;
+	}
 
 	enum class Map {
 		TitleScreen,
@@ -60,14 +65,19 @@ namespace GameData {
 		std::wstring spawn_name;
 	};
 
+	struct Position {
+		double x;
+		double y;
+		double z;
+	};
+
 	// encodes the location id and spawn position of a time trial collectible
-	typedef std::pair<int64_t, FVector> TimeTrial;
+	typedef std::pair<int64_t, Position> TimeTrial;
 	// encodes the location id and actor class name of an interactable location
 	typedef std::pair<int64_t, std::wstring> Interactable;
 	// encodes item type data
 	typedef std::pair<EPseudoType::Type, EClassification::Type> ItemType;
 
-	void Initialize();
 	void Close();
 	int GetHealthPieces();
 	int GetSmallKeys();
@@ -75,7 +85,7 @@ namespace GameData {
 	void SetOption(std::string, int);
 	std::unordered_map<std::string, int> GetOptions();
 	std::unordered_map<std::wstring, int> GetUpgradeTable();
-	std::unordered_map<int64_t, Collectible> GetCollectiblesOfZone(Map);
+	std::unordered_map<int64_t, Position> GetCollectiblesOfZone(Map);
 	std::unordered_map<std::wstring, Interactable> GetInteractablesOfZone(Map);
 	std::list<int64_t> GetMissingSpawnableLocations();
 	void SetPseudoItemType(int64_t, int64_t, EClassification::Type);

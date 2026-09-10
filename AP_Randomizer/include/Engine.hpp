@@ -21,6 +21,7 @@ namespace Engine {
 	void ExecuteBlueprintFunction(std::variant<std::wstring, UObject*>, std::wstring, std::shared_ptr<void>);
 	void OnTick(UObject*);
 	void OnSceneLoad(UObject*);
+	void InitPlayer(UObject*);
 	void SyncItems();
 	void SpawnCollectibles(GameData::Map);
 	void DespawnCollectible(const int64_t);

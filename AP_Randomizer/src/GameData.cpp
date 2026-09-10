@@ -26,12 +26,113 @@ namespace GameData {
         bool major_keys[5];
         vector<MultiworldLocation> major_key_hints[5];
         unordered_map<wstring, int> upgrade_table;
-        unordered_map<Map, unordered_map<int64_t, Collectible>> collectible_table;
-        unordered_map<Map, unordered_map<wstring, TimeTrial>> time_trial_table;
         unordered_map<int64_t, ItemType> lookup_location_id_to_item_type;
         unordered_map<string, int> options;
         bool slidejump_owned;
         bool slidejump_disabled;
+
+        const unordered_map<Map, unordered_map<int64_t, Position>> collectible_table = {
+            {Map::Dungeon, unordered_map<int64_t, Position>{
+                {1, { -3500, 4950, -50 }},     // Dream Breaker
+                {2, { 16650, 2600, 2350 }},    // Slide
+                {3, { 1150, -400, 1050 }},     // Alcove Near Mirror
+                {4, { 18250, -9750, 4200 }},   // Dark Orbs
+                {5, { 6800, 8850, 3850 }},     // Past Poles
+                {6, { 7487, 1407, 4250 }},     // Rafters
+                {7, { 750, 8850, 2650  }},     // Strong Eyes
+            }},
+            {Map::Castle, unordered_map<int64_t, Position> {
+                {8, { 5400, 2100, -550 }},     // Indignation
+                {9, { 1600, 8000, -1400 }},    // Alcove Near Dungeon
+                {10, { 16400, 3800, 1200 }},   // Balcony
+                {11, { 11850, 1000, -300 }},   // Corner Corridor
+                {12, { -5000, -600, 2050 }},   // Floater In Courtyard
+                {14, { 7950, 2750, -200 }},    // Platform In Main Halls
+                {15, { -4100, -8200, 2950 }},  // Tall Room Near Wheel Crawlers
+                {16, { -10050, -3700, 1000 }}, // Wheel Crawlers
+                {17, { -3150, 11500, 6300 }},  // High Climb From Courtyard
+                {18, { -9600, 21750, 5400 }},  // Alcove Near Scythe Corridor
+                {19, { 3390, 21150, 6600 }},   // Near Theatre Front
+                {62, { 8950, 6450, -175 }},    // Memento
+            }},
+            {Map::Keep, unordered_map<int64_t, Position> {
+                {20, { 10050, 1800, 1000 }},   // Strikebreak
+                {21, { 800, 2500, 1200 }},     // Alcove Near Locked Door
+                {22, { 1050, 15700, 1300 }},   // Levers Room
+                {23, { 14350, -50, 1350 }},    // Lonely Throne
+                {24, { -3900, -6109, -450 }},  // Near Theatre
+                {25, { -3000, 4900, -400 }},   // Sunsetter
+            }},
+            {Map::Library, unordered_map<int64_t, Position> {
+                {26, { -4150, 9200, -100 }},   // Sun Greaves
+                {27, { -9250, -1850, 1250 }},  // Upper Back
+                {28, { -1300, -6750, -700 }},  // Locked Door Across
+                {29, { -3750, -4170, -700 }},  // Locked Door Left
+                {51, { -4150, 9160, 0 }},      // Split Greaves 1
+                {52, { -4100, 9250, -100 }},   // Split Greaves 2
+                {53, { -4200, 9250, -100 }},   // Split Greaves 3
+            }},
+            {Map::Theatre, unordered_map<int64_t, Position> {
+                {30, { 8500, 7850, -1400 }},   // Soul Cutter
+                {31, { -1600, 1500, 2600 }},   // Back Of Auditorium
+                {32, { 5200, 1550, 700 }},     // Center Stage
+                {33, { -1460, -2550, 2240 }},  // Locked Door
+                {34, { 255, 1150, 50 }},       // Tucked Behind Boxes
+                {35, { -14100, -150, 1950 }},  // Corner Beam
+            }},
+            {Map::Bailey, unordered_map<int64_t, Position> {
+                {36, { -1100, 10850, 150 }},   // Solar Wind
+                {37, { 2350, 7260, 2110 }},    // Center Steeple
+                {38, { 5040, 7150, 2500 }},    // Cheese Bell
+                {39, { -1787, 5236, 650 }},    // Guarded Hand
+                {40, { 3007, 3457, 300 }},     // Inside Building
+            }},
+            {Map::Underbelly, unordered_map<int64_t, Position> {
+                {41, { -5400, 6650, 6750 }},   // Ascendant Light
+                {42, { -2550, 12300, 4400 }},  // Alcove Near Light
+                {43, { -4350, 28350, 1850 }},  // Building Near Little Guy
+                {44, { 18896, 7937, 1200 }},   // Locked Door
+                {45, { -726, 19782, 3200 }},   // Main Room
+                {46, { 19600, 17750, 5700 }},  // Rafters Near Keep
+                {47, { 11300, 12700, 3107 }},  // Strikebreak Wall
+                {48, { 33050, 24100, 3850 }},  // Surrounded By Holes
+            }},
+            {Map::Tower, unordered_map<int64_t, Position> {
+                {49, { 13350, 5250, 4150 }},   // Cling Gem
+                {50, { 9650, 5250, 7100 }},    // Atop The Tower
+                {63, { 13350, 4750, 4150 }},   // Cling Gem 1
+                {64, { 13350, 5250, 4150 }},   // Cling Gem 2
+                {65, { 13350, 5750, 4150 }},   // Cling Gem 3
+            }},
+        };
+
+        // map -> time trial actor name -> location id + position
+        const unordered_map<Map, unordered_map<wstring, TimeTrial>> time_trial_table = {
+            {Map::Dungeon, {
+                {L"BP_TimeTrial_C_1", {54, { -3350, -4300, 850 }}},
+            }},
+            {Map::Castle, {
+                {L"BP_TimeTrial_C_1", {55, { 3200, -1700, -500 }}},
+            }},
+            {Map::Keep, {
+                {L"BP_TimeTrial_C_3", {56, { 14350, 400, 1250 }}},
+            }},
+            {Map::Library, {
+                {L"BP_TimeTrial_C_2", {57, { -2850, 3600, 900 }}},
+            }},
+            {Map::Theatre, {
+                {L"BP_TimeTrial_C_1", {58, { -14750, 3900, 100 }}},
+            }},
+            {Map::Bailey, {
+                {L"BP_TimeTrial_C_1", {59, { 1150, 5250, -600 }}},
+            }},
+            {Map::Underbelly, {
+                {L"BP_TimeTrial_C_1", {60, { 1250, 18000, 3000 }}},
+            }},
+            {Map::Tower, {
+                {L"BP_TimeTrial_C_3", {61, { 10750, 3050, 4000 }}},
+            }},
+        };
 
         const vector<PlayerStart> player_starts = {
             { L"ZONE_Dungeon", L"gameStart", L"Dungeon Mirror" },
@@ -98,7 +199,7 @@ namespace GameData {
         const size_t default_spawn_index = 7; // Castle West Save
 
         // map -> actor name -> location id + actor class name
-        unordered_map<Map, unordered_map<wstring, Interactable>> interactable_table = {
+        const unordered_map<Map, unordered_map<wstring, Interactable>> interactable_table = {
             {Map::Dungeon, {
                 {L"BP_NPC_C_1", {66, L"BP_NPC_Child_C"}}, // Mirror Room Goatling
                 {L"BP_NPC_C_6", {67, L"BP_NPC_C"}}, // Rambling Goatling
@@ -323,12 +424,18 @@ namespace GameData {
         return options;
     }
 
-    unordered_map<int64_t, Collectible> GameData::GetCollectiblesOfZone(Map current_map) {
-        return collectible_table[current_map];
+    unordered_map<int64_t, Position> GameData::GetCollectiblesOfZone(Map current_map) {
+        if (collectible_table.contains(current_map)) {
+            return collectible_table.at(current_map);
+        }
+        return {};
     }
 
     unordered_map<wstring, Interactable> GetInteractablesOfZone(Map current_map) {
-        return interactable_table[current_map];
+        if (interactable_table.contains(current_map)) {
+            return interactable_table.at(current_map);
+        }
+        return {};
     }
 
     list<int64_t> GameData::GetMissingSpawnableLocations() {
@@ -376,174 +483,7 @@ namespace GameData {
         }
     }
 
-    void GameData::Initialize() {
-        Close();
-
-        collectible_table = {
-            {Map::Dungeon, unordered_map<int64_t, Collectible>{
-            // Dream Breaker
-                {1, Collectible(FVector(-3500.0, 4950.0, -50.0))},
-            // Slide
-                {2, Collectible(FVector(16650, 2600, 2350))},
-            // Alcove Near Mirror
-                {3, Collectible(FVector(1150, -400, 1050))},
-            // Dark Orbs
-                {4, Collectible(FVector(18250, -9750, 4200))},
-            // Past Poles
-                {5, Collectible(FVector(6800, 8850, 3850))},
-            // Rafters
-                {6, Collectible(FVector(7487, 1407, 4250))},
-            // Strong Eyes
-                {7, Collectible(FVector(750, 8850, 2650))},
-                    }},
-            {Map::Castle, unordered_map<int64_t, Collectible> {
-            // Indignation
-                {8, Collectible(FVector(5400, 2100, -550))},
-            // Alcove Near Dungeon
-                {9, Collectible(FVector(1600, 8000, -1400))},
-            // Balcony
-                {10, Collectible(FVector(16400, 3800, 1200))},
-            // Corner Corridor
-                {11, Collectible(FVector(11850, 1000, -300))},
-            // Floater In Courtyard
-                {12, Collectible(FVector(-5000, -600, 2050))},
-            // Locked Door
-                {13, Collectible(FVector(2700, -1700, -500))},
-            // Platform In Main Halls
-                {14, Collectible(FVector(7950, 2750, -200))},
-            // Tall Room Near Wheel Crawlers
-                {15, Collectible(FVector(-4100, -8200, 2950))},
-            // Wheel Crawlers
-                {16, Collectible(FVector(-10050, -3700, 1000))},
-            // High Climb From Courtyard
-                {17, Collectible(FVector(-3150, 11500, 6300))},
-            // Alcove Near Scythe Corridor
-                {18, Collectible(FVector(-9600, 21750, 5400))},
-            // Near Theatre Front
-                {19, Collectible(FVector(3390, 21150, 6600))},
-            // Memento
-                {62, Collectible(FVector(8950, 6450, -175))},
-                    }},
-            {Map::Keep, unordered_map<int64_t, Collectible> {
-            // Strikebreak
-                {20, Collectible(FVector(10050, 1800, 1000))},
-            // Alcove Near Locked Door
-                {21, Collectible(FVector(800, 2500, 1200))},
-            // Levers Room
-                {22, Collectible(FVector(1050, 15700, 1300))},
-            // Lonely Throne
-                {23, Collectible(FVector(14350, -50, 1350))},
-            // Near Theatre
-                {24, Collectible(FVector(-3900, -6109, -450))},
-            // Sunsetter
-                {25, Collectible(FVector(-3000, 4900, -400))},
-                    }},
-            {Map::Library, unordered_map<int64_t, Collectible> {
-            // Sun Greaves
-                {26, Collectible(FVector(-4150, 9200, -100))},
-            // Upper Back
-                {27, Collectible(FVector(-9250, -1850, 1250))},
-            // Locked Door Across
-                {28, Collectible(FVector(-1300, -6750, -700))},
-            // Locked Door Left
-                {29, Collectible(FVector(-3750, -4170, -700))},
-            // Split Greaves 1
-                {51, Collectible(FVector(-4150, 9160, 0))},
-            // Split Greaves 2
-                {52, Collectible(FVector(-4100, 9250, -100))},
-            // Split Greaves 3
-                {53, Collectible(FVector(-4200, 9250, -100))},
-                    }},
-            {Map::Theatre, unordered_map<int64_t, Collectible> {
-            // Soul Cutter
-                {30, Collectible(FVector(8500, 7850, -1400))},
-            // Back Of Auditorium
-                {31, Collectible(FVector(-1600, 1500, 2600))},
-            // Center Stage
-                {32, Collectible(FVector(5200, 1550, 700))},
-            // Locked Door
-                {33, Collectible(FVector(-1460, -2550, 2240))},
-            // Tucked Behind Boxes
-                {34, Collectible(FVector(255, 1150, 50))},
-            // Corner Beam
-                {35, Collectible(FVector(-14100, -150, 1950))},
-                    }},
-            {Map::Bailey, unordered_map<int64_t, Collectible> {
-            // Solar Wind
-                {36, Collectible(FVector(-1100, 10850, 150))},
-            // Center Steeple
-                {37, Collectible(FVector(2350, 7260, 2110))},
-            // Cheese Bell
-                {38, Collectible(FVector(5040, 7150, 2500))},
-            // Guarded Hand
-                {39, Collectible(FVector(-1787, 5236, 650))},
-            // Inside Building
-                {40, Collectible(FVector(3007, 3457, 300))},
-                    }},
-            {Map::Underbelly, unordered_map<int64_t, Collectible> {
-            // Ascendant Light
-                {41, Collectible(FVector(-5400, 6650, 6750))},
-            // Alcove Near Light
-                {42, Collectible(FVector(-2550, 12300, 4400))},
-            // Building Near Little Guy
-                {43, Collectible(FVector(-4350, 28350, 1850))},
-            // Locked Door
-                {44, Collectible(FVector(18896, 7937, 1200))},
-            // Main Room
-                {45, Collectible(FVector(-726, 19782, 3200))},
-            // Rafters Near Keep
-                {46, Collectible(FVector(19600, 17750, 5700))},
-            // Strikebreak Wall
-                {47, Collectible(FVector(11300, 12700, 3107))},
-            // Surrounded By Holes
-                {48, Collectible(FVector(33050, 24100, 3850), tuple<FVector, string, int>{FVector(31900, 26250, 3850), "game_version", FULL_GOLD})},
-                    }},
-            {Map::Tower, unordered_map<int64_t, Collectible> {
-            // Cling Gem
-                {49, Collectible(FVector(13350, 5250, 4150))},
-            // Atop The Tower
-                {50, Collectible(FVector(9650, 5250, 7100))},
-            // Cling Gem 1
-                {63, Collectible(FVector(13350, 4750, 4150))},
-            // Cling Gem 2
-                {64, Collectible(FVector(13350, 5250, 4150))},
-            // Cling Gem 3
-                {65, Collectible(FVector(13350, 5750, 4150))},
-                    }},
-        };
-
-        // map -> time trial actor name -> location id + position
-        time_trial_table = {
-            {Map::Dungeon, {
-                {L"BP_TimeTrial_C_1", {54, FVector(-3350, -4300, 850)}},
-            }},
-            {Map::Castle, {
-                {L"BP_TimeTrial_C_1", {55, FVector(3200, -1700, -500)}},
-            }},
-            {Map::Keep, {
-                {L"BP_TimeTrial_C_3", {56, FVector(14350, 400, 1250)}},
-            }},
-            {Map::Library, {
-                {L"BP_TimeTrial_C_2", {57, FVector(-2850, 3600, 900)}},
-            }},
-            {Map::Theatre, {
-                {L"BP_TimeTrial_C_1", {58, FVector(-14750, 3900, 100)}},
-            }},
-            {Map::Bailey, {
-                {L"BP_TimeTrial_C_1", {59, FVector(1150, 5250, -600)}},
-            }},
-            {Map::Underbelly, {
-                {L"BP_TimeTrial_C_1", {60, FVector(1250, 18000, 3000)}},
-            }},
-            {Map::Tower, {
-                {L"BP_TimeTrial_C_3", {61, FVector(10750, 3050, 4000)}},
-            }},
-        };
-    }
-
     void GameData::Close() {
-        collectible_table = {};
-        time_trial_table = {};
         ResetItems();
         for (auto& hints : major_key_hints) {
             hints.clear();
@@ -650,7 +590,7 @@ namespace GameData {
     }
 
     void Interact(wstring actor_name) {
-        std::optional<Interactable> interactable = GameData::GetInteractable(actor_name);
+        auto interactable = GameData::GetInteractable(actor_name);
         if (!interactable) {
             Log(L"No interactable found for interactable actor " + actor_name); // TODO add zone to log
             return;

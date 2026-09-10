@@ -72,7 +72,7 @@ namespace Client {
             delete ap;
         }
         ap = nullptr;
-        GameData::Initialize();
+        GameData::Close();
         wstring uri = domain + L":" + port;
         ap = new APClient(uuid, game_name, StringOps::ToNarrow(uri), cert_store);
         connection_retries = 0;
