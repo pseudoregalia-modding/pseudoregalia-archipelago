@@ -108,14 +108,12 @@ namespace UnrealConsole {
 				L"<System>/spawn</>\n"
 				L"    <System>Save game and warp to spawn.</>\n"
 				L"<System>/breaker</>\n"
-				L"    <System>Recall Dream Breaker. Only works if you have obtained it.</>\n"
-				L"<System>/popups [hide|mute]</>\n"
-				L"    <System>Hide/show or mute/unmute item and deathlink popups.</>");
+				L"    <System>Recall Dream Breaker. Only works if you have obtained it.</>");
 			break;
 		default:
 			Engine::PrintToConsole(L"/" + input);
 			Log(L"Command not recognized: " + input, LogType::System);
-			Log(L"Known commands: help, spawn, breaker, popups", LogType::System);
+			Log(L"Known commands: help, spawn, breaker", LogType::System);
 			break;
 		}
 	}
