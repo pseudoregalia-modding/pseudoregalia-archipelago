@@ -79,7 +79,7 @@ namespace UnrealConsole {
 		case Hashes::popups: {
 			Engine::PrintToConsole(L"/" + input);
 			Log(L"This command is no longer supported. "
-				L"Update popup settings using the Custom Options Framework mod.", LogType::System);
+				L"Update popup settings in the options menu.", LogType::System);
 			break;
 		}
 		case Hashes::spawn:
