@@ -1,0 +1,4 @@
+# In previous versions of the mod, this file was used to adjust client settings, but that has been moved to an in-game
+# widget accessible from the options menu. For this version only (0.11.0), this file is still included to explain that
+# client settings have moved and that settings.toml is no longer used. It's safe to delete this file and settings.toml
+# if it exists.
