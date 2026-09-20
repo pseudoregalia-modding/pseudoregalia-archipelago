@@ -1816,7 +1816,7 @@ locations:
           tags:
             logic_level: lunatic
   - name: Castle Sansa - Platform In Main Halls
-    code: 14  # TODO (full-gold): should we move everything down one??
+    code: 14
     region: Castle Main
     rule:
       or:
