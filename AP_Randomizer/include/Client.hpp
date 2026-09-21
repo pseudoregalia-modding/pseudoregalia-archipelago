@@ -6,6 +6,7 @@ namespace Client {
 	void Connect(std::wstring, std::wstring, std::wstring, std::wstring, std::optional<std::wstring> = {});
 	void SendCheck(int64_t);
 	void Say(std::string);
+	void UpdateTags(bool);
 	void OnTick();
 	void SetZoneData(GameData::Map);
 	void CompleteGame();

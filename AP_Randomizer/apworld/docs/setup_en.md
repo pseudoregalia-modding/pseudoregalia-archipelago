@@ -22,8 +22,6 @@
 
 Before installing:
 
-* If you want to play on full gold instead of map patch,
-  read the [Playing on Full Gold](#playing-on-full-gold) section below.
 * If you already have any other mods installed,
   read the [Compatibility with Other Mods](#compatibility-with-other-mods) section below.
 * If you are playing on Steam Deck or Linux, use the next section instead.
@@ -88,25 +86,6 @@ Note: In order to use the in-game console once you've loaded into the game,
 you'll also need to add `enter` to your controls.
 
 
-## Playing on Full Gold
-
-The full gold patch is a previous version of the game that is also supported by the randomizer.
-The game was updated after release to add the map item and other significant changes,
-but the randomizer supports the earlier version for people who prefer it.
-
-To play on full gold, switch the Steam version of Pseudoregalia before following the installation steps:
-
-1. Right click Pseudoregalia in Steam and select Properties.
-2. Click Game Versions & Betas.
-3. In the Private Versions box, enter `fullgoldjump` and click Check Code.
-4. Click Opt into: fullgold.
-
-You will then be able to switch back and forth between both versions in Steam.
-If you want to be able to play both versions with the randomizer,
-follow the installation steps for each version and make two separate folders,
-e.g. Pseudoregalia_AP_MapPatch and Pseudoregalia_AP_FullGold.
-
-
 ## Compatibility with Other Mods
 
 The Pseudoregalia Archipelago mod touches many parts of the game
@@ -130,16 +109,18 @@ This will result in the Pseudoregalia folder only having the vanilla game files.
 
 ## Client Customization
 
-Client settings can be found here:
-`Pseudoregalia_AP/pseudoregalia/Binaries/Win64/ue4ss/Mods/AP_Randomizer/settings.toml`.
-The mod zip includes a file called `settings.tmpl.toml` in that location,
-so you'll have to rename it by removing the `.tmpl` before any changes will take effect.
-(The settings file is included as a template in releases
-so that you don't overwrite your settings when installing updates.)
-
 Client settings allow you to customize how certain things behave in the mod.
-The death link option is also configured here.
-The template file explains what each option does.
+Adjustable settings include:
 
-The settings file is only read when starting the executable,
-so any changes you make require closing and reopening the game.
+* Death link
+* The solar wind toggle input
+* How items are displayed
+* Popup behavior
+* Console messages filters
+
+The AP mod utilizes the Custom Options Framework mod to show client settings.
+This mod adds a new "Mods" tab to the options menu, accessible from the main menu or when the game is paused.
+Make sure to click Apply or your changes will not be saved!
+
+Releases include the Custom Options Framework mod for convenience,
+but you can find the original posting [on nexusmods](https://www.nexusmods.com/pseudoregalia/mods/66).

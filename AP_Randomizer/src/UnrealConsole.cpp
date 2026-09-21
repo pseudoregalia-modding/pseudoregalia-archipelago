@@ -35,7 +35,6 @@ namespace UnrealConsole {
 	// Private members
 	namespace {
 		void ParseConnect(string);
-		void ParseMessageOption(string);
 		void TryConnect(wstring);
 		string GetNextToken(string&);
 		string ConvertTcharToString(const TCHAR*);
@@ -79,23 +78,8 @@ namespace UnrealConsole {
 			break;
 		case Hashes::popups: {
 			Engine::PrintToConsole(L"/" + input);
-			wstring popup_args = L"";
-			for (const wchar_t c : args) {
-				if (c != L' ') {
-					popup_args.push_back(c);
-				}
-			}
-			std::transform(popup_args.begin(), popup_args.end(), popup_args.begin(), tolower);
-
-			if (popup_args == L"hide" || popup_args == L"unhide" || popup_args == L"show") {
-				Engine::TogglePopupsHide();
-			}
-			else if (popup_args == L"mute" || popup_args == L"unmute") {
-				Engine::TogglePopupsMute();
-			}
-			else {
-				Log(L"Please input either \"/popups mute\" or \"/popups hide\".", LogType::System);
-			}
+			Log(L"This command is no longer supported. "
+				L"Update popup settings in the options menu.", LogType::System);
 			break;
 		}
 		case Hashes::spawn:
@@ -124,50 +108,15 @@ namespace UnrealConsole {
 				L"<System>/spawn</>\n"
 				L"    <System>Save game and warp to spawn.</>\n"
 				L"<System>/breaker</>\n"
-				L"    <System>Recall Dream Breaker. Only works if you have obtained it.</>\n"
-				L"<System>/popups [hide|mute]</>\n"
-				L"    <System>Hide/show or mute/unmute item and deathlink popups.</>");
+				L"    <System>Recall Dream Breaker. Only works if you have obtained it.</>");
 			break;
 		default:
 			Engine::PrintToConsole(L"/" + input);
 			Log(L"Command not recognized: " + input, LogType::System);
-			Log(L"Known commands: help, spawn, breaker, popups", LogType::System);
+			Log(L"Known commands: help, spawn, breaker", LogType::System);
 			break;
 		}
 	}
-
-	void UnrealConsole::ProcessCommand(const TCHAR* new_command) {
-		// TODO: This should maybe just return something and have a parent check on its return value to decide what to do, 
-		// but for now it's not really worth refactoring
-		string command = ConvertTcharToString(new_command);
-		string first_word = command.substr(0, command.find(DELIM));
-		transform(first_word.begin(), first_word.end(), first_word.begin(), tolower); // Convert the first word in the command to lowercase
-		Log("AP console command: " + command);
-
-		// TODO can just we get rid of this whole function?
-		/*if (first_word == "connect") {
-			if (command.find(DELIM) == string::npos) {
-				Log(L"Please provide an ip address, slot name, and (if necessary) password.", LogType::System);
-				return;
-			}
-			command.erase(0, command.find(DELIM) + 1);
-			UnrealConsole::ParseConnect(command);
-		}*/
-
-		if (first_word == "disconnect") {
-			Client::Disconnect();
-		}
-
-		if (first_word == "message" || first_word == "messages") {
-			if (command.find(DELIM) == string::npos) {
-				Log(L"Please input an option, such as \"mute\" or \"hide\".", LogType::System);
-				return;
-			}
-			command.erase(0, command.find(DELIM) + 1);
-			UnrealConsole::ParseMessageOption(GetNextToken(command));
-		}
-	}
-
 
 	// Private functions
 	namespace {
@@ -177,19 +126,6 @@ namespace UnrealConsole {
 			std::wstring wide(tchars);
 			string narrow = StringOps::ToNarrow(wide);
 			return narrow;
-		}
-
-		void ParseMessageOption(string option) {
-			if (option.empty()) {
-				Log("Please input an option, such as \"mute\" or \"hide\".", LogType::System);
-				return;
-			}
-			if (option == "hide" || option == "unhide" || option == "show") {
-				Engine::TogglePopupsHide();
-			}
-			if (option == "mute" || option == "unmute") {
-				Engine::TogglePopupsMute();
-			}
 		}
 
 		string GetNextToken(string& input) {

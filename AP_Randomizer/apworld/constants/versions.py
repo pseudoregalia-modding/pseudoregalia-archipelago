@@ -1,2 +1,0 @@
-MAP_PATCH = 1
-FULL_GOLD = 2
