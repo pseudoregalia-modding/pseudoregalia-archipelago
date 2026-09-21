@@ -855,6 +855,11 @@ regions:
               tags:
                 logic_level: expert
             - has:
+                cling: 4
+                plunge: 1
+              tags:
+                logic_level: expert
+            - has:
                 cling: 2
                 kick: 1
               tags:
@@ -1375,6 +1380,10 @@ regions:
                 kick: 2
               tags:
                 logic_level: lunatic
+            - has: kick
+              ref: can_bounce
+              tags:
+                logic_level: lunatic
       - region: Theatre Pillar => Bailey
       - region: Castle => Theatre Pillar
   - name: Theatre Outside Scythe Corridor
@@ -1562,6 +1571,12 @@ locations:
         - has:
             kick: 3
             plunge: 1
+          tags:
+            logic_level: hard
+        - has:
+            kick: 1
+            plunge: 1
+            cling: 2
           tags:
             logic_level: hard
         - ref: can_gold_slide_ultra
