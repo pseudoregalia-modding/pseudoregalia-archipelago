@@ -48,6 +48,11 @@ Installation steps:
       The zip can be removed afterwards.
     * Right click the zip and choose Extract files, then navigate to and select Pseudoregalia_AP, then click OK.
 
+   Note: after extracting the zip, the Pseudoregalia_AP folder should look the same. There should **NOT** be a
+   `Pseudoregalia_AP/pseudoregalia-archipelago` folder after installation. You can make sure you installed
+   correctly by checking that this file exists:
+   `Pseudoregalia_AP/pseudoregalia/Content/Paks/AP_Randomizer_p.pak`.
+
 The mod is now installed! To connect to a multiworld slot, create a new file in the modded main menu,
 enter your connect information and click Start.
 
