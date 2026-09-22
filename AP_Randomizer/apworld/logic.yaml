@@ -2306,9 +2306,11 @@ locations:
             cling: 2
           tags:
             logic_level: expert
-        - has:  # slide to roof from center steeple and plunge to bell
+        - has:  # slide to roof from center steeple and reverse kick/plunge to bell
             slide: 1
-            plunge: 1
+          or:
+            - has: plunge
+            - has: kick
           tags:
             logic_level: expert
         - has: slide # chained slide ultra from center steeple
