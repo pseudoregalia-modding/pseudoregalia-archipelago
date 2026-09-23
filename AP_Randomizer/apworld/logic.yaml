@@ -2298,12 +2298,13 @@ locations:
             cling: 6
           tags:
             logic_level: hard
-        - has: [slide, kick]
-          tags:
-            logic_level: expert
         - has:
             slide: 1
             cling: 2
+          tags:
+            logic_level: expert
+        - has:  # slide to roof from center steeple and reverse kick/plunge to bell
+            [slide, kick_or_plunge]  # note: kick route can also be done from vanilla path
           tags:
             logic_level: expert
         - has: slide # chained slide ultra from center steeple
