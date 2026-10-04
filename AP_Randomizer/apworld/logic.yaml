@@ -67,18 +67,16 @@ ref_rules:
   - name: can_slide_jump
     rule:
       has: [slide, slide_jump]
-  - name: can_gold_ultra
-    rule:
-      or:
-        - has: slide
-          options:
-            game_version: full_gold
-        - ref: can_slide_jump
   - name: can_gold_slide_ultra
     rule:
       has: slide
       options:
-        game_version: full_gold
+        ultra_cap: full_gold
+  - name: can_gold_ultra
+    rule:
+      or:
+        - ref: can_gold_slide_ultra
+        - ref: can_slide_jump
       # currently this rule is only applied for high enough logic, but should be refactored to include here
   - name: can_attack
     rule:
@@ -184,8 +182,6 @@ regions:
                     logic_level: expert
               tags:
                 old_obscure: advanced
-              options:
-                game_version: map_patch
   - name: Dungeon => Castle
     exits:
       - region: Dungeon Mirror
@@ -206,8 +202,6 @@ regions:
                     logic_level: expert
               tags:
                 old_obscure: advanced
-              options:
-                game_version: map_patch
       - region: Castle Main
         # entrance_name: Dungeon Top Exit
   - name: Dungeon Escape Lower
@@ -838,8 +832,6 @@ regions:
                         kick_or_plunge: 4
                     - has: [kick, plunge]
                       ref: can_bounce
-                      options:
-                        game_version: map_patch
                 - or: # get onto the bridge
                     - ref: can_slide_jump
                     - has: plunge
@@ -854,34 +846,28 @@ regions:
               ref: can_bounce
               tags:
                 logic_level: hard
-              options:
-                game_version: map_patch
             - has: slide
               or:
                 - ref: can_bounce
                 - has: kick
                 - has:
                     cling: 2
-                - options:
-                    game_version: full_gold
+              tags:
+                logic_level: expert
+            - has:
+                cling: 4
+                plunge: 1
               tags:
                 logic_level: expert
             - has:
                 cling: 2
                 kick: 1
-              or:
-                - tags:
-                    logic_level: expert
-                  options:
-                    game_version: full_gold
-                - tags:
-                    logic_level: lunatic
+              tags:
+                logic_level: lunatic
             - ref: can_slide_jump
               has: plunge
               tags:
                 logic_level: lunatic
-              options:
-                game_version: map_patch
   - name: Bailey Guarded Hand
 
   - name: Tower Remains
@@ -1394,6 +1380,10 @@ regions:
                 kick: 2
               tags:
                 logic_level: lunatic
+            - has: kick
+              ref: can_bounce
+              tags:
+                logic_level: lunatic
       - region: Theatre Pillar => Bailey
       - region: Castle => Theatre Pillar
   - name: Theatre Outside Scythe Corridor
@@ -1583,6 +1573,12 @@ locations:
             plunge: 1
           tags:
             logic_level: hard
+        - has:
+            kick: 1
+            plunge: 1
+            cling: 2
+          tags:
+            logic_level: hard
         - ref: can_gold_slide_ultra
           has: kick
           tags:
@@ -1708,41 +1704,9 @@ locations:
             - has: plunge
           tags:
             old_obscure: advanced
-          options:
-            game_version: map_patch
-        - or:
-            - has:
-                cling: 2
-                kick: 1
-                plunge: 1
-            - has:
-                cling: 2
-                kick: 3
-          tags:
-            old_obscure: advanced
-          options:
-            game_version: full_gold
         - has: slide
           tags:
             logic_level: expert
-          options:
-            game_version: map_patch
-        - has:
-            cling: 2
-          tags:
-            logic_level: expert
-          options:
-            game_version: full_gold
-        - has: [slide, kick]
-          tags:
-            logic_level: expert
-          options:
-            game_version: full_gold
-        - has: [slide, plunge]
-          tags:
-            logic_level: lunatic
-          options:
-            game_version: full_gold
 
   - name: Castle Sansa - Indignation
     code: 8
@@ -1866,13 +1830,6 @@ locations:
         - has: [slide, kick]
           tags:
             logic_level: lunatic
-  - name: Castle Sansa - Locked Door
-    code: 13
-    region: Castle Main
-    rule:
-      ref: can_unlock_door
-    can_create:
-      game_version: full_gold
   - name: Castle Sansa - Platform In Main Halls
     code: 14
     region: Castle Main
@@ -2341,12 +2298,14 @@ locations:
             cling: 6
           tags:
             logic_level: hard
-        - has: [slide, kick]
-          tags:
-            logic_level: expert
         - has:
             slide: 1
             cling: 2
+          tags:
+            logic_level: expert
+        - has: [slide, kick_or_plunge]
+          # slide to roof from center steeple and reverse kick/plunge to bell
+          # note: kick route can also be done from vanilla path
           tags:
             logic_level: expert
         - has: slide # chained slide ultra from center steeple
@@ -2561,7 +2520,6 @@ locations:
         cling: 6
       ref: can_slide_jump
     can_create:
-      game_version: map_patch
       randomize_time_trials: true
   - name: Castle Sansa - Time Trial
     code: 55
@@ -2569,7 +2527,6 @@ locations:
     rule:
       ref: can_unlock_door
     can_create:
-      game_version: map_patch
       randomize_time_trials: true
   - name: Sansa Keep - Time Trial
     code: 56
@@ -2581,7 +2538,6 @@ locations:
         cling: 6
       ref: [can_slide_jump, can_bounce]
     can_create:
-      game_version: map_patch
       randomize_time_trials: true
   - name: Listless Library - Time Trial
     code: 57
@@ -2592,7 +2548,6 @@ locations:
         plunge: 1
         kick: 3
     can_create:
-      game_version: map_patch
       randomize_time_trials: true
   - name: Twilight Theatre - Time Trial
     code: 58
@@ -2605,7 +2560,6 @@ locations:
         cling: 6
       ref: can_slide_jump
     can_create:
-      game_version: map_patch
       randomize_time_trials: true
   - name: Empty Bailey - Time Trial
     code: 59
@@ -2618,7 +2572,6 @@ locations:
         cling: 6
       ref: can_slide_jump
     can_create:
-      game_version: map_patch
       randomize_time_trials: true
   - name: The Underbelly - Time Trial
     code: 60
@@ -2631,7 +2584,6 @@ locations:
         cling: 6
       ref: can_slide_jump
     can_create:
-      game_version: map_patch
       randomize_time_trials: true
   - name: Tower Remains - Time Trial
     code: 61
@@ -2644,14 +2596,11 @@ locations:
         cling: 6
       ref: can_slide_jump
     can_create:
-      game_version: map_patch
       randomize_time_trials: true
 
   - name: Castle Sansa - Memento
     code: 62
     region: Castle Main
-    can_create:
-      game_version: map_patch
 
   - name: Tower Remains - Cling Gem 1
     code: 63
@@ -2752,13 +2701,11 @@ locations:
     region: Castle Main
     can_create:
       randomize_goats: true
-      game_version: map_patch
   - name: Castle Sansa - Goatling Near Library
     code: 76
     region: Castle Main
     can_create:
       randomize_goats: true
-      game_version: map_patch
   - name: Sansa Keep - Furniture-less Goatling
     code: 77
     region: Keep Main

@@ -32,9 +32,6 @@ public:
         ModDescription = STR("archipelago randomizer for pseudoregalia");
         ModAuthors = STR("littlemeowmeow0134");
         //ModIntendedSDKVersion = STR("2.6");
-
-        Settings::Load();
-        Engine::Init();
     }
 
     ~AP_Randomizer()
@@ -70,24 +67,6 @@ public:
                 }
             },
             Hook::FCallbackOptions{ .OwnerModName = L"AP_Randomizer", .HookName = L"ProcessEventPre" }
-        );
-
-        Hook::RegisterProcessConsoleExecCallback(
-            [&](
-                Hook::TCallbackIterationData<bool>& cb_data,
-                UObject* object,
-                const Unreal::TCHAR* command,
-                FOutputDevice& Ar,
-                UObject* executor
-            ) -> bool {
-                if (command[0] == '/' || command[0] == '!') {
-                    command++; // Exclude the first character from the array
-                    UnrealConsole::ProcessCommand(command);
-                    return true;
-                }
-                return PropogateCommand(command);
-            },
-            Hook::FCallbackOptions{ .OwnerModName = L"AP_Randomizer", .HookName = L"ProcessConsoleExec" }
         );
 
         Hook::RegisterBeginPlayPostCallback(

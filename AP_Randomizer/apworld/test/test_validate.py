@@ -569,7 +569,7 @@ class TestValidationCompletionRule(PseudoValidationBase):
                 - has: [Slide, Sunsetter]
                 - has: Slide
                   options:
-                    game_version: true
+                    ultra_cap: true
             """,
             expected_errors=1,
         ),

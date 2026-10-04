@@ -2,6 +2,7 @@
 #include <variant>
 #include "Unreal/UObject.hpp"
 #include "GameData.hpp"
+#include "Settings.hpp"
 
 namespace Engine {
 	using RC::Unreal::UObject;
@@ -15,11 +16,12 @@ namespace Engine {
 	typedef std::array<int32_t, 3> Version;
 	std::wstring VersionToWString(const Version&);
 	bool IsAPWorldVersionCompatible(const Version&);
-	void CheckVersionCompatibility(RC::Unreal::UnrealScriptFunctionCallableContext&);
+	void CheckAPWorldVersionCompatibility(RC::Unreal::UnrealScriptFunctionCallableContext&);
 
 	void ExecuteBlueprintFunction(std::variant<std::wstring, UObject*>, std::wstring, std::shared_ptr<void>);
 	void OnTick(UObject*);
 	void OnSceneLoad(UObject*);
+	void InitPlayer(UObject*);
 	void SyncItems();
 	void SpawnCollectibles(GameData::Map);
 	void DespawnCollectible(const int64_t);
@@ -32,14 +34,12 @@ namespace Engine {
 	void PrintToConsole(std::wstring, std::wstring);
 	void PrintToConsole(std::wstring);
 	void ShowPopup(std::variant<std::wstring, ItemPopup>);
-	void TogglePopupsMute();
-	void TogglePopupsHide();
+	void UpdatePopupDisplay(Settings::EPopupDisplay::Type);
 	void HealPlayer();
 	void GivePlayerPower();
 	void WarpToSpawn();
 	void SetTombstoneText(UObject*);
 	void CreateMajorKeyHints(UObject*);
-	void Init();
 	void StartConnectHandshake(UObject*);
 	bool IsInConnectHandshake();
 	void UpdateConnectHandshakeStatus(std::wstring, bool);

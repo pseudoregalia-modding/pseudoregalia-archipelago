@@ -153,8 +153,10 @@ See the Setup Guide for more info.
 
 ### Solar Wind Toggle
 
-You can toggle Solar Wind once you've obtained it by pressing the top face button on controller
-or left ctrl on keyboard.
+You can toggle Solar Wind on or off once you've obtained it.
+By default, the toggle is triggered with the top face button on controller
+or left ctrl on keyboard, but these can be remapped in client settings.
+See the Setup Guide for more info.
 
 ### In-Game Console
 
@@ -164,8 +166,6 @@ here are some useful Pseudoregalia-specific commands:
 
 * `/spawn`: saves the game and warps you to spawn. Useful to prevent softlocks.
 * `/breaker`: recalls Dream Breaker if you've received it but don't have it for some reason.
-* `/popups hide`: toggles whether item popups appear at all.
-* `/popups mute`: toggles whether item popups make a sound when they appear.
 
 
 ## FAQ

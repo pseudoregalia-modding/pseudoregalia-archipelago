@@ -198,7 +198,7 @@ Represents a set of options and required values.
 
 Keys in the dict correspond to attributes in the PseudoregaliaOptions class. If the option is a Toggle, the value should
 be a bool, and if the option is a Choice, the value should be a str. A str value should be an option field in that
-option's class without the option_ prefix. For example, this dict could contain "game_version: map_patch".
+option's class without the option_ prefix. For example, this dict could contain "spawn_point: dungeon_mirror".
 
 During generation, this can be resolved to a boolean by checking the player's options. It resovles to True iff the value
 of each option is equal to the value in the dict.

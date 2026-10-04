@@ -48,3 +48,8 @@ In summary:
 
 * If a save file has APWorld version `a.b.c` where `a > 0`, only mod versions `a.y.z` where `y >= b` are compatible.
 * If a save file has APWorld version `0.b.c` (i.e. is prerelease), only mod versions `0.b.z` are compatible.
+
+# Special Thanks
+
+* turncoda for creating the [Custom Options Framework mod](https://www.nexusmods.com/pseudoregalia/mods/66)
+  and giving permission to include it in releases
