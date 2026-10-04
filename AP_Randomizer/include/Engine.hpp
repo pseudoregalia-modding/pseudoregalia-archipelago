@@ -16,7 +16,7 @@ namespace Engine {
 	typedef std::array<int32_t, 3> Version;
 	std::wstring VersionToWString(const Version&);
 	bool IsAPWorldVersionCompatible(const Version&);
-	void CheckVersionCompatibility(RC::Unreal::UnrealScriptFunctionCallableContext&);
+	void CheckAPWorldVersionCompatibility(RC::Unreal::UnrealScriptFunctionCallableContext&);
 
 	void ExecuteBlueprintFunction(std::variant<std::wstring, UObject*>, std::wstring, std::shared_ptr<void>);
 	void OnTick(UObject*);

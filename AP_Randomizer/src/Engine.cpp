@@ -40,6 +40,7 @@ namespace Engine {
 		void ClearPlayerModifiers();
 		void ClearQueuedPopup();
 		void CreateOverlay(UObject*);
+		void CheckGameVersion(GameData::Map);
 		
 		// version compatibility stuff
 		const size_t MAJOR = 0;
@@ -84,6 +85,8 @@ namespace Engine {
 		optional<double> queued_heal_amount;
 		optional<double> queued_magic_amount;
 		mutex player_controller_modifier_mutex;
+
+		bool checked_game_version = false;
 	} // End private members
 
 
@@ -174,6 +177,7 @@ namespace Engine {
 			return;
 		}
 
+		CheckGameVersion(map);
 		Engine::SpawnCollectibles(map);
 		Engine::SyncItems();
 		Client::SetZoneData(map);
@@ -183,6 +187,7 @@ namespace Engine {
 		if (GameData::GetOptions()["ultra_cap"] == GameData::UltraCap::FULL_GOLD) {
 			auto capped_ultra_modifier = player_obj->GetValuePtrByPropertyName<double>(L"cappedUltraModifier");
 			auto full_ultra_modifier = player_obj->GetValuePtrByPropertyName<double>(L"fullUltraModifier");
+			if (capped_ultra_modifier == nullptr || full_ultra_modifier == nullptr) return;
 			*capped_ultra_modifier = *full_ultra_modifier;
 		}
 	}
@@ -441,13 +446,13 @@ namespace Engine {
 		return client_version[MINOR] >= apworld_version[MINOR];
 	}
 
-	void CheckVersionCompatibility(UnrealScriptFunctionCallableContext& context) {
-		struct CheckVersionCompatibilityParams {
+	void CheckAPWorldVersionCompatibility(UnrealScriptFunctionCallableContext& context) {
+		struct CheckAPWorldVersionCompatibilityParams {
 			int32_t major;
 			int32_t minor;
 			int32_t patch;
 		};
-		auto& params = context.GetParams<CheckVersionCompatibilityParams>();
+		auto& params = context.GetParams<CheckAPWorldVersionCompatibilityParams>();
 		Engine::Version apworld_version = { params.major, params.minor, params.patch };
 		auto* compatible = context.Context->GetValuePtrByPropertyName<bool>(L"VersionIsCompatible");
 		*compatible = Engine::IsAPWorldVersionCompatible(apworld_version);
@@ -691,6 +696,18 @@ namespace Engine {
 			};
 			shared_ptr<void> params = std::make_shared<CreateOverlayInfo>(FText(client_version_text));
 			ExecuteBlueprintFunction(ap_object, L"AP_CreateOverlay", params);
+		}
+
+		void CheckGameVersion(GameData::Map map) {
+			if (checked_game_version || !GameData::CanHaveTimeTrial(map)) return;
+
+			checked_game_version = true;
+			std::vector<UObject*> time_trials{};
+			UObjectGlobals::FindAllOf(L"BP_TimeTrial_C", time_trials);
+			if (!time_trials.empty()) return;
+
+			Log("Full gold version is no longer supported. Install the mod into the latest version of Pseudoregalia "
+				"before continuing this seed.", LogType::Error);
 		}
 	} // End private functions
 }

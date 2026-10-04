@@ -138,11 +138,11 @@ namespace ModHooks {
 				}),
 			ModHook(L"AP_FileSelectMenuButton_C", L"CheckVersionCompatibility",
 				[](UnrealScriptFunctionCallableContext& context, void* customdata) {
-					Engine::CheckVersionCompatibility(context);
+					Engine::CheckAPWorldVersionCompatibility(context);
 				}),
 			ModHook(L"AP_ExistingFileMenu_C", L"CheckVersionCompatibility",
 				[](UnrealScriptFunctionCallableContext& context, void* customdata) {
-					Engine::CheckVersionCompatibility(context);
+					Engine::CheckAPWorldVersionCompatibility(context);
 				}),
 			ModHook(L"WBP_APOptions_C", L"Apply",
 				[](UnrealScriptFunctionCallableContext& context, void* customdata) {
